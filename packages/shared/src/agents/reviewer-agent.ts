@@ -3,8 +3,8 @@
 // 🔍 Reviewer Agent - المراجع
 // ============================================
 
-import Anthropic from '@anthropic-ai/sdk';
-import type { GeneratedCode, ReviewResult, Improvement, CodeFile } from '../god-mode.js';
+import { UnifiedAIAdapter, type AIProvider } from '../ai-gateway/index.js';
+import type { GeneratedCode, ReviewResult, Improvement, CodeFile } from '../core/god-mode.js';
 
 export interface FileIssue {
   file: string;
@@ -15,12 +15,17 @@ export interface FileIssue {
 }
 
 export class ReviewerAgent {
-  private client: Anthropic;
-  private model: string;
+  private aiAdapter: UnifiedAIAdapter;
+  private provider: AIProvider;
 
-  constructor(apiKey: string, model: string = 'claude-sonnet-4-20250514') {
-    this.client = new Anthropic({ apiKey });
-    this.model = model;
+  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+    this.aiAdapter = new UnifiedAIAdapter({
+      deepseek: config.deepseek,
+      claude: config.claude,
+      openai: config.openai,
+      defaultProvider: 'claude', // reviewer benefits from Claude's analytical skills
+    });
+    this.provider = provider;
   }
 
   // ============================================
@@ -270,16 +275,14 @@ Keep the same functionality but fix all mentioned issues.
   }
 
   private async callClaude(prompt: string): Promise<string> {
-    const response = await this.client.messages.create({
-      model: this.model,
-      max_tokens: 8192,
-      messages: [{
-        role: 'user',
-        content: prompt
-      }]
-    });
+    const result = await this.aiAdapter.processWithPersonality(
+      'reviewer',
+      prompt,
+      undefined,
+      this.provider
+    );
 
-    return response.content[0].type === 'text' ? response.content[0].text : '';
+    return result.response;
   }
 
 }

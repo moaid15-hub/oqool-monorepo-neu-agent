@@ -7,7 +7,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import fs from 'fs-extra';
 import path from 'path';
 import os from 'os';
-import type { GodModeResult, Architecture } from '@oqool/shared/core';
+import type { GodModeResult, Architecture } from './god-mode.js';
 
 // ============================================
 // Types

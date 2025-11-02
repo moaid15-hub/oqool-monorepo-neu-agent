@@ -3,17 +3,22 @@
 // 💻 Coder Agent - المبرمج
 // ============================================
 
-import Anthropic from '@anthropic-ai/sdk';
-import type { Architecture, GeneratedCode, CodeFile, Component } from '../god-mode.js';
+import { UnifiedAIAdapter, type AIProvider } from '../ai-gateway/index.js';
+import type { Architecture, GeneratedCode, CodeFile, Component } from '../core/god-mode.js';
 import path from 'path';
 
 export class CoderAgent {
-  private client: Anthropic;
-  private model: string;
+  private aiAdapter: UnifiedAIAdapter;
+  private provider: AIProvider;
 
-  constructor(apiKey: string, model: string = 'claude-sonnet-4-20250514') {
-    this.client = new Anthropic({ apiKey });
-    this.model = model;
+  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+    this.aiAdapter = new UnifiedAIAdapter({
+      deepseek: config.deepseek,
+      claude: config.claude,
+      openai: config.openai,
+      defaultProvider: 'deepseek', // coder benefits from DeepSeek's code generation
+    });
+    this.provider = provider;
   }
 
   async implement(architecture: Architecture, task: string): Promise<GeneratedCode> {
@@ -299,16 +304,14 @@ npm start
   }
 
   private async callClaude(prompt: string): Promise<string> {
-    const response = await this.client.messages.create({
-      model: this.model,
-      max_tokens: 8192,
-      messages: [{
-        role: 'user',
-        content: prompt
-      }]
-    });
+    const result = await this.aiAdapter.processWithPersonality(
+      'coder',
+      prompt,
+      undefined,
+      this.provider
+    );
 
-    return response.content[0].type === 'text' ? response.content[0].text : '';
+    return result.response;
   }
 
   private parseCode(text: string): GeneratedCode {

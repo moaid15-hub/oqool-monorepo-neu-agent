@@ -7,11 +7,12 @@ import Anthropic from '@anthropic-ai/sdk';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
-import { ArchitectAgent } from './agents/architect-agent.js';
-import { CoderAgent } from './agents/coder-agent.js';
-import { TesterAgent } from './agents/tester-agent.js';
-import { ReviewerAgent } from './agents/reviewer-agent.js';
+import { ArchitectAgent } from '../agents/architect-agent.js';
+import { CoderAgent } from '../agents/coder-agent.js';
+import { TesterAgent } from '../agents/tester-agent.js';
+import { ReviewerAgent } from '../agents/reviewer-agent.js';
 import { createSelfLearningSystem, type Project } from './self-learning-system.js';
+import type { AIProvider } from '../ai-gateway/index.js';
 
 // Types
 export interface GodModeResult {
@@ -136,15 +137,42 @@ export class GodMode {
       ...config
     };
 
-    this.client = new Anthropic({
-      apiKey: this.config.apiKey
-    });
+    // Initialize Anthropic client only if Claude API key is available
+    if (this.config.apiKey?.startsWith('sk-ant-')) {
+      this.client = new Anthropic({
+        apiKey: this.config.apiKey
+      });
+    } else {
+      // Use a dummy client if not using Claude
+      this.client = {} as Anthropic;
+    }
 
-    // Initialize Agents
-    this.architect = new ArchitectAgent(this.config.apiKey, this.config.model);
-    this.coder = new CoderAgent(this.config.apiKey, this.config.model);
-    this.tester = new TesterAgent(this.config.apiKey, this.config.model);
-    this.reviewer = new ReviewerAgent(this.config.apiKey, this.config.model);
+    // Initialize Agents with new UnifiedAIAdapter configuration
+    // Automatically detect which API key is provided
+    const aiConfig = {
+      claude: this.config.apiKey?.startsWith('sk-ant-')
+              ? this.config.apiKey
+              : (process.env.ANTHROPIC_API_KEY?.startsWith('sk-ant-') ? process.env.ANTHROPIC_API_KEY : undefined),
+      deepseek: this.config.apiKey?.startsWith('sk-') && !this.config.apiKey?.startsWith('sk-ant-') && !this.config.apiKey?.startsWith('sk-proj-')
+                ? this.config.apiKey
+                : process.env.DEEPSEEK_API_KEY,
+      openai: this.config.apiKey?.startsWith('sk-proj-') ? this.config.apiKey : process.env.OPENAI_API_KEY,
+    };
+
+    // 🔄 Smart Fallback System: DeepSeek as backup for all providers
+    const hasValidClaude = aiConfig.claude?.startsWith('sk-ant-');
+    const forceProvider: AIProvider = hasValidClaude ? 'auto' : 'deepseek';
+
+    // Log provider status
+    if (!hasValidClaude && this.config.verbose) {
+      console.log(chalk.yellow('⚠️  Claude not available - Using DeepSeek as primary provider'));
+      console.log(chalk.gray('💡 All providers will automatically fallback to DeepSeek on failure\n'));
+    }
+
+    this.architect = new ArchitectAgent(aiConfig, forceProvider);
+    this.coder = new CoderAgent(aiConfig, forceProvider);
+    this.tester = new TesterAgent(aiConfig, forceProvider);
+    this.reviewer = new ReviewerAgent(aiConfig, forceProvider);
   }
 
   /**
@@ -156,15 +184,19 @@ export class GodMode {
     console.log(chalk.cyan(`📋 Task: ${task}\n`));
     console.log(chalk.yellow('═'.repeat(60)));
 
-    // Initialize self-learning system
-    const learningSystem = createSelfLearningSystem(this.config.apiKey);
+    // Initialize self-learning system only if Claude API is available
+    let learningSystem: any = null;
+    let recommendations: string[] = [];
 
-    // Get recommendations from past projects
-    const recommendations = await learningSystem.getRecommendations(task);
-    if (recommendations.length > 0) {
-      console.log(chalk.cyan('\n🧠 Recommendations from past learning:\n'));
-      recommendations.forEach(rec => console.log(chalk.gray(rec)));
-      console.log('\n');
+    if (this.config.apiKey?.startsWith('sk-ant-')) {
+      learningSystem = createSelfLearningSystem(this.config.apiKey);
+      // Get recommendations from past projects
+      recommendations = await learningSystem.getRecommendations(task);
+      if (recommendations.length > 0) {
+        console.log(chalk.cyan('\n🧠 Recommendations from past learning:\n'));
+        recommendations.forEach(rec => console.log(chalk.gray(rec)));
+        console.log('\n');
+      }
     }
 
     const startTime = Date.now();
@@ -217,16 +249,18 @@ export class GodMode {
         analytics
       };
 
-      // Learn from this project
-      const project: Project = {
-        id: `project-${Date.now()}`,
-        task,
-        architecture,
-        result,
-        timestamp: Date.now()
-      };
+      // Learn from this project (only if learning system is available)
+      if (learningSystem) {
+        const project: Project = {
+          id: `project-${Date.now()}`,
+          task,
+          architecture,
+          result,
+          timestamp: Date.now()
+        };
 
-      await learningSystem.learnFromProject(project);
+        await learningSystem.learnFromProject(project);
+      }
 
       return result;
 

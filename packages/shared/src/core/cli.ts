@@ -33,8 +33,8 @@ import { createPRManager } from './pr-manager.js';
 import { createAIDocumentation } from './ai-response-documentation.js';
 import { createCollaborativeFeatures } from './collaborative-features.js';
 import { createSecurityEnhancements } from './security-enhancements.js';
-import { createMultiPersonalityAITeam } from '@oqool/shared/core';
-import { createCollectiveIntelligenceSystem } from '@oqool/shared/core';
+import { createMultiPersonalityAITeam } from './multi-personality-ai-team.js';
+import { createCollectiveIntelligenceSystem } from './collective-intelligence.js';
 import { createCodeDNASystem } from './code-dna-system.js';
 import { createVoiceFirstInterface } from './voice-first-interface.js';
 import { createDocsGenerator } from './docs-generator.js';
@@ -46,7 +46,7 @@ import { createDatabaseIntegration } from './database-integration.js';
 import { createAPITesting } from './api-testing.js';
 import { createCodeLibrary } from './code-library.js';
 import { createAgentTeam } from './agent-team.js';
-import { createGodMode } from '@oqool/shared/core';
+import { createGodMode } from './god-mode.js';
 import { createAnalytics } from './analytics.js';
 import { createSelfLearningSystem } from './self-learning-system.js';
 import { registerNewCommands } from './cli-new-commands.js';
@@ -2528,25 +2528,13 @@ program
   .option('-o, --output <path>', 'مسار المشروع', './god-mode-project')
   .action(async (task: string, options: any) => {
     try {
-      // Check for any available API key (prefer DeepSeek for cost-effectiveness)
-      const apiKey = process.env.DEEPSEEK_API_KEY || process.env.OPENAI_API_KEY || process.env.ANTHROPIC_API_KEY;
-
-      if (!apiKey) {
-        console.log(chalk.red('\n❌ لا يوجد API Key متاح\n'));
-        console.log(chalk.yellow('يرجى إضافة أحد المفاتيح التالية في ملف .env:'));
-        console.log(chalk.white('  - DEEPSEEK_API_KEY (موصى به - الأرخص)'));
-        console.log(chalk.white('  - OPENAI_API_KEY'));
-        console.log(chalk.white('  - ANTHROPIC_API_KEY\n'));
+      if (!process.env.ANTHROPIC_API_KEY) {
+        console.log(chalk.red('\n❌ ANTHROPIC_API_KEY غير موجود في .env\n'));
         return;
       }
 
-      // Determine which provider is being used
-      const provider = process.env.DEEPSEEK_API_KEY ? 'DeepSeek' :
-                      process.env.OPENAI_API_KEY ? 'OpenAI' : 'Claude';
-      console.log(chalk.cyan(`\n🤖 استخدام ${provider} API...\n`));
-
       const godMode = createGodMode({
-        apiKey: apiKey,
+        apiKey: process.env.ANTHROPIC_API_KEY,
         outputPath: options.output,
         verbose: true
       });

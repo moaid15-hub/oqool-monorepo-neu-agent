@@ -3,8 +3,8 @@
 // 🧪 Tester Agent - المختبر
 // ============================================
 
-import Anthropic from '@anthropic-ai/sdk';
-import type { GeneratedCode, TestResults, CodeFile } from '../god-mode.js';
+import { UnifiedAIAdapter, type AIProvider } from '../ai-gateway/index.js';
+import type { GeneratedCode, TestResults, CodeFile } from '../core/god-mode.js';
 
 export interface TestFile {
   path: string;
@@ -13,12 +13,17 @@ export interface TestFile {
 }
 
 export class TesterAgent {
-  private client: Anthropic;
-  private model: string;
+  private aiAdapter: UnifiedAIAdapter;
+  private provider: AIProvider;
 
-  constructor(apiKey: string, model: string = 'claude-sonnet-4-20250514') {
-    this.client = new Anthropic({ apiKey });
-    this.model = model;
+  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+    this.aiAdapter = new UnifiedAIAdapter({
+      deepseek: config.deepseek,
+      claude: config.claude,
+      openai: config.openai,
+      defaultProvider: 'deepseek', // tester can use cheaper provider for routine tasks
+    });
+    this.provider = provider;
   }
 
   async createTests(code: GeneratedCode): Promise<TestResults> {
@@ -143,16 +148,14 @@ Output format:
   }
 
   private async callClaude(prompt: string): Promise<string> {
-    const response = await this.client.messages.create({
-      model: this.model,
-      max_tokens: 4096,
-      messages: [{
-        role: 'user',
-        content: prompt
-      }]
-    });
+    const result = await this.aiAdapter.processWithPersonality(
+      'tester',
+      prompt,
+      undefined,
+      this.provider
+    );
 
-    return response.content[0].type === 'text' ? response.content[0].text : '';
+    return result.response;
   }
 
   // ============================================

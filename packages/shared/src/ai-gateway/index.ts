@@ -1,60 +1,25 @@
-import Anthropic from '@anthropic-ai/sdk';
+/**
+ * AI Gateway - Unified Multi-Provider System
+ * نظام موحد لإدارة جميع مزودي الـ AI
+ */
 
-export interface AIProvider {
-  name: string;
-  generateCode(prompt: string): Promise<string>;
-  chat(messages: Array<{role: string, content: string}>): Promise<string>;
-}
+// Services
+export { DeepSeekService } from './deepseek-service.js';
+export { ClaudeService } from './claude-service.js';
+export { OpenAIService } from './openai-service.js';
 
-export class AnthropicProvider implements AIProvider {
-  name = 'Claude';
-  private client: Anthropic;
+// Main Adapter
+export {
+  UnifiedAIAdapter,
+  type AIProvider,
+  type AIRole,
+  type Message,
+  type AIResponse,
+  type UnifiedAIAdapterConfig,
+} from './unified-ai-adapter.js';
 
-  constructor(apiKey: string) {
-    this.client = new Anthropic({ apiKey });
-  }
+// Default export
+export { UnifiedAIAdapter as default } from './unified-ai-adapter.js';
 
-  async generateCode(prompt: string): Promise<string> {
-    const response = await this.client.messages.create({
-      model: 'claude-3-sonnet-20240229',
-      max_tokens: 4000,
-      messages: [{ role: 'user', content: prompt }]
-    });
-    
-    return response.content[0].type === 'text' ? response.content[0].text : '';
-  }
-
-  async chat(messages: Array<{role: string, content: string}>): Promise<string> {
-    const response = await this.client.messages.create({
-      model: 'claude-3-sonnet-20240229',
-      max_tokens: 4000,
-      messages: messages as any
-    });
-    
-    return response.content[0].type === 'text' ? response.content[0].text : '';
-  }
-}
-
-export class AIGateway {
-  private providers: Map<string, AIProvider> = new Map();
-  private defaultProvider?: AIProvider;
-
-  addProvider(provider: AIProvider) {
-    this.providers.set(provider.name, provider);
-    if (!this.defaultProvider) {
-      this.defaultProvider = provider;
-    }
-  }
-
-  async generateCode(prompt: string, providerName?: string): Promise<string> {
-    const provider = providerName ? 
-      this.providers.get(providerName) : 
-      this.defaultProvider;
-      
-    if (!provider) {
-      throw new Error('No AI provider available');
-    }
-
-    return provider.generateCode(prompt);
-  }
-}
+// Factory function for easier instantiation
+export { UnifiedAIAdapter as createUnifiedAIAdapter } from './unified-ai-adapter.js';

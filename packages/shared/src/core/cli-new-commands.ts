@@ -9,7 +9,7 @@ import { ui } from './ui.js';
 import { createAICodeCompletion } from './ai-code-completion.js';
 import { createDatabaseIntegration } from './database-integration.js';
 import { createAPITesting } from './api-testing.js';
-import { createVersionGuardian } from '@oqool/shared/core';
+import { createVersionGuardian } from './version-guardian.js';
 
 export function registerNewCommands(program: Command): void {
 
