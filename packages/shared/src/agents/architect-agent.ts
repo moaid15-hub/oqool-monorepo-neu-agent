@@ -11,11 +11,14 @@ export class ArchitectAgent {
   private provider: AIProvider;
 
   constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+    // 🔄 Smart default: use Claude if available, otherwise DeepSeek
+    const hasValidClaude = config.claude?.startsWith('sk-ant-');
+
     this.aiAdapter = new UnifiedAIAdapter({
       deepseek: config.deepseek,
       claude: config.claude,
       openai: config.openai,
-      defaultProvider: 'claude', // architect benefits from Claude's deep thinking
+      defaultProvider: hasValidClaude ? 'claude' : 'deepseek', // fallback to DeepSeek
     });
     this.provider = provider;
   }

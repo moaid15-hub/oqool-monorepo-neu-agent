@@ -48,26 +48,35 @@ export class UnifiedAIAdapter {
   private defaultProvider: AIProvider = 'deepseek';
   
   constructor(config: UnifiedAIAdapterConfig) {
-    // تهيئة المزودين المتاحين
-    if (config.deepseek) {
+    // تهيئة المزودين المتاحين (فقط لو الـ key صالح)
+    if (config.deepseek && config.deepseek.startsWith('sk-')) {
       this.providers.set('deepseek', new DeepSeekService(config.deepseek));
     }
-    
-    if (config.claude) {
+
+    if (config.claude && config.claude.startsWith('sk-ant-')) {
       this.providers.set('claude', new ClaudeService(config.claude));
     }
-    
-    if (config.openai) {
+
+    if (config.openai && (config.openai.startsWith('sk-proj-') || config.openai.startsWith('sk-'))) {
       this.providers.set('openai', new OpenAIService(config.openai));
     }
 
     // تعيين المزود الافتراضي
     if (config.defaultProvider && this.providers.has(config.defaultProvider)) {
       this.defaultProvider = config.defaultProvider;
+    } else {
+      // إذا المزود الافتراضي مش متاح، استخدم أول مزود متاح
+      if (this.providers.has('deepseek')) {
+        this.defaultProvider = 'deepseek';
+      } else if (this.providers.has('openai')) {
+        this.defaultProvider = 'openai';
+      } else if (this.providers.has('claude')) {
+        this.defaultProvider = 'claude';
+      }
     }
 
     if (this.providers.size === 0) {
-      throw new Error('At least one AI provider must be configured');
+      throw new Error('At least one AI provider must be configured with a valid API key');
     }
   }
 
