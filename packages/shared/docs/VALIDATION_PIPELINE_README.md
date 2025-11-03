@@ -33,13 +33,14 @@
 ✅ **سريع** - يستخدم caching لتجنب التكرار  
 ✅ **مرن** - يمكن تخصيص كل مرحلة  
 ✅ **آمن** - يكتشف الثغرات الأمنية (OWASP Top 10)  
-✅ **تلقائي** - يصلح الأخطاء تلقائياً عند الإمكان  
+✅ **تلقائي** - يصلح الأخطاء تلقائياً عند الإمكان
 
 ---
 
 ## 🚀 المميزات
 
 ### 1. Multi-Stage Validation
+
 ```typescript
 ✅ Syntax Check     (P1) - أخطاء الكتابة
 ✅ Type Check       (P2) - أخطاء الأنواع (TypeScript)
@@ -49,6 +50,7 @@
 ```
 
 ### 2. Priority System
+
 ```typescript
 P1 = Critical   → يوقف التنفيذ إذا فشل
 P2 = Important  → يحذر ويكمل
@@ -56,6 +58,7 @@ P3 = Optional   → اقتراحات فقط
 ```
 
 ### 3. Auto-Fix Strategies
+
 ```typescript
 auto     → إصلاح تلقائي فوري
 suggest  → اقتراح الإصلاح فقط
@@ -64,6 +67,7 @@ confirm  → يسأل المستخدم أولاً
 ```
 
 ### 4. Smart Caching
+
 ```typescript
 ✅ يحفظ النتائج
 ✅ TTL configurable
@@ -80,6 +84,7 @@ npm install typescript @typescript-eslint/parser eslint
 ```
 
 ثم أضف الملفات:
+
 ```
 validation-pipeline.ts
 validation-pipeline-examples.ts
@@ -105,13 +110,14 @@ function login(user) {
 
 const result = await pipeline.validate(code, 'auth.js');
 
-console.log(result.success);        // false
-console.log(result.totalIssues);    // 3
+console.log(result.success); // false
+console.log(result.totalIssues); // 3
 console.log(result.criticalIssues); // 2
 console.log(result.summary);
 ```
 
 **النتيجة:**
+
 ```
 ❌ Syntax: 0 errors
 ✅ Types: 0 errors
@@ -129,12 +135,14 @@ Total: 3 issues (2 critical)
 ### 1️⃣ Syntax Check (P1)
 
 **يفحص:**
+
 - أخطاء الكتابة
 - أقواس غير مغلقة
 - كلمات محجوزة
 - بناء جملة خاطئ
 
 **مثال:**
+
 ```typescript
 const code = `
 function test() {
@@ -144,6 +152,7 @@ function test() {
 ```
 
 **النتيجة:**
+
 ```
 ❌ [P1] Syntax Error
    Line 3: Expected ';'
@@ -155,12 +164,14 @@ function test() {
 ### 2️⃣ Type Check (P2)
 
 **يفحص:**
+
 - أخطاء الأنواع (TypeScript)
 - Missing type annotations
 - Type mismatches
 - Undefined variables
 
 **مثال:**
+
 ```typescript
 const code = `
 function add(a: number, b: number): number {
@@ -172,6 +183,7 @@ const result = add("5", "10"); // ❌ خطأ في النوع
 ```
 
 **النتيجة:**
+
 ```
 ❌ [P2] Type Error (TS2345)
    Line 5: Argument of type 'string' not assignable to 'number'
@@ -183,6 +195,7 @@ const result = add("5", "10"); // ❌ خطأ في النوع
 ### 3️⃣ Security Scan (P1)
 
 **يفحص:**
+
 - SQL Injection (CWE-89)
 - XSS Vulnerabilities (CWE-79)
 - Command Injection (CWE-78)
@@ -191,6 +204,7 @@ const result = add("5", "10"); // ❌ خطأ في النوع
 - Sensitive Data Exposure (CWE-200)
 
 **مثال:**
+
 ```typescript
 const code = `
 function search(query) {
@@ -207,6 +221,7 @@ function search(query) {
 ```
 
 **النتيجة:**
+
 ```
 🔴 [CRITICAL] SQL Injection (CWE-89)
    Line 3: Direct string concatenation in SQL query
@@ -226,12 +241,14 @@ function search(query) {
 ### 4️⃣ Performance Analysis (P3)
 
 **يفحص:**
+
 - Nested loops (O(n²))
 - Large allocations
 - Inefficient patterns
 - Memory leaks
 
 **مثال:**
+
 ```typescript
 const code = `
 function findDuplicates(arr) {
@@ -247,11 +264,12 @@ function findDuplicates(arr) {
 ```
 
 **النتيجة:**
+
 ```
 ⚠️  [MEDIUM] Performance Issue
    Line 3-7: Nested loops detected (O(n²) complexity)
    Suggestion: Use Set for O(n) complexity
-   
+
    Better approach:
    const seen = new Set();
    for (const item of arr) {
@@ -265,6 +283,7 @@ function findDuplicates(arr) {
 ### 5️⃣ Style Check (P3)
 
 **يفحص:**
+
 - var usage (use const/let)
 - == vs ===
 - console.log في الكود
@@ -272,6 +291,7 @@ function findDuplicates(arr) {
 - Trailing whitespace
 
 **مثال:**
+
 ```typescript
 const code = `
 var name = "John";
@@ -282,6 +302,7 @@ if (name == "John") {
 ```
 
 **النتيجة:**
+
 ```
 💡 [LOW] Style Issue
    Line 1: Use const or let instead of var
@@ -310,41 +331,41 @@ const pipeline = new ValidationPipeline({
       priority: 'P1',
       autoFix: true,
       stopOnError: true,
-      confirm: false
+      confirm: false,
     },
     types: {
       enabled: true,
       priority: 'P2',
       autoFix: true,
       stopOnError: false,
-      confirm: false
+      confirm: false,
     },
     security: {
       enabled: true,
       priority: 'P1',
       autoFix: false,
       stopOnError: true,
-      confirm: true // ⚠️ يسأل المستخدم
+      confirm: true, // ⚠️ يسأل المستخدم
     },
     performance: {
       enabled: true,
       priority: 'P3',
       autoFix: false,
       stopOnError: false,
-      confirm: false
+      confirm: false,
     },
     style: {
       enabled: true,
       priority: 'P3',
       autoFix: true,
       stopOnError: false,
-      confirm: false
-    }
+      confirm: false,
+    },
   },
   cache: {
     enabled: true,
-    ttl: 3600 // 1 hour
-  }
+    ttl: 3600, // 1 hour
+  },
 });
 ```
 
@@ -359,20 +380,20 @@ const strictPipeline = new ValidationPipeline({
     security: {
       enabled: true,
       priority: 'P1',
-      stopOnError: true
+      stopOnError: true,
     },
     performance: { enabled: false },
     style: {
       enabled: true,
-      autoFix: true
-    }
-  }
+      autoFix: true,
+    },
+  },
 });
 
 // تعديل مرحلة واحدة بعد الإنشاء
 pipeline.configureStage('security', {
   autoFix: true,
-  confirm: false
+  confirm: false,
 });
 ```
 
@@ -383,10 +404,10 @@ pipeline.configureStage('security', {
 ### Auto-Fix Strategies
 
 ```typescript
-type FixStrategy = 
-  | 'auto'     // تلقائي فوري
-  | 'suggest'  // اقتراح فقط
-  | 'manual'   // يدوي
+type FixStrategy =
+  | 'auto' // تلقائي فوري
+  | 'suggest' // اقتراح فقط
+  | 'manual' // يدوي
   | 'confirm'; // يسأل المستخدم
 ```
 
@@ -397,11 +418,11 @@ const result = await pipeline.validate(code, 'file.js', {
   onConfirm: async (issue) => {
     console.log(`⚠️  ${issue.message}`);
     console.log(`   Fix: ${issue.fix?.description}`);
-    
+
     // اسأل المستخدم (CLI/GUI)
     const answer = await prompt('Apply fix? (y/n): ');
     return answer === 'y';
-  }
+  },
 });
 
 if (result.success) {
@@ -416,7 +437,7 @@ if (result.success) {
 ✅ **Type Errors** - إضافة type annotations  
 ✅ **Style Issues** - var→const, ==→===, tabs→spaces  
 ❌ **Security Issues** - يحتاج مراجعة بشرية  
-❌ **Performance** - يحتاج إعادة كتابة  
+❌ **Performance** - يحتاج إعادة كتابة
 
 ---
 
@@ -429,11 +450,12 @@ await pipeline.validate(code, 'app.js', {
   onProgress: (stage, progress) => {
     const percent = Math.round(progress * 100);
     console.log(`[${percent}%] ${stage}...`);
-  }
+  },
 });
 ```
 
 **النتيجة:**
+
 ```
 [0%] syntax...
 [20%] types...
@@ -451,19 +473,17 @@ await pipeline.validate(code, 'app.js', {
 const files = [
   { path: 'auth.js', code: '...' },
   { path: 'api.js', code: '...' },
-  { path: 'utils.js', code: '...' }
+  { path: 'utils.js', code: '...' },
 ];
 
-const results = await Promise.all(
-  files.map(f => pipeline.validate(f.code, f.path))
-);
+const results = await Promise.all(files.map((f) => pipeline.validate(f.code, f.path)));
 
 // تقرير شامل
 const report = {
   total: results.length,
-  passed: results.filter(r => r.success).length,
-  failed: results.filter(r => !r.success).length,
-  issues: results.reduce((sum, r) => sum + r.totalIssues, 0)
+  passed: results.filter((r) => r.success).length,
+  failed: results.filter((r) => !r.success).length,
+  issues: results.reduce((sum, r) => sum + r.totalIssues, 0),
 };
 
 console.log(report);
@@ -480,18 +500,18 @@ const securityPipeline = new ValidationPipeline({
       enabled: true,
       priority: 'P1',
       stopOnError: true, // توقف عند أول ثغرة
-      confirm: false
-    }
-  }
+      confirm: false,
+    },
+  },
 });
 
 const result = await securityPipeline.validate(code, 'api.js');
 
 if (!result.success) {
-  const securityStage = result.stages.find(s => s.stage === 'security');
-  
+  const securityStage = result.stages.find((s) => s.stage === 'security');
+
   console.log('🔴 Security Report:');
-  securityStage.errors.forEach(err => {
+  securityStage.errors.forEach((err) => {
     console.log(`[${err.cwe}] ${err.message}`);
     console.log(`Fix: ${err.fix?.description}`);
   });
@@ -511,11 +531,11 @@ class ValidationError extends Error {
 
 async function validateOrThrow(code: string, file: string) {
   const result = await pipeline.validate(code, file);
-  
+
   if (!result.success) {
     throw new ValidationError(result);
   }
-  
+
   return result.finalCode;
 }
 
@@ -537,6 +557,7 @@ try {
 ### ValidationPipeline Class
 
 #### Constructor
+
 ```typescript
 new ValidationPipeline(config?: PipelineConfig)
 ```
@@ -544,6 +565,7 @@ new ValidationPipeline(config?: PipelineConfig)
 #### Methods
 
 **validate()**
+
 ```typescript
 async validate(
   code: string,
@@ -557,6 +579,7 @@ async validate(
 ```
 
 **configureStage()**
+
 ```typescript
 configureStage(
   stage: ValidationStage,
@@ -565,11 +588,13 @@ configureStage(
 ```
 
 **clearCache()**
+
 ```typescript
 clearCache(): void
 ```
 
 **getConfig()**
+
 ```typescript
 getConfig(): Required<PipelineConfig>
 ```
@@ -579,27 +604,13 @@ getConfig(): Required<PipelineConfig>
 ### Types
 
 ```typescript
-type ValidationStage = 
-  | 'syntax' 
-  | 'types' 
-  | 'security' 
-  | 'performance' 
-  | 'style';
+type ValidationStage = 'syntax' | 'types' | 'security' | 'performance' | 'style';
 
-type Severity = 
-  | 'critical' 
-  | 'high' 
-  | 'medium' 
-  | 'low' 
-  | 'info';
+type Severity = 'critical' | 'high' | 'medium' | 'low' | 'info';
 
 type Priority = 'P1' | 'P2' | 'P3';
 
-type FixStrategy = 
-  | 'auto' 
-  | 'suggest' 
-  | 'manual' 
-  | 'confirm';
+type FixStrategy = 'auto' | 'suggest' | 'manual' | 'confirm';
 
 interface ValidationResult {
   success: boolean;
@@ -635,13 +646,14 @@ interface ValidationIssue {
 ## 🎯 Best Practices
 
 ### 1. استخدم Priorities بحكمة
+
 ```typescript
 // Critical code → P1 فقط
 const apiPipeline = new ValidationPipeline({
   stages: {
     security: { priority: 'P1', stopOnError: true },
-    syntax: { priority: 'P1', stopOnError: true }
-  }
+    syntax: { priority: 'P1', stopOnError: true },
+  },
 });
 
 // Development → كل شيء
@@ -649,25 +661,24 @@ const devPipeline = new ValidationPipeline(); // default
 ```
 
 ### 2. Cache للسرعة
+
 ```typescript
 // تفعيل cache للملفات الكبيرة
 const pipeline = new ValidationPipeline({
   cache: {
     enabled: true,
-    ttl: 3600 // 1 hour
-  }
+    ttl: 3600, // 1 hour
+  },
 });
 ```
 
 ### 3. تقارير مفصلة
+
 ```typescript
 const result = await pipeline.validate(code, file);
 
 // حفظ التقرير
-fs.writeFileSync(
-  `reports/${file}.json`,
-  JSON.stringify(result, null, 2)
-);
+fs.writeFileSync(`reports/${file}.json`, JSON.stringify(result, null, 2));
 ```
 
 ---
@@ -675,6 +686,7 @@ fs.writeFileSync(
 ## 🔗 التكامل مع أنظمة أخرى
 
 ### مع Cache Manager
+
 ```typescript
 import { getCacheManager } from './cache-manager';
 
@@ -691,6 +703,7 @@ if (!result) {
 ```
 
 ### مع Context Manager
+
 ```typescript
 import { ContextManager } from './context-manager';
 
@@ -701,7 +714,7 @@ const projectInfo = await context.analyzeProject();
 if (projectInfo.type === 'node') {
   pipeline.configureStage('security', {
     enabled: true,
-    priority: 'P1'
+    priority: 'P1',
   });
 }
 ```
@@ -729,15 +742,19 @@ Total:          ~105ms
 ## 🆘 الأسئلة الشائعة
 
 ### Q: هل يدعم JavaScript فقط أم TypeScript أيضاً؟
+
 ✅ الاثنين! Type checking يعمل فقط مع .ts/.tsx
 
 ### Q: هل يمكن تعطيل مراحل معينة؟
+
 ✅ نعم، ضع `enabled: false` في config
 
 ### Q: هل Auto-Fix آمن؟
+
 ✅ لـ Style/Syntax نعم. لـ Security نستخدم `confirm` strategy
 
 ### Q: كيف أتكامل مع CI/CD؟
+
 ```typescript
 const result = await pipeline.validate(code, file);
 process.exit(result.success ? 0 : 1);

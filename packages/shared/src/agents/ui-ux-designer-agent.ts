@@ -59,7 +59,10 @@ export class UIUXDesignerAgent {
 
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
     this.aiAdapter = new UnifiedAIAdapter({
@@ -82,7 +85,6 @@ export class UIUXDesignerAgent {
       personality?: string;
     };
   }): Promise<DesignResult> {
-
     // 1. Define color scheme
     const colorScheme = await this.designColorScheme(requirements);
 
@@ -111,7 +113,7 @@ export class UIUXDesignerAgent {
       colorScheme,
       typography,
       responsive,
-      animations
+      animations,
     };
   }
 
@@ -204,7 +206,7 @@ Output format (JSON):
       return {
         headingFont: 'Inter, sans-serif',
         bodyFont: 'Inter, sans-serif',
-        scale: ['3rem', '2.5rem', '2rem', '1.5rem', '1.25rem', '1rem', '0.875rem']
+        scale: ['3rem', '2.5rem', '2rem', '1.5rem', '1.25rem', '1rem', '0.875rem'],
       };
     }
   }
@@ -277,11 +279,7 @@ Make them beautiful, accessible, and production-ready!
     const pages: PageDesign[] = [];
 
     for (const pageName of requirements.pages) {
-      const pageDesign = await this.designSinglePage(
-        pageName,
-        requirements,
-        components
-      );
+      const pageDesign = await this.designSinglePage(pageName, requirements, components);
       if (pageDesign) pages.push(pageDesign);
     }
 
@@ -305,7 +303,7 @@ Style: ${requirements.style || 'modern'}
 Target Audience: ${requirements.targetAudience}
 
 Available components:
-${components.map(c => `- ${c.name}: ${c.description}`).join('\n')}
+${components.map((c) => `- ${c.name}: ${c.description}`).join('\n')}
 
 Design the page with sections. Each section should have:
 - Name (descriptive)
@@ -355,13 +353,13 @@ Output format (JSON):
   private async designResponsive(): Promise<any> {
     return {
       breakpoints: {
-        'sm': '640px',   // Mobile
-        'md': '768px',   // Tablet
-        'lg': '1024px',  // Desktop
-        'xl': '1280px',  // Large Desktop
-        '2xl': '1536px'  // Extra Large
+        sm: '640px', // Mobile
+        md: '768px', // Tablet
+        lg: '1024px', // Desktop
+        xl: '1280px', // Large Desktop
+        '2xl': '1536px', // Extra Large
       },
-      strategy: 'Mobile-first with progressive enhancement'
+      strategy: 'Mobile-first with progressive enhancement',
     };
   }
 
@@ -379,7 +377,7 @@ Output format (JSON):
         'Smooth color transitions (200-300ms)',
         'Scale transforms on hover (1.02-1.05)',
         'Fade in/out for modals (150ms)',
-        'Slide in for notifications'
+        'Slide in for notifications',
       ],
       microInteractions: [
         'Button press effect',
@@ -387,8 +385,8 @@ Output format (JSON):
         'Card hover lift',
         'Loading spinners',
         'Success checkmark animation',
-        'Error shake animation'
-      ]
+        'Error shake animation',
+      ],
     };
   }
 
@@ -404,7 +402,7 @@ Output format (JSON):
       '🎨 Consistent: Design system for unified look',
       '✨ Delightful: Subtle animations and micro-interactions',
       '🔍 Clear Hierarchy: Visual flow guides users',
-      '💬 Feedback: Clear states and user feedback'
+      '💬 Feedback: Clear states and user feedback',
     ];
 
     // Add style-specific principles
@@ -453,48 +451,48 @@ Output format (JSON):
   // ============================================
   private getDefaultColors(style: string): any {
     const colorSchemes: Record<string, any> = {
-      'modern': {
+      modern: {
         primary: '#3b82f6',
         secondary: '#8b5cf6',
         accent: '#f59e0b',
         background: '#ffffff',
-        text: '#1f2937'
+        text: '#1f2937',
       },
-      'minimal': {
+      minimal: {
         primary: '#000000',
         secondary: '#404040',
         accent: '#2563eb',
         background: '#ffffff',
-        text: '#171717'
+        text: '#171717',
       },
-      'playful': {
+      playful: {
         primary: '#ec4899',
         secondary: '#8b5cf6',
         accent: '#f59e0b',
         background: '#fef3c7',
-        text: '#1f2937'
+        text: '#1f2937',
       },
-      'professional': {
+      professional: {
         primary: '#1e40af',
         secondary: '#64748b',
         accent: '#0ea5e9',
         background: '#f8fafc',
-        text: '#0f172a'
+        text: '#0f172a',
       },
-      'dark': {
+      dark: {
         primary: '#3b82f6',
         secondary: '#8b5cf6',
         accent: '#f59e0b',
         background: '#0f172a',
-        text: '#f1f5f9'
+        text: '#f1f5f9',
       },
-      'elegant': {
+      elegant: {
         primary: '#6d28d9',
         secondary: '#a855f7',
         accent: '#fbbf24',
         background: '#fefce8',
-        text: '#27272a'
-      }
+        text: '#27272a',
+      },
     };
 
     return colorSchemes[style] || colorSchemes['modern'];

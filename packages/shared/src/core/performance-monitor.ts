@@ -55,7 +55,7 @@ export class PerformanceMonitor extends EventEmitter {
       name,
       value,
       timestamp: Date.now(),
-      tags
+      tags,
     };
 
     this.metrics.push(metric);
@@ -118,32 +118,32 @@ export class PerformanceMonitor extends EventEmitter {
     const memory = {
       used: Math.round(memUsage.heapUsed / 1024 / 1024),
       total: Math.round(memUsage.heapTotal / 1024 / 1024),
-      percentage: Math.round((memUsage.heapUsed / memUsage.heapTotal) * 100)
+      percentage: Math.round((memUsage.heapUsed / memUsage.heapTotal) * 100),
     };
 
     // Cache (من الـ metrics)
-    const cacheHits = this.metrics.filter(m => m.name === 'cache_hit').length;
-    const cacheMisses = this.metrics.filter(m => m.name === 'cache_miss').length;
+    const cacheHits = this.metrics.filter((m) => m.name === 'cache_hit').length;
+    const cacheMisses = this.metrics.filter((m) => m.name === 'cache_miss').length;
     const cacheTotal = cacheHits + cacheMisses;
     const cache = {
       hitRate: cacheTotal > 0 ? Math.round((cacheHits / cacheTotal) * 100) : 0,
-      size: this.metrics.filter(m => m.name === 'cache_size').slice(-1)[0]?.value || 0
+      size: this.metrics.filter((m) => m.name === 'cache_size').slice(-1)[0]?.value || 0,
     };
 
     // API
-    const apiMetrics = this.metrics.filter(m => m.tags?.type === 'duration');
-    const avgResponseTime = apiMetrics.length > 0
-      ? Math.round(apiMetrics.reduce((sum, m) => sum + m.value, 0) / apiMetrics.length)
-      : 0;
+    const apiMetrics = this.metrics.filter((m) => m.tags?.type === 'duration');
+    const avgResponseTime =
+      apiMetrics.length > 0
+        ? Math.round(apiMetrics.reduce((sum, m) => sum + m.value, 0) / apiMetrics.length)
+        : 0;
 
-    const errorMetrics = this.metrics.filter(m => m.tags?.type === 'error');
-    const errorRate = apiMetrics.length > 0
-      ? Math.round((errorMetrics.length / apiMetrics.length) * 100)
-      : 0;
+    const errorMetrics = this.metrics.filter((m) => m.tags?.type === 'error');
+    const errorRate =
+      apiMetrics.length > 0 ? Math.round((errorMetrics.length / apiMetrics.length) * 100) : 0;
 
     const api = {
       avgResponseTime,
-      errorRate
+      errorRate,
     };
 
     // Hotspots
@@ -163,7 +163,7 @@ export class PerformanceMonitor extends EventEmitter {
       .map(([name, data]) => ({
         name,
         avgDuration: Math.round(data.total / data.count),
-        calls: data.count
+        calls: data.count,
       }))
       .sort((a, b) => b.avgDuration - a.avgDuration)
       .slice(0, 5);
@@ -173,7 +173,7 @@ export class PerformanceMonitor extends EventEmitter {
       memory,
       cache,
       api,
-      hotspots
+      hotspots,
     };
   }
 
@@ -190,7 +190,7 @@ export class PerformanceMonitor extends EventEmitter {
 
       await fs.writeJSON(filepath, {
         timestamp: Date.now(),
-        metrics: this.metrics.slice(-1000) // آخر 1000 metric فقط
+        metrics: this.metrics.slice(-1000), // آخر 1000 metric فقط
       });
 
       // حذف الـ metrics القديمة من الذاكرة
@@ -238,8 +238,12 @@ export class PerformanceMonitor extends EventEmitter {
     // CPU & Memory
     console.log(`\n💻 الموارد:`);
     console.log(`  CPU: ${stats.cpu.toFixed(2)}s`);
-    console.log(`  Memory: ${stats.memory.used}MB / ${stats.memory.total}MB (${stats.memory.percentage}%)`);
-    console.log(`  ${'█'.repeat(Math.floor(stats.memory.percentage / 10))}${'░'.repeat(10 - Math.floor(stats.memory.percentage / 10))} ${stats.memory.percentage}%`);
+    console.log(
+      `  Memory: ${stats.memory.used}MB / ${stats.memory.total}MB (${stats.memory.percentage}%)`
+    );
+    console.log(
+      `  ${'█'.repeat(Math.floor(stats.memory.percentage / 10))}${'░'.repeat(10 - Math.floor(stats.memory.percentage / 10))} ${stats.memory.percentage}%`
+    );
 
     // Cache
     console.log(`\n💾 Cache:`);

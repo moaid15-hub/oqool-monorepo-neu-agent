@@ -12,7 +12,7 @@ export const AIPanel: React.FC = () => {
   const [personality, setPersonality] = useState<AIPersonality>('alex');
 
   const handleSend = async () => {
-    if (!input.trim() || loading) return;
+    if (!input.trim() || loading) {return;}
 
     const userMessage: AIMessage = {
       role: 'user',
@@ -64,10 +64,7 @@ export const AIPanel: React.FC = () => {
     <div className="ai-panel">
       <div className="ai-panel-header">
         <h3>🤖 مساعد AI</h3>
-        <AIPersonalitySelector
-          selected={personality}
-          onChange={setPersonality}
-        />
+        <AIPersonalitySelector selected={personality} onChange={setPersonality} />
       </div>
 
       <div className="ai-chat-container">
@@ -78,9 +75,7 @@ export const AIPanel: React.FC = () => {
             <p>{aiService.getPersonalityInfo(personality).description}</p>
           </div>
         ) : (
-          messages.map((msg, i) => (
-            <AIChatMessage key={i} message={msg} />
-          ))
+          messages.map((msg, i) => <AIChatMessage key={i} message={msg} />)
         )}
         {loading && (
           <div className="ai-loading">
@@ -102,11 +97,7 @@ export const AIPanel: React.FC = () => {
           placeholder="اسأل أي سؤال... (Enter للإرسال)"
           rows={3}
         />
-        <button
-          className="ai-send-button"
-          onClick={handleSend}
-          disabled={!input.trim() || loading}
-        >
+        <button className="ai-send-button" onClick={handleSend} disabled={!input.trim() || loading}>
           📤 إرسال
         </button>
       </div>

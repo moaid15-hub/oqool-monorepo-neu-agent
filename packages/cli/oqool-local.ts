@@ -68,8 +68,8 @@ async function chatMode(client: LocalClaudeClient, fileManager: any) {
         type: 'input',
         name: 'userInput',
         message: chalk.yellow('أنت:'),
-        prefix: '👤'
-      }
+        prefix: '👤',
+      },
     ]);
 
     if (!userInput || userInput.toLowerCase() === 'exit') {
@@ -80,7 +80,7 @@ async function chatMode(client: LocalClaudeClient, fileManager: any) {
     // إضافة رسالة المستخدم
     messages.push({
       role: 'user',
-      content: userInput
+      content: userInput,
     });
 
     // إرسال للـ API
@@ -97,7 +97,7 @@ async function chatMode(client: LocalClaudeClient, fileManager: any) {
     // إضافة رد Claude
     messages.push({
       role: 'assistant',
-      content: response.message
+      content: response.message,
     });
 
     // عرض الرد
@@ -113,8 +113,8 @@ async function chatMode(client: LocalClaudeClient, fileManager: any) {
           type: 'confirm',
           name: 'shouldWrite',
           message: chalk.yellow(`هل تريد كتابة ${codeBlocks.length} ملف(ات)؟`),
-          default: false
-        }
+          default: false,
+        },
       ]);
 
       if (shouldWrite) {
@@ -162,8 +162,8 @@ async function handlePrompt(client: LocalClaudeClient, fileManager: any, prompt:
       type: 'confirm',
       name: 'shouldWrite',
       message: chalk.yellow(`هل تريد كتابة ${codeBlocks.length} ملف(ات)؟`),
-      default: true
-    }
+      default: true,
+    },
   ]);
 
   if (shouldWrite) {
@@ -191,7 +191,7 @@ function extractCodeBlocks(text: string): Array<{ filename: string; content: str
     while ((match = simplePattern.exec(text)) !== null) {
       blocks.push({
         filename: 'code.txt', // سنطلب الاسم لاحقاً
-        content: match[1].trim()
+        content: match[1].trim(),
       });
     }
   }
@@ -200,7 +200,10 @@ function extractCodeBlocks(text: string): Array<{ filename: string; content: str
 }
 
 // كتابة كتل الكود
-async function writeCodeBlocks(blocks: Array<{ filename: string; content: string }>, fileManager: any) {
+async function writeCodeBlocks(
+  blocks: Array<{ filename: string; content: string }>,
+  fileManager: any
+) {
   for (const block of blocks) {
     let filename = block.filename;
 
@@ -211,8 +214,8 @@ async function writeCodeBlocks(blocks: Array<{ filename: string; content: string
           type: 'input',
           name: 'newFilename',
           message: 'اسم الملف:',
-          default: filename
-        }
+          default: filename,
+        },
       ]);
       filename = newFilename;
     }

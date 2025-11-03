@@ -33,7 +33,7 @@ export class FileWatcher {
     'coverage',
     '*.log',
     '.DS_Store',
-    'package-lock.json'
+    'package-lock.json',
   ];
 
   constructor(workingDirectory: string) {
@@ -61,7 +61,7 @@ export class FileWatcher {
   // ============================================
   private async watchDirectory(dirPath: string): Promise<void> {
     // تحقق من وجود المجلد
-    if (!await fs.pathExists(dirPath)) {
+    if (!(await fs.pathExists(dirPath))) {
       return;
     }
 
@@ -92,7 +92,7 @@ export class FileWatcher {
             this.notifyChange({
               type: 'created',
               path: relativePath,
-              timestamp: Date.now()
+              timestamp: Date.now(),
             });
           } else if (previousModified !== lastModified) {
             // ملف معدل
@@ -100,7 +100,7 @@ export class FileWatcher {
             this.notifyChange({
               type: 'modified',
               path: relativePath,
-              timestamp: Date.now()
+              timestamp: Date.now(),
             });
           }
         } else {
@@ -109,7 +109,7 @@ export class FileWatcher {
           this.notifyChange({
             type: 'deleted',
             path: relativePath,
-            timestamp: Date.now()
+            timestamp: Date.now(),
           });
         }
       } catch (error) {
@@ -124,7 +124,7 @@ export class FileWatcher {
   // 🚫 تحديد الملفات المستثناة
   // ============================================
   private shouldIgnore(filePath: string): boolean {
-    return this.ignorePatterns.some(pattern => {
+    return this.ignorePatterns.some((pattern) => {
       if (pattern.includes('*')) {
         const regex = new RegExp(pattern.replace('*', '.*'));
         return regex.test(filePath);
@@ -140,7 +140,7 @@ export class FileWatcher {
     const icon = {
       created: '➕',
       modified: '✏️',
-      deleted: '🗑️'
+      deleted: '🗑️',
     }[change.type];
 
     console.log(chalk.gray(`${icon} ${change.type}: ${change.path}`));
@@ -190,7 +190,7 @@ export class FileWatcher {
     return {
       watchedDirectories: this.watchers.size,
       trackedFiles: this.fileStates.size,
-      callbacks: this.callbacks.length
+      callbacks: this.callbacks.length,
     };
   }
 
@@ -207,8 +207,6 @@ export class FileWatcher {
   // 📋 الحصول على الملفات المتتبعة
   // ============================================
   getTrackedFiles(): string[] {
-    return Array.from(this.fileStates.keys()).map(path =>
-      relative(this.workingDirectory, path)
-    );
+    return Array.from(this.fileStates.keys()).map((path) => relative(this.workingDirectory, path));
   }
 }

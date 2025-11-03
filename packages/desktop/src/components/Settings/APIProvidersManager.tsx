@@ -48,14 +48,12 @@ export const APIProvidersManager: React.FC = () => {
   };
 
   const handleDeleteProvider = (id: string) => {
-    const newProviders = providers.filter(p => p.id !== id);
+    const newProviders = providers.filter((p) => p.id !== id);
     saveProviders(newProviders);
   };
 
   const handleToggleProvider = (id: string) => {
-    const newProviders = providers.map(p =>
-      p.id === id ? { ...p, isActive: !p.isActive } : p
-    );
+    const newProviders = providers.map((p) => (p.id === id ? { ...p, isActive: !p.isActive } : p));
     saveProviders(newProviders);
   };
 
@@ -70,7 +68,7 @@ export const APIProvidersManager: React.FC = () => {
   };
 
   const maskApiKey = (key: string) => {
-    if (key.length <= 8) return '***';
+    if (key.length <= 8) {return '***';}
     return key.slice(0, 4) + '...' + key.slice(-4);
   };
 
@@ -78,10 +76,7 @@ export const APIProvidersManager: React.FC = () => {
     <div className="api-providers-manager">
       <div className="api-providers-header">
         <h3>مزودي API</h3>
-        <button
-          className="api-add-btn"
-          onClick={() => setIsModalOpen(true)}
-        >
+        <button className="api-add-btn" onClick={() => setIsModalOpen(true)}>
           + إضافة API
         </button>
       </div>
@@ -90,10 +85,7 @@ export const APIProvidersManager: React.FC = () => {
         <div className="api-empty-state">
           <div className="api-empty-icon">🔑</div>
           <p>لم تقم بإضافة أي مزود API بعد</p>
-          <button
-            className="api-empty-btn"
-            onClick={() => setIsModalOpen(true)}
-          >
+          <button className="api-empty-btn" onClick={() => setIsModalOpen(true)}>
             إضافة مزود API الأول
           </button>
         </div>
@@ -107,12 +99,8 @@ export const APIProvidersManager: React.FC = () => {
               <div className="api-provider-main">
                 <div className="api-provider-info">
                   <div className="api-provider-name">{provider.name}</div>
-                  <div className="api-provider-key">
-                    مفتاح API: {maskApiKey(provider.apiKey)}
-                  </div>
-                  <div className="api-provider-models">
-                    {provider.models.length} موديل متاح
-                  </div>
+                  <div className="api-provider-key">مفتاح API: {maskApiKey(provider.apiKey)}</div>
+                  <div className="api-provider-models">{provider.models.length} موديل متاح</div>
                 </div>
 
                 <div className="api-provider-actions">

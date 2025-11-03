@@ -22,12 +22,12 @@ export const useNotifications = () => {
       id,
     };
 
-    setNotifications(prev => [newNotification, ...prev]);
+    setNotifications((prev) => [newNotification, ...prev]);
     return id;
   }, []);
 
   const removeNotification = useCallback((id: string) => {
-    setNotifications(prev => prev.filter(notification => notification.id !== id));
+    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
   }, []);
 
   const clearAll = useCallback(() => {
@@ -35,101 +35,127 @@ export const useNotifications = () => {
   }, []);
 
   // دوال مساعدة لإضافة أنواع مختلفة من الإشعارات
-  const showSuccess = useCallback((message: string, options?: Partial<NotificationItem>) => {
-    return addNotification({
-      message,
-      type: 'success',
-      duration: 4000,
-      ...options,
-    });
-  }, [addNotification]);
+  const showSuccess = useCallback(
+    (message: string, options?: Partial<NotificationItem>) => {
+      return addNotification({
+        message,
+        type: 'success',
+        duration: 4000,
+        ...options,
+      });
+    },
+    [addNotification]
+  );
 
-  const showError = useCallback((message: string, options?: Partial<NotificationItem>) => {
-    return addNotification({
-      message,
-      type: 'error',
-      duration: 6000, // أطول للأخطاء
-      ...options,
-    });
-  }, [addNotification]);
+  const showError = useCallback(
+    (message: string, options?: Partial<NotificationItem>) => {
+      return addNotification({
+        message,
+        type: 'error',
+        duration: 6000, // أطول للأخطاء
+        ...options,
+      });
+    },
+    [addNotification]
+  );
 
-  const showInfo = useCallback((message: string, options?: Partial<NotificationItem>) => {
-    return addNotification({
-      message,
-      type: 'info',
-      duration: 4000,
-      ...options,
-    });
-  }, [addNotification]);
+  const showInfo = useCallback(
+    (message: string, options?: Partial<NotificationItem>) => {
+      return addNotification({
+        message,
+        type: 'info',
+        duration: 4000,
+        ...options,
+      });
+    },
+    [addNotification]
+  );
 
-  const showWarning = useCallback((message: string, options?: Partial<NotificationItem>) => {
-    return addNotification({
-      message,
-      type: 'warning',
-      duration: 5000,
-      ...options,
-    });
-  }, [addNotification]);
+  const showWarning = useCallback(
+    (message: string, options?: Partial<NotificationItem>) => {
+      return addNotification({
+        message,
+        type: 'warning',
+        duration: 5000,
+        ...options,
+      });
+    },
+    [addNotification]
+  );
 
   // إشعارات خاصة للتطوير
-  const showFileOperation = useCallback((operation: string, fileName: string, success: boolean) => {
-    const message = success 
-      ? `تم ${operation} الملف ${fileName} بنجاح`
-      : `فشل في ${operation} الملف ${fileName}`;
-    
-    return addNotification({
-      message,
-      type: success ? 'success' : 'error',
-      title: `عملية الملف`,
-      duration: success ? 3000 : 5000,
-    });
-  }, [addNotification]);
+  const showFileOperation = useCallback(
+    (operation: string, fileName: string, success: boolean) => {
+      const message = success
+        ? `تم ${operation} الملف ${fileName} بنجاح`
+        : `فشل في ${operation} الملف ${fileName}`;
 
-  const showGitOperation = useCallback((operation: string, success: boolean, details?: string) => {
-    const message = success 
-      ? `تم تنفيذ عملية Git: ${operation}`
-      : `فشل في عملية Git: ${operation}`;
-    
-    return addNotification({
-      message: details ? `${message} - ${details}` : message,
-      type: success ? 'success' : 'error',
-      title: 'Git',
-      duration: success ? 3000 : 6000,
-    });
-  }, [addNotification]);
+      return addNotification({
+        message,
+        type: success ? 'success' : 'error',
+        title: `عملية الملف`,
+        duration: success ? 3000 : 5000,
+      });
+    },
+    [addNotification]
+  );
 
-  const showAIResponse = useCallback((message: string, hasAction?: boolean) => {
-    return addNotification({
-      message,
-      type: 'info',
-      title: '🤖 AI Assistant',
-      duration: hasAction ? 0 : 5000, // بدون مدة إذا كان هناك إجراء
-      action: hasAction ? {
-        label: 'عرض التفاصيل',
-        onClick: () => {
-          // يمكن ربطه بنافذة تفاصيل AI
-          console.log('عرض تفاصيل AI');
-        }
-      } : undefined,
-    });
-  }, [addNotification]);
+  const showGitOperation = useCallback(
+    (operation: string, success: boolean, details?: string) => {
+      const message = success
+        ? `تم تنفيذ عملية Git: ${operation}`
+        : `فشل في عملية Git: ${operation}`;
 
-  const showCommandResult = useCallback((command: string, success: boolean, output?: string) => {
-    return addNotification({
-      message: success 
-        ? `تم تنفيذ الأمر بنجاح: ${command}`
-        : `فشل في تنفيذ الأمر: ${command}`,
-      type: success ? 'success' : 'error',
-      title: 'Terminal',
-      duration: success ? 3000 : 5000,
-      action: output ? {
-        label: 'عرض المخرجات',
-        onClick: () => {
-          console.log('Command output:', output);
-        }
-      } : undefined,
-    });
-  }, [addNotification]);
+      return addNotification({
+        message: details ? `${message} - ${details}` : message,
+        type: success ? 'success' : 'error',
+        title: 'Git',
+        duration: success ? 3000 : 6000,
+      });
+    },
+    [addNotification]
+  );
+
+  const showAIResponse = useCallback(
+    (message: string, hasAction?: boolean) => {
+      return addNotification({
+        message,
+        type: 'info',
+        title: '🤖 AI Assistant',
+        duration: hasAction ? 0 : 5000, // بدون مدة إذا كان هناك إجراء
+        action: hasAction
+          ? {
+              label: 'عرض التفاصيل',
+              onClick: () => {
+                // يمكن ربطه بنافذة تفاصيل AI
+                console.log('عرض تفاصيل AI');
+              },
+            }
+          : undefined,
+      });
+    },
+    [addNotification]
+  );
+
+  const showCommandResult = useCallback(
+    (command: string, success: boolean, output?: string) => {
+      return addNotification({
+        message: success ? `تم تنفيذ الأمر بنجاح: ${command}` : `فشل في تنفيذ الأمر: ${command}`,
+        type: success ? 'success' : 'error',
+        title: 'Terminal',
+        duration: success ? 3000 : 5000,
+        action: output
+          ? {
+              label: 'عرض المخرجات',
+              onClick: () => {
+                console.log('Command output:', output);
+              },
+            }
+          : undefined,
+      });
+    },
+    [addNotification]
+  );
 
   return {
     notifications,
@@ -163,12 +189,12 @@ class NotificationManager {
   subscribe(listener: (notifications: NotificationItem[]) => void) {
     this.listeners.push(listener);
     return () => {
-      this.listeners = this.listeners.filter(l => l !== listener);
+      this.listeners = this.listeners.filter((l) => l !== listener);
     };
   }
 
   private notify() {
-    this.listeners.forEach(listener => listener([...this.notifications]));
+    this.listeners.forEach((listener) => listener([...this.notifications]));
   }
 
   add(notification: Omit<NotificationItem, 'id'>): string {
@@ -184,7 +210,7 @@ class NotificationManager {
   }
 
   remove(id: string) {
-    this.notifications = this.notifications.filter(n => n.id !== id);
+    this.notifications = this.notifications.filter((n) => n.id !== id);
     this.notify();
   }
 
@@ -244,7 +270,7 @@ export const useGlobalNotifications = () => {
 
   return {
     notifications,
-    addNotification: (notification: Omit<NotificationItem, 'id'>) => 
+    addNotification: (notification: Omit<NotificationItem, 'id'>) =>
       notificationManager.add(notification),
     removeNotification: (id: string) => notificationManager.remove(id),
     clearAll: () => notificationManager.clear(),

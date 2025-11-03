@@ -21,12 +21,12 @@ export class UI {
 
   // لوحة الألوان الاحترافية
   private colors = {
-    primary: chalk.hex('#3b82f6'),    // أزرق
-    gold: chalk.hex('#fbbf24'),       // ذهبي
-    success: chalk.hex('#10b981'),    // أخضر
-    error: chalk.hex('#ef4444'),      // أحمر
-    warning: chalk.hex('#f59e0b'),    // برتقالي
-    info: chalk.hex('#06b6d4'),       // سماوي
+    primary: chalk.hex('#3b82f6'), // أزرق
+    gold: chalk.hex('#fbbf24'), // ذهبي
+    success: chalk.hex('#10b981'), // أخضر
+    error: chalk.hex('#ef4444'), // أحمر
+    warning: chalk.hex('#f59e0b'), // برتقالي
+    info: chalk.hex('#06b6d4'), // سماوي
     dim: chalk.gray,
     bold: chalk.bold,
   };
@@ -51,14 +51,27 @@ export class UI {
   // رسالة ترحيب محسّنة
   showWelcome(): void {
     const welcomeBox = boxen(
-      this.gradients.success('مرحباً في Oqool!') + '\n\n' +
-      chalk.white('الأوامر الأساسية:') + '\n' +
-      this.colors.primary('  • oqool login <API_KEY>') + this.colors.dim('  - تسجيل الدخول') + '\n' +
-      this.colors.primary('  • oqool "اصنع API"') + this.colors.dim('       - توليد كود') + '\n' +
-      this.colors.primary('  • oqool chat') + this.colors.dim('                - محادثة تفاعلية') + '\n' +
-      this.colors.primary('  • oqool status') + this.colors.dim('              - حالة الحساب') + '\n' +
-      this.colors.primary('  • oqool logout') + this.colors.dim('              - تسجيل الخروج') + '\n\n' +
-      this.colors.gold('💡 للمساعدة: ') + this.colors.info('oqool --help'),
+      this.gradients.success('مرحباً في Oqool!') +
+        '\n\n' +
+        chalk.white('الأوامر الأساسية:') +
+        '\n' +
+        this.colors.primary('  • oqool login <API_KEY>') +
+        this.colors.dim('  - تسجيل الدخول') +
+        '\n' +
+        this.colors.primary('  • oqool "اصنع API"') +
+        this.colors.dim('       - توليد كود') +
+        '\n' +
+        this.colors.primary('  • oqool chat') +
+        this.colors.dim('                - محادثة تفاعلية') +
+        '\n' +
+        this.colors.primary('  • oqool status') +
+        this.colors.dim('              - حالة الحساب') +
+        '\n' +
+        this.colors.primary('  • oqool logout') +
+        this.colors.dim('              - تسجيل الخروج') +
+        '\n\n' +
+        this.colors.gold('💡 للمساعدة: ') +
+        this.colors.info('oqool --help'),
       {
         padding: 1,
         margin: 1,
@@ -74,7 +87,7 @@ export class UI {
     this.spinner = ora({
       text: this.colors.primary(text),
       color: 'blue',
-      spinner: 'dots12'
+      spinner: 'dots12',
     }).start();
   }
 
@@ -132,35 +145,32 @@ export class UI {
   // عرض رد AI
   showAIResponse(response: string, provider?: string): void {
     console.log(chalk.gray('\n' + '─'.repeat(60)));
-    
+
     if (provider) {
       const providerLabel = this.getProviderLabel(provider);
       console.log(chalk.magenta(`\n🤖 ${providerLabel}\n`));
     }
-    
+
     // تنسيق الرد
     const formatted = this.formatResponse(response);
     console.log(formatted);
-    
+
     console.log(chalk.gray('\n' + '─'.repeat(60) + '\n'));
   }
 
   // تنسيق رد AI
   private formatResponse(response: string): string {
     // تلوين الكود blocks
-    let formatted = response.replace(
-      /```(\w+)?\n([\s\S]*?)```/g,
-      (_, lang, code) => {
-        const language = lang || 'code';
-        return chalk.gray('```') + chalk.yellow(language) + '\n' +
-               chalk.white(code) + chalk.gray('```');
-      }
-    );
+    let formatted = response.replace(/```(\w+)?\n([\s\S]*?)```/g, (_, lang, code) => {
+      const language = lang || 'code';
+      return (
+        chalk.gray('```') + chalk.yellow(language) + '\n' + chalk.white(code) + chalk.gray('```')
+      );
+    });
 
     // تلوين العناوين
-    formatted = formatted.replace(
-      /^(#{1,6})\s+(.+)$/gm,
-      (_, hashes, title) => chalk.cyan.bold(title)
+    formatted = formatted.replace(/^(#{1,6})\s+(.+)$/gm, (_, hashes, title) =>
+      chalk.cyan.bold(title)
     );
 
     return formatted;
@@ -169,10 +179,10 @@ export class UI {
   // تسمية المزود
   private getProviderLabel(provider: string): string {
     const labels: Record<string, string> = {
-      'openai': 'Oqool AI (OpenAI)',
-      'claude': 'Oqool AI (Claude)',
-      'deepseek': 'Oqool AI (DeepSeek)',
-      'auto': 'اختيار تلقائي'
+      openai: 'Oqool AI (OpenAI)',
+      claude: 'Oqool AI (Claude)',
+      deepseek: 'Oqool AI (DeepSeek)',
+      auto: 'اختيار تلقائي',
     };
     return labels[provider] || provider;
   }
@@ -190,14 +200,14 @@ export class UI {
   showFilesList(files: Array<{ path: string; size: number }>): void {
     console.log(chalk.blue('\n📂 الملفات المضمنة:'));
     console.log(chalk.gray('─'.repeat(40)));
-    
+
     files.forEach((file, index) => {
       const num = chalk.gray(`${index + 1}.`);
       const path = chalk.cyan(file.path);
       const size = chalk.gray(`(${this.formatBytes(file.size)})`);
       console.log(`  ${num} ${path} ${size}`);
     });
-    
+
     console.log(chalk.gray('─'.repeat(40) + '\n'));
   }
 
@@ -239,7 +249,11 @@ export class UI {
   // ============================================
 
   // إنشاء صندوق احترافي
-  createBox(content: string, title?: string, type: 'info' | 'success' | 'error' | 'warning' = 'info'): string {
+  createBox(
+    content: string,
+    title?: string,
+    type: 'info' | 'success' | 'error' | 'warning' = 'info'
+  ): string {
     const borderColors: Record<string, string> = {
       info: '#3b82f6',
       success: '#10b981',
@@ -284,27 +298,27 @@ export class UI {
   // إنشاء جدول احترافي
   createTable(headers: string[]): Table.Table {
     return new Table({
-      head: headers.map(h => this.colors.gold.bold(h)),
+      head: headers.map((h) => this.colors.gold.bold(h)),
       style: {
         head: [],
         border: ['gray'],
       },
       chars: {
-        'top': '─',
+        top: '─',
         'top-mid': '┬',
         'top-left': '╭',
         'top-right': '╮',
-        'bottom': '─',
+        bottom: '─',
         'bottom-mid': '┴',
         'bottom-left': '╰',
         'bottom-right': '╯',
-        'left': '│',
+        left: '│',
         'left-mid': '├',
-        'mid': '─',
+        mid: '─',
         'mid-mid': '┼',
-        'right': '│',
+        right: '│',
         'right-mid': '┤',
-        'middle': '│',
+        middle: '│',
       },
     });
   }
@@ -314,26 +328,14 @@ export class UI {
     const table = this.createTable(['الميزة', 'الوصف', 'الأمر']);
 
     table.push(
-      [
-        this.colors.gold('🥇 AI Code Completion'),
-        'إكمال كود ذكي',
-        this.colors.dim('mg complete')
-      ],
+      [this.colors.gold('🥇 AI Code Completion'), 'إكمال كود ذكي', this.colors.dim('mg complete')],
       [
         this.colors.gold('🥈 Database Integration'),
         '7 قواعد بيانات',
-        this.colors.dim('mg db-schema')
+        this.colors.dim('mg db-schema'),
       ],
-      [
-        this.colors.gold('🥉 API Testing'),
-        'اختبار API متقدم',
-        this.colors.dim('mg api-test')
-      ],
-      [
-        this.colors.gold('🎨 Multi-Language'),
-        '7 لغات برمجة',
-        this.colors.dim('mg --help')
-      ],
+      [this.colors.gold('🥉 API Testing'), 'اختبار API متقدم', this.colors.dim('mg api-test')],
+      [this.colors.gold('🎨 Multi-Language'), '7 لغات برمجة', this.colors.dim('mg --help')]
     );
 
     console.log('\n' + table.toString() + '\n');

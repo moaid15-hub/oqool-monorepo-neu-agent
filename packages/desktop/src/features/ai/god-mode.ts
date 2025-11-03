@@ -291,7 +291,7 @@ ${JSON.stringify(request.context, null, 2)}
   }
 
   getCurrentTask(): GodModeTask | null {
-    if (!this.currentTaskId) return null;
+    if (!this.currentTaskId) {return null;}
     return this.tasks.get(this.currentTaskId) || null;
   }
 

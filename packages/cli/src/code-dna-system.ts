@@ -214,7 +214,7 @@ export class CodeDNASystem {
     const spinner = ora('استخراج DNA الكود...').start();
 
     try {
-      const fileContent = content || await fs.readFile(filePath, 'utf8');
+      const fileContent = content || (await fs.readFile(filePath, 'utf8'));
       const fileName = path.basename(filePath);
       const fileExtension = path.extname(filePath);
 
@@ -231,7 +231,14 @@ export class CodeDNASystem {
       const complexity = this.analyzeComplexity(ast, fileContent);
       const quality = this.assessQuality(ast, fileContent, metrics);
       const evolution = await this.buildEvolutionHistory(filePath, hash);
-      const signature = this.generateCodeSignature(hash, patterns, metrics, style, complexity, quality);
+      const signature = this.generateCodeSignature(
+        hash,
+        patterns,
+        metrics,
+        style,
+        complexity,
+        quality
+      );
 
       const dna: CodeDNA = {
         id: this.generateId(),
@@ -245,7 +252,7 @@ export class CodeDNASystem {
         quality,
         evolution,
         timestamp: new Date().toISOString(),
-        version: '2.0.0'
+        version: '2.0.0',
       };
 
       // حفظ DNA
@@ -255,7 +262,6 @@ export class CodeDNASystem {
       this.displayDNASummary(dna);
 
       return dna;
-
     } catch (error) {
       spinner.fail('فشل في استخراج DNA الكود');
       throw error;
@@ -271,7 +277,7 @@ export class CodeDNASystem {
         sourceType: 'module',
         allowImportExportEverywhere: true,
         allowReturnOutsideFunction: true,
-        plugins: []
+        plugins: [],
       };
 
       // إضافة plugins حسب نوع الملف
@@ -305,7 +311,7 @@ export class CodeDNASystem {
           examples: [content.substring(node.start, node.end)],
           implications: ['وحدة منطقية', 'إعادة استخدام'],
           category: 'functions',
-          tags: ['function', 'logic', 'structure']
+          tags: ['function', 'logic', 'structure'],
         });
       },
 
@@ -321,7 +327,7 @@ export class CodeDNASystem {
           examples: [content.substring(node.start, node.end)],
           implications: ['نطاق المتغيرات', 'أسلوب البرمجة'],
           category: 'variables',
-          tags: ['variable', 'declaration', kind]
+          tags: ['variable', 'declaration', kind],
         });
       },
 
@@ -336,7 +342,7 @@ export class CodeDNASystem {
           examples: [content.substring(node.start, node.end)],
           implications: ['تدفق التحكم', 'منطق الأعمال'],
           category: 'control-flow',
-          tags: ['if', 'condition', 'logic']
+          tags: ['if', 'condition', 'logic'],
         });
       },
 
@@ -351,9 +357,9 @@ export class CodeDNASystem {
           examples: [content.substring(node.start, node.end)],
           implications: ['موثوقية', 'استقرار', 'جودة'],
           category: 'error-handling',
-          tags: ['try-catch', 'error', 'reliability']
+          tags: ['try-catch', 'error', 'reliability'],
         });
-      }
+      },
     };
 
     traverse(ast, visitor);
@@ -373,7 +379,10 @@ export class CodeDNASystem {
     const lines = content.split('\n');
 
     // أنماط التعليقات
-    const commentLines = lines.filter(line => line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*'));
+    const commentLines = lines.filter(
+      (line) =>
+        line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*')
+    );
     if (commentLines.length > 0) {
       patterns.push({
         id: this.generateId(),
@@ -385,12 +394,14 @@ export class CodeDNASystem {
         examples: commentLines.slice(0, 3),
         implications: ['توثيق', 'قابلية القراءة', 'صيانة'],
         category: 'documentation',
-        tags: ['comments', 'documentation', 'readability']
+        tags: ['comments', 'documentation', 'readability'],
       });
     }
 
     // أنماط الاستيراد
-    const importLines = lines.filter(line => line.trim().startsWith('import') || line.trim().startsWith('require'));
+    const importLines = lines.filter(
+      (line) => line.trim().startsWith('import') || line.trim().startsWith('require')
+    );
     if (importLines.length > 0) {
       patterns.push({
         id: this.generateId(),
@@ -402,12 +413,12 @@ export class CodeDNASystem {
         examples: importLines.slice(0, 3),
         implications: ['تبعيات', 'معمارية', 'تكامل'],
         category: 'imports',
-        tags: ['import', 'require', 'dependencies']
+        tags: ['import', 'require', 'dependencies'],
       });
     }
 
     // أنماط async/await
-    const asyncLines = lines.filter(line => line.includes('async') || line.includes('await'));
+    const asyncLines = lines.filter((line) => line.includes('async') || line.includes('await'));
     if (asyncLines.length > 0) {
       patterns.push({
         id: this.generateId(),
@@ -419,7 +430,7 @@ export class CodeDNASystem {
         examples: asyncLines.slice(0, 3),
         implications: ['أداء', 'استجابة', 'تجربة المستخدم'],
         category: 'async',
-        tags: ['async', 'await', 'performance']
+        tags: ['async', 'await', 'performance'],
       });
     }
 
@@ -431,7 +442,7 @@ export class CodeDNASystem {
    */
   private async calculateMetrics(ast: any, content: string): Promise<CodeMetrics> {
     const lines = content.split('\n');
-    const linesOfCode = lines.filter(line => line.trim().length > 0).length;
+    const linesOfCode = lines.filter((line) => line.trim().length > 0).length;
 
     // تعقيد دوري
     let cyclomaticComplexity = 1; // القاعدة
@@ -445,14 +456,22 @@ export class CodeDNASystem {
         if (node.operator === '&&' || node.operator === '||') {
           cyclomaticComplexity++;
         }
-      }
+      },
     });
 
     // تعقيد معرفي
     const cognitiveComplexity = this.calculateCognitiveComplexity(ast);
 
     // مؤشر الصيانة (تقديري)
-    const maintainabilityIndex = Math.max(0, (171 - 5.2 * Math.log(cyclomaticComplexity) - 0.23 * cognitiveComplexity - 16.2 * Math.log(linesOfCode)) * 100 / 171);
+    const maintainabilityIndex = Math.max(
+      0,
+      ((171 -
+        5.2 * Math.log(cyclomaticComplexity) -
+        0.23 * cognitiveComplexity -
+        16.2 * Math.log(linesOfCode)) *
+        100) /
+        171
+    );
 
     // ديون تقنية (تقديرية)
     const technicalDebt = cyclomaticComplexity > 10 ? (cyclomaticComplexity - 10) * 2 : 0;
@@ -465,9 +484,9 @@ export class CodeDNASystem {
       technicalDebt,
       duplication: 0, // سيتم حسابه لاحقاً
       testability: Math.max(0, 100 - cyclomaticComplexity),
-      modularity: Math.max(0, 100 - (cyclomaticComplexity * 2)),
+      modularity: Math.max(0, 100 - cyclomaticComplexity * 2),
       coupling: Math.min(100, cyclomaticComplexity * 5),
-      cohesion: Math.max(0, 100 - (cyclomaticComplexity * 3))
+      cohesion: Math.max(0, 100 - cyclomaticComplexity * 3),
     };
   }
 
@@ -489,15 +508,15 @@ export class CodeDNASystem {
         complexity += node.cases.length;
       },
 
-      WhileStatement: () => complexity += 2,
-      ForStatement: () => complexity += 2,
+      WhileStatement: () => (complexity += 2),
+      ForStatement: () => (complexity += 2),
 
       FunctionDeclaration: (node: any) => {
         complexity += node.params.length > 3 ? 2 : 1;
       },
 
-      TryStatement: () => complexity += 1,
-      CatchClause: () => complexity += 1
+      TryStatement: () => (complexity += 1),
+      CatchClause: () => (complexity += 1),
     });
 
     return complexity;
@@ -510,9 +529,9 @@ export class CodeDNASystem {
     const lines = content.split('\n');
 
     // تحليل المسافات البادئة
-    const indentationLines = lines.filter(line => line.match(/^\s+/));
-    const spaceIndentations = indentationLines.filter(line => line.match(/^ +/));
-    const tabIndentations = indentationLines.filter(line => line.match(/^\t+/));
+    const indentationLines = lines.filter((line) => line.match(/^\s+/));
+    const spaceIndentations = indentationLines.filter((line) => line.match(/^ +/));
+    const tabIndentations = indentationLines.filter((line) => line.match(/^\t+/));
 
     let indentation: CodingStyle['indentation'] = 'mixed';
     if (spaceIndentations.length > tabIndentations.length) {
@@ -527,10 +546,12 @@ export class CodeDNASystem {
 
     // تحليل المسافات بعد الفواصل المنقوطة
     const semicolonMatches = content.match(/;(\s*)/g);
-    const spacesAfterSemicolon = semicolonMatches ? semicolonMatches[0]?.match(/\s/g)?.length || 0 : 0;
+    const spacesAfterSemicolon = semicolonMatches
+      ? semicolonMatches[0]?.match(/\s/g)?.length || 0
+      : 0;
 
     // تحليل طول السطر الأقصى
-    const maxLineLength = Math.max(...lines.map(line => line.length));
+    const maxLineLength = Math.max(...lines.map((line) => line.length));
 
     // تحليل أسلوب الأقواس
     const oneTrueBraceMatches = content.match(/if\s*\([^)]+\)\s*{/g) || [];
@@ -559,7 +580,12 @@ export class CodeDNASystem {
     const pascalCaseMatches = content.match(/\b[A-Z][a-zA-Z]*\b/g);
 
     let namingConvention: CodingStyle['namingConvention'] = 'mixed';
-    const maxMatches = Math.max(camelCaseMatches?.length || 0, snakeCaseMatches?.length || 0, kebabCaseMatches?.length || 0, pascalCaseMatches?.length || 0);
+    const maxMatches = Math.max(
+      camelCaseMatches?.length || 0,
+      snakeCaseMatches?.length || 0,
+      kebabCaseMatches?.length || 0,
+      pascalCaseMatches?.length || 0
+    );
 
     if (camelCaseMatches?.length === maxMatches) namingConvention = 'camelCase';
     else if (snakeCaseMatches?.length === maxMatches) namingConvention = 'snake_case';
@@ -567,7 +593,7 @@ export class CodeDNASystem {
     else if (pascalCaseMatches?.length === maxMatches) namingConvention = 'PascalCase';
 
     // تحليل التعليقات
-    const inlineComments = lines.filter(line => line.includes('//')).length;
+    const inlineComments = lines.filter((line) => line.includes('//')).length;
     const blockComments = (content.match(/\/\*[^*]*\*\//g) || []).length;
 
     let commentStyle: CodingStyle['commentStyle'] = 'mixed';
@@ -588,7 +614,7 @@ export class CodeDNASystem {
       namingConvention,
       commentStyle,
       functionSpacing,
-      blankLines: lines.filter(line => line.trim() === '').length
+      blankLines: lines.filter((line) => line.trim() === '').length,
     };
   }
 
@@ -628,7 +654,7 @@ export class CodeDNASystem {
 
       TryStatement: () => {
         structuralComplexity += 1;
-      }
+      },
     });
 
     // تحليل تدفق البيانات
@@ -636,7 +662,8 @@ export class CodeDNASystem {
     dataFlowComplexity = dependencies * 0.5;
 
     // تحديد المستوى الإجمالي
-    const totalComplexity = (structuralComplexity + logicalComplexity + dataFlowComplexity + controlFlowComplexity) / 4;
+    const totalComplexity =
+      (structuralComplexity + logicalComplexity + dataFlowComplexity + controlFlowComplexity) / 4;
     let overall: ComplexityProfile['overall'];
 
     if (totalComplexity < 5) overall = 'low';
@@ -653,7 +680,7 @@ export class CodeDNASystem {
       controlFlow: Math.min(100, controlFlowComplexity * 4),
       dependencies: Math.min(100, dependencies * 2),
       inheritance: 0, // سيتم حسابه لاحقاً
-      composition: Math.min(100, structuralComplexity * 2)
+      composition: Math.min(100, structuralComplexity * 2),
     };
   }
 
@@ -677,7 +704,7 @@ export class CodeDNASystem {
     const security = this.calculateSecurity(ast, content);
 
     // قابلية الاختبار
-    const testability = Math.max(0, 100 - (metrics.cyclomaticComplexity * 2));
+    const testability = Math.max(0, 100 - metrics.cyclomaticComplexity * 2);
 
     // التوثيق
     const documentation = this.calculateDocumentation(content);
@@ -693,7 +720,7 @@ export class CodeDNASystem {
       security,
       testability,
       documentation,
-      consistency
+      consistency,
     };
   }
 
@@ -741,7 +768,7 @@ export class CodeDNASystem {
         if (node.params.length > 5) {
           reliability -= 5;
         }
-      }
+      },
     });
 
     return Math.max(0, Math.min(100, reliability));
@@ -773,8 +800,13 @@ export class CodeDNASystem {
 
     // فحص الأنماط الخطرة
     const dangerousPatterns = [
-      'eval(', 'Function(', 'innerHTML', 'document.write',
-      'child_process.exec', 'require(', 'process.env'
+      'eval(',
+      'Function(',
+      'innerHTML',
+      'document.write',
+      'child_process.exec',
+      'require(',
+      'process.env',
     ];
 
     for (const pattern of dangerousPatterns) {
@@ -799,11 +831,12 @@ export class CodeDNASystem {
    */
   private calculateDocumentation(content: string): number {
     const lines = content.split('\n');
-    const commentLines = lines.filter(line =>
-      line.trim().startsWith('//') ||
-      line.trim().startsWith('/*') ||
-      line.trim().startsWith('*') ||
-      line.trim().startsWith('/**')
+    const commentLines = lines.filter(
+      (line) =>
+        line.trim().startsWith('//') ||
+        line.trim().startsWith('/*') ||
+        line.trim().startsWith('*') ||
+        line.trim().startsWith('/**')
     ).length;
 
     const documentationRatio = commentLines / lines.length;
@@ -818,7 +851,7 @@ export class CodeDNASystem {
     const lines = content.split('\n');
 
     // فحص تناسق المسافات البادئة
-    const indentationPattern = lines.filter(line => line.match(/^\s+/));
+    const indentationPattern = lines.filter((line) => line.match(/^\s+/));
     const consistentIndentation = indentationPattern.length / lines.length;
 
     // فحص تناسق التسمية
@@ -832,13 +865,16 @@ export class CodeDNASystem {
       namingConsistency = (dominantStyle / totalIdentifiers) * 100;
     }
 
-    return (consistentIndentation * 50) + (namingConsistency * 0.5);
+    return consistentIndentation * 50 + namingConsistency * 0.5;
   }
 
   /**
    * بناء تاريخ التطور
    */
-  private async buildEvolutionHistory(filePath: string, currentHash: string): Promise<EvolutionHistory> {
+  private async buildEvolutionHistory(
+    filePath: string,
+    currentHash: string
+  ): Promise<EvolutionHistory> {
     const gitHistory = await this.getGitHistory(filePath);
 
     return {
@@ -847,7 +883,7 @@ export class CodeDNASystem {
       adaptations: [],
       lineage: [currentHash],
       stability: 0.8,
-      maturity: 0.7
+      maturity: 0.7,
     };
   }
 
@@ -858,25 +894,27 @@ export class CodeDNASystem {
     try {
       // محاولة الحصول على تاريخ Git
       // هذا مثال مبسط - يمكن توسيعه لاحقاً
-      return [{
-        version: '1.0.0',
-        timestamp: new Date().toISOString(),
-        changes: ['الإصدار الأولي'],
-        author: 'Oqool AI',
-        signature: 'initial-hash',
-        metrics: {
-          linesOfCode: 0,
-          cyclomaticComplexity: 1,
-          cognitiveComplexity: 1,
-          maintainabilityIndex: 100,
-          technicalDebt: 0,
-          duplication: 0,
-          testability: 100,
-          modularity: 100,
-          coupling: 0,
-          cohesion: 100
-        }
-      }];
+      return [
+        {
+          version: '1.0.0',
+          timestamp: new Date().toISOString(),
+          changes: ['الإصدار الأولي'],
+          author: 'Oqool AI',
+          signature: 'initial-hash',
+          metrics: {
+            linesOfCode: 0,
+            cyclomaticComplexity: 1,
+            cognitiveComplexity: 1,
+            maintainabilityIndex: 100,
+            technicalDebt: 0,
+            duplication: 0,
+            testability: 100,
+            modularity: 100,
+            coupling: 0,
+            cohesion: 100,
+          },
+        },
+      ];
     } catch {
       return [];
     }
@@ -893,23 +931,28 @@ export class CodeDNASystem {
     complexity: ComplexityProfile,
     quality: QualityMetrics
   ): CodeSignature {
-    const authorFingerprint = crypto.createHash('sha256')
+    const authorFingerprint = crypto
+      .createHash('sha256')
       .update(`${style.namingConvention}-${style.braceStyle}-${style.quoteStyle}`)
       .digest('hex');
 
-    const styleFingerprint = crypto.createHash('sha256')
+    const styleFingerprint = crypto
+      .createHash('sha256')
       .update(`${style.indentation}-${style.maxLineLength}-${style.commentStyle}`)
       .digest('hex');
 
-    const complexityFingerprint = crypto.createHash('sha256')
+    const complexityFingerprint = crypto
+      .createHash('sha256')
       .update(`${complexity.overall}-${metrics.cyclomaticComplexity}-${metrics.linesOfCode}`)
       .digest('hex');
 
-    const patternFingerprint = crypto.createHash('sha256')
-      .update(patterns.map(p => p.category).join('-'))
+    const patternFingerprint = crypto
+      .createHash('sha256')
+      .update(patterns.map((p) => p.category).join('-'))
       .digest('hex');
 
-    const qualityFingerprint = crypto.createHash('sha256')
+    const qualityFingerprint = crypto
+      .createHash('sha256')
       .update(`${quality.readability}-${quality.maintainability}-${quality.security}`)
       .digest('hex');
 
@@ -919,7 +962,7 @@ export class CodeDNASystem {
       complexityFingerprint,
       patternFingerprint,
       qualityFingerprint,
-      uniqueIdentifier: hash.substring(0, 16)
+      uniqueIdentifier: hash.substring(0, 16),
     };
   }
 
@@ -962,7 +1005,9 @@ export class CodeDNASystem {
 
     console.log(chalk.yellow('\n🏷️ الأنماط المكتشفة:'));
     for (const pattern of dna.patterns.slice(0, 5)) {
-      console.log(chalk.gray(`   ${pattern.name} (${pattern.type}) - ${pattern.confidence.toFixed(1)}%`));
+      console.log(
+        chalk.gray(`   ${pattern.name} (${pattern.type}) - ${pattern.confidence.toFixed(1)}%`)
+      );
     }
 
     if (dna.patterns.length > 5) {
@@ -975,7 +1020,10 @@ export class CodeDNASystem {
   /**
    * مقارنة DNA ملفين
    */
-  async compareCodeDNA(file1: string, file2: string): Promise<{
+  async compareCodeDNA(
+    file1: string,
+    file2: string
+  ): Promise<{
     similarity: number;
     differences: string[];
     recommendations: string[];
@@ -1017,9 +1065,8 @@ export class CodeDNASystem {
       return {
         similarity,
         differences,
-        recommendations
+        recommendations,
       };
-
     } catch (error) {
       spinner.fail('فشل في مقارنة DNA الكود');
       throw error;
@@ -1045,21 +1092,24 @@ export class CodeDNASystem {
     factors += 0.15;
 
     // تشابه المقاييس
-    const complexityDiff = Math.abs(dna1.metrics.cyclomaticComplexity - dna2.metrics.cyclomaticComplexity);
-    const complexitySimilarity = Math.max(0, 1 - (complexityDiff / 20));
+    const complexityDiff = Math.abs(
+      dna1.metrics.cyclomaticComplexity - dna2.metrics.cyclomaticComplexity
+    );
+    const complexitySimilarity = Math.max(0, 1 - complexityDiff / 20);
     totalSimilarity += complexitySimilarity * 0.2;
     factors += 0.2;
 
     // تشابه الأنماط
-    const commonPatterns = dna1.patterns.filter(p1 =>
-      dna2.patterns.some(p2 => p2.category === p1.category)
+    const commonPatterns = dna1.patterns.filter((p1) =>
+      dna2.patterns.some((p2) => p2.category === p1.category)
     ).length;
     const patternSimilarity = commonPatterns / Math.max(dna1.patterns.length, dna2.patterns.length);
     totalSimilarity += patternSimilarity * 0.25;
     factors += 0.25;
 
     // تشابه الجودة
-    const qualitySimilarity = 1 - (Math.abs(dna1.quality.readability - dna2.quality.readability) / 100);
+    const qualitySimilarity =
+      1 - Math.abs(dna1.quality.readability - dna2.quality.readability) / 100;
     totalSimilarity += qualitySimilarity * 0.2;
     factors += 0.2;
 
@@ -1073,14 +1123,20 @@ export class CodeDNASystem {
     const differences: string[] = [];
 
     if (dna1.style.namingConvention !== dna2.style.namingConvention) {
-      differences.push(`اختلاف في اصطلاح التسمية: ${dna1.style.namingConvention} vs ${dna2.style.namingConvention}`);
+      differences.push(
+        `اختلاف في اصطلاح التسمية: ${dna1.style.namingConvention} vs ${dna2.style.namingConvention}`
+      );
     }
 
     if (dna1.style.braceStyle !== dna2.style.braceStyle) {
-      differences.push(`اختلاف في أسلوب الأقواس: ${dna1.style.braceStyle} vs ${dna2.style.braceStyle}`);
+      differences.push(
+        `اختلاف في أسلوب الأقواس: ${dna1.style.braceStyle} vs ${dna2.style.braceStyle}`
+      );
     }
 
-    const complexityDiff = Math.abs(dna1.metrics.cyclomaticComplexity - dna2.metrics.cyclomaticComplexity);
+    const complexityDiff = Math.abs(
+      dna1.metrics.cyclomaticComplexity - dna2.metrics.cyclomaticComplexity
+    );
     if (complexityDiff > 5) {
       differences.push(`اختلاف كبير في التعقيد: ${complexityDiff} نقطة`);
     }
@@ -1184,7 +1240,9 @@ export class CodeDNASystem {
 
       console.log(chalk.cyan(`🧬 ${fileName}`));
       console.log(chalk.white(`   التعقيد: ${complexity} | الجودة: ${quality.toFixed(1)}%`));
-      console.log(chalk.gray(`   الأنماط: ${dna.patterns.length} | المقاييس: ${dna.metrics.linesOfCode} سطر`));
+      console.log(
+        chalk.gray(`   الأنماط: ${dna.patterns.length} | المقاييس: ${dna.metrics.linesOfCode} سطر`)
+      );
       console.log(chalk.gray(`   التاريخ: ${new Date(dna.timestamp).toLocaleString('ar')}`));
       console.log('');
     }

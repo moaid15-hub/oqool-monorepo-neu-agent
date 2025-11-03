@@ -14,15 +14,15 @@ interface NotificationProps {
   };
 }
 
-const Notification: React.FC<NotificationProps> = ({ 
+const Notification: React.FC<NotificationProps> = ({
   id,
-  message, 
-  type, 
-  duration = 4000, 
+  message,
+  type,
+  duration = 4000,
   onClose,
   position = 'top-right',
   title,
-  action
+  action,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
@@ -38,8 +38,8 @@ const Notification: React.FC<NotificationProps> = ({
     if (duration > 0) {
       // شريط التقدم
       progressTimer = setInterval(() => {
-        setProgress(prev => {
-          const newProgress = prev - (100 / (duration / 50));
+        setProgress((prev) => {
+          const newProgress = prev - 100 / (duration / 50);
           return newProgress <= 0 ? 0 : newProgress;
         });
       }, 50);
@@ -70,21 +70,21 @@ const Notification: React.FC<NotificationProps> = ({
           gradient: 'linear-gradient(135deg, #4caf50 0%, #8bc34a 100%)',
           icon: '🎉',
           iconBg: '#4caf50',
-          borderColor: '#4caf50'
+          borderColor: '#4caf50',
         };
       case 'error':
         return {
           gradient: 'linear-gradient(135deg, #f44336 0%, #e91e63 100%)',
           icon: '🚨',
           iconBg: '#f44336',
-          borderColor: '#f44336'
+          borderColor: '#f44336',
         };
       case 'warning':
         return {
           gradient: 'linear-gradient(135deg, #ff9800 0%, #ffc107 100%)',
           icon: '⚠️',
           iconBg: '#ff9800',
-          borderColor: '#ff9800'
+          borderColor: '#ff9800',
         };
       case 'info':
       default:
@@ -92,7 +92,7 @@ const Notification: React.FC<NotificationProps> = ({
           gradient: 'linear-gradient(135deg, #2196f3 0%, #00bcd4 100%)',
           icon: 'ℹ️',
           iconBg: '#2196f3',
-          borderColor: '#2196f3'
+          borderColor: '#2196f3',
         };
     }
   };
@@ -114,7 +114,7 @@ const Notification: React.FC<NotificationProps> = ({
   const config = getNotificationConfig();
 
   return (
-    <div 
+    <div
       className={`modern-notification ${isVisible ? 'show' : ''} ${isRemoving ? 'removing' : ''} ${type}`}
       style={{
         position: 'fixed',
@@ -126,11 +126,11 @@ const Notification: React.FC<NotificationProps> = ({
         {/* شريط التقدم */}
         {duration > 0 && (
           <div className="notification-progress">
-            <div 
+            <div
               className="progress-bar"
-              style={{ 
+              style={{
                 width: `${progress}%`,
-                background: config.borderColor
+                background: config.borderColor,
               }}
             />
           </div>
@@ -145,9 +145,9 @@ const Notification: React.FC<NotificationProps> = ({
         <div className="notification-content">
           {title && <h4 className="notification-title">{title}</h4>}
           <p className="notification-message">{message}</p>
-          
+
           {action && (
-            <button 
+            <button
               className="notification-action"
               onClick={() => {
                 action.onClick();
@@ -160,11 +160,7 @@ const Notification: React.FC<NotificationProps> = ({
         </div>
 
         {/* زر الإغلاق */}
-        <button 
-          className="notification-close"
-          onClick={handleClose}
-          title="إغلاق الإشعار"
-        >
+        <button className="notification-close" onClick={handleClose} title="إغلاق الإشعار">
           <span className="close-icon">✕</span>
         </button>
       </div>
@@ -194,7 +190,7 @@ export const NotificationContainer: React.FC<NotificationContainerProps> = ({
   notifications,
   onRemove,
   position = 'top-right',
-  maxNotifications = 5
+  maxNotifications = 5,
 }) => {
   // إظهار أحدث الإشعارات فقط
   const visibleNotifications = notifications.slice(0, maxNotifications);
@@ -211,11 +207,11 @@ export const NotificationContainer: React.FC<NotificationContainerProps> = ({
 
       {/* الإشعارات */}
       {visibleNotifications.map((notification, index) => (
-        <div 
+        <div
           key={notification.id}
           style={{
             marginBottom: '12px',
-            animationDelay: `${index * 100}ms`
+            animationDelay: `${index * 100}ms`,
           }}
         >
           <Notification

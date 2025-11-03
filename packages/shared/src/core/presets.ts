@@ -53,26 +53,36 @@ root.render(
   <div id="root"></div>
 </body>
 </html>`,
-      'tsconfig.json': JSON.stringify({
-        compilerOptions: {
-          target: 'ES2020',
-          lib: ['ES2020', 'DOM', 'DOM.Iterable'],
-          jsx: 'react-jsx',
-          module: 'ESNext',
-          moduleResolution: 'bundler',
-          strict: true,
-          esModuleInterop: true
-        }
-      }, null, 2)
+      'tsconfig.json': JSON.stringify(
+        {
+          compilerOptions: {
+            target: 'ES2020',
+            lib: ['ES2020', 'DOM', 'DOM.Iterable'],
+            jsx: 'react-jsx',
+            module: 'ESNext',
+            moduleResolution: 'bundler',
+            strict: true,
+            esModuleInterop: true,
+          },
+        },
+        null,
+        2
+      ),
     },
     dependencies: ['react', 'react-dom'],
-    devDependencies: ['@types/react', '@types/react-dom', 'typescript', 'vite', '@vitejs/plugin-react'],
+    devDependencies: [
+      '@types/react',
+      '@types/react-dom',
+      'typescript',
+      'vite',
+      '@vitejs/plugin-react',
+    ],
     scripts: {
       dev: 'vite',
       build: 'tsc && vite build',
-      preview: 'vite preview'
+      preview: 'vite preview',
     },
-    gitignore: ['node_modules', 'dist', '.env', '.DS_Store']
+    gitignore: ['node_modules', 'dist', '.env', '.DS_Store'],
   },
 
   nextjs: {
@@ -102,24 +112,28 @@ export default function RootLayout({
     </html>
   );
 }`,
-      'tsconfig.json': JSON.stringify({
-        compilerOptions: {
-          target: 'ES2017',
-          lib: ['dom', 'dom.iterable', 'esnext'],
-          allowJs: true,
-          skipLibCheck: true,
-          strict: true,
-          noEmit: true,
-          esModuleInterop: true,
-          module: 'esnext',
-          moduleResolution: 'bundler',
-          resolveJsonModule: true,
-          isolatedModules: true,
-          jsx: 'preserve',
-          incremental: true,
-          plugins: [{ name: 'next' }]
-        }
-      }, null, 2)
+      'tsconfig.json': JSON.stringify(
+        {
+          compilerOptions: {
+            target: 'ES2017',
+            lib: ['dom', 'dom.iterable', 'esnext'],
+            allowJs: true,
+            skipLibCheck: true,
+            strict: true,
+            noEmit: true,
+            esModuleInterop: true,
+            module: 'esnext',
+            moduleResolution: 'bundler',
+            resolveJsonModule: true,
+            isolatedModules: true,
+            jsx: 'preserve',
+            incremental: true,
+            plugins: [{ name: 'next' }],
+          },
+        },
+        null,
+        2
+      ),
     },
     dependencies: ['next', 'react', 'react-dom'],
     devDependencies: ['@types/node', '@types/react', '@types/react-dom', 'typescript'],
@@ -127,9 +141,9 @@ export default function RootLayout({
       dev: 'next dev',
       build: 'next build',
       start: 'next start',
-      lint: 'next lint'
+      lint: 'next lint',
     },
-    gitignore: ['node_modules', '.next', 'out', '.env.local', '.DS_Store']
+    gitignore: ['node_modules', '.next', 'out', '.env.local', '.DS_Store'],
   },
 
   express: {
@@ -159,27 +173,31 @@ router.get('/health', (req, res) => {
 });
 
 export default router;`,
-      'tsconfig.json': JSON.stringify({
-        compilerOptions: {
-          target: 'ES2020',
-          module: 'commonjs',
-          lib: ['ES2020'],
-          outDir: './dist',
-          rootDir: './src',
-          strict: true,
-          esModuleInterop: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true
-        }
-      }, null, 2)
+      'tsconfig.json': JSON.stringify(
+        {
+          compilerOptions: {
+            target: 'ES2020',
+            module: 'commonjs',
+            lib: ['ES2020'],
+            outDir: './dist',
+            rootDir: './src',
+            strict: true,
+            esModuleInterop: true,
+            skipLibCheck: true,
+            forceConsistentCasingInFileNames: true,
+          },
+        },
+        null,
+        2
+      ),
     },
     dependencies: ['express', 'dotenv'],
     devDependencies: ['@types/express', '@types/node', 'typescript', 'nodemon', 'ts-node'],
     scripts: {
       dev: 'nodemon src/index.ts',
       build: 'tsc',
-      start: 'node dist/index.js'
+      start: 'node dist/index.js',
     },
-    gitignore: ['node_modules', 'dist', '.env', '.DS_Store']
-  }
+    gitignore: ['node_modules', 'dist', '.env', '.DS_Store'],
+  },
 };

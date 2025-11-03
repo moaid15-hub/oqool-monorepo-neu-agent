@@ -8,13 +8,13 @@
  * Code File Structure - بنية ملف الكود
  */
 export interface CodeFile {
-  path: string;           // مسار الملف
-  content: string;        // محتوى الكود
-  language: string;       // لغة البرمجة
-  lines: number;          // عدد الأسطر
-  size?: number;          // حجم الملف بالبايت
-  encoding?: string;      // نوع الترميز (utf-8, ascii, etc)
-  lastModified?: Date;    // تاريخ آخر تعديل
+  path: string; // مسار الملف
+  content: string; // محتوى الكود
+  language: string; // لغة البرمجة
+  lines: number; // عدد الأسطر
+  size?: number; // حجم الملف بالبايت
+  encoding?: string; // نوع الترميز (utf-8, ascii, etc)
+  lastModified?: Date; // تاريخ آخر تعديل
 }
 
 /**

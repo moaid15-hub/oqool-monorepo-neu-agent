@@ -14,10 +14,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   return (
-    <button
-      className={`oqool-button ${variant} ${size} ${className}`}
-      {...props}
-    >
+    <button className={`oqool-button ${variant} ${size} ${className}`} {...props}>
       {children}
     </button>
   );

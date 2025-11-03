@@ -23,21 +23,21 @@ export class LocalClaudeClient {
     try {
       // تحويل الرسائل لصيغة Claude
       const claudeMessages = messages
-        .filter(msg => msg.role !== 'system')
-        .map(msg => ({
+        .filter((msg) => msg.role !== 'system')
+        .map((msg) => ({
           role: msg.role as 'user' | 'assistant',
-          content: msg.content
+          content: msg.content,
         }));
 
       // استخراج system message إذا وجدت
-      const systemMessage = messages.find(msg => msg.role === 'system');
+      const systemMessage = messages.find((msg) => msg.role === 'system');
 
       // إرسال للـ API
       const response = await this.client.messages.create({
         model: 'claude-3-5-haiku-20241022',
         max_tokens: 8192,
         system: systemMessage?.content,
-        messages: claudeMessages
+        messages: claudeMessages,
       });
 
       // استخراج النص من الرد
@@ -47,14 +47,14 @@ export class LocalClaudeClient {
       return {
         success: true,
         message: messageText,
-        usedProvider: 'claude-local'
+        usedProvider: 'claude-local',
       };
     } catch (error: any) {
       console.error(chalk.red('❌ خطأ في الاتصال بـ Claude:'), error.message);
       return {
         success: false,
         message: '',
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -114,12 +114,12 @@ ${contextMessage}
 - ❌ لا تذكر "Anthropic"
 - ❌ لا تقل "لا أستطيع الوصول للملفات" - أنت تستطيع عند إعطاء السياق!
 
-كن مساعد برمجة قوي وفعّال. ساعد المطورين في مشاريعهم بشكل عملي.`
+كن مساعد برمجة قوي وفعّال. ساعد المطورين في مشاريعهم بشكل عملي.`,
         },
         {
           role: 'user',
-          content: prompt
-        }
+          content: prompt,
+        },
       ];
 
       return await this.sendChatMessage(messages);
@@ -128,7 +128,7 @@ ${contextMessage}
       return {
         success: false,
         message: '',
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -163,7 +163,7 @@ ${contextMessage}
       const response = await this.client.messages.create({
         model: 'claude-3-5-haiku-20241022',
         max_tokens: 10,
-        messages: [{ role: 'user', content: 'test' }]
+        messages: [{ role: 'user', content: 'test' }],
       });
       return true;
     } catch (error) {

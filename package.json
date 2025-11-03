@@ -11,9 +11,12 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "test": "turbo run test",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:workspaces": "turbo run test",
     "lint": "turbo run lint",
-    "clean": "turbo run clean && rm -rf node_modules",
+    "clean": "turbo run clean && rm -rf node_modules coverage",
     "dev:cli": "npm run dev --workspace=@oqool/cli",
     "dev:desktop": "npm run dev --workspace=@oqool/desktop",
     "dev:cloud": "npm run dev --workspace=@oqool/cloud-editor",
@@ -27,13 +30,17 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "devDependencies": {
+    "@jest/globals": "^30.2.0",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.10.0",
-    "turbo": "^1.11.0",
-    "typescript": "^5.3.3",
-    "prettier": "^3.1.0",
-    "eslint": "^8.55.0",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
-    "@typescript-eslint/parser": "^6.15.0"
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.55.0",
+    "jest": "^30.2.0",
+    "prettier": "^3.1.0",
+    "ts-jest": "^29.4.5",
+    "turbo": "^1.11.0",
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=18.0.0",

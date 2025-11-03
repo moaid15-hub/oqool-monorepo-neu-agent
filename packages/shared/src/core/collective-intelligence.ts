@@ -191,7 +191,7 @@ export class CollectiveIntelligenceSystem {
         pros: option.pros,
         cons: option.cons,
         impact: this.assessImpact(option.title, option.description),
-        complexity: this.assessComplexity(option.description)
+        complexity: this.assessComplexity(option.description),
       }));
 
       // إنشاء المشاركين
@@ -202,7 +202,7 @@ export class CollectiveIntelligenceSystem {
           type: 'ai',
           expertise: ['architecture', 'design', 'scalability'],
           influence: 0.8,
-          reliability: 0.9
+          reliability: 0.9,
         },
         {
           id: 'security-ai',
@@ -210,7 +210,7 @@ export class CollectiveIntelligenceSystem {
           type: 'ai',
           expertise: ['security', 'vulnerabilities', 'best-practices'],
           influence: 0.9,
-          reliability: 0.95
+          reliability: 0.95,
         },
         {
           id: 'performance-ai',
@@ -218,7 +218,7 @@ export class CollectiveIntelligenceSystem {
           type: 'ai',
           expertise: ['optimization', 'performance', 'efficiency'],
           influence: 0.7,
-          reliability: 0.85
+          reliability: 0.85,
         },
         {
           id: 'user-experience',
@@ -226,7 +226,7 @@ export class CollectiveIntelligenceSystem {
           type: 'ai',
           expertise: ['ux', 'usability', 'accessibility'],
           influence: 0.6,
-          reliability: 0.8
+          reliability: 0.8,
         },
         {
           id: 'human-developer',
@@ -234,8 +234,8 @@ export class CollectiveIntelligenceSystem {
           type: 'human',
           expertise: ['practical', 'contextual', 'business'],
           influence: 0.5,
-          reliability: 0.75
-        }
+          reliability: 0.75,
+        },
       ];
 
       const decision: CollectiveDecision = {
@@ -248,12 +248,12 @@ export class CollectiveIntelligenceSystem {
           score: 0,
           agreement: 0,
           confidence: 0,
-          reasoning: []
+          reasoning: [],
         },
         confidence: 0,
         reasoning: [],
         createdAt: new Date().toISOString(),
-        status: 'open'
+        status: 'open',
       };
 
       await this.saveDecision(decision);
@@ -266,7 +266,6 @@ export class CollectiveIntelligenceSystem {
       console.log(chalk.gray(`   المعرف: ${decision.id}\n`));
 
       return decision;
-
     } catch (error) {
       spinner.fail('فشل في إنشاء القرار الجماعي');
       throw error;
@@ -309,7 +308,6 @@ export class CollectiveIntelligenceSystem {
       this.displayDecisionResults(decision);
 
       return decision;
-
     } catch (error) {
       spinner.fail('فشل في جمع الآراء');
       throw error;
@@ -319,7 +317,10 @@ export class CollectiveIntelligenceSystem {
   /**
    * الحصول على رأي AI
    */
-  private async getAIOpinion(decision: CollectiveDecision, participant: CollectiveParticipant): Promise<void> {
+  private async getAIOpinion(
+    decision: CollectiveDecision,
+    participant: CollectiveParticipant
+  ): Promise<void> {
     const prompt = this.buildDecisionPrompt(decision, participant);
 
     const messages = [
@@ -330,12 +331,12 @@ export class CollectiveIntelligenceSystem {
 ${prompt}
 
 قيم كل خيار من 0-10 وقدم أسباب منطقية ومفصلة.
-ركز على مجال خبرتك وكن موضوعياً في تقييمك.`
+ركز على مجال خبرتك وكن موضوعياً في تقييمك.`,
       },
       {
         role: 'user' as const,
-        content: decision.question
-      }
+        content: decision.question,
+      },
     ];
 
     const response = await this.apiClient.sendChatMessage(messages);
@@ -378,20 +379,24 @@ ${prompt}
     // تحديد الخيار الفائز
     const winner = decision.options.reduce((best, current) =>
       this.calculateOptionScore(current, decision.participants) >
-      this.calculateOptionScore(best, decision.participants) ? current : best
+      this.calculateOptionScore(best, decision.participants)
+        ? current
+        : best
     );
 
     // بناء التوافق
     const consensusScore = this.calculateConsensus(decision.options);
-    const agreementScore = totalAgreement / (decision.options.length * decision.participants.length);
-    const confidenceScore = totalConfidence / (decision.options.length * decision.participants.length);
+    const agreementScore =
+      totalAgreement / (decision.options.length * decision.participants.length);
+    const confidenceScore =
+      totalConfidence / (decision.options.length * decision.participants.length);
 
     decision.consensus = {
       winner: winner.id,
       score: consensusScore,
       agreement: agreementScore,
       confidence: confidenceScore,
-      reasoning
+      reasoning,
     };
 
     decision.confidence = confidenceScore;
@@ -400,7 +405,10 @@ ${prompt}
   /**
    * حساب درجة الخيار
    */
-  private calculateOptionScore(option: DecisionOption, participants: CollectiveParticipant[]): number {
+  private calculateOptionScore(
+    option: DecisionOption,
+    participants: CollectiveParticipant[]
+  ): number {
     let score = 0;
 
     for (const participant of participants) {
@@ -417,29 +425,35 @@ ${prompt}
   private calculateConsensus(options: DecisionOption[]): number {
     if (options.length < 2) return 1;
 
-    const scores = options.map(option => {
-      const participants = Array.from(option.confidence.keys()).map(id => ({
+    const scores = options.map((option) => {
+      const participants = Array.from(option.confidence.keys()).map((id) => ({
         id,
         name: '',
         type: 'ai' as const,
         expertise: [],
         influence: 0.5,
-        reliability: 0.5
+        reliability: 0.5,
       }));
-      return this.calculateOptionScore(option, participants.filter(p => option.confidence.has(p.id)));
+      return this.calculateOptionScore(
+        option,
+        participants.filter((p) => option.confidence.has(p.id))
+      );
     });
 
     const maxScore = Math.max(...scores);
     const minScore = Math.min(...scores);
     const range = maxScore - minScore;
 
-    return range === 0 ? 1 : 1 - (range / maxScore);
+    return range === 0 ? 1 : 1 - range / maxScore;
   }
 
   /**
    * بناء prompt للقرار
    */
-  private buildDecisionPrompt(decision: CollectiveDecision, participant: CollectiveParticipant): string {
+  private buildDecisionPrompt(
+    decision: CollectiveDecision,
+    participant: CollectiveParticipant
+  ): string {
     let prompt = `الموضوع: ${decision.topic}\n`;
     prompt += `السؤال: ${decision.question}\n\n`;
 
@@ -467,7 +481,11 @@ ${prompt}
   /**
    * تحليل رأي AI
    */
-  private async parseAIOpinion(decision: CollectiveDecision, participant: CollectiveParticipant, response: string): Promise<void> {
+  private async parseAIOpinion(
+    decision: CollectiveDecision,
+    participant: CollectiveParticipant,
+    response: string
+  ): Promise<void> {
     // استخراج التقييمات من الرد
     const evaluations = this.extractEvaluations(response);
 
@@ -520,7 +538,10 @@ ${prompt}
   /**
    * الحصول على رأي المطور البشري
    */
-  private async getHumanOpinion(decision: CollectiveDecision, participant: CollectiveParticipant): Promise<void> {
+  private async getHumanOpinion(
+    decision: CollectiveDecision,
+    participant: CollectiveParticipant
+  ): Promise<void> {
     console.log(chalk.cyan(`\n👤 رأي ${participant.name} في: ${decision.topic}`));
 
     for (let i = 0; i < decision.options.length; i++) {
@@ -536,13 +557,13 @@ ${prompt}
           message: 'تقييمك (0-10):',
           min: 0,
           max: 10,
-          default: 5
+          default: 5,
         },
         {
           type: 'input',
           name: 'reasoning',
-          message: 'الأسباب:'
-        }
+          message: 'الأسباب:',
+        },
       ]);
 
       option.confidence.set(participant.id, rating / 10);
@@ -561,11 +582,13 @@ ${prompt}
 
     console.log(chalk.white(`🎯 الموضوع: ${decision.topic}`));
     console.log(chalk.white(`❓ السؤال: ${decision.question}`));
-    console.log(chalk.white(`📈 درجة التوافق: ${(decision.consensus.agreement * 100).toFixed(1)}%`));
+    console.log(
+      chalk.white(`📈 درجة التوافق: ${(decision.consensus.agreement * 100).toFixed(1)}%`)
+    );
     console.log(chalk.white(`🎖️ درجة الثقة: ${(decision.consensus.confidence * 100).toFixed(1)}%`));
 
     if (decision.consensus.winner) {
-      const winner = decision.options.find(o => o.id === decision.consensus.winner);
+      const winner = decision.options.find((o) => o.id === decision.consensus.winner);
       if (winner) {
         console.log(chalk.green(`🏆 الخيار الموصى به: ${winner.title}`));
         console.log(chalk.white(`   ${winner.description}`));
@@ -619,7 +642,7 @@ ${prompt}
         patterns: [],
         insights: [],
         accuracy: 0.5,
-        lastUpdated: new Date().toISOString()
+        lastUpdated: new Date().toISOString(),
       };
 
       await this.saveCluster(cluster);
@@ -631,7 +654,6 @@ ${prompt}
       console.log(chalk.gray(`   المعرف: ${cluster.id}\n`));
 
       return cluster;
-
     } catch (error) {
       spinner.fail('فشل في إنشاء مجموعة الذكاء');
       throw error;
@@ -659,7 +681,7 @@ ${prompt}
       confidence: 0.8,
       tags,
       timestamp: new Date().toISOString(),
-      validated: false
+      validated: false,
     };
 
     cluster.knowledgeBase.push(knowledge);
@@ -708,8 +730,8 @@ ${prompt}
     for (const [tag, count] of tagCounts.entries()) {
       if (count >= 2) {
         const examples = knowledgeBase
-          .filter(k => k.tags.includes(tag))
-          .map(k => k.content.substring(0, 100));
+          .filter((k) => k.tags.includes(tag))
+          .map((k) => k.content.substring(0, 100));
 
         patterns.push({
           id: this.generateId(),
@@ -718,7 +740,7 @@ ${prompt}
           confidence: Math.min(1.0, count / knowledgeBase.length),
           occurrences: count,
           examples,
-          implications: [`يظهر أهمية ${tag} في الموضوع`]
+          implications: [`يظهر أهمية ${tag} في الموضوع`],
         });
       }
     }
@@ -744,8 +766,8 @@ ${prompt}
         actionItems: [
           'مراجعة الأنماط المكتشفة',
           'تطبيق الدروس المستفادة',
-          'تعزيز المجالات الإيجابية'
-        ]
+          'تعزيز المجالات الإيجابية',
+        ],
       });
     }
 
@@ -760,8 +782,8 @@ ${prompt}
       actionItems: [
         'إضافة المزيد من المعرفة المتنوعة',
         'التحقق من صحة المعلومات',
-        'تحسين عملية التعلم'
-      ]
+        'تحسين عملية التعلم',
+      ],
     });
 
     return insights;
@@ -777,7 +799,7 @@ ${prompt}
     accuracy += Math.min(0.3, cluster.knowledgeBase.length / 10);
 
     // زيادة الدقة مع تنوع المصادر
-    const sources = new Set(cluster.knowledgeBase.map(k => k.source));
+    const sources = new Set(cluster.knowledgeBase.map((k) => k.source));
     accuracy += Math.min(0.2, sources.size / 5);
 
     return Math.min(1.0, accuracy);
@@ -890,7 +912,8 @@ ${prompt}
     decisions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     for (const decision of decisions) {
-      const status = decision.status === 'resolved' ? chalk.green('✓ محلول') : chalk.yellow('⏳ مفتوح');
+      const status =
+        decision.status === 'resolved' ? chalk.green('✓ محلول') : chalk.yellow('⏳ مفتوح');
       const confidence = decision.consensus.confidence * 100;
 
       console.log(chalk.cyan(`📋 ${decision.topic}`));
@@ -916,7 +939,9 @@ ${prompt}
       }
     }
 
-    return decisions.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return decisions.sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
   }
 
   /**
@@ -947,8 +972,14 @@ ${prompt}
     for (const cluster of clusters) {
       console.log(chalk.cyan(`📚 ${cluster.name}`));
       console.log(chalk.white(`   ${cluster.topic}`));
-      console.log(chalk.gray(`   المعرفة: ${cluster.knowledgeBase.length} | الأنماط: ${cluster.patterns.length} | الدقة: ${(cluster.accuracy * 100).toFixed(1)}%`));
-      console.log(chalk.gray(`   آخر تحديث: ${new Date(cluster.lastUpdated).toLocaleString('ar')}`));
+      console.log(
+        chalk.gray(
+          `   المعرفة: ${cluster.knowledgeBase.length} | الأنماط: ${cluster.patterns.length} | الدقة: ${(cluster.accuracy * 100).toFixed(1)}%`
+        )
+      );
+      console.log(
+        chalk.gray(`   آخر تحديث: ${new Date(cluster.lastUpdated).toLocaleString('ar')}`)
+      );
       console.log('');
     }
   }
@@ -968,11 +999,16 @@ ${prompt}
       }
     }
 
-    return clusters.sort((a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime());
+    return clusters.sort(
+      (a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
+    );
   }
 }
 
 // مصنع لإنشاء instance
-export function createCollectiveIntelligenceSystem(apiClient: OqoolAPIClient, workingDir?: string): CollectiveIntelligenceSystem {
+export function createCollectiveIntelligenceSystem(
+  apiClient: OqoolAPIClient,
+  workingDir?: string
+): CollectiveIntelligenceSystem {
   return new CollectiveIntelligenceSystem(apiClient, workingDir);
 }

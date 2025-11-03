@@ -50,7 +50,7 @@ export class SecurityFixer {
     fixedCode = this.applyDirectSecurityFixes(fixedCode, issues);
 
     // الإصلاحات المعقدة بـ AI
-    const complexIssues = issues.filter(i => !i.fix || i.fix === 'complex');
+    const complexIssues = issues.filter((i) => !i.fix || i.fix === 'complex');
     if (complexIssues.length > 0) {
       fixedCode = await this.fixWithAI(fixedCode, complexIssues);
     }
@@ -71,43 +71,43 @@ export class SecurityFixer {
         message: 'استخدام eval() خطير جداً - يمكن تنفيذ كود عشوائي',
         severity: 'critical',
         fix: 'remove_eval',
-        suggestion: 'استخدم JSON.parse() أو Function constructor إذا كان ضرورياً'
+        suggestion: 'استخدم JSON.parse() أو Function constructor إذا كان ضرورياً',
       },
       {
         pattern: /new\s+Function\s*\(/g,
         message: 'استخدام Function constructor خطير',
         severity: 'high',
         fix: 'complex',
-        suggestion: 'أعد هيكلة الكود لتجنب إنشاء دوال ديناميكية'
+        suggestion: 'أعد هيكلة الكود لتجنب إنشاء دوال ديناميكية',
       },
       {
         pattern: /innerHTML\s*=/g,
         message: 'innerHTML معرض لـ XSS attacks',
         severity: 'high',
         fix: 'replace_with_textcontent',
-        suggestion: 'استخدم textContent أو createTextNode()'
+        suggestion: 'استخدم textContent أو createTextNode()',
       },
       {
         pattern: /document\.write\s*\(/g,
         message: 'document.write() معرض للثغرات',
         severity: 'medium',
         fix: 'complex',
-        suggestion: 'استخدم طرق DOM الحديثة'
+        suggestion: 'استخدم طرق DOM الحديثة',
       },
       {
         pattern: /\.exec\(/g,
         message: 'استخدام exec() لتنفيذ أوامر النظام خطير',
         severity: 'critical',
         fix: 'complex',
-        suggestion: 'تحقق من المدخلات وقم بعمل whitelist للأوامر'
+        suggestion: 'تحقق من المدخلات وقم بعمل whitelist للأوامر',
       },
       {
         pattern: /dangerouslySetInnerHTML/g,
         message: 'dangerouslySetInnerHTML معرض لـ XSS',
         severity: 'high',
         fix: 'complex',
-        suggestion: 'استخدم DOMPurify للتنظيف أو تجنب HTML الخام'
-      }
+        suggestion: 'استخدم DOMPurify للتنظيف أو تجنب HTML الخام',
+      },
     ];
 
     lines.forEach((line, index) => {
@@ -120,7 +120,7 @@ export class SecurityFixer {
             message,
             line: index + 1,
             fix,
-            suggestion
+            suggestion,
           });
         }
       });
@@ -138,8 +138,10 @@ export class SecurityFixer {
 
     lines.forEach((line, index) => {
       // SQL Injection
-      if (/['"]SELECT.*FROM.*WHERE.*\+.*['"]/.test(line) || 
-          /['"]INSERT.*INTO.*VALUES.*\+.*['"]/.test(line)) {
+      if (
+        /['"]SELECT.*FROM.*WHERE.*\+.*['"]/.test(line) ||
+        /['"]INSERT.*INTO.*VALUES.*\+.*['"]/.test(line)
+      ) {
         issues.push({
           stage: 'security',
           priority: 'P1',
@@ -147,7 +149,7 @@ export class SecurityFixer {
           message: 'محتمل SQL Injection - استخدم prepared statements',
           line: index + 1,
           fix: 'use_prepared_statements',
-          suggestion: 'استخدم parameterized queries أو ORM'
+          suggestion: 'استخدم parameterized queries أو ORM',
         });
       }
 
@@ -160,7 +162,7 @@ export class SecurityFixer {
           message: 'محتمل Command Injection',
           line: index + 1,
           fix: 'sanitize_input',
-          suggestion: 'تحقق من المدخلات واستخدم whitelist'
+          suggestion: 'تحقق من المدخلات واستخدم whitelist',
         });
       }
 
@@ -173,7 +175,7 @@ export class SecurityFixer {
           message: 'محتمل Path Traversal attack',
           line: index + 1,
           fix: 'validate_path',
-          suggestion: 'استخدم path.resolve() وتحقق من المسار'
+          suggestion: 'استخدم path.resolve() وتحقق من المسار',
         });
       }
     });
@@ -198,7 +200,7 @@ export class SecurityFixer {
           message: 'MD5 خوارزمية ضعيفة',
           line: index + 1,
           fix: 'use_strong_hash',
-          suggestion: 'استخدم SHA-256 أو أفضل'
+          suggestion: 'استخدم SHA-256 أو أفضل',
         });
       }
 
@@ -210,7 +212,7 @@ export class SecurityFixer {
           message: 'SHA1 خوارزمية ضعيفة',
           line: index + 1,
           fix: 'use_strong_hash',
-          suggestion: 'استخدم SHA-256 أو أفضل'
+          suggestion: 'استخدم SHA-256 أو أفضل',
         });
       }
 
@@ -223,13 +225,15 @@ export class SecurityFixer {
           message: 'createCipher مهمل - لا يستخدم salt',
           line: index + 1,
           fix: 'use_cipher_iv',
-          suggestion: 'استخدم crypto.createCipheriv() مع IV عشوائي'
+          suggestion: 'استخدم crypto.createCipheriv() مع IV عشوائي',
         });
       }
 
       // مفاتيح مشفرة في الكود
-      if (/api[_-]?key|password|secret|token/.test(line.toLowerCase()) && 
-          /'[^']{20,}'|"[^"]{20,}"/.test(line)) {
+      if (
+        /api[_-]?key|password|secret|token/.test(line.toLowerCase()) &&
+        /'[^']{20,}'|"[^"]{20,}"/.test(line)
+      ) {
         issues.push({
           stage: 'security',
           priority: 'P1',
@@ -237,7 +241,7 @@ export class SecurityFixer {
           message: 'مفتاح سري مُخزن في الكود',
           line: index + 1,
           fix: 'use_env_var',
-          suggestion: 'استخدم متغيرات البيئة (process.env)'
+          suggestion: 'استخدم متغيرات البيئة (process.env)',
         });
       }
     });
@@ -254,8 +258,7 @@ export class SecurityFixer {
 
     lines.forEach((line, index) => {
       // مقارنة كلمات مرور بسيطة
-      if (/password\s*===?\s*['"]/.test(line) || 
-          /['"].*password.*['"]/.test(line)) {
+      if (/password\s*===?\s*['"]/.test(line) || /['"].*password.*['"]/.test(line)) {
         issues.push({
           stage: 'security',
           priority: 'P1',
@@ -263,7 +266,7 @@ export class SecurityFixer {
           message: 'مقارنة كلمة مرور غير آمنة',
           line: index + 1,
           fix: 'use_bcrypt',
-          suggestion: 'استخدم bcrypt أو مكتبة hashing آمنة'
+          suggestion: 'استخدم bcrypt أو مكتبة hashing آمنة',
         });
       }
 
@@ -276,7 +279,7 @@ export class SecurityFixer {
           message: 'JWT decode بدون verify',
           line: index + 1,
           fix: 'use_jwt_verify',
-          suggestion: 'استخدم jwt.verify() للتحقق من التوقيع'
+          suggestion: 'استخدم jwt.verify() للتحقق من التوقيع',
         });
       }
     });
@@ -305,7 +308,7 @@ export class SecurityFixer {
           message: 'تسريب معلومات الخطأ في console',
           line: index + 1,
           fix: 'sanitize_error',
-          suggestion: 'لا تعرض تفاصيل الأخطاء الحساسة'
+          suggestion: 'لا تعرض تفاصيل الأخطاء الحساسة',
         });
       }
 
@@ -340,8 +343,8 @@ export class SecurityFixer {
 
         case 'use_strong_hash':
           fixedCode = fixedCode
-            .replace(/crypto\.createHash\(['"]md5['"]\)/g, 'crypto.createHash(\'sha256\')')
-            .replace(/crypto\.createHash\(['"]sha1['"]\)/g, 'crypto.createHash(\'sha256\')');
+            .replace(/crypto\.createHash\(['"]md5['"]\)/g, "crypto.createHash('sha256')")
+            .replace(/crypto\.createHash\(['"]sha1['"]\)/g, "crypto.createHash('sha256')");
           break;
 
         case 'use_cipher_iv':
@@ -378,7 +381,7 @@ export class SecurityFixer {
     const systemPrompt = `أنت خبير أمن سيبراني متخصص في تأمين الكود.
 
 الكود به الثغرات الأمنية التالية:
-${issues.map(i => `- السطر ${i.line}: ${i.message}\n  الحل المقترح: ${i.suggestion}`).join('\n\n')}
+${issues.map((i) => `- السطر ${i.line}: ${i.message}\n  الحل المقترح: ${i.suggestion}`).join('\n\n')}
 
 الكود:
 \`\`\`
@@ -400,7 +403,7 @@ ${code}
 
     const response = await client.sendChatMessage([
       { role: 'system', content: systemPrompt },
-      { role: 'user', content: 'قم بتأمين الكود' }
+      { role: 'user', content: 'قم بتأمين الكود' },
     ]);
 
     if (!response.success) {

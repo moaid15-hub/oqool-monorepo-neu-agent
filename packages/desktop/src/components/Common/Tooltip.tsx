@@ -7,11 +7,7 @@ interface TooltipProps {
   position?: 'top' | 'bottom' | 'left' | 'right';
 }
 
-export const Tooltip: React.FC<TooltipProps> = ({
-  content,
-  children,
-  position = 'top',
-}) => {
+export const Tooltip: React.FC<TooltipProps> = ({ content, children, position = 'top' }) => {
   const [visible, setVisible] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -23,9 +19,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       onMouseLeave={() => setVisible(false)}
     >
       {children}
-      {visible && (
-        <div className={`tooltip-content ${position}`}>{content}</div>
-      )}
+      {visible && <div className={`tooltip-content ${position}`}>{content}</div>}
     </div>
   );
 };

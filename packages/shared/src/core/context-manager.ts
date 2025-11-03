@@ -53,7 +53,7 @@ export class ContextManager {
       name: '',
       type: 'unknown',
       dependencies: {},
-      structure: []
+      structure: [],
     };
 
     // تحديد نوع المشروع
@@ -68,12 +68,10 @@ export class ContextManager {
       else if (pkg.dependencies?.['react']) context.framework = 'React';
       else if (pkg.dependencies?.['vue']) context.framework = 'Vue';
       else if (pkg.dependencies?.['express']) context.framework = 'Express';
-    }
-    else if (await fs.pathExists(join(this.workingDirectory, 'requirements.txt'))) {
+    } else if (await fs.pathExists(join(this.workingDirectory, 'requirements.txt'))) {
       context.type = 'python';
       context.name = this.workingDirectory.split('/').pop() || 'unnamed';
-    }
-    else if (await fs.pathExists(join(this.workingDirectory, 'index.html'))) {
+    } else if (await fs.pathExists(join(this.workingDirectory, 'index.html'))) {
       context.type = 'web';
     }
 
@@ -89,9 +87,18 @@ export class ContextManager {
   // ============================================
   private async discoverStructure(): Promise<string[]> {
     const dirs = [
-      'src', 'lib', 'app', 'pages', 'components',
-      'utils', 'helpers', 'services', 'api',
-      'tests', '__tests__', 'test'
+      'src',
+      'lib',
+      'app',
+      'pages',
+      'components',
+      'utils',
+      'helpers',
+      'services',
+      'api',
+      'tests',
+      '__tests__',
+      'test',
     ];
 
     const existing: string[] = [];
@@ -112,7 +119,7 @@ export class ContextManager {
     const cached = this.fileCache.get(filePath);
 
     // استخدام الـ cache إذا كان حديث
-    if (cached && (Date.now() - cached.lastRead < this.CACHE_TTL)) {
+    if (cached && Date.now() - cached.lastRead < this.CACHE_TTL) {
       return cached.content || '';
     }
 
@@ -126,7 +133,7 @@ export class ContextManager {
         path: filePath,
         content,
         lastRead: Date.now(),
-        size: stats.size
+        size: stats.size,
       });
 
       return content;
@@ -141,8 +148,9 @@ export class ContextManager {
   private updateCache(filePath: string, context: FileContext): void {
     // إذا وصل الـ cache للحد الأقصى، احذف الأقدم
     if (this.fileCache.size >= this.MAX_CACHE_SIZE) {
-      const oldest = Array.from(this.fileCache.entries())
-        .sort((a, b) => a[1].lastRead - b[1].lastRead)[0];
+      const oldest = Array.from(this.fileCache.entries()).sort(
+        (a, b) => a[1].lastRead - b[1].lastRead
+      )[0];
 
       this.fileCache.delete(oldest[0]);
     }
@@ -184,17 +192,18 @@ export class ContextManager {
   // ============================================
   // 🔍 البحث الذكي في الملفات
   // ============================================
-  async searchFiles(pattern: string, options?: {
-    includeContent?: boolean;
-    fileTypes?: string[];
-  }): Promise<string[]> {
-    const searchPattern = pattern.includes('*')
-      ? pattern
-      : `**/*${pattern}*`;
+  async searchFiles(
+    pattern: string,
+    options?: {
+      includeContent?: boolean;
+      fileTypes?: string[];
+    }
+  ): Promise<string[]> {
+    const searchPattern = pattern.includes('*') ? pattern : `**/*${pattern}*`;
 
     const files = await glob(searchPattern, {
       cwd: this.workingDirectory,
-      ignore: ['node_modules/**', 'dist/**', '.git/**']
+      ignore: ['node_modules/**', 'dist/**', '.git/**'],
     });
 
     return files;
@@ -213,7 +222,7 @@ export class ContextManager {
       project: this.projectContext,
       openFiles: Array.from(this.openFiles),
       cachedFiles: this.fileCache.size,
-      recentChanges: this.recentChanges.slice(0, 10)
+      recentChanges: this.recentChanges.slice(0, 10),
     };
   }
 

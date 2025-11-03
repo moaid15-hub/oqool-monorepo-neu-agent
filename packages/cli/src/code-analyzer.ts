@@ -127,8 +127,8 @@ export class CodeAnalyzer {
           'classProperties',
           'dynamicImport',
           'asyncGenerators',
-          'objectRestSpread'
-        ]
+          'objectRestSpread',
+        ],
       });
     } catch (error: any) {
       throw new Error(`فشل تحليل الملف: ${error.message}`);
@@ -145,7 +145,7 @@ export class CodeAnalyzer {
       classes: [],
       stats: this.calculateStats(code),
       issues: [],
-      dependencies: []
+      dependencies: [],
     };
 
     // تحليل AST
@@ -203,7 +203,7 @@ export class CodeAnalyzer {
       codeLines,
       commentLines,
       blankLines,
-      complexity: 0 // سيتم حسابه لاحقاً
+      complexity: 0, // سيتم حسابه لاحقاً
     };
   }
 
@@ -223,7 +223,7 @@ export class CodeAnalyzer {
           params: node.params.map((p: any) => this.getParamName(p)),
           async: node.async || false,
           lineStart: node.loc?.start.line || 0,
-          lineEnd: node.loc?.end.line || 0
+          lineEnd: node.loc?.end.line || 0,
         });
         complexityScore += this.calculateFunctionComplexity(path);
       },
@@ -244,7 +244,7 @@ export class CodeAnalyzer {
           params: node.params.map((p: any) => this.getParamName(p)),
           async: node.async || false,
           lineStart: node.loc?.start.line || 0,
-          lineEnd: node.loc?.end.line || 0
+          lineEnd: node.loc?.end.line || 0,
         });
       },
 
@@ -257,7 +257,7 @@ export class CodeAnalyzer {
               name: decl.id.name,
               kind: node.kind as 'const' | 'let' | 'var',
               lineNumber: node.loc?.start.line || 0,
-              scope: path.scope.block.type
+              scope: path.scope.block.type,
             });
           }
         });
@@ -269,24 +269,26 @@ export class CodeAnalyzer {
         const imported: string[] = [];
         let type: 'default' | 'named' | 'namespace' | 'all' = 'named';
 
-        node.specifiers.forEach((spec: t.ImportSpecifier | t.ImportDefaultSpecifier | t.ImportNamespaceSpecifier) => {
-          if (t.isImportDefaultSpecifier(spec)) {
-            imported.push(spec.local.name);
-            type = 'default';
-          } else if (t.isImportSpecifier(spec)) {
-            imported.push(spec.local.name);
-          } else if (t.isImportNamespaceSpecifier(spec)) {
-            imported.push(spec.local.name);
-            type = 'namespace';
+        node.specifiers.forEach(
+          (spec: t.ImportSpecifier | t.ImportDefaultSpecifier | t.ImportNamespaceSpecifier) => {
+            if (t.isImportDefaultSpecifier(spec)) {
+              imported.push(spec.local.name);
+              type = 'default';
+            } else if (t.isImportSpecifier(spec)) {
+              imported.push(spec.local.name);
+            } else if (t.isImportNamespaceSpecifier(spec)) {
+              imported.push(spec.local.name);
+              type = 'namespace';
+            }
           }
-        });
+        );
 
         const source = node.source.value;
         analysis.imports.push({
           source,
           imported,
           type,
-          lineNumber: node.loc?.start.line || 0
+          lineNumber: node.loc?.start.line || 0,
         });
 
         analysis.dependencies.push(source);
@@ -301,7 +303,7 @@ export class CodeAnalyzer {
               analysis.exports.push({
                 name: decl.id.name,
                 type: 'named',
-                lineNumber: node.loc?.start.line || 0
+                lineNumber: node.loc?.start.line || 0,
               });
             }
           });
@@ -321,7 +323,7 @@ export class CodeAnalyzer {
         analysis.exports.push({
           name,
           type: 'default',
-          lineNumber: node.loc?.start.line || 0
+          lineNumber: node.loc?.start.line || 0,
         });
       },
 
@@ -343,11 +345,10 @@ export class CodeAnalyzer {
           name: node.id?.name || 'anonymous',
           methods,
           properties,
-          extends: node.superClass && t.isIdentifier(node.superClass)
-            ? node.superClass.name
-            : undefined,
+          extends:
+            node.superClass && t.isIdentifier(node.superClass) ? node.superClass.name : undefined,
           lineStart: node.loc?.start.line || 0,
-          lineEnd: node.loc?.end.line || 0
+          lineEnd: node.loc?.end.line || 0,
         });
       },
 
@@ -408,7 +409,7 @@ export class CodeAnalyzer {
           type: 'warning',
           message: `استخدام var بدلاً من const/let`,
           line: variable.lineNumber,
-          suggestion: `استبدل var ${variable.name} بـ const أو let`
+          suggestion: `استبدل var ${variable.name} بـ const أو let`,
         });
       }
     });
@@ -419,7 +420,7 @@ export class CodeAnalyzer {
       analysis.issues.push({
         type: 'info',
         message: `تم العثور على ${consoleLogMatches.length} استدعاء لـ console.log`,
-        suggestion: 'احذف console.log في production'
+        suggestion: 'احذف console.log في production',
       });
     }
 
@@ -430,7 +431,7 @@ export class CodeAnalyzer {
           type: 'warning',
           message: `الدالة ${func.name} معقدة جداً (${func.complexity})`,
           line: func.lineStart,
-          suggestion: 'قسم الدالة إلى دوال أصغر'
+          suggestion: 'قسم الدالة إلى دوال أصغر',
         });
       }
     });
@@ -443,7 +444,7 @@ export class CodeAnalyzer {
           type: 'info',
           message: `الدالة ${func.name} طويلة جداً (${lines} سطر)`,
           line: func.lineStart,
-          suggestion: 'قسم الدالة إلى دوال أصغر'
+          suggestion: 'قسم الدالة إلى دوال أصغر',
         });
       }
     });
@@ -473,7 +474,11 @@ export class CodeAnalyzer {
       analysis.functions.slice(0, 10).forEach((func) => {
         const asyncLabel = func.async ? chalk.yellow('[async]') : '';
         const params = func.params.join(', ');
-        console.log(chalk.white(`  • ${chalk.cyan(func.name)}(${params}) ${asyncLabel} - السطر ${func.lineStart}`));
+        console.log(
+          chalk.white(
+            `  • ${chalk.cyan(func.name)}(${params}) ${asyncLabel} - السطر ${func.lineStart}`
+          )
+        );
       });
       if (analysis.functions.length > 10) {
         console.log(chalk.gray(`  ... و ${analysis.functions.length - 10} دالة أخرى`));
@@ -482,9 +487,9 @@ export class CodeAnalyzer {
 
     // المتغيرات
     if (analysis.variables.length > 0) {
-      const varCount = analysis.variables.filter(v => v.kind === 'var').length;
-      const letCount = analysis.variables.filter(v => v.kind === 'let').length;
-      const constCount = analysis.variables.filter(v => v.kind === 'const').length;
+      const varCount = analysis.variables.filter((v) => v.kind === 'var').length;
+      const letCount = analysis.variables.filter((v) => v.kind === 'let').length;
+      const constCount = analysis.variables.filter((v) => v.kind === 'const').length;
 
       console.log(chalk.magenta(`\n📦 المتغيرات (${analysis.variables.length}):`));
       console.log(chalk.white(`  • const: ${chalk.cyan(constCount)}`));
@@ -529,7 +534,8 @@ export class CodeAnalyzer {
       console.log(chalk.red(`\n⚠️  المشاكل المحتملة (${analysis.issues.length}):`));
       analysis.issues.forEach((issue) => {
         const icon = issue.type === 'error' ? '❌' : issue.type === 'warning' ? '⚠️' : 'ℹ️';
-        const color = issue.type === 'error' ? chalk.red : issue.type === 'warning' ? chalk.yellow : chalk.blue;
+        const color =
+          issue.type === 'error' ? chalk.red : issue.type === 'warning' ? chalk.yellow : chalk.blue;
         const lineLabel = issue.line ? ` - السطر ${issue.line}` : '';
         console.log(color(`  ${icon} ${issue.message}${lineLabel}`));
         if (issue.suggestion) {

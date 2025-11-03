@@ -38,9 +38,7 @@ export const FileExplorer: React.FC = () => {
           {node.type === 'directory' && (
             <span className="folder-icon">{expanded ? '📂' : '📁'}</span>
           )}
-          {node.type === 'file' && (
-            <span className="file-icon">{getFileIcon(node.name)}</span>
-          )}
+          {node.type === 'file' && <span className="file-icon">{getFileIcon(node.name)}</span>}
           <span className="file-name">{node.name}</span>
         </div>
         {node.type === 'directory' && expanded && node.children && (

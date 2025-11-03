@@ -44,11 +44,8 @@ function setupPermissions(): void {
 function setupProtocolHandling(): void {
   session.defaultSession.protocol.interceptFileProtocol('file', (request, callback) => {
     const url = request.url.substr(7);
-    
-    const allowedPaths = [
-      process.resourcesPath,
-      process.cwd(),
-    ];
+
+    const allowedPaths = [process.resourcesPath, process.cwd()];
 
     const isAllowed = allowedPaths.some((allowedPath) => url.startsWith(allowedPath));
 
@@ -62,13 +59,7 @@ function setupProtocolHandling(): void {
 }
 
 function validateIPCCalls(): void {
-  const dangerousPatterns = [
-    /eval\(/i,
-    /Function\(/i,
-    /require\(/i,
-    /<script/i,
-    /javascript:/i,
-  ];
+  const dangerousPatterns = [/eval\(/i, /Function\(/i, /require\(/i, /<script/i, /javascript:/i];
 
   ipcMain.on('*', (event, ...args) => {
     const argsString = JSON.stringify(args);
@@ -95,13 +86,7 @@ export function sanitizeInput(input: string): string {
 export function validatePath(path: string): boolean {
   const normalizedPath = path.replace(/\\/g, '/');
 
-  const dangerousPatterns = [
-    /\.\./,
-    /^\/etc\//,
-    /^\/sys\//,
-    /^\/proc\//,
-    /^C:\/Windows\//i,
-  ];
+  const dangerousPatterns = [/\.\./, /^\/etc\//, /^\/sys\//, /^\/proc\//, /^C:\/Windows\//i];
 
   return !dangerousPatterns.some((pattern) => pattern.test(normalizedPath));
 }

@@ -55,7 +55,7 @@ export class CacheManager {
     this.options = {
       ttl: options.ttl || this.DEFAULT_TTL,
       maxSize: options.maxSize || this.DEFAULT_MAX_SIZE,
-      enableDisk: options.enableDisk ?? true
+      enableDisk: options.enableDisk ?? true,
     };
 
     this.stats = {
@@ -63,7 +63,7 @@ export class CacheManager {
       misses: 0,
       size: 0,
       itemsCount: 0,
-      hitRate: 0
+      hitRate: 0,
     };
 
     this.init();
@@ -152,7 +152,6 @@ export class CacheManager {
 
       this.stats.hits++;
       return entry.value;
-
     } catch (error) {
       return null;
     }
@@ -167,7 +166,7 @@ export class CacheManager {
       value,
       timestamp: Date.now(),
       ttl,
-      size: this.calculateSize(value)
+      size: this.calculateSize(value),
     };
 
     this.memoryCache.set(key, entry);
@@ -189,12 +188,11 @@ export class CacheManager {
         value,
         timestamp: Date.now(),
         ttl,
-        size: this.calculateSize(value)
+        size: this.calculateSize(value),
       };
 
       const filePath = path.join(this.diskCachePath, `${key}.json`);
       await fs.writeJSON(filePath, entry);
-
     } catch (error) {
       // تجاهل أخطاء الكتابة
     }
@@ -235,7 +233,8 @@ export class CacheManager {
 
     // حفظ في الـ disk للبيانات الكبيرة
     const valueSize = this.calculateSize(value);
-    if (valueSize > 1024 * 100) { // أكبر من 100 KB
+    if (valueSize > 1024 * 100) {
+      // أكبر من 100 KB
       await this.setOnDisk(hashedKey, value, cacheTTL);
     }
 
@@ -279,7 +278,7 @@ export class CacheManager {
       misses: 0,
       size: 0,
       itemsCount: 0,
-      hitRate: 0
+      hitRate: 0,
     };
   }
 
@@ -329,8 +328,9 @@ export class CacheManager {
     }
 
     // حذف العناصر الأقدم
-    const entries = Array.from(this.memoryCache.entries())
-      .sort((a, b) => a[1].timestamp - b[1].timestamp);
+    const entries = Array.from(this.memoryCache.entries()).sort(
+      (a, b) => a[1].timestamp - b[1].timestamp
+    );
 
     while (this.stats.size > maxSizeBytes && entries.length > 0) {
       const [key, entry] = entries.shift()!;

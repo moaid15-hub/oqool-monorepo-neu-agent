@@ -54,7 +54,11 @@ export class CollectiveIntelligence {
 
 أجب من منظورك كـ ${agent.role}.`;
 
-        const result = await window.electron.ipcRenderer.invoke('ai:call', prompt, agent.personality);
+        const result = await window.electron.ipcRenderer.invoke(
+          'ai:call',
+          prompt,
+          agent.personality
+        );
 
         if (result.success) {
           agent.response = result.response;

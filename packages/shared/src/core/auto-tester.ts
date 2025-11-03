@@ -14,7 +14,7 @@ import { SecurityEnhancements } from './security-enhancements.js';
 // 📊 واجهات البيانات
 // ============================================
 
-export interface TestResult {
+export interface AutoTestResult {
   syntaxOk: boolean;
   testsPass: boolean;
   secure: boolean;
@@ -72,7 +72,7 @@ export class AutoTester {
       enableTests: true,
       enableSecurity: true,
       enablePerformance: true,
-      ...config
+      ...config,
     };
 
     // تهيئة الأدوات
@@ -92,17 +92,17 @@ export class AutoTester {
   // ============================================
   // 🎯 الوظيفة الرئيسية - اختبار الكود
   // ============================================
-  async testGeneratedCode(code: string, filePath: string): Promise<TestResult> {
+  async testGeneratedCode(code: string, filePath: string): Promise<AutoTestResult> {
     console.log(chalk.cyan('\n🧪 بدء الاختبار التلقائي للكود...'));
     console.log(chalk.gray('━'.repeat(50)));
 
-    const result: TestResult = {
+    const result: AutoTestResult = {
       syntaxOk: true,
       testsPass: true,
       secure: true,
       performant: true,
       details: {},
-      overall: 'pass'
+      overall: 'pass',
     };
 
     // 1. Syntax Check
@@ -202,12 +202,12 @@ export class AutoTester {
       }
 
       const result = ts.transpileModule(code, {
-        compilerOptions: { module: ts.ModuleKind.CommonJS }
+        compilerOptions: { module: ts.ModuleKind.CommonJS },
       });
 
       if (result.diagnostics && result.diagnostics.length > 0) {
         console.log(chalk.red('❌ TypeScript Syntax خاطئ'));
-        result.diagnostics.forEach(d => {
+        result.diagnostics.forEach((d) => {
           console.log(chalk.gray(`  - ${d.messageText}`));
         });
         return false;
@@ -282,14 +282,14 @@ export class AutoTester {
       return {
         valid,
         errors,
-        language: ext
+        language: ext,
       };
     } catch (error: any) {
       errors.push(error.message);
       return {
         valid: false,
         errors,
-        language: ext
+        language: ext,
       };
     }
   }
@@ -307,10 +307,14 @@ export class AutoTester {
       const testResult = await this.testRunner.runTests(filePath);
 
       if (testResult.passed) {
-        console.log(chalk.green(`✅ الاختبارات نجحت (${testResult.passed_count}/${testResult.total})`));
+        console.log(
+          chalk.green(`✅ الاختبارات نجحت (${testResult.passed_count}/${testResult.total})`)
+        );
         return true;
       } else {
-        console.log(chalk.red(`❌ الاختبارات فشلت (${testResult.failed_count}/${testResult.total})`));
+        console.log(
+          chalk.red(`❌ الاختبارات فشلت (${testResult.failed_count}/${testResult.total})`)
+        );
         return false;
       }
     } catch (error: any) {
@@ -326,7 +330,7 @@ export class AutoTester {
           passed: 0,
           failed: 0,
           total: 0,
-          details: 'Test Runner غير متاح'
+          details: 'Test Runner غير متاح',
         };
       }
 
@@ -336,14 +340,14 @@ export class AutoTester {
         passed: testResult.passed_count,
         failed: testResult.failed_count,
         total: testResult.total,
-        details: testResult.output
+        details: testResult.output,
       };
     } catch (error: any) {
       return {
         passed: 0,
         failed: 0,
         total: 0,
-        details: `خطأ: ${error.message}`
+        details: `خطأ: ${error.message}`,
       };
     }
   }
@@ -366,7 +370,7 @@ export class AutoTester {
         return true;
       } else {
         console.log(chalk.red(`❌ وُجدت ${scanResult.issues.length} ثغرات أمنية`));
-        scanResult.issues.forEach(issue => {
+        scanResult.issues.forEach((issue) => {
           console.log(chalk.yellow(`  - [${issue.severity}] ${issue.type}: ${issue.description}`));
         });
         return false;
@@ -382,7 +386,7 @@ export class AutoTester {
       if (!this.securityScanner) {
         return {
           safe: true,
-          vulnerabilities: []
+          vulnerabilities: [],
         };
       }
 
@@ -391,17 +395,17 @@ export class AutoTester {
 
       return {
         safe: scanResult.safe,
-        vulnerabilities: scanResult.issues.map(issue => ({
+        vulnerabilities: scanResult.issues.map((issue) => ({
           type: issue.type,
           severity: issue.severity,
-          message: issue.description
-        }))
+          message: issue.description,
+        })),
       };
     } catch (error: any) {
       return {
         safe: true,
         vulnerabilities: [],
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -439,13 +443,12 @@ export class AutoTester {
 
       if (warnings.length > 0) {
         console.log(chalk.yellow('⚠️ تحذيرات الأداء:'));
-        warnings.forEach(w => console.log(chalk.gray(`  - ${w}`)));
+        warnings.forEach((w) => console.log(chalk.gray(`  - ${w}`)));
         return false;
       }
 
       console.log(chalk.green('✅ الأداء جيد'));
       return true;
-
     } catch (error: any) {
       console.log(chalk.yellow(`⚠️ تعذر فحص الأداء: ${error.message}`));
       return true;
@@ -463,23 +466,23 @@ export class AutoTester {
   private hasExpensiveOperations(code: string): boolean {
     // بحث عن عمليات مكلفة
     const expensivePatterns = [
-      /\.sort\(/g,           // Sort في حلقة
-      /JSON\.parse/g,        // JSON parsing متكرر
-      /eval\(/g,             // eval (خطير وبطيء)
-      /new RegExp/g          // Regex creation في حلقة
+      /\.sort\(/g, // Sort في حلقة
+      /JSON\.parse/g, // JSON parsing متكرر
+      /eval\(/g, // eval (خطير وبطيء)
+      /new RegExp/g, // Regex creation في حلقة
     ];
 
-    return expensivePatterns.some(pattern => pattern.test(code));
+    return expensivePatterns.some((pattern) => pattern.test(code));
   }
 
   private hasMemoryIssues(code: string): boolean {
     // بحث عن مشاكل الذاكرة المحتملة
     const memoryPatterns = [
-      /new Array\(\d{5,}\)/g,  // مصفوفات كبيرة جداً
-      /\.concat\([^)]*\)/g      // concat في حلقة (يولد مصفوفات جديدة)
+      /new Array\(\d{5,}\)/g, // مصفوفات كبيرة جداً
+      /\.concat\([^)]*\)/g, // concat في حلقة (يولد مصفوفات جديدة)
     ];
 
-    return memoryPatterns.some(pattern => pattern.test(code));
+    return memoryPatterns.some((pattern) => pattern.test(code));
   }
 
   private estimateComplexity(code: string): number {
@@ -515,38 +518,28 @@ export class AutoTester {
     return {
       fast: warnings.length === 0 && complexity <= 2,
       executionTime: 0, // سيتم قياسه عند التشغيل الفعلي
-      memoryUsage: 0,   // سيتم قياسه عند التشغيل الفعلي
+      memoryUsage: 0, // سيتم قياسه عند التشغيل الفعلي
       warnings,
-      complexity: `O(n^${complexity})`
+      complexity: `O(n^${complexity})`,
     };
   }
 
   // ============================================
   // 📊 عرض الملخص
   // ============================================
-  private printSummary(result: TestResult): void {
+  private printSummary(result: AutoTestResult): void {
     console.log(chalk.gray('\n' + '━'.repeat(50)));
     console.log(chalk.bold.cyan('\n📊 ملخص الاختبار:\n'));
 
     // Syntax
-    console.log(
-      result.syntaxOk
-        ? chalk.green('✅ Syntax: صحيح')
-        : chalk.red('❌ Syntax: خاطئ')
-    );
+    console.log(result.syntaxOk ? chalk.green('✅ Syntax: صحيح') : chalk.red('❌ Syntax: خاطئ'));
 
     // Tests
-    console.log(
-      result.testsPass
-        ? chalk.green('✅ Tests: نجحت')
-        : chalk.red('❌ Tests: فشلت')
-    );
+    console.log(result.testsPass ? chalk.green('✅ Tests: نجحت') : chalk.red('❌ Tests: فشلت'));
 
     // Security
     console.log(
-      result.secure
-        ? chalk.green('✅ Security: آمن')
-        : chalk.red('❌ Security: غير آمن')
+      result.secure ? chalk.green('✅ Security: آمن') : chalk.red('❌ Security: غير آمن')
     );
 
     // Performance

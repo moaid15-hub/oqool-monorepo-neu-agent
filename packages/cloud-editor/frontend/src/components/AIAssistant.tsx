@@ -14,11 +14,13 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
   apiKey,
   selectedText,
   currentCode,
-  language = 'javascript'
+  language = 'javascript',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [prompt, setPrompt] = useState('');
-  const [activeTab, setActiveTab] = useState<'complete' | 'explain' | 'generate' | 'fix' | 'optimize'>('complete');
+  const [activeTab, setActiveTab] = useState<
+    'complete' | 'explain' | 'generate' | 'fix' | 'optimize'
+  >('complete');
   const resultRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -31,7 +33,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
     fixCode,
     optimizeCode,
     clearState,
-    isConfigured
+    isConfigured,
   } = useDeepSeek(apiKey);
 
   const { addNotification } = useNotifications();
@@ -83,7 +85,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
 
   return (
     <div className={`ai-assistant ${isOpen ? 'open' : ''}`}>
-      <button 
+      <button
         className="ai-toggle-btn"
         onClick={() => setIsOpen(!isOpen)}
         title="مساعد الذكاء الاصطناعي"
@@ -99,31 +101,31 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
           </div>
 
           <div className="ai-tabs">
-            <button 
+            <button
               className={activeTab === 'complete' ? 'active' : ''}
               onClick={() => setActiveTab('complete')}
             >
               إكمال الكود
             </button>
-            <button 
+            <button
               className={activeTab === 'explain' ? 'active' : ''}
               onClick={() => setActiveTab('explain')}
             >
               شرح الكود
             </button>
-            <button 
+            <button
               className={activeTab === 'generate' ? 'active' : ''}
               onClick={() => setActiveTab('generate')}
             >
               توليد كود
             </button>
-            <button 
+            <button
               className={activeTab === 'fix' ? 'active' : ''}
               onClick={() => setActiveTab('fix')}
             >
               إصلاح خطأ
             </button>
-            <button 
+            <button
               className={activeTab === 'optimize' ? 'active' : ''}
               onClick={() => setActiveTab('optimize')}
             >
@@ -142,10 +144,13 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder={
-                  activeTab === 'complete' ? 'اكتب بداية الكود أو الوصف...' :
-                  activeTab === 'generate' ? 'صف الكود المطلوب...' :
-                  activeTab === 'fix' ? 'صف المشكلة أو الخطأ...' :
-                  'اكتب طلبك...'
+                  activeTab === 'complete'
+                    ? 'اكتب بداية الكود أو الوصف...'
+                    : activeTab === 'generate'
+                      ? 'صف الكود المطلوب...'
+                      : activeTab === 'fix'
+                        ? 'صف المشكلة أو الخطأ...'
+                        : 'اكتب طلبك...'
                 }
                 rows={4}
                 disabled={loading}
@@ -172,9 +177,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
             <div className="ai-result" ref={resultRef}>
               <div className="result-header">
                 <h4>📝 النتيجة:</h4>
-                <button onClick={() => copyToClipboard(result)}>
-                  📋 نسخ
-                </button>
+                <button onClick={() => copyToClipboard(result)}>📋 نسخ</button>
               </div>
               <pre className="result-content">{result}</pre>
             </div>

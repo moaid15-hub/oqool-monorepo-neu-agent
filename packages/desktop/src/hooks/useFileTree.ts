@@ -9,7 +9,7 @@ export function useFileTree(workspacePath: string | null) {
   const { setFileTree, setRootPath } = useFileStore();
 
   useEffect(() => {
-    if (!workspacePath) return;
+    if (!workspacePath) {return;}
 
     async function loadFileTree() {
       setLoading(true);
@@ -34,9 +34,9 @@ export function useFileTree(workspacePath: string | null) {
 
 async function buildFileTree(path: string): Promise<FileNode[]> {
   const files = await fileService.readdir(path);
-  
+
   const nodes: FileNode[] = [];
-  
+
   for (const file of files) {
     const node: FileNode = {
       name: file.name,
@@ -53,7 +53,7 @@ async function buildFileTree(path: string): Promise<FileNode[]> {
   }
 
   return nodes.sort((a, b) => {
-    if (a.type === b.type) return a.name.localeCompare(b.name);
+    if (a.type === b.type) {return a.name.localeCompare(b.name);}
     return a.type === 'directory' ? -1 : 1;
   });
 }

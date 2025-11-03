@@ -138,24 +138,16 @@ const TopBar: React.FC = () => {
         { label: 'Explorer', shortcut: 'Ctrl+Shift+E' },
         { label: 'Terminal', shortcut: 'Ctrl+`' },
       ],
-      go: [
-        { label: 'Go to File...', shortcut: 'Ctrl+P' },
-      ],
+      go: [{ label: 'Go to File...', shortcut: 'Ctrl+P' }],
     },
     de: {
       file: [
         { label: 'Neue Datei', shortcut: 'Ctrl+N' },
         { label: 'Speichern', shortcut: 'Ctrl+S' },
       ],
-      edit: [
-        { label: 'Rückgängig', shortcut: 'Ctrl+Z' },
-      ],
-      view: [
-        { label: 'Explorer', shortcut: 'Ctrl+Shift+E' },
-      ],
-      go: [
-        { label: 'Gehe zu Datei...', shortcut: 'Ctrl+P' },
-      ],
+      edit: [{ label: 'Rückgängig', shortcut: 'Ctrl+Z' }],
+      view: [{ label: 'Explorer', shortcut: 'Ctrl+Shift+E' }],
+      go: [{ label: 'Gehe zu Datei...', shortcut: 'Ctrl+P' }],
     },
   };
 
@@ -174,10 +166,7 @@ const TopBar: React.FC = () => {
   const t = translations[language];
 
   return (
-    <div 
-      className="top-bar" 
-      ref={menuRef}
-    >
+    <div className="top-bar" ref={menuRef}>
       {/* Menu Items - no-drag */}
       <div className="menu-items" style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}>
         {Object.keys(currentMenus).map((menuKey) => (
@@ -188,10 +177,10 @@ const TopBar: React.FC = () => {
             >
               {t[menuKey as keyof typeof t]}
             </div>
-            
+
             {activeMenu === menuKey && (
               <div className="dropdown-menu show">
-                {currentMenus[menuKey].map((item, index) => (
+                {currentMenus[menuKey].map((item, index) =>
                   item.separator ? (
                     <div key={`sep-${index}`} className="dropdown-separator" />
                   ) : (
@@ -201,12 +190,10 @@ const TopBar: React.FC = () => {
                       onClick={() => handleMenuItemClick(item)}
                     >
                       <span>{item.label}</span>
-                      {item.shortcut && (
-                        <span className="shortcut-hint">{item.shortcut}</span>
-                      )}
+                      {item.shortcut && <span className="shortcut-hint">{item.shortcut}</span>}
                     </div>
                   )
-                ))}
+                )}
               </div>
             )}
           </div>
@@ -235,7 +222,10 @@ const TopBar: React.FC = () => {
       </button>
 
       {/* Language Selector - no-drag */}
-      <div className="language-selector" style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}>
+      <div
+        className="language-selector"
+        style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+      >
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value as 'en' | 'ar' | 'de')}

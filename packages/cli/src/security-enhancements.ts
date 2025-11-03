@@ -71,13 +71,31 @@ export class SecurityEnhancements {
       scanOnExecute: true,
       blockMalicious: true,
       allowedCommands: [
-        'node', 'npm', 'yarn', 'pnpm', 'git', 'docker',
-        'python', 'pip', 'go', 'cargo', 'rustc', 'ruby',
-        'php', 'composer', 'java', 'javac', 'mvn', 'gradle'
+        'node',
+        'npm',
+        'yarn',
+        'pnpm',
+        'git',
+        'docker',
+        'python',
+        'pip',
+        'go',
+        'cargo',
+        'rustc',
+        'ruby',
+        'php',
+        'composer',
+        'java',
+        'javac',
+        'mvn',
+        'gradle',
       ],
       blockedPatterns: [
-        'eval\\(', 'Function\\(', 'setTimeout\\(.*eval',
-        'child_process\\.exec', 'child_process\\.spawn',
+        'eval\\(',
+        'Function\\(',
+        'setTimeout\\(.*eval',
+        'child_process\\.exec',
+        'child_process\\.spawn',
         'fs\\.writeFileSync.*process\\.env',
         'require\\(.*http',
         'process\\.env\\.[A-Z_]+.*=.*',
@@ -87,16 +105,37 @@ export class SecurityEnhancements {
         'path\\.join.*\\.\\.',
         'fs\\.readFileSync.*\\*',
         'execSync\\(',
-        'spawnSync\\('
+        'spawnSync\\(',
       ],
       maxFileSize: 10, // 10MB
       allowedExtensions: [
-        '.js', '.ts', '.jsx', '.tsx', '.json', '.md',
-        '.html', '.css', '.scss', '.less', '.txt',
-        '.py', '.go', '.rs', '.rb', '.php', '.java',
-        '.xml', '.yml', '.yaml', '.toml', '.ini',
-        '.sh', '.bat', '.ps1', '.sql'
-      ]
+        '.js',
+        '.ts',
+        '.jsx',
+        '.tsx',
+        '.json',
+        '.md',
+        '.html',
+        '.css',
+        '.scss',
+        '.less',
+        '.txt',
+        '.py',
+        '.go',
+        '.rs',
+        '.rb',
+        '.php',
+        '.java',
+        '.xml',
+        '.yml',
+        '.yaml',
+        '.toml',
+        '.ini',
+        '.sh',
+        '.bat',
+        '.ps1',
+        '.sql',
+      ],
     };
   }
 
@@ -123,7 +162,7 @@ export class SecurityEnhancements {
           file: fileName,
           description: `استخدام نمط محظور: ${pattern}`,
           cwe: 'CWE-79',
-          fix: 'إزالة أو تعديل النمط المحظور'
+          fix: 'إزالة أو تعديل النمط المحظور',
         });
         score -= 20;
       }
@@ -137,7 +176,7 @@ export class SecurityEnhancements {
         file: fileName,
         description: 'استخدام أوامر نظام قد تكون خطيرة',
         cwe: 'CWE-78',
-        fix: 'استخدام APIs آمنة بدلاً من أوامر النظام'
+        fix: 'استخدام APIs آمنة بدلاً من أوامر النظام',
       });
       score -= 15;
     }
@@ -150,7 +189,7 @@ export class SecurityEnhancements {
         file: fileName,
         description: 'فتح منفذ قد يكون خطيراً',
         cwe: 'CWE-200',
-        fix: 'التأكد من إغلاق المنافذ غير الضرورية'
+        fix: 'التأكد من إغلاق المنافذ غير الضرورية',
       });
       score -= 25;
     }
@@ -162,7 +201,7 @@ export class SecurityEnhancements {
         severity: 'medium',
         file: fileName,
         description: 'الوصول لمتغيرات البيئة',
-        fix: 'التأكد من صلاحية الوصول'
+        fix: 'التأكد من صلاحية الوصول',
       });
       score -= 10;
     }
@@ -175,7 +214,7 @@ export class SecurityEnhancements {
         file: fileName,
         description: 'استخدام تشفير غير آمن',
         cwe: 'CWE-327',
-        fix: 'استخدام خوارزميات تشفير حديثة وآمنة'
+        fix: 'استخدام خوارزميات تشفير حديثة وآمنة',
       });
       score -= 20;
     }
@@ -188,7 +227,7 @@ export class SecurityEnhancements {
         file: fileName,
         description: 'عدم وجود تحقق من المدخلات',
         cwe: 'CWE-20',
-        fix: 'إضافة تحقق من صحة المدخلات'
+        fix: 'إضافة تحقق من صحة المدخلات',
       });
       score -= 15;
     }
@@ -196,10 +235,10 @@ export class SecurityEnhancements {
     const recommendations = this.generateRecommendations(issues);
 
     return {
-      safe: issues.filter(i => i.severity === 'critical' || i.severity === 'high').length === 0,
+      safe: issues.filter((i) => i.severity === 'critical' || i.severity === 'high').length === 0,
       issues,
       score: Math.max(0, score),
-      recommendations
+      recommendations,
     };
   }
 
@@ -218,14 +257,16 @@ export class SecurityEnhancements {
       if (stats.size > this.config.maxFileSize * 1024 * 1024) {
         return {
           safe: false,
-          issues: [{
-            type: 'policy',
-            severity: 'high',
-            file: filePath,
-            description: `حجم الملف كبير جداً: ${(stats.size / 1024 / 1024).toFixed(2)}MB`
-          }],
+          issues: [
+            {
+              type: 'policy',
+              severity: 'high',
+              file: filePath,
+              description: `حجم الملف كبير جداً: ${(stats.size / 1024 / 1024).toFixed(2)}MB`,
+            },
+          ],
           score: 0,
-          recommendations: ['تقسيم الملف إلى أجزاء أصغر']
+          recommendations: ['تقسيم الملف إلى أجزاء أصغر'],
         };
       }
 
@@ -234,14 +275,16 @@ export class SecurityEnhancements {
       if (!this.config.allowedExtensions.includes(ext)) {
         return {
           safe: false,
-          issues: [{
-            type: 'policy',
-            severity: 'high',
-            file: filePath,
-            description: `امتداد ملف غير مسموح: ${ext}`
-          }],
+          issues: [
+            {
+              type: 'policy',
+              severity: 'high',
+              file: filePath,
+              description: `امتداد ملف غير مسموح: ${ext}`,
+            },
+          ],
           score: 0,
-          recommendations: ['استخدام امتداد ملف مسموح']
+          recommendations: ['استخدام امتداد ملف مسموح'],
         };
       }
 
@@ -259,18 +302,19 @@ export class SecurityEnhancements {
       }
 
       return basicScan;
-
     } catch (error) {
       return {
         safe: false,
-        issues: [{
-          type: 'policy',
-          severity: 'critical',
-          file: filePath,
-          description: `خطأ في قراءة الملف: ${error}`
-        }],
+        issues: [
+          {
+            type: 'policy',
+            severity: 'critical',
+            file: filePath,
+            description: `خطأ في قراءة الملف: ${error}`,
+          },
+        ],
         score: 0,
-        recommendations: ['التأكد من إمكانية قراءة الملف']
+        recommendations: ['التأكد من إمكانية قراءة الملف'],
       };
     }
   }
@@ -288,7 +332,7 @@ export class SecurityEnhancements {
         algorithm: 'SHA-256',
         timestamp: new Date().toISOString(),
         author,
-        verified: true
+        verified: true,
       };
 
       // حفظ التوقيع
@@ -298,7 +342,6 @@ export class SecurityEnhancements {
       console.log(chalk.green(`✅ تم توقيع الكود: ${hash.substring(0, 8)}...`));
 
       return signature;
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في توقيع الكود:'), error);
       throw error;
@@ -312,7 +355,7 @@ export class SecurityEnhancements {
     try {
       const signaturePath = `${filePath}.sig`;
 
-      if (!await fs.pathExists(signaturePath)) {
+      if (!(await fs.pathExists(signaturePath))) {
         return false;
       }
 
@@ -321,7 +364,6 @@ export class SecurityEnhancements {
       const currentHash = crypto.createHash('sha256').update(content).digest('hex');
 
       return signature.hash === currentHash && signature.verified;
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في التحقق من التوقيع:'), error);
       return false;
@@ -352,7 +394,6 @@ export class SecurityEnhancements {
       console.log(chalk.green(`🔐 تم تشفير الملف: ${path.basename(filePath)}`));
 
       return encryptedPath;
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في التشفير:'), error);
       throw error;
@@ -366,11 +407,11 @@ export class SecurityEnhancements {
     try {
       const keyPath = `${encryptedPath}.key`;
 
-      if (!await fs.pathExists(keyPath) && !key) {
+      if (!(await fs.pathExists(keyPath)) && !key) {
         throw new Error('مفتاح التشفير غير متوفر');
       }
 
-      const encryptionKey = key || await fs.readFile(keyPath, 'utf8');
+      const encryptionKey = key || (await fs.readFile(keyPath, 'utf8'));
       const encryptedContent = await fs.readFile(encryptedPath, 'utf8');
 
       // فك التشفير
@@ -385,7 +426,6 @@ export class SecurityEnhancements {
       console.log(chalk.green(`🔓 تم فك تشفير الملف: ${path.basename(originalPath)}`));
 
       return originalPath;
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في فك التشفير:'), error);
       throw error;
@@ -430,12 +470,14 @@ export class SecurityEnhancements {
                   version: vulnData.version,
                   severity: vulnData.severity,
                   description: vulnData.title,
-                  fix: vulnData.fixAvailable ? 'npm audit fix' : 'تحديث الحزمة يدوياً'
+                  fix: vulnData.fixAvailable ? 'npm audit fix' : 'تحديث الحزمة يدوياً',
                 });
               }
             }
 
-            const safe = vulnerabilities.filter(v => v.severity === 'critical' || v.severity === 'high').length === 0;
+            const safe =
+              vulnerabilities.filter((v) => v.severity === 'critical' || v.severity === 'high')
+                .length === 0;
 
             if (vulnerabilities.length > 0) {
               console.log(chalk.yellow(`⚠️  تم العثور على ${vulnerabilities.length} ثغرة أمنية`));
@@ -444,7 +486,6 @@ export class SecurityEnhancements {
             }
 
             return { safe, vulnerabilities };
-
           } catch (auditError) {
             console.log(chalk.gray('ℹ️  npm audit غير متوفر، تخطي فحص التبعيات'));
           }
@@ -452,7 +493,6 @@ export class SecurityEnhancements {
       }
 
       return { safe: true, vulnerabilities: [] };
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في فحص التبعيات:'), error);
       return { safe: false, vulnerabilities: [] };
@@ -486,7 +526,14 @@ export class SecurityEnhancements {
       if (depScan.vulnerabilities.length > 0) {
         report += `### الثغرات المكتشفة\n\n`;
         for (const vuln of depScan.vulnerabilities.slice(0, 10)) {
-          const severity = vuln.severity === 'critical' ? '🔴' : vuln.severity === 'high' ? '🟠' : vuln.severity === 'moderate' ? '🟡' : '🟢';
+          const severity =
+            vuln.severity === 'critical'
+              ? '🔴'
+              : vuln.severity === 'high'
+                ? '🟠'
+                : vuln.severity === 'moderate'
+                  ? '🟡'
+                  : '🟢';
           report += `${severity} **${vuln.package}@${vuln.version}**\n`;
           report += `   ${vuln.description}\n`;
           report += `   💡 ${vuln.fix}\n\n`;
@@ -531,7 +578,6 @@ export class SecurityEnhancements {
       await fs.writeFile(reportPath, report);
 
       console.log(chalk.green(`✅ تم حفظ تقرير الأمان: ${reportPath}`));
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في إنشاء تقرير الأمان:'), error);
     }
@@ -542,12 +588,18 @@ export class SecurityEnhancements {
    */
   private containsSystemCommands(code: string): boolean {
     const systemCommands = [
-      'exec(', 'spawn(', 'execSync(', 'spawnSync(',
-      'child_process', 'process.exec', 'eval(',
-      'require(\'child_process\')', 'require("child_process")'
+      'exec(',
+      'spawn(',
+      'execSync(',
+      'spawnSync(',
+      'child_process',
+      'process.exec',
+      'eval(',
+      "require('child_process')",
+      'require("child_process")',
     ];
 
-    return systemCommands.some(cmd => code.includes(cmd));
+    return systemCommands.some((cmd) => code.includes(cmd));
   }
 
   /**
@@ -555,18 +607,20 @@ export class SecurityEnhancements {
    */
   private containsOpenPorts(code: string): boolean {
     const portPatterns = [
-      'listen\\(\\d+', 'createServer\\(\\d+',
-      'port\\s*=\\s*\\d+', 'PORT\\s*=\\s*\\d+'
+      'listen\\(\\d+',
+      'createServer\\(\\d+',
+      'port\\s*=\\s*\\d+',
+      'PORT\\s*=\\s*\\d+',
     ];
 
-    return portPatterns.some(pattern => new RegExp(pattern).test(code));
+    return portPatterns.some((pattern) => new RegExp(pattern).test(code));
   }
 
   /**
    * فحص الوصول لمتغيرات البيئة
    */
   private containsEnvAccess(code: string): boolean {
-    return code.includes('process.env') || code.includes('require(\'dotenv\')');
+    return code.includes('process.env') || code.includes("require('dotenv')");
   }
 
   /**
@@ -574,13 +628,13 @@ export class SecurityEnhancements {
    */
   private containsInsecureCrypto(code: string): boolean {
     const insecurePatterns = [
-      'crypto.createHash(\'md5\')',
-      'crypto.createHash(\'sha1\')',
+      "crypto.createHash('md5')",
+      "crypto.createHash('sha1')",
       'createCipher\\(',
-      'createDecipher\\('
+      'createDecipher\\(',
     ];
 
-    return insecurePatterns.some(pattern => new RegExp(pattern).test(code));
+    return insecurePatterns.some((pattern) => new RegExp(pattern).test(code));
   }
 
   /**
@@ -588,19 +642,35 @@ export class SecurityEnhancements {
    */
   private hasInputValidation(code: string): boolean {
     const validationPatterns = [
-      'validate', 'sanitize', 'escape',
-      'check', 'verify', 'assert',
-      'typeof', 'instanceof'
+      'validate',
+      'sanitize',
+      'escape',
+      'check',
+      'verify',
+      'assert',
+      'typeof',
+      'instanceof',
     ];
 
-    return validationPatterns.some(pattern => code.includes(pattern));
+    return validationPatterns.some((pattern) => code.includes(pattern));
   }
 
   /**
    * فحص الملفات القابلة للتنفيذ
    */
   private isExecutableFile(filePath: string): boolean {
-    const executableExts = ['.js', '.ts', '.py', '.go', '.rs', '.rb', '.php', '.sh', '.bat', '.ps1'];
+    const executableExts = [
+      '.js',
+      '.ts',
+      '.py',
+      '.go',
+      '.rs',
+      '.rb',
+      '.php',
+      '.sh',
+      '.bat',
+      '.ps1',
+    ];
     return executableExts.includes(path.extname(filePath));
   }
 
@@ -619,7 +689,7 @@ export class SecurityEnhancements {
         file: filePath,
         description: 'استخدام eval() خطير جداً',
         cwe: 'CWE-95',
-        fix: 'إزالة eval واستخدام بدائل آمنة'
+        fix: 'إزالة eval واستخدام بدائل آمنة',
       });
       score -= 50;
     }
@@ -631,7 +701,7 @@ export class SecurityEnhancements {
         severity: 'medium',
         file: filePath,
         description: 'استخدام عمليات ملفات متزامنة',
-        fix: 'استخدام عمليات غير متزامنة'
+        fix: 'استخدام عمليات غير متزامنة',
       });
       score -= 15;
     }
@@ -640,7 +710,7 @@ export class SecurityEnhancements {
       safe: issues.length === 0,
       issues,
       score: Math.max(0, score),
-      recommendations: this.generateRecommendations(issues)
+      recommendations: this.generateRecommendations(issues),
     };
   }
 
@@ -650,9 +720,9 @@ export class SecurityEnhancements {
   private generateRecommendations(issues: SecurityIssue[]): string[] {
     const recommendations: string[] = [];
 
-    const criticalIssues = issues.filter(i => i.severity === 'critical');
-    const highIssues = issues.filter(i => i.severity === 'high');
-    const mediumIssues = issues.filter(i => i.severity === 'medium');
+    const criticalIssues = issues.filter((i) => i.severity === 'critical');
+    const highIssues = issues.filter((i) => i.severity === 'high');
+    const mediumIssues = issues.filter((i) => i.severity === 'medium');
 
     if (criticalIssues.length > 0) {
       recommendations.push(`يوجد ${criticalIssues.length} مشكلة حرجة تحتاج إصلاح فوري`);
@@ -666,11 +736,11 @@ export class SecurityEnhancements {
       recommendations.push(`يوجد ${mediumIssues.length} مشكلة متوسطة تحتاج مراجعة`);
     }
 
-    if (issues.some(i => i.type === 'malicious')) {
+    if (issues.some((i) => i.type === 'malicious')) {
       recommendations.push('تم اكتشاف أنماط ضارة - راجع الكود بعناية');
     }
 
-    if (issues.some(i => i.type === 'vulnerable')) {
+    if (issues.some((i) => i.type === 'vulnerable')) {
       recommendations.push('تم اكتشاف ثغرات أمنية - طبق الإصلاحات المقترحة');
     }
 
@@ -701,6 +771,9 @@ export class SecurityEnhancements {
 }
 
 // مصنع لإنشاء instance
-export function createSecurityEnhancements(apiClient: OqoolAPIClient, workingDir?: string): SecurityEnhancements {
+export function createSecurityEnhancements(
+  apiClient: OqoolAPIClient,
+  workingDir?: string
+): SecurityEnhancements {
   return new SecurityEnhancements(apiClient, workingDir);
 }

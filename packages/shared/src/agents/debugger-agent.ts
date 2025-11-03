@@ -28,7 +28,10 @@ export class DebuggerAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
     this.aiAdapter = new UnifiedAIAdapter({
@@ -57,16 +60,14 @@ export class DebuggerAgent {
     }
 
     // 3. Fix Critical and High Severity Bugs
-    const criticalBugs = bugs.filter(b => 
-      b.severity === 'critical' || b.severity === 'high'
-    );
+    const criticalBugs = bugs.filter((b) => b.severity === 'critical' || b.severity === 'high');
 
     for (const bug of criticalBugs) {
       const fixed = await this.fixBug(bug, code);
       if (fixed) {
         bug.fixed = true;
         // Update fixed file in the list
-        const fileIndex = fixedFiles.findIndex(f => f.path === fixed.path);
+        const fileIndex = fixedFiles.findIndex((f) => f.path === fixed.path);
         if (fileIndex >= 0) {
           fixedFiles[fileIndex] = fixed;
         } else {
@@ -75,14 +76,14 @@ export class DebuggerAgent {
       }
     }
 
-    const bugsFixed = bugs.filter(b => b.fixed).length;
+    const bugsFixed = bugs.filter((b) => b.fixed).length;
 
     return {
       bugsFound: bugs.length,
       bugsFixed,
       bugs,
       fixedFiles,
-      summary: this.generateSummary(bugs, bugsFixed)
+      summary: this.generateSummary(bugs, bugsFixed),
     };
   }
 
@@ -144,10 +145,7 @@ Output format (JSON):
   // ============================================
   // Analyze error logs
   // ============================================
-  private async analyzeErrorLogs(
-    errorLogs: string, 
-    code: GeneratedCode
-  ): Promise<BugReport[]> {
+  private async analyzeErrorLogs(errorLogs: string, code: GeneratedCode): Promise<BugReport[]> {
     const prompt = `
 Analyze these runtime error logs and find the bugs:
 
@@ -155,7 +153,7 @@ Error Logs:
 ${errorLogs}
 
 Project Files:
-${code.files.map(f => `- ${f.path}`).join('\n')}
+${code.files.map((f) => `- ${f.path}`).join('\n')}
 
 Identify:
 1. What went wrong
@@ -194,7 +192,7 @@ Output format (JSON):
   // ============================================
   private async fixBug(bug: BugReport, code: GeneratedCode): Promise<CodeFile | null> {
     // Find the file
-    const file = code.files.find(f => f.path === bug.file);
+    const file = code.files.find((f) => f.path === bug.file);
     if (!file) return null;
 
     const prompt = `
@@ -223,11 +221,11 @@ Output format:
     try {
       const response = await this.callClaude(prompt);
       const fixedContent = this.extractCode(response);
-      
+
       if (fixedContent) {
         return {
           ...file,
-          content: fixedContent
+          content: fixedContent,
         };
       }
     } catch (error) {
@@ -261,7 +259,7 @@ Output format:
       if (!jsonMatch) return [];
 
       const data = JSON.parse(jsonMatch[1]);
-      
+
       return (data.bugs || []).map((bug: any) => ({
         severity: bug.severity || 'medium',
         type: bug.type || 'unknown',
@@ -269,7 +267,7 @@ Output format:
         line: bug.line,
         description: bug.description || '',
         suggestion: bug.suggestion || '',
-        fixed: false
+        fixed: false,
       }));
     } catch (error) {
       console.error('Failed to parse bug report');
@@ -290,10 +288,10 @@ Output format:
   // ============================================
   private generateSummary(bugs: BugReport[], fixed: number): string {
     const bySeverity = {
-      critical: bugs.filter(b => b.severity === 'critical').length,
-      high: bugs.filter(b => b.severity === 'high').length,
-      medium: bugs.filter(b => b.severity === 'medium').length,
-      low: bugs.filter(b => b.severity === 'low').length
+      critical: bugs.filter((b) => b.severity === 'critical').length,
+      high: bugs.filter((b) => b.severity === 'high').length,
+      medium: bugs.filter((b) => b.severity === 'medium').length,
+      low: bugs.filter((b) => b.severity === 'low').length,
     };
 
     return `
@@ -310,9 +308,10 @@ Output format:
 - Remaining: ${bugs.length - fixed}
 
 ## Top Issues:
-${bugs.slice(0, 5).map((b, i) => 
-  `${i + 1}. [${b.severity.toUpperCase()}] ${b.description}`
-).join('\n')}
+${bugs
+  .slice(0, 5)
+  .map((b, i) => `${i + 1}. [${b.severity.toUpperCase()}] ${b.description}`)
+  .join('\n')}
 
 ${fixed > 0 ? '\n✅ Critical bugs have been automatically fixed!' : ''}
 ${bugs.length - fixed > 0 ? '\n⚠️ Some bugs require manual review.' : ''}

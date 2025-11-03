@@ -23,7 +23,7 @@ export interface ExecutionOptions {
   cwd?: string;
 }
 
-export interface ExecutionResult {
+export interface CodeExecutionResult {
   success: boolean;
   output?: string;
   error?: string;
@@ -64,7 +64,7 @@ export class CodeExecutor {
   /**
    * تنفيذ ملف كود
    */
-  async executeCode(options: ExecutionOptions): Promise<ExecutionResult> {
+  async executeCode(options: ExecutionOptions): Promise<CodeExecutionResult> {
     const { file, env = 'normal', timeout = 5000, args = [], cwd } = options;
 
     const fullPath = path.join(this.workingDir, file);
@@ -74,7 +74,7 @@ export class CodeExecutor {
       return {
         success: false,
         error: `الملف غير موجود: ${file}`,
-        errorType: 'other'
+        errorType: 'other',
       };
     }
 
@@ -97,7 +97,7 @@ export class CodeExecutor {
         return {
           success: false,
           error: 'ts-node غير مثبت. قم بتثبيته: npm install -g ts-node',
-          errorType: 'other'
+          errorType: 'other',
         };
       }
     } else if (ext === '.py') {
@@ -107,7 +107,7 @@ export class CodeExecutor {
       return {
         success: false,
         error: `امتداد غير مدعوم: ${ext}`,
-        errorType: 'other'
+        errorType: 'other',
       };
     }
 
@@ -118,10 +118,8 @@ export class CodeExecutor {
 
       const childProcess = spawn(command, commandArgs, {
         cwd: cwd || this.workingDir,
-        env: env === 'sandbox'
-          ? { ...process.env, NODE_ENV: 'sandbox' }
-          : process.env,
-        timeout
+        env: env === 'sandbox' ? { ...process.env, NODE_ENV: 'sandbox' } : process.env,
+        timeout,
       });
 
       // جمع المخرجات
@@ -141,7 +139,7 @@ export class CodeExecutor {
           success: false,
           error: `تجاوز الوقت المحدد (${timeout}ms)`,
           errorType: 'timeout',
-          runtime: Date.now() - startTime
+          runtime: Date.now() - startTime,
         });
       }, timeout);
 
@@ -159,7 +157,7 @@ export class CodeExecutor {
             success: true,
             output: output.trim(),
             exitCode: code,
-            runtime
+            runtime,
           });
         } else {
           // فشل التنفيذ
@@ -173,7 +171,7 @@ export class CodeExecutor {
             runtime,
             errorType: parsedError.type,
             errorLine: parsedError.line,
-            errorStack: parsedError.stack
+            errorStack: parsedError.stack,
           });
         }
       });
@@ -184,7 +182,7 @@ export class CodeExecutor {
           success: false,
           error: err.message,
           errorType: 'other',
-          runtime: Date.now() - startTime
+          runtime: Date.now() - startTime,
         });
       });
     });
@@ -193,7 +191,11 @@ export class CodeExecutor {
   /**
    * تحليل رسالة الخطأ
    */
-  private parseError(errorOutput: string): { type: 'syntax' | 'runtime' | 'other'; line?: number; stack?: string } {
+  private parseError(errorOutput: string): {
+    type: 'syntax' | 'runtime' | 'other';
+    line?: number;
+    stack?: string;
+  } {
     let type: 'syntax' | 'runtime' | 'other' = 'other';
     let line: number | undefined;
     let stack: string | undefined;
@@ -244,7 +246,7 @@ export class CodeExecutor {
         success: false,
         fixed: false,
         message: 'فشل الاتصال بـ AI',
-        attempts: 0
+        attempts: 0,
       };
     }
 
@@ -264,7 +266,7 @@ export class CodeExecutor {
             success: false,
             fixed: false,
             message: 'فشل قراءة الملف',
-            attempts
+            attempts,
           };
         }
 
@@ -293,11 +295,15 @@ ${error}
 ${fileContent}
 \`\`\`
 
-${analysis ? `تحليل الكود:
-- الدوال: ${analysis.functions.map(f => f.name).join(', ')}
+${
+  analysis
+    ? `تحليل الكود:
+- الدوال: ${analysis.functions.map((f) => f.name).join(', ')}
 - المتغيرات: ${analysis.variables.length}
 - التعقيد: ${analysis.stats.complexity}
-` : ''}
+`
+    : ''
+}
 
 المطلوب:
 1. حدد سبب الخطأ بدقة
@@ -323,7 +329,7 @@ REPLACE:
 
         const messages = [
           { role: 'system' as const, content: systemPrompt },
-          { role: 'user' as const, content: 'إصلح هذا الخطأ' }
+          { role: 'user' as const, content: 'إصلح هذا الخطأ' },
         ];
 
         // الحصول على الحل من AI
@@ -347,7 +353,9 @@ REPLACE:
           console.log(chalk.yellow('⚠️  لم يتم العثور على patches في الرد\n'));
 
           // محاولة فهم الرد كـ full file rewrite
-          const fullFileMatch = response.message.match(/```(?:javascript|typescript|js|ts)?\n([\s\S]*?)```/);
+          const fullFileMatch = response.message.match(
+            /```(?:javascript|typescript|js|ts)?\n([\s\S]*?)```/
+          );
           if (fullFileMatch) {
             console.log(chalk.cyan('📝 محاولة إعادة كتابة الملف كاملاً...\n'));
 
@@ -360,7 +368,7 @@ REPLACE:
                 success: true,
                 fixed: false,
                 message: 'تم إيجاد الحل، لكن لم يتم تطبيقه',
-                attempts
+                attempts,
               };
             }
           } else {
@@ -382,7 +390,7 @@ REPLACE:
               fixed: false,
               message: 'تم إيجاد الحل، لكن لم يتم تطبيقه',
               attempts,
-              patches: filePatches
+              patches: filePatches,
             };
           }
         }
@@ -392,7 +400,7 @@ REPLACE:
 
         const testResult = await this.executeCode({
           file,
-          timeout: 5000
+          timeout: 5000,
         });
 
         if (testResult.success) {
@@ -403,7 +411,7 @@ REPLACE:
             success: true,
             fixed: true,
             message: 'تم إصلاح الخطأ بنجاح',
-            attempts
+            attempts,
           };
         } else {
           console.log(chalk.yellow('⚠️  الخطأ لا يزال موجوداً:\n'));
@@ -412,7 +420,6 @@ REPLACE:
           // تحديث رسالة الخطأ للمحاولة التالية
           options.error = testResult.error || error;
         }
-
       } catch (error: any) {
         console.log(chalk.red(`❌ خطأ في المحاولة ${attempts}: ${error.message}\n`));
       }
@@ -423,20 +430,23 @@ REPLACE:
       success: false,
       fixed: false,
       message: `فشل الإصلاح بعد ${attempts} محاولة`,
-      attempts
+      attempts,
     };
   }
 
   /**
    * تشغيل وإصلاح تلقائي
    */
-  async runAndFix(file: string, options?: Partial<ExecutionOptions & FixOptions>): Promise<ExecutionResult> {
+  async runAndFix(
+    file: string,
+    options?: Partial<ExecutionOptions & FixOptions>
+  ): Promise<CodeExecutionResult> {
     console.log(chalk.blue.bold(`\n🚀 تشغيل ${file}...\n`));
 
     // التنفيذ الأول
     const result = await this.executeCode({
       file,
-      ...options
+      ...options,
     });
 
     if (result.success) {
@@ -459,7 +469,7 @@ REPLACE:
         error: result.error || 'Unknown error',
         errorType: result.errorType,
         maxAttempts: options?.maxAttempts || 3,
-        autoApply: options?.autoApply ?? true
+        autoApply: options?.autoApply ?? true,
       });
 
       if (fixResult.fixed) {

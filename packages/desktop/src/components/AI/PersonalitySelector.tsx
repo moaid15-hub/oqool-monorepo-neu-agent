@@ -1,12 +1,7 @@
 import React from 'react';
 import './PersonalitySelector.css';
 
-export type AIPersonality =
-  | 'helpful'
-  | 'professional'
-  | 'creative'
-  | 'concise'
-  | 'detailed';
+export type AIPersonality = 'helpful' | 'professional' | 'creative' | 'concise' | 'detailed';
 
 interface PersonalitySelectorProps {
   selected: AIPersonality;
@@ -46,10 +41,7 @@ const personalities = [
   },
 ];
 
-export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
-  selected,
-  onChange,
-}) => {
+export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({ selected, onChange }) => {
   return (
     <div className="personality-selector">
       <h4 className="selector-title">اختر شخصية المساعد</h4>
@@ -57,16 +49,12 @@ export const PersonalitySelector: React.FC<PersonalitySelectorProps> = ({
         {personalities.map((personality) => (
           <div
             key={personality.id}
-            className={`personality-card ${
-              selected === personality.id ? 'selected' : ''
-            }`}
+            className={`personality-card ${selected === personality.id ? 'selected' : ''}`}
             onClick={() => onChange(personality.id)}
           >
             <div className="personality-icon">{personality.icon}</div>
             <div className="personality-name">{personality.name}</div>
-            <div className="personality-description">
-              {personality.description}
-            </div>
+            <div className="personality-description">{personality.description}</div>
           </div>
         ))}
       </div>

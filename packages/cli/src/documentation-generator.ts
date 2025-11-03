@@ -96,7 +96,7 @@ export class DocumentationGenerator {
       includeSetup: true,
       includeExamples: true,
       language: 'ar',
-      template: 'default'
+      template: 'default',
     };
   }
 
@@ -124,7 +124,11 @@ export class DocumentationGenerator {
       const codeAnalysis = await this.analyzeCodebase();
 
       // توليد الأقسام المختلفة
-      const sections = await this.generateDocumentationSections(projectInfo, projectStructure, codeAnalysis);
+      const sections = await this.generateDocumentationSections(
+        projectInfo,
+        projectStructure,
+        codeAnalysis
+      );
 
       // إنشاء الملفات
       const files = await this.generateDocumentationFiles(sections);
@@ -139,11 +143,11 @@ export class DocumentationGenerator {
           generator: 'Oqool Code Documentation Generator',
           version: '2.5.0',
           format: this.config.format,
-          language: this.config.language
+          language: this.config.language,
         },
         files,
         size: files.length,
-        completeness: this.calculateCompleteness(sections)
+        completeness: this.calculateCompleteness(sections),
       };
 
       await this.saveDocumentationIndex(documentation);
@@ -158,7 +162,6 @@ export class DocumentationGenerator {
       console.log(chalk.gray(`   المجلد: ${this.config.outputDir}\n`));
 
       return documentation;
-
     } catch (error) {
       spinner.fail('فشل في توليد التوثيق');
       throw error;
@@ -185,7 +188,7 @@ export class DocumentationGenerator {
           keywords: packageJson.keywords || [],
           scripts: packageJson.scripts || {},
           dependencies: packageJson.dependencies || {},
-          devDependencies: packageJson.devDependencies || {}
+          devDependencies: packageJson.devDependencies || {},
         };
       }
 
@@ -200,9 +203,8 @@ export class DocumentationGenerator {
         keywords: [],
         scripts: {},
         dependencies: {},
-        devDependencies: {}
+        devDependencies: {},
       };
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في قراءة معلومات المشروع:'), error);
       return {
@@ -215,7 +217,7 @@ export class DocumentationGenerator {
         keywords: [],
         scripts: {},
         dependencies: {},
-        devDependencies: {}
+        devDependencies: {},
       };
     }
   }
@@ -232,9 +234,8 @@ export class DocumentationGenerator {
         totalFiles: this.countFiles(structure),
         totalDirectories: this.countDirectories(structure),
         mainLanguages: await this.detectMainLanguages(),
-        complexity: await this.assessComplexity()
+        complexity: await this.assessComplexity(),
       };
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في تحليل بنية المشروع:'), error);
       return { root: {}, totalFiles: 0, totalDirectories: 0 };
@@ -253,9 +254,8 @@ export class DocumentationGenerator {
         totalSize: context.totalSize,
         mainLanguage: this.detectPrimaryLanguage(context.files),
         complexity: this.calculateCodeComplexity(context.files),
-        quality: this.assessCodeQuality(context.files)
+        quality: this.assessCodeQuality(context.files),
       };
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في تحليل قاعدة الكود:'), error);
       return { files: [], totalSize: 0 };
@@ -283,8 +283,8 @@ export class DocumentationGenerator {
         generated: true,
         source: 'project-info',
         confidence: 0.9,
-        lastUpdated: new Date().toISOString()
-      }
+        lastUpdated: new Date().toISOString(),
+      },
     });
 
     // قسم التثبيت والإعداد
@@ -299,8 +299,8 @@ export class DocumentationGenerator {
           generated: true,
           source: 'package-scripts',
           confidence: 0.8,
-          lastUpdated: new Date().toISOString()
-        }
+          lastUpdated: new Date().toISOString(),
+        },
       });
     }
 
@@ -315,8 +315,8 @@ export class DocumentationGenerator {
         generated: true,
         source: 'scripts-analysis',
         confidence: 0.85,
-        lastUpdated: new Date().toISOString()
-      }
+        lastUpdated: new Date().toISOString(),
+      },
     });
 
     // قسم بنية المشروع
@@ -330,8 +330,8 @@ export class DocumentationGenerator {
         generated: true,
         source: 'file-structure',
         confidence: 0.95,
-        lastUpdated: new Date().toISOString()
-      }
+        lastUpdated: new Date().toISOString(),
+      },
     });
 
     // قسم API Reference
@@ -346,8 +346,8 @@ export class DocumentationGenerator {
           generated: true,
           source: 'code-analysis',
           confidence: 0.75,
-          lastUpdated: new Date().toISOString()
-        }
+          lastUpdated: new Date().toISOString(),
+        },
       });
     }
 
@@ -363,8 +363,8 @@ export class DocumentationGenerator {
           generated: true,
           source: 'package-json',
           confidence: 0.95,
-          lastUpdated: new Date().toISOString()
-        }
+          lastUpdated: new Date().toISOString(),
+        },
       });
     }
 
@@ -380,8 +380,8 @@ export class DocumentationGenerator {
           generated: true,
           source: 'code-metrics',
           confidence: 0.8,
-          lastUpdated: new Date().toISOString()
-        }
+          lastUpdated: new Date().toISOString(),
+        },
       });
     }
 
@@ -396,8 +396,8 @@ export class DocumentationGenerator {
         generated: true,
         source: 'template',
         confidence: 0.9,
-        lastUpdated: new Date().toISOString()
-      }
+        lastUpdated: new Date().toISOString(),
+      },
     });
 
     return sections;
@@ -712,7 +712,7 @@ export class DocumentationGenerator {
     let content = `# ${sections[0]?.title || 'Project Documentation'}\n\n`;
 
     // المقدمة
-    const introSection = sections.find(s => s.id === 'introduction');
+    const introSection = sections.find((s) => s.id === 'introduction');
     if (introSection) {
       content += introSection.content;
     }
@@ -792,7 +792,7 @@ export class DocumentationGenerator {
    */
   private calculateCompleteness(sections: DocumentationSection[]): number {
     const requiredSections = ['introduction', 'installation', 'usage', 'structure'];
-    const completedSections = sections.filter(s => requiredSections.includes(s.id)).length;
+    const completedSections = sections.filter((s) => requiredSections.includes(s.id)).length;
 
     return Math.min(1.0, completedSections / requiredSections.length);
   }
@@ -880,7 +880,6 @@ export class DocumentationGenerator {
         .sort((a, b) => b[1] - a[1])
         .slice(0, 3)
         .map(([ext]) => this.getLanguageFromExtension(ext));
-
     } catch {
       return ['JavaScript', 'TypeScript'];
     }
@@ -896,7 +895,6 @@ export class DocumentationGenerator {
       if (context.totalFiles > 50) return 'معقد';
       if (context.totalFiles > 20) return 'متوسط';
       return 'بسيط';
-
     } catch {
       return 'متوسط';
     }
@@ -937,7 +935,7 @@ export class DocumentationGenerator {
       '.yaml': 'yaml',
       '.md': 'markdown',
       '.sh': 'bash',
-      '.sql': 'sql'
+      '.sql': 'sql',
     };
 
     return languages[ext] || 'text';
@@ -986,7 +984,7 @@ export class DocumentationGenerator {
    * تقييم جودة الكود
    */
   private assessCodeQuality(files: any[]): string {
-    const jsFiles = files.filter(f => f.path.endsWith('.js') || f.path.endsWith('.ts'));
+    const jsFiles = files.filter((f) => f.path.endsWith('.js') || f.path.endsWith('.ts'));
 
     if (jsFiles.length === 0) return 'غير محدد';
 
@@ -1018,6 +1016,9 @@ export class DocumentationGenerator {
 }
 
 // مصنع لإنشاء instance
-export function createDocumentationGenerator(apiClient: OqoolAPIClient, workingDir?: string): DocumentationGenerator {
+export function createDocumentationGenerator(
+  apiClient: OqoolAPIClient,
+  workingDir?: string
+): DocumentationGenerator {
   return new DocumentationGenerator(apiClient, workingDir);
 }

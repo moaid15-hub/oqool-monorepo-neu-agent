@@ -13,7 +13,7 @@ export const ChatPanel: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    if (!input.trim()) {return;}
 
     const userMessage: Message = {
       role: 'user',
@@ -42,14 +42,10 @@ export const ChatPanel: React.FC = () => {
       <div className="chat-messages">
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.role}`}>
-            <div className="message-avatar">
-              {msg.role === 'user' ? '👤' : '🤖'}
-            </div>
+            <div className="message-avatar">{msg.role === 'user' ? '👤' : '🤖'}</div>
             <div className="message-content">
               <div className="message-text">{msg.content}</div>
-              <div className="message-time">
-                {msg.timestamp.toLocaleTimeString('ar')}
-              </div>
+              <div className="message-time">{msg.timestamp.toLocaleTimeString('ar')}</div>
             </div>
           </div>
         ))}

@@ -158,10 +158,10 @@ export class PluginManager {
     await fs.ensureDir(this.pluginDir);
 
     const config = {
-      plugins: Array.from(this.plugins.values()).map(p => ({
+      plugins: Array.from(this.plugins.values()).map((p) => ({
         name: p.name,
-        version: p.version
-      }))
+        version: p.version,
+      })),
     };
 
     await fs.writeJSON(join(this.pluginDir, 'config.json'), config, { spaces: 2 });
@@ -173,7 +173,7 @@ export class PluginManager {
   async loadFromConfig(): Promise<void> {
     const configPath = join(this.pluginDir, 'config.json');
 
-    if (!await fs.pathExists(configPath)) {
+    if (!(await fs.pathExists(configPath))) {
       return;
     }
 
@@ -210,13 +210,13 @@ export const examplePlugin: oqoolPlugin = {
       parameters: {
         type: 'object',
         properties: {
-          message: { type: 'string' }
-        }
+          message: { type: 'string' },
+        },
       },
       execute: async (params) => {
         return { result: `Echo: ${params.message}` };
-      }
-    }
+      },
+    },
   ],
 
   commands: [
@@ -225,7 +225,7 @@ export const examplePlugin: oqoolPlugin = {
       description: 'يطبع hello',
       action: async () => {
         console.log('Hello from example plugin!');
-      }
-    }
-  ]
+      },
+    },
+  ],
 };

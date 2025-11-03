@@ -101,7 +101,7 @@ export class PRManager {
 ---
 🤖 تم الإنشاء باستخدام Oqool Code
 `,
-      labels: ['enhancement', 'feature']
+      labels: ['enhancement', 'feature'],
     });
 
     // Bug Fix Template
@@ -125,7 +125,7 @@ Closes #{{issue_number}}
 ---
 🤖 تم الإنشاء باستخدام Oqool Code
 `,
-      labels: ['bug', 'fix']
+      labels: ['bug', 'fix'],
     });
 
     // Refactor Template
@@ -152,7 +152,7 @@ Closes #{{issue_number}}
 ---
 🤖 تم الإنشاء باستخدام Oqool Code
 `,
-      labels: ['refactor']
+      labels: ['refactor'],
     });
 
     // Documentation Template
@@ -175,7 +175,7 @@ Closes #{{issue_number}}
 ---
 🤖 تم الإنشاء باستخدام Oqool Code
 `,
-      labels: ['documentation']
+      labels: ['documentation'],
     });
 
     // Hotfix Template
@@ -199,7 +199,7 @@ Closes #{{issue_number}}
 ---
 🤖 تم الإنشاء باستخدام Oqool Code
 `,
-      labels: ['hotfix', 'urgent', 'high-priority']
+      labels: ['hotfix', 'urgent', 'high-priority'],
     });
   }
 
@@ -235,7 +235,7 @@ Closes #{{issue_number}}
   private async getDefaultBaseBranch(): Promise<string> {
     try {
       const { stdout } = await execAsync('git symbolic-ref refs/remotes/origin/HEAD', {
-        cwd: this.workingDir
+        cwd: this.workingDir,
       });
       const branch = stdout.trim().replace('refs/remotes/origin/', '');
       return branch || 'main';
@@ -268,7 +268,7 @@ Closes #{{issue_number}}
   ): Promise<boolean> {
     try {
       // التحقق من gh CLI
-      if (!await this.checkGHCLI()) {
+      if (!(await this.checkGHCLI())) {
         return false;
       }
 
@@ -291,8 +291,8 @@ Closes #{{issue_number}}
       const body = options.body || this.replaceVariables(template.body, variables);
 
       // الحصول على الـ branches
-      const head = options.head || await this.getCurrentBranch();
-      const base = options.base || await this.getDefaultBaseBranch();
+      const head = options.head || (await this.getCurrentBranch());
+      const base = options.base || (await this.getDefaultBaseBranch());
 
       // بناء الأمر
       let command = `gh pr create --title "${title}" --body "${body}" --base "${base}" --head "${head}"`;
@@ -326,7 +326,6 @@ Closes #{{issue_number}}
       console.log(chalk.white(stdout));
 
       return true;
-
     } catch (error: any) {
       console.log(chalk.red(`\n❌ فشل إنشاء PR: ${error.message}\n`));
       return false;
@@ -339,7 +338,7 @@ Closes #{{issue_number}}
   async createInteractive(): Promise<boolean> {
     try {
       // التحقق من gh CLI
-      if (!await this.checkGHCLI()) {
+      if (!(await this.checkGHCLI())) {
         return false;
       }
 
@@ -354,13 +353,13 @@ Closes #{{issue_number}}
           name: 'template',
           message: 'اختر قالب PR:',
           choices: templates,
-          default: 'feature'
+          default: 'feature',
         },
         {
           type: 'input',
           name: 'title',
           message: 'عنوان PR:',
-          validate: (input) => input.length > 0 || 'العنوان مطلوب'
+          validate: (input) => input.length > 0 || 'العنوان مطلوب',
         },
         {
           type: 'editor',
@@ -372,25 +371,25 @@ Closes #{{issue_number}}
               return template?.body || '';
             }
             return '';
-          }
+          },
         },
         {
           type: 'input',
           name: 'base',
           message: 'Base branch:',
-          default: await this.getDefaultBaseBranch()
+          default: await this.getDefaultBaseBranch(),
         },
         {
           type: 'input',
           name: 'head',
           message: 'Head branch:',
-          default: await this.getCurrentBranch()
+          default: await this.getCurrentBranch(),
         },
         {
           type: 'confirm',
           name: 'draft',
           message: 'إنشاء كـ draft؟',
-          default: false
+          default: false,
         },
         {
           type: 'input',
@@ -402,8 +401,8 @@ Closes #{{issue_number}}
               return template?.labels?.join(', ') || '';
             }
             return '';
-          }
-        }
+          },
+        },
       ]);
 
       // إنشاء PR
@@ -413,11 +412,10 @@ Closes #{{issue_number}}
         base: answers.base,
         head: answers.head,
         draft: answers.draft,
-        labels: answers.labels ? answers.labels.split(',').map((l: string) => l.trim()) : []
+        labels: answers.labels ? answers.labels.split(',').map((l: string) => l.trim()) : [],
       };
 
       return await this.create(options);
-
     } catch (error: any) {
       console.log(chalk.red(`\n❌ فشل إنشاء PR: ${error.message}\n`));
       return false;
@@ -430,12 +428,12 @@ Closes #{{issue_number}}
   async create(options: PROptions): Promise<boolean> {
     try {
       // التحقق من gh CLI
-      if (!await this.checkGHCLI()) {
+      if (!(await this.checkGHCLI())) {
         return false;
       }
 
-      const head = options.head || await this.getCurrentBranch();
-      const base = options.base || await this.getDefaultBaseBranch();
+      const head = options.head || (await this.getCurrentBranch());
+      const base = options.base || (await this.getDefaultBaseBranch());
 
       console.log(chalk.cyan(`\n🔀 إنشاء PR من ${head} إلى ${base}\n`));
 
@@ -475,7 +473,6 @@ Closes #{{issue_number}}
       console.log(chalk.white(stdout));
 
       return true;
-
     } catch (error: any) {
       console.log(chalk.red(`\n❌ فشل إنشاء PR: ${error.message}\n`));
       return false;
@@ -488,14 +485,14 @@ Closes #{{issue_number}}
   async listPRs(state: 'open' | 'closed' | 'merged' | 'all' = 'open'): Promise<void> {
     try {
       // التحقق من gh CLI
-      if (!await this.checkGHCLI()) {
+      if (!(await this.checkGHCLI())) {
         return;
       }
 
       console.log(chalk.cyan(`\n📋 Pull Requests (${state}):\n`));
 
       const { stdout } = await execAsync(`gh pr list --state ${state}`, {
-        cwd: this.workingDir
+        cwd: this.workingDir,
       });
 
       if (!stdout.trim()) {
@@ -504,7 +501,6 @@ Closes #{{issue_number}}
       }
 
       console.log(chalk.white(stdout));
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل عرض PRs: ${error.message}\n`));
     }
@@ -516,19 +512,18 @@ Closes #{{issue_number}}
   async viewPR(number: number): Promise<void> {
     try {
       // التحقق من gh CLI
-      if (!await this.checkGHCLI()) {
+      if (!(await this.checkGHCLI())) {
         return;
       }
 
       console.log(chalk.cyan(`\n📋 تفاصيل PR #${number}:\n`));
 
       const { stdout } = await execAsync(`gh pr view ${number}`, {
-        cwd: this.workingDir
+        cwd: this.workingDir,
       });
 
       console.log(chalk.white(stdout));
       console.log('');
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل عرض PR: ${error.message}\n`));
     }
@@ -540,20 +535,19 @@ Closes #{{issue_number}}
   async mergePR(number: number, method: 'merge' | 'squash' | 'rebase' = 'merge'): Promise<boolean> {
     try {
       // التحقق من gh CLI
-      if (!await this.checkGHCLI()) {
+      if (!(await this.checkGHCLI())) {
         return false;
       }
 
       console.log(chalk.cyan(`\n🔀 دمج PR #${number} (${method})...\n`));
 
       await execAsync(`gh pr merge ${number} --${method}`, {
-        cwd: this.workingDir
+        cwd: this.workingDir,
       });
 
       console.log(chalk.green(`✅ تم دمج PR #${number} بنجاح!\n`));
 
       return true;
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل دمج PR: ${error.message}\n`));
       return false;
@@ -566,20 +560,19 @@ Closes #{{issue_number}}
   async closePR(number: number): Promise<boolean> {
     try {
       // التحقق من gh CLI
-      if (!await this.checkGHCLI()) {
+      if (!(await this.checkGHCLI())) {
         return false;
       }
 
       console.log(chalk.cyan(`\n❌ إغلاق PR #${number}...\n`));
 
       await execAsync(`gh pr close ${number}`, {
-        cwd: this.workingDir
+        cwd: this.workingDir,
       });
 
       console.log(chalk.green(`✅ تم إغلاق PR #${number}\n`));
 
       return true;
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل إغلاق PR: ${error.message}\n`));
       return false;
@@ -592,7 +585,7 @@ Closes #{{issue_number}}
   async getStats(): Promise<PRStats> {
     try {
       // التحقق من gh CLI
-      if (!await this.checkGHCLI()) {
+      if (!(await this.checkGHCLI())) {
         return { open: 0, closed: 0, merged: 0, total: 0 };
       }
 
@@ -601,7 +594,7 @@ Closes #{{issue_number}}
 
       for (const state of states) {
         const { stdout } = await execAsync(`gh pr list --state ${state} --json number`, {
-          cwd: this.workingDir
+          cwd: this.workingDir,
         });
 
         const prs = JSON.parse(stdout || '[]');
@@ -612,9 +605,8 @@ Closes #{{issue_number}}
         open: counts.open || 0,
         closed: counts.closed || 0,
         merged: counts.merged || 0,
-        total: (counts.open || 0) + (counts.closed || 0) + (counts.merged || 0)
+        total: (counts.open || 0) + (counts.closed || 0) + (counts.merged || 0),
       };
-
     } catch (error) {
       return { open: 0, closed: 0, merged: 0, total: 0 };
     }
@@ -668,7 +660,6 @@ Closes #{{issue_number}}
       }
 
       return undefined;
-
     } catch (error) {
       return undefined;
     }
@@ -687,7 +678,6 @@ Closes #{{issue_number}}
       console.log(chalk.green(`✅ تم حفظ القالب: ${template.name}`));
 
       return true;
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل حفظ القالب: ${error.message}`));
       return false;

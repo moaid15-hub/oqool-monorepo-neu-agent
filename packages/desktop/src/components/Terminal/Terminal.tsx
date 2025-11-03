@@ -1,11 +1,5 @@
 import { useState } from 'react';
-import { 
-  VscAdd, 
-  VscSplitHorizontal, 
-  VscTrash, 
-  VscClose,
-  VscTerminal
-} from 'react-icons/vsc';
+import { VscAdd, VscSplitHorizontal, VscTrash, VscClose, VscTerminal } from 'react-icons/vsc';
 import './Terminal.css';
 
 interface TerminalTab {
@@ -15,9 +9,7 @@ interface TerminalTab {
 }
 
 export function Terminal() {
-  const [tabs, setTabs] = useState<TerminalTab[]>([
-    { id: 1, name: 'bash', type: 'bash' },
-  ]);
+  const [tabs, setTabs] = useState<TerminalTab[]>([{ id: 1, name: 'bash', type: 'bash' }]);
   const [activeTabId, setActiveTabId] = useState(1);
 
   const addNewTerminal = () => {
@@ -31,7 +23,7 @@ export function Terminal() {
   };
 
   const closeTab = (id: number) => {
-    if (tabs.length === 1) return; // Keep at least one tab
+    if (tabs.length === 1) {return;} // Keep at least one tab
     const newTabs = tabs.filter((tab) => tab.id !== id);
     setTabs(newTabs);
     if (activeTabId === id) {
@@ -85,7 +77,11 @@ export function Terminal() {
           <button className="terminal-btn" onClick={clearTerminal} title="Clear">
             <VscTrash size={16} />
           </button>
-          <button className="terminal-btn" onClick={() => closeTab(activeTabId)} title="Kill Terminal">
+          <button
+            className="terminal-btn"
+            onClick={() => closeTab(activeTabId)}
+            title="Kill Terminal"
+          >
             <VscClose size={16} />
           </button>
         </div>
@@ -109,16 +105,16 @@ export function Terminal() {
           <span className="command-text">Features loaded:</span>
         </div>
         <div className="terminal-line">
-          <span className="success-text">  ✓ Monaco Editor</span>
+          <span className="success-text"> ✓ Monaco Editor</span>
         </div>
         <div className="terminal-line">
-          <span className="success-text">  ✓ IntelliSense</span>
+          <span className="success-text"> ✓ IntelliSense</span>
         </div>
         <div className="terminal-line">
-          <span className="success-text">  ✓ Syntax Highlighting</span>
+          <span className="success-text"> ✓ Syntax Highlighting</span>
         </div>
         <div className="terminal-line">
-          <span className="success-text">  ✓ AI Assistant</span>
+          <span className="success-text"> ✓ AI Assistant</span>
         </div>
         <div className="terminal-line terminal-mt">
           <span className="prompt-user">amir@oqool</span>

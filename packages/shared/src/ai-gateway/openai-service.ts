@@ -18,12 +18,12 @@ export interface ChatCompletionOptions {
 
 export class OpenAIService {
   private client: OpenAI;
-  
+
   constructor(apiKey: string) {
     if (!apiKey) {
       throw new Error('OpenAI API key is required');
     }
-    
+
     this.client = new OpenAI({
       apiKey: apiKey,
     });
@@ -32,15 +32,8 @@ export class OpenAIService {
   /**
    * إرسال رسالة للـ AI
    */
-  async chatCompletion(
-    messages: Message[],
-    options: ChatCompletionOptions = {}
-  ): Promise<string> {
-    const {
-      model = 'gpt-4-turbo-preview',
-      maxTokens = 4096,
-      temperature = 0.7,
-    } = options;
+  async chatCompletion(messages: Message[], options: ChatCompletionOptions = {}): Promise<string> {
+    const { model = 'gpt-4-turbo-preview', maxTokens = 4096, temperature = 0.7 } = options;
 
     try {
       const response = await this.client.chat.completions.create({
@@ -51,7 +44,7 @@ export class OpenAIService {
       });
 
       const content = response.choices[0]?.message?.content;
-      
+
       if (!content) {
         throw new Error('No response from OpenAI');
       }
@@ -72,11 +65,7 @@ export class OpenAIService {
     messages: Message[],
     options: ChatCompletionOptions = {}
   ): AsyncGenerator<string, void, unknown> {
-    const {
-      model = 'gpt-4-turbo-preview',
-      maxTokens = 4096,
-      temperature = 0.7,
-    } = options;
+    const { model = 'gpt-4-turbo-preview', maxTokens = 4096, temperature = 0.7 } = options;
 
     try {
       const stream = await this.client.chat.completions.create({
@@ -102,35 +91,39 @@ export class OpenAIService {
   /**
    * حساب التكلفة التقريبية
    */
-  calculateCost(inputTokens: number, outputTokens: number, model: string = 'gpt-4-turbo-preview'): number {
+  calculateCost(
+    inputTokens: number,
+    outputTokens: number,
+    model: string = 'gpt-4-turbo-preview'
+  ): number {
     // OpenAI pricing
     const pricing: Record<string, { input: number; output: number }> = {
       'gpt-4-turbo-preview': {
-        input: 10.0,  // $10 per 1M tokens
+        input: 10.0, // $10 per 1M tokens
         output: 30.0, // $30 per 1M tokens
       },
       'gpt-4': {
-        input: 30.0,  // $30 per 1M tokens
+        input: 30.0, // $30 per 1M tokens
         output: 60.0, // $60 per 1M tokens
       },
       'gpt-3.5-turbo': {
-        input: 0.5,   // $0.50 per 1M tokens
-        output: 1.5,  // $1.50 per 1M tokens
+        input: 0.5, // $0.50 per 1M tokens
+        output: 1.5, // $1.50 per 1M tokens
       },
       'gpt-4o': {
-        input: 5.0,   // $5 per 1M tokens
+        input: 5.0, // $5 per 1M tokens
         output: 15.0, // $15 per 1M tokens
       },
       'gpt-4o-mini': {
-        input: 0.15,  // $0.15 per 1M tokens
-        output: 0.60, // $0.60 per 1M tokens
+        input: 0.15, // $0.15 per 1M tokens
+        output: 0.6, // $0.60 per 1M tokens
       },
     };
 
     const modelPricing = pricing[model] || pricing['gpt-4-turbo-preview'];
     const inputCost = (inputTokens / 1_000_000) * modelPricing.input;
     const outputCost = (outputTokens / 1_000_000) * modelPricing.output;
-    
+
     return inputCost + outputCost;
   }
 
@@ -139,9 +132,7 @@ export class OpenAIService {
    */
   async validateApiKey(): Promise<boolean> {
     try {
-      await this.chatCompletion([
-        { role: 'user', content: 'Hello' }
-      ], { maxTokens: 10 });
+      await this.chatCompletion([{ role: 'user', content: 'Hello' }], { maxTokens: 10 });
       return true;
     } catch (error) {
       return false;
@@ -165,7 +156,7 @@ export class OpenAIService {
         name: 'GPT-4o Mini',
         description: 'صغير وسريع ورخيص جداً',
         maxTokens: 128000,
-        cost: { input: 0.15, output: 0.60 },
+        cost: { input: 0.15, output: 0.6 },
       },
       {
         id: 'gpt-4-turbo-preview',
@@ -199,7 +190,11 @@ export class OpenAIService {
     const statusCode = error.status || error.statusCode;
 
     // معالجة أخطاء API المعروفة
-    if (statusCode === 401 || errorMsg.includes('Incorrect API key') || errorMsg.includes('invalid_api_key')) {
+    if (
+      statusCode === 401 ||
+      errorMsg.includes('Incorrect API key') ||
+      errorMsg.includes('invalid_api_key')
+    ) {
       return '401 Invalid API Key - Please check your OpenAI API key';
     }
     if (statusCode === 403) {

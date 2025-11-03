@@ -18,7 +18,7 @@ export interface HistoryEntry {
   timestamp: number;
   files: string[];
   before: Map<string, string>; // محتوى الملفات قبل التعديل
-  after: Map<string, string>;  // محتوى الملفات بعد التعديل
+  after: Map<string, string>; // محتوى الملفات بعد التعديل
   metadata?: {
     prompt?: string;
     command?: string;
@@ -75,7 +75,7 @@ export class HistoryManager {
         this.history = data.history.map((entry: any) => ({
           ...entry,
           before: new Map(Object.entries(entry.before)),
-          after: new Map(Object.entries(entry.after))
+          after: new Map(Object.entries(entry.after)),
         }));
 
         this.currentIndex = data.currentIndex;
@@ -98,12 +98,12 @@ export class HistoryManager {
 
       // تحويل Maps إلى objects للـ JSON
       const data = {
-        history: this.history.map(entry => ({
+        history: this.history.map((entry) => ({
           ...entry,
           before: Object.fromEntries(entry.before),
-          after: Object.fromEntries(entry.after)
+          after: Object.fromEntries(entry.after),
         })),
-        currentIndex: this.currentIndex
+        currentIndex: this.currentIndex,
       };
 
       await fs.writeJSON(this.historyPath, data, { spaces: 2 });
@@ -164,7 +164,7 @@ export class HistoryManager {
       files,
       before,
       after: new Map(), // سنملأه بعد التعديل
-      metadata
+      metadata,
     };
 
     // حذف أي entries بعد currentIndex (إذا عملنا undo ثم action جديد)
@@ -394,7 +394,7 @@ export class HistoryManager {
       currentIndex: this.currentIndex,
       canUndo: this.canUndo(),
       canRedo: this.canRedo(),
-      totalSize
+      totalSize,
     };
   }
 
@@ -420,9 +420,10 @@ export class HistoryManager {
    * البحث في التاريخ
    */
   search(query: string): HistoryEntry[] {
-    return this.history.filter(entry =>
-      entry.description.toLowerCase().includes(query.toLowerCase()) ||
-      entry.files.some(file => file.toLowerCase().includes(query.toLowerCase()))
+    return this.history.filter(
+      (entry) =>
+        entry.description.toLowerCase().includes(query.toLowerCase()) ||
+        entry.files.some((file) => file.toLowerCase().includes(query.toLowerCase()))
     );
   }
 
@@ -461,19 +462,18 @@ export class HistoryManager {
     if (format === 'json') {
       const data = {
         exported: new Date().toISOString(),
-        entries: this.history.map(entry => ({
+        entries: this.history.map((entry) => ({
           id: entry.id,
           action: entry.action,
           description: entry.description,
           timestamp: entry.timestamp,
           date: new Date(entry.timestamp).toISOString(),
           files: entry.files,
-          metadata: entry.metadata
-        }))
+          metadata: entry.metadata,
+        })),
       };
 
       await fs.writeJSON(exportPath, data, { spaces: 2 });
-
     } else {
       // CSV format
       let csv = 'ID,Action,Description,Timestamp,Date,Files\n';
@@ -493,6 +493,9 @@ export class HistoryManager {
 }
 
 // تصدير instance
-export function createHistoryManager(workingDir?: string, options?: HistoryOptions): HistoryManager {
+export function createHistoryManager(
+  workingDir?: string,
+  options?: HistoryOptions
+): HistoryManager {
   return new HistoryManager(workingDir, options);
 }

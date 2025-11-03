@@ -6,7 +6,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import chalk from 'chalk';
 
-export interface Task {
+export interface PlannerTask {
   id: string;
   description: string;
   status: 'pending' | 'in_progress' | 'completed' | 'failed';
@@ -17,7 +17,7 @@ export interface Task {
 
 export interface Plan {
   goal: string;
-  tasks: Task[];
+  tasks: PlannerTask[];
   estimatedSteps: number;
 }
 
@@ -61,7 +61,7 @@ TASK 3: [وصف المهمة]
       const response = await this.client.messages.create({
         model: 'claude-3-5-haiku-20241022',
         max_tokens: 2000,
-        messages: [{ role: 'user', content: planningPrompt }]
+        messages: [{ role: 'user', content: planningPrompt }],
       });
 
       const content = response.content[0];
@@ -81,12 +81,14 @@ TASK 3: [وصف المهمة]
     // خطة افتراضية إذا فشل التخطيط
     return {
       goal: userRequest,
-      tasks: [{
-        id: '1',
-        description: userRequest,
-        status: 'pending'
-      }],
-      estimatedSteps: 1
+      tasks: [
+        {
+          id: '1',
+          description: userRequest,
+          status: 'pending',
+        },
+      ],
+      estimatedSteps: 1,
     };
   }
 
@@ -94,7 +96,7 @@ TASK 3: [وصف المهمة]
   // 📝 تحليل الخطة من النص
   // ============================================
   private parsePlan(goal: string, planText: string): Plan {
-    const tasks: Task[] = [];
+    const tasks: PlannerTask[] = [];
     const lines = planText.split('\n');
 
     for (const line of lines) {
@@ -103,13 +105,13 @@ TASK 3: [وصف المهمة]
       if (taskMatch) {
         const id = taskMatch[1];
         const description = taskMatch[2].trim();
-        const dependsOn = taskMatch[3]?.split(',').map(d => d.trim());
+        const dependsOn = taskMatch[3]?.split(',').map((d) => d.trim());
 
         tasks.push({
           id,
           description,
           status: 'pending',
-          dependencies: dependsOn
+          dependencies: dependsOn,
         });
       }
     }
@@ -119,14 +121,14 @@ TASK 3: [وصف المهمة]
       tasks.push({
         id: '1',
         description: planText.trim(),
-        status: 'pending'
+        status: 'pending',
       });
     }
 
     return {
       goal,
       tasks,
-      estimatedSteps: tasks.length
+      estimatedSteps: tasks.length,
     };
   }
 
@@ -152,15 +154,10 @@ TASK 3: [وصف المهمة]
   // ============================================
   // ✅ تحديث حالة مهمة
   // ============================================
-  updateTaskStatus(
-    taskId: string,
-    status: Task['status'],
-    result?: string,
-    error?: string
-  ): void {
+  updateTaskStatus(taskId: string, status: PlannerTask['status'], result?: string, error?: string): void {
     if (!this.currentPlan) return;
 
-    const task = this.currentPlan.tasks.find(t => t.id === taskId);
+    const task = this.currentPlan.tasks.find((t) => t.id === taskId);
     if (task) {
       task.status = status;
       if (result) task.result = result;
@@ -171,17 +168,17 @@ TASK 3: [وصف المهمة]
         pending: '⏳',
         in_progress: '🔄',
         completed: '✅',
-        failed: '❌'
+        failed: '❌',
       }[status];
 
-      console.log(chalk.gray(`${statusEmoji} Task ${taskId}: ${status}`));
+      console.log(chalk.gray(`${statusEmoji} PlannerTask ${taskId}: ${status}`));
     }
   }
 
   // ============================================
   // 🎯 الحصول على المهمة التالية
   // ============================================
-  getNextTask(): Task | null {
+  getNextTask(): PlannerTask | null {
     if (!this.currentPlan) return null;
 
     for (const task of this.currentPlan.tasks) {
@@ -197,8 +194,8 @@ TASK 3: [وصف المهمة]
 
       // تحقق من التبعيات
       if (task.dependencies && task.dependencies.length > 0) {
-        const allDependenciesMet = task.dependencies.every(depId => {
-          const depTask = this.currentPlan!.tasks.find(t => t.id === depId);
+        const allDependenciesMet = task.dependencies.every((depId) => {
+          const depTask = this.currentPlan!.tasks.find((t) => t.id === depId);
           return depTask?.status === 'completed';
         });
 
@@ -227,8 +224,8 @@ TASK 3: [وصف المهمة]
     if (!this.currentPlan) return null;
 
     const total = this.currentPlan.tasks.length;
-    const completed = this.currentPlan.tasks.filter(t => t.status === 'completed').length;
-    const failed = this.currentPlan.tasks.filter(t => t.status === 'failed').length;
+    const completed = this.currentPlan.tasks.filter((t) => t.status === 'completed').length;
+    const failed = this.currentPlan.tasks.filter((t) => t.status === 'failed').length;
     const remaining = total - completed - failed;
     const progress = Math.round((completed / total) * 100);
 
@@ -238,7 +235,7 @@ TASK 3: [وصف المهمة]
   // ============================================
   // 🔄 إعادة التخطيط (في حالة فشل)
   // ============================================
-  async replan(failedTask: Task, error: string): Promise<Plan | null> {
+  async replan(failedTask: PlannerTask, error: string): Promise<Plan | null> {
     if (!this.currentPlan) return null;
 
     console.log(chalk.yellow(`\n⚠️ فشلت المهمة ${failedTask.id}, إعادة التخطيط...`));
@@ -249,7 +246,7 @@ TASK 3: [وصف المهمة]
 الخطأ: ${error}
 
 الخطة الأصلية:
-${this.currentPlan.tasks.map(t => `${t.id}. ${t.description} [${t.status}]`).join('\n')}
+${this.currentPlan.tasks.map((t) => `${t.id}. ${t.description} [${t.status}]`).join('\n')}
 
 أعطني خطة بديلة لحل المشكلة:
 TASK 1: ...
@@ -259,7 +256,7 @@ TASK 2: ...`;
       const response = await this.client.messages.create({
         model: 'claude-3-5-haiku-20241022',
         max_tokens: 2000,
-        messages: [{ role: 'user', content: replanPrompt }]
+        messages: [{ role: 'user', content: replanPrompt }],
       });
 
       const content = response.content[0];

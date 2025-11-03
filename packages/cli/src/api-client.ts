@@ -47,16 +47,16 @@ export class OqoolAPIClient {
   constructor(apiKey: string, baseURL: string = 'https://oqool.net') {
     this.apiKey = apiKey;
     this.baseURL = baseURL;
-    
+
     this.client = axios.create({
       baseURL: this.baseURL,
       timeout: 60000, // 60 seconds timeout
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.apiKey}`,
+        Authorization: `Bearer ${this.apiKey}`,
         'X-Client': 'oqool-code-cli',
-        'X-Client-Version': '1.0.0'
-      }
+        'X-Client-Version': '1.0.0',
+      },
     });
   }
 
@@ -70,12 +70,12 @@ export class OqoolAPIClient {
           userId: 'dev_user',
           email: 'developer@oqool.net',
           plan: 'Development (Unlimited)',
-          remainingMessages: 999999
+          remainingMessages: 999999,
         };
       }
 
       const response = await this.client.post('/api/verify-key', {
-        apiKey: this.apiKey
+        apiKey: this.apiKey,
       });
 
       return response.data;
@@ -83,7 +83,7 @@ export class OqoolAPIClient {
       console.error(chalk.red('❌ خطأ في التحقق من المفتاح:'), error.message);
       return {
         success: false,
-        error: error.response?.data?.error || error.message
+        error: error.response?.data?.error || error.message,
       };
     }
   }
@@ -93,7 +93,7 @@ export class OqoolAPIClient {
     try {
       const response = await this.client.post('/api/chat', {
         messages,
-        provider: provider || 'auto' // استخدام الاختيار الذكي
+        provider: provider || 'auto', // استخدام الاختيار الذكي
       });
 
       return response.data;
@@ -102,7 +102,7 @@ export class OqoolAPIClient {
       return {
         success: false,
         message: '',
-        error: error.response?.data?.error || error.message
+        error: error.response?.data?.error || error.message,
       };
     }
   }
@@ -115,7 +115,7 @@ export class OqoolAPIClient {
     try {
       // بناء رسالة System مع سياق الملفات
       const contextMessage = this.buildContextMessage(fileContext);
-      
+
       const messages: Message[] = [
         {
           role: 'system',
@@ -128,12 +128,12 @@ ${contextMessage}
 2. أضف تعليقات عربية واضحة
 3. استخدم أفضل الممارسات
 4. إذا طلب المستخدم تعديل ملف موجود، احتفظ بالبنية العامة
-5. اذكر أسماء الملفات بوضوح في ردك`
+5. اذكر أسماء الملفات بوضوح في ردك`,
         },
         {
           role: 'user',
-          content: prompt
-        }
+          content: prompt,
+        },
       ];
 
       return await this.sendChatMessage(messages, 'claude'); // نستخدم Claude للبرمجة
@@ -142,7 +142,7 @@ ${contextMessage}
       return {
         success: false,
         message: '',
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -154,7 +154,7 @@ ${contextMessage}
     }
 
     let context = '📂 الملفات الموجودة في المشروع:\n\n';
-    
+
     for (const file of fileContext) {
       context += `### ${file.path}\n`;
       context += '```\n';

@@ -4,7 +4,7 @@ import { logger } from './logger';
 export function setupAutoUpdater() {
   // Configure auto updater
   autoUpdater.logger = logger;
-  
+
   autoUpdater.on('checking-for-update', () => {
     logger.info('Checking for updates...');
   });
@@ -22,7 +22,9 @@ export function setupAutoUpdater() {
   });
 
   autoUpdater.on('download-progress', (progressObj) => {
-    logger.info(`Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}%`);
+    logger.info(
+      `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}%`
+    );
   });
 
   autoUpdater.on('update-downloaded', (info) => {

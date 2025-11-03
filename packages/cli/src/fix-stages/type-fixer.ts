@@ -21,12 +21,7 @@ export class TypeFixer {
     const issues: FixIssue[] = [];
 
     // إنشاء ملف TypeScript مؤقت
-    const sourceFile = ts.createSourceFile(
-      'temp.ts',
-      code,
-      ts.ScriptTarget.Latest,
-      true
-    );
+    const sourceFile = ts.createSourceFile('temp.ts', code, ts.ScriptTarget.Latest, true);
 
     // إنشاء برنامج TypeScript
     const compilerOptions: ts.CompilerOptions = {
@@ -35,12 +30,12 @@ export class TypeFixer {
       target: ts.ScriptTarget.ES2020,
       module: ts.ModuleKind.ESNext,
       esModuleInterop: true,
-      skipLibCheck: true
+      skipLibCheck: true,
     };
 
     const host = ts.createCompilerHost(compilerOptions);
     const originalGetSourceFile = host.getSourceFile;
-    
+
     host.getSourceFile = (fileName, languageVersion) => {
       if (fileName === 'temp.ts') {
         return sourceFile;
@@ -55,7 +50,7 @@ export class TypeFixer {
     for (const diagnostic of diagnostics) {
       if (diagnostic.file && diagnostic.start !== undefined) {
         const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
-        
+
         issues.push({
           stage: 'types',
           priority: 'P2',
@@ -63,7 +58,7 @@ export class TypeFixer {
           message: ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'),
           line: line + 1,
           column: character + 1,
-          fix: this.suggestFix(diagnostic)
+          fix: this.suggestFix(diagnostic),
         });
       }
     }
@@ -108,7 +103,7 @@ export class TypeFixer {
           type: 'MissingType',
           message: `المتغير '${node.name.getText()}' بدون نوع`,
           line,
-          fix: 'add_type_annotation'
+          fix: 'add_type_annotation',
         });
       }
 
@@ -125,15 +120,12 @@ export class TypeFixer {
           type: 'MissingReturnType',
           message: `الدالة '${node.name.getText()}' بدون نوع إرجاع`,
           line,
-          fix: 'add_return_type'
+          fix: 'add_return_type',
         });
       }
 
       // 3. استخدام any
-      if (
-        ts.isTypeReferenceNode(node) &&
-        node.typeName.getText() === 'any'
-      ) {
+      if (ts.isTypeReferenceNode(node) && node.typeName.getText() === 'any') {
         const line = sourceFile.getLineAndCharacterOfPosition(node.getStart()).line + 1;
         issues.push({
           stage: 'types',
@@ -141,7 +133,7 @@ export class TypeFixer {
           type: 'UnsafeAny',
           message: 'استخدام نوع any غير آمن',
           line,
-          suggestion: 'استخدم نوع محدد أو unknown'
+          suggestion: 'استخدم نوع محدد أو unknown',
         });
       }
 
@@ -154,7 +146,7 @@ export class TypeFixer {
           type: 'MissingParameterType',
           message: `المعامل '${node.name.getText()}' بدون نوع`,
           line,
-          fix: 'add_parameter_type'
+          fix: 'add_parameter_type',
         });
       }
 
@@ -181,13 +173,9 @@ export class TypeFixer {
       switch (issue.fix) {
         case 'add_type_annotation':
           // إضافة : any كحل مؤقت (سيتم تحسينه بـ AI)
-          lines[lineIndex] = lines[lineIndex].replace(
-            /let\s+(\w+)\s*;/,
-            'let $1: any;'
-          ).replace(
-            /const\s+(\w+)\s*;/,
-            'const $1: any;'
-          );
+          lines[lineIndex] = lines[lineIndex]
+            .replace(/let\s+(\w+)\s*;/, 'let $1: any;')
+            .replace(/const\s+(\w+)\s*;/, 'const $1: any;');
           break;
 
         case 'add_return_type':
@@ -200,16 +188,16 @@ export class TypeFixer {
 
         case 'add_parameter_type':
           // إضافة أنواع للمعاملات
-          lines[lineIndex] = lines[lineIndex].replace(
-            /\(([^:)]+)\)/g,
-            (match, params) => {
-              const typedParams = params.split(',').map((p: string) => {
+          lines[lineIndex] = lines[lineIndex].replace(/\(([^:)]+)\)/g, (match, params) => {
+            const typedParams = params
+              .split(',')
+              .map((p: string) => {
                 const trimmed = p.trim();
                 return trimmed.includes(':') ? trimmed : `${trimmed}: any`;
-              }).join(', ');
-              return `(${typedParams})`;
-            }
-          );
+              })
+              .join(', ');
+            return `(${typedParams})`;
+          });
           break;
       }
     }
@@ -229,7 +217,7 @@ export class TypeFixer {
     const systemPrompt = `أنت خبير في TypeScript وإصلاح أخطاء الأنواع.
 
 الكود الحالي به مشاكل الأنواع التالية:
-${issues.map(i => `- السطر ${i.line}: ${i.message}`).join('\n')}
+${issues.map((i) => `- السطر ${i.line}: ${i.message}`).join('\n')}
 
 الكود:
 \`\`\`typescript
@@ -251,7 +239,7 @@ ${code}
 
     const response = await client.sendChatMessage([
       { role: 'system', content: systemPrompt },
-      { role: 'user', content: 'قم بإصلاح أخطاء الأنواع' }
+      { role: 'user', content: 'قم بإصلاح أخطاء الأنواع' },
     ]);
 
     if (!response.success) {
@@ -308,7 +296,7 @@ ${code}
     const issues = await this.analyze(code, '');
     return {
       valid: issues.length === 0,
-      errors: issues.map(i => i.message)
+      errors: issues.map((i) => i.message),
     };
   }
 }

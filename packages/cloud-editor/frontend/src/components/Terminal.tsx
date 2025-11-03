@@ -30,88 +30,88 @@ const Terminal: React.FC = () => {
           id: '1',
           content: '🚀 طرفية OqoolAI Cloud IDE - الإصدار المطور 2.1.0',
           type: 'success',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '2',
           content: '═'.repeat(60),
           type: 'info',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '3',
           content: '🎯 الأوامر المتاحة الجديدة:',
           type: 'info',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '4',
           content: '   help      │ عرض جميع الأوامر مع الأمثلة',
           type: 'info',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '5',
           content: '   clear     │ مسح الشاشة',
           type: 'info',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '6',
           content: '   ls        │ عرض الملفات والمجلدات',
           type: 'info',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '7',
           content: '   tree      │ عرض هيكل المشروع',
           type: 'info',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '8',
           content: '   ai        │ مساعد الذكاء الاصطناعي المحسن',
           type: 'info',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '9',
           content: '   code      │ فتح محرر الكود',
           type: 'info',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '10',
           content: '   npm       │ إدارة الحزم والمكتبات',
           type: 'info',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '11',
           content: '   git       │ عمليات Git المتقدمة',
           type: 'info',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '12',
           content: '',
           type: 'output',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '13',
           content: '💡 اكتب "help" للحصول على تفاصيل أكثر أو "demo" لعرض توضيحي',
           type: 'warning',
-          timestamp: new Date()
+          timestamp: new Date(),
         },
         {
           id: '14',
           content: '🔥 جديد: دعم متعدد اللغات، إكمال تلقائي، وتصدير السجلات',
           type: 'success',
-          timestamp: new Date()
-        }
-      ]
-    }
+          timestamp: new Date(),
+        },
+      ],
+    },
   ]);
 
   const [activeTabId, setActiveTabId] = useState<string>('1');
@@ -120,7 +120,7 @@ const Terminal: React.FC = () => {
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const getActiveTab = () => tabs.find(tab => tab.id === activeTabId);
+  const getActiveTab = () => tabs.find((tab) => tab.id === activeTabId);
 
   const scrollToBottom = useCallback(() => {
     if (terminalRef.current) {
@@ -137,14 +137,12 @@ const Terminal: React.FC = () => {
       id: Date.now().toString(),
       content,
       type,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
-    setTabs(prevTabs =>
-      prevTabs.map(tab =>
-        tab.id === activeTabId
-          ? { ...tab, output: [...tab.output, newLine] }
-          : tab
+    setTabs((prevTabs) =>
+      prevTabs.map((tab) =>
+        tab.id === activeTabId ? { ...tab, output: [...tab.output, newLine] } : tab
       )
     );
   };
@@ -156,7 +154,7 @@ const Terminal: React.FC = () => {
     if (!activeTab) return;
 
     // إضافة الأمر للتاريخ
-    setCommandHistory(prev => [...prev.slice(-20), command]);
+    setCommandHistory((prev) => [...prev.slice(-20), command]);
     setHistoryIndex(-1);
 
     // إضافة الأمر لإخراج الطرفية
@@ -224,12 +222,8 @@ const Terminal: React.FC = () => {
     }
 
     // مسح الإدخال
-    setTabs(prevTabs =>
-      prevTabs.map(tab =>
-        tab.id === activeTabId
-          ? { ...tab, input: '' }
-          : tab
-      )
+    setTabs((prevTabs) =>
+      prevTabs.map((tab) => (tab.id === activeTabId ? { ...tab, input: '' } : tab))
     );
   };
 
@@ -287,12 +281,8 @@ const Terminal: React.FC = () => {
   };
 
   const executeClearCommand = () => {
-    setTabs(prevTabs =>
-      prevTabs.map(tab =>
-        tab.id === activeTabId
-          ? { ...tab, output: [] }
-          : tab
-      )
+    setTabs((prevTabs) =>
+      prevTabs.map((tab) => (tab.id === activeTabId ? { ...tab, output: [] } : tab))
     );
   };
 
@@ -301,7 +291,7 @@ const Terminal: React.FC = () => {
     const showHidden = args.includes('-a') || args.includes('--all');
 
     addLine('📁 محتويات المجلد:', 'info');
-    
+
     const files = [
       { name: 'src/', type: 'dir', size: '-', date: '2024-03-16' },
       { name: 'public/', type: 'dir', size: '-', date: '2024-03-15' },
@@ -309,7 +299,7 @@ const Terminal: React.FC = () => {
       { name: 'package.json', type: 'file', size: '2.1K', date: '2024-03-16' },
       { name: 'README.md', type: 'file', size: '4.5K', date: '2024-03-15' },
       { name: 'vite.config.ts', type: 'file', size: '445B', date: '2024-03-14' },
-      { name: 'tsconfig.json', type: 'file', size: '678B', date: '2024-03-13' }
+      { name: 'tsconfig.json', type: 'file', size: '678B', date: '2024-03-13' },
     ];
 
     if (showHidden) {
@@ -319,10 +309,10 @@ const Terminal: React.FC = () => {
       );
     }
 
-    files.forEach(file => {
+    files.forEach((file) => {
       const icon = file.type === 'dir' ? '📁' : '📄';
       const color = file.type === 'dir' ? 'info' : 'output';
-      
+
       if (showDetails) {
         addLine(`${icon} ${file.name.padEnd(20)} ${file.size.padEnd(8)} ${file.date}`, color);
       } else {
@@ -360,8 +350,8 @@ const Terminal: React.FC = () => {
       addLine('تم الانتقال للمجلد الأصل', 'success');
     } else if (path.startsWith('/') || path.includes('src') || path.includes('public')) {
       addLine(`تم الانتقال إلى: ${path}`, 'success');
-      setTabs(prevTabs =>
-        prevTabs.map(tab =>
+      setTabs((prevTabs) =>
+        prevTabs.map((tab) =>
           tab.id === activeTabId
             ? { ...tab, workingDirectory: `/workspace/oqoolai-cloud-ide/${path}` }
             : tab
@@ -471,7 +461,7 @@ const Terminal: React.FC = () => {
   const executeDemoCommand = () => {
     addLine('🎭 عرض توضيحي لـ OqoolAI Cloud IDE:', 'success');
     addLine('', 'output');
-    
+
     let delay = 0;
     const demoSteps = [
       { text: '1️⃣ تحرير الملفات بذكاء', delay: 500 },
@@ -479,10 +469,10 @@ const Terminal: React.FC = () => {
       { text: '3️⃣ طرفية تفاعلية', delay: 1500 },
       { text: '4️⃣ إدارة المشاريع', delay: 2000 },
       { text: '5️⃣ تعاون فوري', delay: 2500 },
-      { text: '✨ مرحباً بكم في المستقبل!', delay: 3000 }
+      { text: '✨ مرحباً بكم في المستقبل!', delay: 3000 },
     ];
 
-    demoSteps.forEach(step => {
+    demoSteps.forEach((step) => {
       setTimeout(() => {
         addLine(step.text, 'success');
       }, step.delay);
@@ -524,12 +514,8 @@ const Terminal: React.FC = () => {
         const newIndex = historyIndex + 1;
         setHistoryIndex(newIndex);
         const command = commandHistory[commandHistory.length - 1 - newIndex];
-        setTabs(prevTabs =>
-          prevTabs.map(tab =>
-            tab.id === activeTabId
-              ? { ...tab, input: command }
-              : tab
-          )
+        setTabs((prevTabs) =>
+          prevTabs.map((tab) => (tab.id === activeTabId ? { ...tab, input: command } : tab))
         );
       }
     } else if (e.key === 'ArrowDown') {
@@ -538,33 +524,21 @@ const Terminal: React.FC = () => {
         const newIndex = historyIndex - 1;
         setHistoryIndex(newIndex);
         const command = commandHistory[commandHistory.length - 1 - newIndex];
-        setTabs(prevTabs =>
-          prevTabs.map(tab =>
-            tab.id === activeTabId
-              ? { ...tab, input: command }
-              : tab
-          )
+        setTabs((prevTabs) =>
+          prevTabs.map((tab) => (tab.id === activeTabId ? { ...tab, input: command } : tab))
         );
       } else if (historyIndex === 0) {
         setHistoryIndex(-1);
-        setTabs(prevTabs =>
-          prevTabs.map(tab =>
-            tab.id === activeTabId
-              ? { ...tab, input: '' }
-              : tab
-          )
+        setTabs((prevTabs) =>
+          prevTabs.map((tab) => (tab.id === activeTabId ? { ...tab, input: '' } : tab))
         );
       }
     }
   };
 
   const handleInputChange = (value: string) => {
-    setTabs(prevTabs =>
-      prevTabs.map(tab =>
-        tab.id === activeTabId
-          ? { ...tab, input: value }
-          : tab
-      )
+    setTabs((prevTabs) =>
+      prevTabs.map((tab) => (tab.id === activeTabId ? { ...tab, input: value } : tab))
     );
   };
 
@@ -575,12 +549,14 @@ const Terminal: React.FC = () => {
       type,
       input: '',
       workingDirectory: '/workspace/oqoolai-cloud-ide',
-      output: [{
-        id: '1',
-        content: `🆕 طرفية ${type} جديدة - جاهزة للاستخدام`,
-        type: 'success',
-        timestamp: new Date()
-      }]
+      output: [
+        {
+          id: '1',
+          content: `🆕 طرفية ${type} جديدة - جاهزة للاستخدام`,
+          type: 'success',
+          timestamp: new Date(),
+        },
+      ],
     };
 
     setTabs([...tabs, newTab]);
@@ -589,12 +565,12 @@ const Terminal: React.FC = () => {
 
   const closeTab = (tabId: string, e?: React.MouseEvent) => {
     e?.stopPropagation();
-    
+
     if (tabs.length === 1) return;
-    
-    const newTabs = tabs.filter(tab => tab.id !== tabId);
+
+    const newTabs = tabs.filter((tab) => tab.id !== tabId);
     setTabs(newTabs);
-    
+
     if (activeTabId === tabId) {
       setActiveTabId(newTabs[0].id);
     }
@@ -602,22 +578,33 @@ const Terminal: React.FC = () => {
 
   const getTypeIcon = (type: TerminalTab['type']) => {
     switch (type) {
-      case 'bash': return '🐚';
-      case 'node': return '🟢';
-      case 'python': return '🐍';
-      case 'powershell': return '💙';
-      default: return '🖥️';
+      case 'bash':
+        return '🐚';
+      case 'node':
+        return '🟢';
+      case 'python':
+        return '🐍';
+      case 'powershell':
+        return '💙';
+      default:
+        return '🖥️';
     }
   };
 
   const getLineColor = (type: TerminalLine['type']) => {
     switch (type) {
-      case 'command': return 'var(--success-color)';
-      case 'error': return 'var(--error-color)';
-      case 'success': return 'var(--success-color)';
-      case 'warning': return 'var(--warning-color)';
-      case 'info': return 'var(--info-color)';
-      default: return 'var(--text-primary)';
+      case 'command':
+        return 'var(--success-color)';
+      case 'error':
+        return 'var(--error-color)';
+      case 'success':
+        return 'var(--success-color)';
+      case 'warning':
+        return 'var(--warning-color)';
+      case 'info':
+        return 'var(--info-color)';
+      default:
+        return 'var(--text-primary)';
     }
   };
 
@@ -628,7 +615,7 @@ const Terminal: React.FC = () => {
       {/* شريط التبويبات */}
       <div className="terminal-tabs">
         <div className="terminal-tabs-list">
-          {tabs.map(tab => (
+          {tabs.map((tab) => (
             <div
               key={tab.id}
               className={`terminal-tab ${tab.id === activeTabId ? 'active' : ''}`}
@@ -637,7 +624,7 @@ const Terminal: React.FC = () => {
               <span className="terminal-tab-icon">{getTypeIcon(tab.type)}</span>
               <span className="terminal-tab-name">{tab.name}</span>
               {tabs.length > 1 && (
-                <button 
+                <button
                   className="terminal-tab-close"
                   onClick={(e) => closeTab(tab.id, e)}
                   title="إغلاق الطرفية"
@@ -647,7 +634,7 @@ const Terminal: React.FC = () => {
               )}
             </div>
           ))}
-          
+
           <div className="terminal-add-dropdown">
             <button className="terminal-add-btn" title="إضافة طرفية جديدة">
               ➕
@@ -676,22 +663,19 @@ const Terminal: React.FC = () => {
 
       {/* محتوى الطرفية */}
       <div className="terminal-content">
-        <div 
-          ref={terminalRef}
-          className="terminal-output"
-        >
-          {activeTab?.output.map(line => (
-            <div 
-              key={line.id} 
+        <div ref={terminalRef} className="terminal-output">
+          {activeTab?.output.map((line) => (
+            <div
+              key={line.id}
               className={`terminal-line ${line.type}`}
               style={{ color: getLineColor(line.type) }}
             >
               <span className="line-timestamp">
-                {line.timestamp.toLocaleTimeString('ar-SA', { 
+                {line.timestamp.toLocaleTimeString('ar-SA', {
                   hour12: false,
                   hour: '2-digit',
                   minute: '2-digit',
-                  second: '2-digit'
+                  second: '2-digit',
                 })}
               </span>
               <span className="line-content">{line.content}</span>
@@ -706,7 +690,9 @@ const Terminal: React.FC = () => {
             <span className="prompt-separator">@</span>
             <span className="prompt-host">oqoolai</span>
             <span className="prompt-separator">:</span>
-            <span className="prompt-path">~{activeTab?.workingDirectory.replace('/workspace/oqoolai-cloud-ide', '')}</span>
+            <span className="prompt-path">
+              ~{activeTab?.workingDirectory.replace('/workspace/oqoolai-cloud-ide', '')}
+            </span>
             <span className="prompt-symbol">$</span>
           </span>
           <input
@@ -732,11 +718,11 @@ const Terminal: React.FC = () => {
           <span className="status-separator">|</span>
           <span>{activeTab?.output.length || 0} سطر</span>
         </div>
-        
+
         <div className="status-center">
           <span>⌨️ استخدم ↑/↓ للتاريخ | Tab للإكمال</span>
         </div>
-        
+
         <div className="status-right">
           <span>{new Date().toLocaleTimeString('ar-SA')}</span>
         </div>

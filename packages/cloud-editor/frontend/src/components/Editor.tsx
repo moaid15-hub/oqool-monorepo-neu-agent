@@ -10,13 +10,13 @@ interface EditorProps {
   onMount?: (editor: any) => void;
 }
 
-const Editor: React.FC<EditorProps> = ({ 
-  code, 
-  onCodeChange, 
-  fileName, 
+const Editor: React.FC<EditorProps> = ({
+  code,
+  onCodeChange,
+  fileName,
   onSave,
   onRun,
-  onMount
+  onMount,
 }) => {
   const [language, setLanguage] = useState<string>('typescript');
   const [showMinimap, setShowMinimap] = useState<boolean>(true);
@@ -28,23 +28,23 @@ const Editor: React.FC<EditorProps> = ({
   useEffect(() => {
     const extension = fileName.split('.').pop()?.toLowerCase();
     const languageMap: { [key: string]: string } = {
-      'ts': 'typescript',
-      'tsx': 'typescript',
-      'js': 'javascript',
-      'jsx': 'javascript',
-      'py': 'python',
-      'html': 'html',
-      'css': 'css',
-      'scss': 'scss',
-      'sass': 'sass',
-      'json': 'json',
-      'md': 'markdown',
-      'xml': 'xml',
-      'sql': 'sql',
-      'php': 'php',
-      'java': 'java',
-      'cpp': 'cpp',
-      'c': 'c'
+      ts: 'typescript',
+      tsx: 'typescript',
+      js: 'javascript',
+      jsx: 'javascript',
+      py: 'python',
+      html: 'html',
+      css: 'css',
+      scss: 'scss',
+      sass: 'sass',
+      json: 'json',
+      md: 'markdown',
+      xml: 'xml',
+      sql: 'sql',
+      php: 'php',
+      java: 'java',
+      cpp: 'cpp',
+      c: 'c',
     };
     const detectedLanguage = languageMap[extension || ''] || 'plaintext';
     setLanguage(detectedLanguage);
@@ -89,24 +89,16 @@ const Editor: React.FC<EditorProps> = ({
       {/* شريط الأدوات البسيط */}
       <div className="editor-toolbar">
         <div className="toolbar-left">
-          <button 
-            className="toolbar-btn"
-            onClick={handleSave}
-            title="Save (Ctrl+S)"
-          >
+          <button className="toolbar-btn" onClick={handleSave} title="Save (Ctrl+S)">
             <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-              <path d="M13.5 1h-11C2.22 1 2 1.22 2 1.5v13c0 .28.22.5.5.5h11c.28 0 .5-.22.5-.5v-13c0-.28-.22-.5-.5-.5zm-1 13h-9V2h9v12zM4 3h6v4H4V3zm1 1v2h4V4H5z"/>
+              <path d="M13.5 1h-11C2.22 1 2 1.22 2 1.5v13c0 .28.22.5.5.5h11c.28 0 .5-.22.5-.5v-13c0-.28-.22-.5-.5-.5zm-1 13h-9V2h9v12zM4 3h6v4H4V3zm1 1v2h4V4H5z" />
             </svg>
             <span>Save</span>
           </button>
 
-          <button 
-            className="toolbar-btn"
-            onClick={handleRun}
-            title="Run (Ctrl+R)"
-          >
+          <button className="toolbar-btn" onClick={handleRun} title="Run (Ctrl+R)">
             <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-              <path d="M3 2v12l10-6z"/>
+              <path d="M3 2v12l10-6z" />
             </svg>
             <span>Run</span>
           </button>
@@ -119,10 +111,10 @@ const Editor: React.FC<EditorProps> = ({
         <div className="toolbar-right">
           <div className="settings-group">
             <label style={{ fontSize: '12px', marginRight: '8px' }}>Font Size:</label>
-            <input 
-              type="range" 
-              min="10" 
-              max="24" 
+            <input
+              type="range"
+              min="10"
+              max="24"
               value={fontSize}
               onChange={(e) => setFontSize(Number(e.target.value))}
               style={{ width: '80px', marginRight: '8px' }}
@@ -130,23 +122,23 @@ const Editor: React.FC<EditorProps> = ({
             <span style={{ fontSize: '12px', minWidth: '35px' }}>{fontSize}px</span>
           </div>
 
-          <button 
+          <button
             className="toolbar-btn"
             onClick={() => setShowMinimap(!showMinimap)}
             title={showMinimap ? 'Hide Minimap' : 'Show Minimap'}
           >
             <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-              <path d="M2 2h5v12H2V2zm6 0h6v3H8V2zm0 4h6v3H8V6zm0 4h6v4H8v-4z"/>
+              <path d="M2 2h5v12H2V2zm6 0h6v3H8V2zm0 4h6v3H8V6zm0 4h6v4H8v-4z" />
             </svg>
           </button>
 
-          <button 
+          <button
             className="toolbar-btn"
             onClick={() => setWordWrap(wordWrap === 'on' ? 'off' : 'on')}
             title={wordWrap === 'on' ? 'Disable Word Wrap' : 'Enable Word Wrap'}
           >
             <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
-              <path d="M2 3h12v2H2V3zm0 4h12v2H2V7zm0 4h8v2H2v-2z"/>
+              <path d="M2 3h12v2H2V3zm0 4h12v2H2V7zm0 4h8v2H2v-2z" />
             </svg>
           </button>
         </div>
@@ -182,9 +174,9 @@ const Editor: React.FC<EditorProps> = ({
             bracketPairColorization: { enabled: true },
             guides: {
               bracketPairs: true,
-              indentation: true
+              indentation: true,
             },
-            padding: { top: 10, bottom: 10 }
+            padding: { top: 10, bottom: 10 },
           }}
         />
       </div>

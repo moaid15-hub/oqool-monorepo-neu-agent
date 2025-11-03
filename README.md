@@ -38,6 +38,7 @@
 3. **Cloud Editor** - Web-based collaborative editor (coming soon)
 
 All packages share a common core with advanced AI features, including:
+
 - 🤖 8 AI Personalities for different development tasks
 - 🎯 God Mode - AI project generation from natural language
 - 🛡️ Version Guardian - Intelligent version control with time-travel
@@ -49,6 +50,7 @@ All packages share a common core with advanced AI features, including:
 ## ✨ Features
 
 ### Core Features (Shared)
+
 - ✅ **8 AI Personalities**: Architect, Coder, Reviewer, Tester, Debugger, Optimizer, Documenter, Explainer
 - ✅ **God Mode**: Generate complete projects from natural language descriptions
 - ✅ **Version Guardian**: Advanced version control with snapshots and time-travel
@@ -58,6 +60,7 @@ All packages share a common core with advanced AI features, including:
 - ✅ **Arabic Support**: Full RTL support and Arabic language interface
 
 ### CLI Features
+
 - ⚡ Lightning-fast terminal-based workflow
 - 🔧 Powerful command-line tools
 - 🤖 AI-powered code generation and refactoring
@@ -65,6 +68,7 @@ All packages share a common core with advanced AI features, including:
 - 🎨 Beautiful terminal UI with colors
 
 ### Desktop IDE Features
+
 - 🖥️ Full-featured code editor (Monaco Editor)
 - 💻 Integrated terminal (xterm.js)
 - 📁 File explorer with advanced features
@@ -74,6 +78,7 @@ All packages share a common core with advanced AI features, including:
 - 🌐 Multi-platform (Windows, macOS, Linux)
 
 ### Cloud Editor Features (Coming Soon)
+
 - 🌍 Browser-based development
 - 👥 Real-time collaboration
 - ☁️ Cloud storage integration
@@ -105,15 +110,18 @@ oqool-monorepo/
 ## 📦 Packages
 
 ### `@oqool/cli`
+
 Command-line interface for Oqool AI.
 
 **Key Features:**
+
 - AI-powered code generation
 - Project scaffolding
 - Code analysis and refactoring
 - Interactive prompts
 
 **Usage:**
+
 ```bash
 npm run dev:cli
 oqool generate "Create a REST API with authentication"
@@ -124,9 +132,11 @@ oqool god-mode "Build a todo app with React and Express"
 ---
 
 ### `@oqool/desktop`
+
 Full-featured desktop IDE built with Electron and React.
 
 **Key Features:**
+
 - Monaco code editor
 - Integrated terminal
 - File explorer
@@ -134,6 +144,7 @@ Full-featured desktop IDE built with Electron and React.
 - Extension system
 
 **Tech Stack:**
+
 - Electron
 - React
 - TypeScript
@@ -141,6 +152,7 @@ Full-featured desktop IDE built with Electron and React.
 - xterm.js
 
 **Usage:**
+
 ```bash
 npm run dev:desktop
 npm run build:desktop
@@ -149,15 +161,18 @@ npm run build:desktop
 ---
 
 ### `@oqool/cloud-editor`
+
 Web-based collaborative code editor (Coming Soon).
 
 **Key Features:**
+
 - Browser-based development
 - Real-time collaboration
 - Cloud storage
 - Responsive design
 
 **Tech Stack:**
+
 - React
 - Vite
 - CodeMirror/Monaco
@@ -166,9 +181,11 @@ Web-based collaborative code editor (Coming Soon).
 ---
 
 ### `@oqool/shared`
+
 Shared utilities, AI services, and core logic used across all packages.
 
 **Includes:**
+
 - AI Gateway (OpenAI, Anthropic, DeepSeek)
 - God Mode engine
 - Version Guardian
@@ -181,10 +198,12 @@ Shared utilities, AI services, and core logic used across all packages.
 ## 🚀 Installation
 
 ### Prerequisites
+
 - Node.js >= 18.0.0
 - npm >= 9.0.0
 
 ### Install Dependencies
+
 ```bash
 # Clone the repository
 git clone https://github.com/moaid15-hub/oqool-monorepo.git
@@ -262,30 +281,51 @@ npm run type-check
 
 ## 📜 Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start all packages in development mode |
-| `npm run build` | Build all packages |
-| `npm run test` | Run all tests |
-| `npm run lint` | Lint all packages |
-| `npm run format` | Format all code |
-| `npm run clean` | Clean all build artifacts |
-| `npm run dev:cli` | Start CLI in dev mode |
-| `npm run dev:desktop` | Start Desktop IDE in dev mode |
-| `npm run dev:cloud` | Start Cloud Editor in dev mode |
+| Script                | Description                            |
+| --------------------- | -------------------------------------- |
+| `npm run dev`         | Start all packages in development mode |
+| `npm run build`       | Build all packages                     |
+| `npm run test`        | Run all tests                          |
+| `npm run lint`        | Lint all packages                      |
+| `npm run format`      | Format all code                        |
+| `npm run clean`       | Clean all build artifacts              |
+| `npm run dev:cli`     | Start CLI in dev mode                  |
+| `npm run dev:desktop` | Start Desktop IDE in dev mode          |
+| `npm run dev:cloud`   | Start Cloud Editor in dev mode         |
 
 ---
 
 ## 📚 Documentation
 
-Comprehensive documentation is available in the `/docs` folder:
+### 🚀 Quick Start
 
-- [Getting Started](./docs/getting-started.md)
-- [CLI Guide](./packages/cli/README.md)
-- [Desktop IDE Guide](./packages/desktop/README.md)
-- [Cloud Editor Guide](./packages/cloud-editor/README.md)
-- [Shared Package API](./packages/shared/README.md)
-- [Contributing Guide](./CONTRIBUTING.md)
+- [Quick Start Guide](./docs/guides/QUICK_START.md) - Get started in 5 minutes
+- [Installation Guide](./docs/setup/INSTALL_GUIDE.md) - Complete installation
+- [API Keys Setup](./docs/setup/API_KEYS_SETUP.md) - Configure API keys
+
+### 📖 Guides
+
+- [How to Activate Agents](./docs/guides/HOW_TO_ACTIVATE_AGENT.md) - Agent activation
+- [Computer Control Commands](./docs/guides/COMPUTER_CONTROL_COMMANDS.md) - Full command reference
+- [Commands List](./docs/guides/COMMANDS_LIST.txt) - Quick command list
+
+### 📊 Reports & Status
+
+- [Project Status Report](./docs/reports/PROJECT_STATUS_REPORT.md) - Complete project overview
+- [Cleanup Summary](./docs/reports/CLEANUP_SUMMARY.md) - Recent cleanup work
+
+### 📦 Package Documentation
+
+- [CLI Package](./packages/cli/README.md)
+- [Desktop IDE](./packages/desktop/README.md)
+- [Cloud Editor](./packages/cloud-editor/README.md)
+- [Shared Package](./packages/shared/README.md)
+
+### 💡 Examples
+
+See [examples/](./examples/) folder for working code examples.
+
+**📂 Complete documentation structure:** [docs/README.md](./docs/README.md)
 
 ---
 
@@ -294,6 +334,7 @@ Comprehensive documentation is available in the `/docs` folder:
 We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details.
 
 ### Development Workflow
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add amazing feature'`)

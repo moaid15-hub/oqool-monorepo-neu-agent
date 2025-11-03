@@ -18,7 +18,7 @@ export const Modal: React.FC<ModalProps> = ({
 }) => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {onClose();}
     };
 
     if (isOpen) {
@@ -28,15 +28,11 @@ export const Modal: React.FC<ModalProps> = ({
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen) {return null;}
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div
-        className="modal-content"
-        style={{ width }}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="modal-content" style={{ width }} onClick={(e) => e.stopPropagation()}>
         {title && (
           <div className="modal-header">
             <h3>{title}</h3>

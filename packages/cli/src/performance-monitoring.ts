@@ -153,22 +153,22 @@ export class PerformanceMonitoring {
         memoryUsage: 80, // 80%
         cpuUsage: 70, // 70%
         errorRate: 5, // 5%
-        networkLatency: 100 // 100ms
+        networkLatency: 100, // 100ms
       },
       alerts: {
-        email: []
+        email: [],
       },
       endpoints: ['/health', '/api/health'],
       database: {
         enabled: true,
         queries: true,
-        slowQueries: 500 // 500ms
+        slowQueries: 500, // 500ms
       },
       retention: {
         metrics: 30, // 30 يوم
         logs: 7, // 7 أيام
-        reports: 90 // 90 يوم
-      }
+        reports: 90, // 90 يوم
+      },
     };
 
     // تخصيص الإعدادات
@@ -177,42 +177,42 @@ export class PerformanceMonitoring {
         type: 'confirm',
         name: 'customize',
         message: 'هل تريد تخصيص إعدادات المراقبة؟',
-        default: false
+        default: false,
       },
       {
         type: 'number',
         name: 'responseTime',
         message: 'حد زمن الاستجابة (مللي ثانية):',
         default: 1000,
-        when: (answers: any) => answers.customize
+        when: (answers: any) => answers.customize,
       },
       {
         type: 'number',
         name: 'memoryThreshold',
         message: 'حد استخدام الذاكرة (%):',
         default: 80,
-        when: (answers: any) => answers.customize
+        when: (answers: any) => answers.customize,
       },
       {
         type: 'number',
         name: 'cpuThreshold',
         message: 'حد استخدام المعالج (%):',
         default: 70,
-        when: (answers: any) => answers.customize
+        when: (answers: any) => answers.customize,
       },
       {
         type: 'input',
         name: 'email',
         message: 'البريد الإلكتروني للإشعارات:',
-        when: (answers: any) => answers.customize
+        when: (answers: any) => answers.customize,
       },
       {
         type: 'number',
         name: 'interval',
         message: 'فترة الفحص (ثواني):',
         default: 30,
-        when: (answers: any) => answers.customize
-      }
+        when: (answers: any) => answers.customize,
+      },
     ]);
 
     if (answers.customize) {
@@ -282,7 +282,6 @@ export class PerformanceMonitoring {
 
       // تنظيف البيانات القديمة
       await this.cleanupOldData();
-
     } catch (error: any) {
       console.error(chalk.red('خطأ في جمع المقاييس:'), error.message);
     }
@@ -305,7 +304,7 @@ export class PerformanceMonitoring {
       databaseQueries: Math.floor(Math.random() * 500),
       cacheHitRate: Math.random() * 100, // 0-100%
       diskUsage: Math.random() * 100, // 0-100%
-      loadAverage: Math.random() * 4 // 0-4
+      loadAverage: Math.random() * 4, // 0-4
     };
 
     return metrics;
@@ -345,7 +344,7 @@ export class PerformanceMonitoring {
         value: metrics.responseTime,
         threshold: thresholds.responseTime,
         timestamp: metrics.timestamp,
-        resolved: false
+        resolved: false,
       });
     }
 
@@ -358,7 +357,7 @@ export class PerformanceMonitoring {
         value: metrics.memoryUsage,
         threshold: thresholds.memoryUsage,
         timestamp: metrics.timestamp,
-        resolved: false
+        resolved: false,
       });
     }
 
@@ -371,7 +370,7 @@ export class PerformanceMonitoring {
         value: metrics.cpuUsage,
         threshold: thresholds.cpuUsage,
         timestamp: metrics.timestamp,
-        resolved: false
+        resolved: false,
       });
     }
 
@@ -384,7 +383,7 @@ export class PerformanceMonitoring {
         value: metrics.errorRate,
         threshold: thresholds.errorRate,
         timestamp: metrics.timestamp,
-        resolved: false
+        resolved: false,
       });
     }
 
@@ -412,11 +411,21 @@ export class PerformanceMonitoring {
 
       // عرض المقاييس الرئيسية
       console.log(chalk.yellow('⚡ المقاييس الرئيسية:'));
-      console.log(chalk.white(`   زمن الاستجابة: ${chalk.cyan(latestMetrics.responseTime.toFixed(0) + 'ms')}`));
-      console.log(chalk.white(`   استخدام الذاكرة: ${chalk.cyan(latestMetrics.memoryUsage.toFixed(1) + '%')}`));
-      console.log(chalk.white(`   استخدام المعالج: ${chalk.cyan(latestMetrics.cpuUsage.toFixed(1) + '%')}`));
-      console.log(chalk.white(`   معدل الأخطاء: ${chalk.cyan(latestMetrics.errorRate.toFixed(1) + '%')}`));
-      console.log(chalk.white(`   الإنتاجية: ${chalk.cyan(latestMetrics.throughput.toFixed(0) + ' req/s')}`));
+      console.log(
+        chalk.white(`   زمن الاستجابة: ${chalk.cyan(latestMetrics.responseTime.toFixed(0) + 'ms')}`)
+      );
+      console.log(
+        chalk.white(`   استخدام الذاكرة: ${chalk.cyan(latestMetrics.memoryUsage.toFixed(1) + '%')}`)
+      );
+      console.log(
+        chalk.white(`   استخدام المعالج: ${chalk.cyan(latestMetrics.cpuUsage.toFixed(1) + '%')}`)
+      );
+      console.log(
+        chalk.white(`   معدل الأخطاء: ${chalk.cyan(latestMetrics.errorRate.toFixed(1) + '%')}`)
+      );
+      console.log(
+        chalk.white(`   الإنتاجية: ${chalk.cyan(latestMetrics.throughput.toFixed(0) + ' req/s')}`)
+      );
 
       // عرض حالة الصحة
       const health = this.calculateHealthStatus(latestMetrics);
@@ -434,7 +443,6 @@ export class PerformanceMonitoring {
       }
 
       console.log();
-
     } catch (error: any) {
       console.error(chalk.red('خطأ في عرض حالة الأداء:'), error.message);
     }
@@ -442,7 +450,9 @@ export class PerformanceMonitoring {
 
   // حساب حالة الصحة
   private calculateHealthStatus(metrics: PerformanceMetrics): 'healthy' | 'degraded' | 'unhealthy' {
-    const config = { thresholds: { responseTime: 1000, memoryUsage: 80, cpuUsage: 70, errorRate: 5 } };
+    const config = {
+      thresholds: { responseTime: 1000, memoryUsage: 80, cpuUsage: 70, errorRate: 5 },
+    };
 
     let issues = 0;
 
@@ -484,7 +494,6 @@ export class PerformanceMonitoring {
       this.displayReportSummary(report);
 
       return reportPath;
-
     } catch (error: any) {
       spinner.fail('فشل إنشاء التقرير');
       throw error;
@@ -492,7 +501,9 @@ export class PerformanceMonitoring {
   }
 
   // جمع بيانات الأداء
-  private async collectPerformanceData(period: 'day' | 'week' | 'month'): Promise<PerformanceReport> {
+  private async collectPerformanceData(
+    period: 'day' | 'week' | 'month'
+  ): Promise<PerformanceReport> {
     const endDate = new Date();
     const startDate = new Date();
 
@@ -524,13 +535,13 @@ export class PerformanceMonitoring {
       period: {
         start: startDate.toISOString(),
         end: endDate.toISOString(),
-        duration: endDate.getTime() - startDate.getTime()
+        duration: endDate.getTime() - startDate.getTime(),
       },
       summary,
       metrics,
       alerts,
       recommendations,
-      trends
+      trends,
     };
 
     return report;
@@ -546,43 +557,42 @@ export class PerformanceMonitoring {
         totalErrors: 0,
         totalRequests: 0,
         uptime: 0,
-        availability: 0
+        availability: 0,
       };
     }
 
-    const totals = metrics.reduce((acc, metric) => ({
-      responseTime: acc.responseTime + metric.responseTime,
-      memoryUsage: acc.memoryUsage + metric.memoryUsage,
-      cpuUsage: acc.cpuUsage + metric.cpuUsage,
-      errorRate: acc.errorRate + metric.errorRate,
-      throughput: acc.throughput + metric.throughput
-    }), { responseTime: 0, memoryUsage: 0, cpuUsage: 0, errorRate: 0, throughput: 0 });
+    const totals = metrics.reduce(
+      (acc, metric) => ({
+        responseTime: acc.responseTime + metric.responseTime,
+        memoryUsage: acc.memoryUsage + metric.memoryUsage,
+        cpuUsage: acc.cpuUsage + metric.cpuUsage,
+        errorRate: acc.errorRate + metric.errorRate,
+        throughput: acc.throughput + metric.throughput,
+      }),
+      { responseTime: 0, memoryUsage: 0, cpuUsage: 0, errorRate: 0, throughput: 0 }
+    );
 
     return {
       averageResponseTime: totals.responseTime / metrics.length,
       averageMemoryUsage: totals.memoryUsage / metrics.length,
       averageCpuUsage: totals.cpuUsage / metrics.length,
-      totalErrors: Math.floor(totals.errorRate * metrics.length / 100),
+      totalErrors: Math.floor((totals.errorRate * metrics.length) / 100),
       totalRequests: Math.floor(totals.throughput * metrics.length),
       uptime: this.calculateUptime(metrics),
-      availability: this.calculateAvailability(metrics)
+      availability: this.calculateAvailability(metrics),
     };
   }
 
   // حساب uptime
   private calculateUptime(metrics: PerformanceMetrics[]): number {
-    const healthyCount = metrics.filter(m =>
-      m.responseTime < 2000 && m.errorRate < 10
-    ).length;
+    const healthyCount = metrics.filter((m) => m.responseTime < 2000 && m.errorRate < 10).length;
 
     return (healthyCount / metrics.length) * 100;
   }
 
   // حساب availability
   private calculateAvailability(metrics: PerformanceMetrics[]): number {
-    const availableCount = metrics.filter(m =>
-      m.responseTime < 5000 && m.errorRate < 20
-    ).length;
+    const availableCount = metrics.filter((m) => m.responseTime < 5000 && m.errorRate < 20).length;
 
     return (availableCount / metrics.length) * 100;
   }
@@ -594,15 +604,23 @@ export class PerformanceMonitoring {
         responseTime: [],
         memoryUsage: [],
         cpuUsage: [],
-        errorRate: []
+        errorRate: [],
       };
     }
 
     const trends = {
-      responseTime: this.calculateTrendData(metrics.map(m => ({ timestamp: m.timestamp, value: m.responseTime }))),
-      memoryUsage: this.calculateTrendData(metrics.map(m => ({ timestamp: m.timestamp, value: m.memoryUsage }))),
-      cpuUsage: this.calculateTrendData(metrics.map(m => ({ timestamp: m.timestamp, value: m.cpuUsage }))),
-      errorRate: this.calculateTrendData(metrics.map(m => ({ timestamp: m.timestamp, value: m.errorRate })))
+      responseTime: this.calculateTrendData(
+        metrics.map((m) => ({ timestamp: m.timestamp, value: m.responseTime }))
+      ),
+      memoryUsage: this.calculateTrendData(
+        metrics.map((m) => ({ timestamp: m.timestamp, value: m.memoryUsage }))
+      ),
+      cpuUsage: this.calculateTrendData(
+        metrics.map((m) => ({ timestamp: m.timestamp, value: m.cpuUsage }))
+      ),
+      errorRate: this.calculateTrendData(
+        metrics.map((m) => ({ timestamp: m.timestamp, value: m.errorRate }))
+      ),
     };
 
     return trends;
@@ -616,7 +634,7 @@ export class PerformanceMonitoring {
           timestamp: item.timestamp,
           value: item.value,
           change: 0,
-          status: 'stable' as const
+          status: 'stable' as const,
         };
       }
 
@@ -636,13 +654,16 @@ export class PerformanceMonitoring {
         timestamp: item.timestamp,
         value: item.value,
         change,
-        status
+        status,
       };
     });
   }
 
   // توليد التوصيات
-  private generateRecommendations(metrics: PerformanceMetrics[], alerts: PerformanceAlert[]): string[] {
+  private generateRecommendations(
+    metrics: PerformanceMetrics[],
+    alerts: PerformanceAlert[]
+  ): string[] {
     const recommendations: string[] = [];
 
     // تحليل المقاييس
@@ -668,7 +689,7 @@ export class PerformanceMonitoring {
     }
 
     // توصيات بناءً على الإشعارات
-    const criticalAlerts = alerts.filter(a => a.type === 'critical');
+    const criticalAlerts = alerts.filter((a) => a.type === 'critical');
     if (criticalAlerts.length > 0) {
       recommendations.push('لديك إشعارات حرجة تحتاج إلى إصلاح فوري');
     }
@@ -684,18 +705,36 @@ export class PerformanceMonitoring {
   private displayReportSummary(report: PerformanceReport): void {
     console.log(chalk.cyan('\n📊 ملخص تقرير الأداء:\n'));
 
-    console.log(chalk.yellow('⏱️  الفترة:'), new Date(report.period.start).toLocaleDateString('ar'),
-                'إلى', new Date(report.period.end).toLocaleDateString('ar'));
+    console.log(
+      chalk.yellow('⏱️  الفترة:'),
+      new Date(report.period.start).toLocaleDateString('ar'),
+      'إلى',
+      new Date(report.period.end).toLocaleDateString('ar')
+    );
 
     console.log(chalk.yellow('📈 الأداء:'));
-    console.log(chalk.white(`   متوسط زمن الاستجابة: ${chalk.cyan(report.summary.averageResponseTime.toFixed(0) + 'ms')}`));
-    console.log(chalk.white(`   متوسط استخدام الذاكرة: ${chalk.cyan(report.summary.averageMemoryUsage.toFixed(1) + '%')}`));
-    console.log(chalk.white(`   متوسط استخدام المعالج: ${chalk.cyan(report.summary.averageCpuUsage.toFixed(1) + '%')}`));
+    console.log(
+      chalk.white(
+        `   متوسط زمن الاستجابة: ${chalk.cyan(report.summary.averageResponseTime.toFixed(0) + 'ms')}`
+      )
+    );
+    console.log(
+      chalk.white(
+        `   متوسط استخدام الذاكرة: ${chalk.cyan(report.summary.averageMemoryUsage.toFixed(1) + '%')}`
+      )
+    );
+    console.log(
+      chalk.white(
+        `   متوسط استخدام المعالج: ${chalk.cyan(report.summary.averageCpuUsage.toFixed(1) + '%')}`
+      )
+    );
     console.log(chalk.white(`   معدل الأخطاء: ${chalk.cyan(report.summary.totalErrors)}`));
 
     console.log(chalk.yellow('⚡ الموثوقية:'));
     console.log(chalk.white(`   uptime: ${chalk.green(report.summary.uptime.toFixed(1) + '%')}`));
-    console.log(chalk.white(`   availability: ${chalk.green(report.summary.availability.toFixed(1) + '%')}`));
+    console.log(
+      chalk.white(`   availability: ${chalk.green(report.summary.availability.toFixed(1) + '%')}`)
+    );
 
     if (report.alerts.length > 0) {
       console.log(chalk.yellow('⚠️  الإشعارات:'), report.alerts.length);
@@ -731,8 +770,11 @@ export class PerformanceMonitoring {
         const statusIcon = response.ok ? '🟢' : '🔴';
         const avgResponseTime = totalResponseTime / requestCount;
 
-        console.log(chalk.gray(`${statusIcon} ${new Date().toLocaleTimeString('ar')} - ${response.status} (${responseTime}ms) - متوسط: ${avgResponseTime.toFixed(0)}ms`));
-
+        console.log(
+          chalk.gray(
+            `${statusIcon} ${new Date().toLocaleTimeString('ar')} - ${response.status} (${responseTime}ms) - متوسط: ${avgResponseTime.toFixed(0)}ms`
+          )
+        );
       } catch (error: any) {
         errorCount++;
         console.log(chalk.red(`🔴 ${new Date().toLocaleTimeString('ar')} - خطأ: ${error.message}`));
@@ -751,7 +793,9 @@ export class PerformanceMonitoring {
       console.log(chalk.white(`   الطلبات الناجحة: ${requestCount - errorCount}`));
       console.log(chalk.white(`   الأخطاء: ${errorCount}`));
       console.log(chalk.white(`   معدل النجاح: ${successRate.toFixed(1)}%`));
-      console.log(chalk.white(`   متوسط زمن الاستجابة: ${(totalResponseTime / requestCount).toFixed(0)}ms`));
+      console.log(
+        chalk.white(`   متوسط زمن الاستجابة: ${(totalResponseTime / requestCount).toFixed(0)}ms`)
+      );
 
       console.log(chalk.green('\n✅ انتهت المراقبة\n'));
     }, duration);
@@ -771,10 +815,20 @@ export class PerformanceMonitoring {
       for (const [metric, trend] of Object.entries(report.trends)) {
         const latest = trend[trend.length - 1];
         if (latest) {
-          const statusIcon = latest.status === 'improving' ? '↗️' : latest.status === 'degrading' ? '↘️' : '➡️';
-          const statusColor = latest.status === 'improving' ? chalk.green : latest.status === 'degrading' ? chalk.red : chalk.yellow;
+          const statusIcon =
+            latest.status === 'improving' ? '↗️' : latest.status === 'degrading' ? '↘️' : '➡️';
+          const statusColor =
+            latest.status === 'improving'
+              ? chalk.green
+              : latest.status === 'degrading'
+                ? chalk.red
+                : chalk.yellow;
 
-          console.log(chalk.white(`   ${statusIcon} ${this.getMetricDisplayName(metric)}: ${statusColor(latest.change.toFixed(1) + '%')}`));
+          console.log(
+            chalk.white(
+              `   ${statusIcon} ${this.getMetricDisplayName(metric)}: ${statusColor(latest.change.toFixed(1) + '%')}`
+            )
+          );
         }
       }
 
@@ -797,7 +851,6 @@ export class PerformanceMonitoring {
       }
 
       console.log();
-
     } catch (error: any) {
       console.error(chalk.red('خطأ في تحليل الأداء:'), error.message);
     }
@@ -815,11 +868,13 @@ export class PerformanceMonitoring {
       }
 
       // حساب درجة الأداء (100 - مشاكل)
-      const score = Math.max(0, 100 -
-        (metric.responseTime > 1000 ? 20 : 0) -
-        (metric.memoryUsage > 80 ? 20 : 0) -
-        (metric.cpuUsage > 70 ? 20 : 0) -
-        (metric.errorRate > 5 ? 20 : 0)
+      const score = Math.max(
+        0,
+        100 -
+          (metric.responseTime > 1000 ? 20 : 0) -
+          (metric.memoryUsage > 80 ? 20 : 0) -
+          (metric.cpuUsage > 70 ? 20 : 0) -
+          (metric.errorRate > 5 ? 20 : 0)
       );
 
       hourly[hour].push(score);
@@ -845,11 +900,13 @@ export class PerformanceMonitoring {
         daily[day] = [];
       }
 
-      const score = Math.max(0, 100 -
-        (metric.responseTime > 1000 ? 20 : 0) -
-        (metric.memoryUsage > 80 ? 20 : 0) -
-        (metric.cpuUsage > 70 ? 20 : 0) -
-        (metric.errorRate > 5 ? 20 : 0)
+      const score = Math.max(
+        0,
+        100 -
+          (metric.responseTime > 1000 ? 20 : 0) -
+          (metric.memoryUsage > 80 ? 20 : 0) -
+          (metric.cpuUsage > 70 ? 20 : 0) -
+          (metric.errorRate > 5 ? 20 : 0)
       );
 
       daily[day].push(score);
@@ -869,7 +926,7 @@ export class PerformanceMonitoring {
       responseTime: 'زمن الاستجابة',
       memoryUsage: 'استخدام الذاكرة',
       cpuUsage: 'استخدام المعالج',
-      errorRate: 'معدل الأخطاء'
+      errorRate: 'معدل الأخطاء',
     };
 
     return names[metric as keyof typeof names] || metric;
@@ -919,7 +976,9 @@ export class PerformanceMonitoring {
         }
       }
 
-      return alerts.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      return alerts.sort(
+        (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+      );
     } catch {
       return [];
     }
@@ -999,6 +1058,9 @@ export class PerformanceMonitoring {
   }
 }
 
-export function createPerformanceMonitoring(apiClient: OqoolAPIClient, workingDir?: string): PerformanceMonitoring {
+export function createPerformanceMonitoring(
+  apiClient: OqoolAPIClient,
+  workingDir?: string
+): PerformanceMonitoring {
   return new PerformanceMonitoring(apiClient, workingDir);
 }

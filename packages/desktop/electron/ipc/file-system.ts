@@ -11,7 +11,6 @@ interface FileInfo {
 }
 
 export function setupFileSystemHandlers() {
-  
   // ============================================
   // 1. فتح ملف واحد
   // ============================================
@@ -23,7 +22,7 @@ export function setupFileSystemHandlers() {
         { name: 'Text Files', extensions: ['txt', 'md'] },
         { name: 'Code Files', extensions: ['js', 'ts', 'jsx', 'tsx', 'py', 'java', 'cpp', 'c'] },
         { name: 'Web Files', extensions: ['html', 'css', 'scss', 'json'] },
-      ]
+      ],
     });
 
     if (result.canceled || result.filePaths.length === 0) {
@@ -32,7 +31,7 @@ export function setupFileSystemHandlers() {
 
     const filePath = result.filePaths[0];
     const content = await fs.readFile(filePath, 'utf-8');
-    
+
     return {
       path: filePath,
       name: path.basename(filePath),
@@ -46,7 +45,7 @@ export function setupFileSystemHandlers() {
   // ============================================
   ipcMain.handle('fs:openFolder', async () => {
     const result = await dialog.showOpenDialog({
-      properties: ['openDirectory']
+      properties: ['openDirectory'],
     });
 
     if (result.canceled || result.filePaths.length === 0) {
@@ -55,7 +54,7 @@ export function setupFileSystemHandlers() {
 
     const folderPath = result.filePaths[0];
     const files = await readDirectory(folderPath);
-    
+
     return {
       path: folderPath,
       name: path.basename(folderPath),
@@ -94,7 +93,7 @@ export function setupFileSystemHandlers() {
         { name: 'JavaScript', extensions: ['js', 'jsx'] },
         { name: 'TypeScript', extensions: ['ts', 'tsx'] },
         { name: 'Python', extensions: ['py'] },
-      ]
+      ],
     });
 
     if (result.canceled || !result.filePath) {
@@ -130,7 +129,7 @@ export function setupFileSystemHandlers() {
   // ============================================
   ipcMain.handle('fs:newFolder', async (_, parentPath: string, folderName: string) => {
     const newFolderPath = path.join(parentPath, folderName);
-    
+
     try {
       await fs.mkdir(newFolderPath, { recursive: true });
       return { success: true, path: newFolderPath };
@@ -145,13 +144,13 @@ export function setupFileSystemHandlers() {
   ipcMain.handle('fs:deleteFile', async (_, filePath: string) => {
     try {
       const stats = await fs.stat(filePath);
-      
+
       if (stats.isDirectory()) {
         await fs.rm(filePath, { recursive: true, force: true });
       } else {
         await fs.unlink(filePath);
       }
-      
+
       return { success: true };
     } catch (error: any) {
       return { success: false, error: error.message };
@@ -165,7 +164,7 @@ export function setupFileSystemHandlers() {
     try {
       const dir = path.dirname(oldPath);
       const newPath = path.join(dir, newName);
-      
+
       await fs.rename(oldPath, newPath);
       return { success: true, newPath: newPath };
     } catch (error: any) {
@@ -192,7 +191,7 @@ export function setupFileSystemHandlers() {
     try {
       const content = await fs.readFile(filePath, 'utf-8');
       const stats = await fs.stat(filePath);
-      
+
       return {
         success: true,
         content: content,
@@ -246,8 +245,8 @@ async function readDirectory(dirPath: string): Promise<FileInfo[]> {
 
     // ترتيب: المجلدات أولاً ثم الملفات
     files.sort((a, b) => {
-      if (a.isDirectory && !b.isDirectory) return -1;
-      if (!a.isDirectory && b.isDirectory) return 1;
+      if (a.isDirectory && !b.isDirectory) {return -1;}
+      if (!a.isDirectory && b.isDirectory) {return 1;}
       return a.name.localeCompare(b.name);
     });
 

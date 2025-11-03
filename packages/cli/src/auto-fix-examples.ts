@@ -13,10 +13,10 @@ async function example1_BasicFix() {
   console.log(chalk.cyan('\n📝 مثال 1: إصلاح أساسي\n'));
 
   const autoFix = createAutoFixSystem();
-  
+
   const result = await autoFix.fix({
     file: 'src/example.ts',
-    autoApply: true
+    autoApply: true,
   });
 
   console.log(chalk.green(`✅ تم إصلاح ${result.fixedIssues} مشكلة`));
@@ -29,11 +29,11 @@ async function example2_InteractiveFix() {
   console.log(chalk.cyan('\n🔄 مثال 2: إصلاح تفاعلي\n'));
 
   const autoFix = createAutoFixSystem();
-  
+
   const result = await autoFix.fix({
     file: 'src/example.ts',
     autoApply: false, // سيسأل المستخدم
-    interactive: true
+    interactive: true,
   });
 
   console.log(chalk.green(`✅ النتيجة:`));
@@ -49,12 +49,12 @@ async function example3_SpecificStages() {
   console.log(chalk.cyan('\n🎯 مثال 3: مراحل محددة\n'));
 
   const autoFix = createAutoFixSystem();
-  
+
   // فقط P1: Syntax + Security
   const result = await autoFix.fix({
     file: 'src/example.ts',
     onlyStages: ['syntax', 'security'],
-    autoApply: true
+    autoApply: true,
   });
 
   console.log(chalk.green(`✅ تم إصلاح P1 فقط`));
@@ -67,12 +67,12 @@ async function example4_SkipStages() {
   console.log(chalk.cyan('\n⏭️  مثال 4: تخطي مراحل\n'));
 
   const autoFix = createAutoFixSystem();
-  
+
   // كل المراحل ماعدا Performance
   const result = await autoFix.fix({
     file: 'src/example.ts',
     skipStages: ['performance'],
-    autoApply: true
+    autoApply: true,
   });
 
   console.log(chalk.green(`✅ تم إصلاح كل المراحل ماعدا Performance`));
@@ -88,15 +88,12 @@ function example5_StageInfo() {
   const stages = autoFix.getStages();
 
   console.log(chalk.yellow('المراحل المتاحة:\n'));
-  
+
   stages.forEach((stage, index) => {
-    const priorityColor = stage.priority === 'P1' ? chalk.red : 
-                          stage.priority === 'P2' ? chalk.yellow : 
-                          chalk.blue;
-    
-    const actionEmoji = stage.action === 'auto' ? '⚡' : 
-                       stage.action === 'ask' ? '❓' : 
-                       '💡';
+    const priorityColor =
+      stage.priority === 'P1' ? chalk.red : stage.priority === 'P2' ? chalk.yellow : chalk.blue;
+
+    const actionEmoji = stage.action === 'auto' ? '⚡' : stage.action === 'ask' ? '❓' : '💡';
 
     console.log(`${index + 1}. ${actionEmoji} ${stage.name}`);
     console.log(`   ${priorityColor(stage.priority)} | ${stage.action.toUpperCase()}`);
@@ -121,13 +118,13 @@ async function example6_ProgrammaticUsage() {
     const result = await autoFix.fix({
       file: 'src/app.ts',
       autoApply: true,
-      interactive: false
+      interactive: false,
     });
 
     // 3. فحص النتائج
     if (result.success) {
       console.log(chalk.green('✅ نجح الإصلاح'));
-      
+
       // 4. عرض التفاصيل
       for (const [stageName, stageResult] of Object.entries(result.stages)) {
         if (stageResult.issues > 0) {
@@ -145,7 +142,6 @@ async function example6_ProgrammaticUsage() {
     } else {
       console.log(chalk.red('❌ فشل الإصلاح'));
     }
-
   } catch (error: any) {
     console.error(chalk.red('❌ خطأ:'), error.message);
   }
@@ -165,7 +161,7 @@ async function example7_FullPipeline() {
     file: 'src/app.ts',
     onlyStages: ['syntax', 'security'],
     autoApply: true,
-    interactive: true
+    interactive: true,
   });
 
   // مرحلة 2: P2 (Types)
@@ -173,7 +169,7 @@ async function example7_FullPipeline() {
   await autoFix.fix({
     file: 'src/app.ts',
     onlyStages: ['types'],
-    autoApply: true
+    autoApply: true,
   });
 
   // مرحلة 3: P3 (Performance + Style)
@@ -181,7 +177,7 @@ async function example7_FullPipeline() {
   await autoFix.fix({
     file: 'src/app.ts',
     onlyStages: ['performance', 'style'],
-    autoApply: true
+    autoApply: true,
   });
 
   console.log(chalk.green('\n✅ اكتمل Pipeline!'));
@@ -194,28 +190,24 @@ async function example8_MultipleFiles() {
   console.log(chalk.cyan('\n📁 مثال 8: ملفات متعددة\n'));
 
   const autoFix = createAutoFixSystem();
-  const files = [
-    'src/utils.ts',
-    'src/helpers.ts',
-    'src/services.ts'
-  ];
+  const files = ['src/utils.ts', 'src/helpers.ts', 'src/services.ts'];
 
   const results = [];
 
   for (const file of files) {
     console.log(chalk.white(`\n🔄 معالجة: ${file}`));
-    
+
     try {
       const result = await autoFix.fix({
         file,
         autoApply: true,
-        interactive: false
+        interactive: false,
       });
 
       results.push({
         file,
         success: result.success,
-        fixed: result.fixedIssues
+        fixed: result.fixedIssues,
       });
 
       console.log(chalk.green(`✅ تم - إصلاح ${result.fixedIssues} مشكلة`));
@@ -224,7 +216,7 @@ async function example8_MultipleFiles() {
       results.push({
         file,
         success: false,
-        fixed: 0
+        fixed: 0,
       });
     }
   }
@@ -234,7 +226,7 @@ async function example8_MultipleFiles() {
   console.log(chalk.cyan('   📊 ملخص النتائج'));
   console.log(chalk.cyan('═══════════════════════════════\n'));
 
-  const successful = results.filter(r => r.success).length;
+  const successful = results.filter((r) => r.success).length;
   const totalFixed = results.reduce((sum, r) => sum + r.fixed, 0);
 
   console.log(chalk.white(`✅ ملفات ناجحة: ${successful}/${files.length}`));
@@ -272,7 +264,7 @@ export {
   example6_ProgrammaticUsage,
   example7_FullPipeline,
   example8_MultipleFiles,
-  runAllExamples
+  runAllExamples,
 };
 
 // تشغيل إذا كان ملف رئيسي

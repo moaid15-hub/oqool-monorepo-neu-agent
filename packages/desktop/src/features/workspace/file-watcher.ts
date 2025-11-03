@@ -38,7 +38,7 @@ export class FileWatcher {
   }
 
   async unwatch(): Promise<void> {
-    if (!this.watcherId) return;
+    if (!this.watcherId) {return;}
 
     try {
       const result = await window.electron.ipcRenderer.invoke('fs:unwatch', this.watcherId);
@@ -66,7 +66,7 @@ export class FileWatcher {
 
   private setupEventListener(): void {
     window.electron.ipcRenderer.on('fs:watcher-event', (rawEvent: any) => {
-      if (rawEvent.watcherId !== this.watcherId) return;
+      if (rawEvent.watcherId !== this.watcherId) {return;}
 
       const event: WatcherEvent = {
         type: rawEvent.type,

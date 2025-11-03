@@ -27,7 +27,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   openFile: (path: string, content: string, language: string) => {
     set((state) => {
       const newFiles = new Map(state.files);
-      
+
       // Mark all files as inactive
       newFiles.forEach((file) => {
         file.isActive = false;
@@ -79,7 +79,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   updateFile: (path: string, content: string) => {
     set((state) => {
       const file = state.files.get(path);
-      if (!file) return state;
+      if (!file) {return state;}
 
       const newFiles = new Map(state.files);
       newFiles.set(path, {
@@ -95,7 +95,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   setActiveFile: (path: string) => {
     set((state) => {
       const newFiles = new Map(state.files);
-      
+
       // Mark all files as inactive
       newFiles.forEach((file) => {
         file.isActive = false;
@@ -117,7 +117,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   markDirty: (path: string, dirty: boolean) => {
     set((state) => {
       const file = state.files.get(path);
-      if (!file) return state;
+      if (!file) {return state;}
 
       const newFiles = new Map(state.files);
       newFiles.set(path, {

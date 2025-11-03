@@ -170,7 +170,8 @@ export const translations = {
 
     // Editor
     'editor.welcome.title': '🚀 Oqool IDE',
-    'editor.welcome.subtitle': 'Öffnen Sie eine Datei aus der Seitenleiste, um mit dem Codieren zu beginnen',
+    'editor.welcome.subtitle':
+      'Öffnen Sie eine Datei aus der Seitenleiste, um mit dem Codieren zu beginnen',
     'editor.welcome.feature1': '✨ Professioneller Monaco Editor',
     'editor.welcome.feature2': '⚡ Blitzschnelle Leistung',
     'editor.welcome.feature3': '🤖 KI-gestützte Unterstützung',

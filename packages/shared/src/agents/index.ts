@@ -21,9 +21,13 @@ export * from './seo-specialist-agent.js';
 
 // Infrastructure Agents - وكلاء البنية التحتية
 export * from './devops-agent.js';
+export * from './computer-control-agent.js';
 
 // AI & Machine Learning - الذكاء الاصطناعي والتعلم الآلي
-export * from './ml-agent.js';
+// Note: ml-agent.ts is kept as legacy/reference only, not exported
+export * from './ml-agent-enhanced.js';
+export * from './pattern-analyzer.js';
+export * from './intelligent-predictor.js';
 
 // Arabic Language Support - دعم اللغة العربية
 export * from './arabic-agent.js';

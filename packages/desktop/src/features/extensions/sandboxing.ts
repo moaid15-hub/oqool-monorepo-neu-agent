@@ -10,7 +10,7 @@ export function createSandbox(context: ExtensionContext, api: ExtensionAPI): San
   // Create a sandboxed environment
   // Context is stored for potential future use in extension APIs
   console.log('Creating sandbox for extension at:', context.extensionPath);
-  
+
   const sandbox: any = {
     console: {
       log: (...args: any[]) => console.log('[Extension]', ...args),

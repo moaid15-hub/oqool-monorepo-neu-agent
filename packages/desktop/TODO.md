@@ -17,6 +17,7 @@
 ### الأسبوع 1: Setup & Basic UI
 
 #### Day 1-2: Dependencies Setup
+
 - [ ] تثبيت Dependencies الأساسية
   - [ ] electron
   - [ ] react & react-dom
@@ -40,11 +41,11 @@
   - [ ] zustand أو pinia
 
 #### Day 3-4: Electron Setup
+
 - [ ] كتابة electron/main.ts
   - [ ] إنشاء النافذة الرئيسية
   - [ ] إعداد DevTools
   - [ ] Custom titlebar
-  
 - [ ] كتابة electron/preload.ts
   - [ ] Context Bridge APIs
   - [ ] IPC Handlers exposure
@@ -57,6 +58,7 @@
   - [ ] deleteFile handler
 
 #### Day 5-7: Basic UI
+
 - [ ] كتابة src/main.tsx
   - [ ] React setup
   - [ ] Root render
@@ -82,6 +84,7 @@
 ### الأسبوع 2: Editor & Terminal
 
 #### Day 8-10: Monaco Editor
+
 - [ ] كتابة src/components/Editor/Editor.tsx
   - [ ] Monaco integration
   - [ ] Basic configuration
@@ -104,6 +107,7 @@
   - [ ] Command palette
 
 #### Day 11-13: Terminal Integration
+
 - [ ] كتابة electron/ipc/terminal.ts
   - [ ] PTY process creation
   - [ ] Terminal write handler
@@ -122,6 +126,7 @@
   - [ ] History search
 
 #### Day 14: File Explorer
+
 - [ ] كتابة src/components/Sidebar/FileExplorer.tsx
   - [ ] Tree view
   - [ ] File/folder icons
@@ -136,6 +141,7 @@
 ### الأسبوع 3: AI Setup
 
 #### Day 1-2: AI Service
+
 - [ ] كتابة src/services/ai-service.ts
   - [ ] API client setup
   - [ ] 8 personalities integration
@@ -158,6 +164,7 @@
   - [ ] Response formatting
 
 #### Day 3-5: Chat Interface
+
 - [ ] كتابة src/components/AI/ChatPanel.tsx
   - [ ] Message list
   - [ ] Input field
@@ -177,6 +184,7 @@
   - [ ] sendMessage action
 
 #### Day 6-7: Inline Suggestions
+
 - [ ] كتابة src/features/ai/inline-suggestions.ts
   - [ ] Monaco integration
   - [ ] Trigger conditions
@@ -196,6 +204,7 @@
 ### الأسبوع 4-5: God Mode & Version Guardian
 
 #### Week 4: God Mode
+
 - [ ] كتابة shared/cli/god-mode.ts
   - [ ] CLI integration
   - [ ] Project generation logic
@@ -212,6 +221,7 @@
   - [ ] Results view
 
 #### Week 5: Version Guardian
+
 - [ ] كتابة shared/cli/version-guardian.ts
   - [ ] Snapshot creation
   - [ ] Timeline management
@@ -229,6 +239,7 @@
   - [ ] Compare view
 
 #### Voice Interface
+
 - [ ] كتابة shared/cli/voice-interface.ts
   - [ ] Speech recognition
   - [ ] Text-to-speech
@@ -251,6 +262,7 @@
 ### الأسبوع 6: Extensions & Release
 
 #### Day 1-2: Extensions System
+
 - [ ] كتابة src/features/extensions/extension-api.ts
   - [ ] Extension interface
   - [ ] Command registration
@@ -268,6 +280,7 @@
   - [ ] Extension settings
 
 #### Day 3-4: Built-in Extensions
+
 - [ ] كتابة extensions/arabic-support/index.tsx
   - [ ] RTL/LTR toggle
   - [ ] Arabic formatting
@@ -284,6 +297,7 @@
   - [ ] Generate documentation
 
 #### Day 5-6: Testing & Optimization
+
 - [ ] Unit tests
 - [ ] Integration tests
 - [ ] E2E tests
@@ -292,6 +306,7 @@
 - [ ] Loading time optimization
 
 #### Day 7: Documentation & Release
+
 - [ ] User guide
 - [ ] Developer guide
 - [ ] API documentation
@@ -304,6 +319,7 @@
 ## 🎯 أولويات إضافية
 
 ### High Priority
+
 - [ ] Git integration
   - [ ] src/features/git/git-client.ts
   - [ ] src/components/Sidebar/GitPanel.tsx
@@ -320,12 +336,14 @@
   - [ ] Replace functionality
 
 ### Medium Priority
+
 - [ ] Theme customization
 - [ ] Plugin marketplace
 - [ ] Remote development
 - [ ] Collaborative editing
 
 ### Low Priority
+
 - [ ] Code snippets
 - [ ] Debugging tools
 - [ ] Performance profiler
@@ -336,6 +354,7 @@
 ## 📊 Progress Tracking
 
 ### Overall Progress: 30%
+
 - ✅ Structure: 100%
 - ✅ Documentation: 100%
 - ⏳ Code Implementation: 0%
@@ -343,6 +362,7 @@
 - ⏳ Polish: 0%
 
 ### Phase Progress
+
 - ✅ Phase 0: Planning - 100%
 - ⏳ Phase 1: Basics - 0%
 - ⏳ Phase 2: AI - 0%
@@ -354,6 +374,7 @@
 ## 📝 ملاحظات
 
 ### Dependencies المطلوبة
+
 ```json
 {
   "dependencies": {
@@ -383,6 +404,7 @@
 ```
 
 ### Development Tips
+
 - استخدم `npm run dev` للتطوير
 - اختبر كل مكون بشكل منفصل
 - راجع `PROJECT_STRUCTURE.md` عند الحاجة

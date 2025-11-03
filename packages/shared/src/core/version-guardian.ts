@@ -196,7 +196,7 @@ export class VersionGuardian {
       versions: [],
       snapshots: [],
       backups: [],
-      timeline: []
+      timeline: [],
     };
     await fs.writeFile(this.historyPath, JSON.stringify(initialHistory, null, 2));
 
@@ -241,7 +241,7 @@ export class VersionGuardian {
         path: filePath,
         content,
         hash,
-        size: stats.size
+        size: stats.size,
       });
     }
 
@@ -258,9 +258,9 @@ export class VersionGuardian {
         totalFiles: snapshotFiles.length,
         totalSize,
         createdBy: os.userInfo().username,
-        version: '1.0.0'
+        version: '1.0.0',
       },
-      tags: []
+      tags: [],
     };
 
     // Create Git commit if enabled
@@ -282,7 +282,7 @@ export class VersionGuardian {
       timestamp: Date.now(),
       event: `Snapshot created: ${name}`,
       type: 'snapshot',
-      description: description || 'No description'
+      description: description || 'No description',
     });
 
     console.log(chalk.green(`✅ Snapshot created: ${snapshot.id}`));
@@ -319,7 +319,10 @@ export class VersionGuardian {
   // 3️⃣ Smart Rollback - رجوع ذكي
   // ============================================
 
-  async rollback(snapshotId: string, options?: { backup?: boolean; gitTag?: string }): Promise<void> {
+  async rollback(
+    snapshotId: string,
+    options?: { backup?: boolean; gitTag?: string }
+  ): Promise<void> {
     console.log(chalk.cyan(`⏮️  Rolling back to snapshot: ${snapshotId}...\n`));
 
     // Create backup before rollback
@@ -351,7 +354,7 @@ export class VersionGuardian {
       timestamp: Date.now(),
       event: `Rolled back to: ${snapshot.name}`,
       type: 'rollback',
-      description: `Restored ${snapshot.metadata.totalFiles} files`
+      description: `Restored ${snapshot.metadata.totalFiles} files`,
     });
 
     console.log(chalk.green(`\n✅ Rollback complete!`));
@@ -372,8 +375,8 @@ export class VersionGuardian {
     const diffs: DiffResult[] = [];
 
     // Create file maps for quick lookup
-    const files1 = new Map(snapshot1.files.map(f => [f.path, f]));
-    const files2 = new Map(snapshot2.files.map(f => [f.path, f]));
+    const files1 = new Map(snapshot1.files.map((f) => [f.path, f]));
+    const files2 = new Map(snapshot2.files.map((f) => [f.path, f]));
 
     // Get all unique file paths
     const allPaths = new Set([...files1.keys(), ...files2.keys()]);
@@ -389,7 +392,7 @@ export class VersionGuardian {
           changes: [{ type: 'add', lineNumber: 0, newLine: file2!.content }],
           additions: file2!.content.split('\n').length,
           deletions: 0,
-          summary: 'File added'
+          summary: 'File added',
         });
       } else if (!file2) {
         // File deleted
@@ -398,20 +401,20 @@ export class VersionGuardian {
           changes: [{ type: 'remove', lineNumber: 0, oldLine: file1.content }],
           additions: 0,
           deletions: file1.content.split('\n').length,
-          summary: 'File deleted'
+          summary: 'File deleted',
         });
       } else if (file1.hash !== file2.hash) {
         // File modified
         const changes = this.computeDiff(file1.content, file2.content);
-        const additions = changes.filter(c => c.type === 'add').length;
-        const deletions = changes.filter(c => c.type === 'remove').length;
+        const additions = changes.filter((c) => c.type === 'add').length;
+        const deletions = changes.filter((c) => c.type === 'remove').length;
 
         diffs.push({
           file: filePath,
           changes,
           additions,
           deletions,
-          summary: `+${additions} -${deletions}`
+          summary: `+${additions} -${deletions}`,
         });
       }
     }
@@ -429,7 +432,7 @@ export class VersionGuardian {
       console.log(chalk.gray(`   ${diff.summary}`));
 
       if (diff.changes.length < 50) {
-        diff.changes.forEach(change => {
+        diff.changes.forEach((change) => {
           if (change.type === 'add') {
             console.log(chalk.green(`   + ${change.newLine}`));
           } else if (change.type === 'remove') {
@@ -443,7 +446,9 @@ export class VersionGuardian {
     const totalAdditions = diffs.reduce((sum, d) => sum + d.additions, 0);
     const totalDeletions = diffs.reduce((sum, d) => sum + d.deletions, 0);
 
-    console.log(chalk.bold(`Total: ${chalk.green(`+${totalAdditions}`)} ${chalk.red(`-${totalDeletions}`)}`));
+    console.log(
+      chalk.bold(`Total: ${chalk.green(`+${totalAdditions}`)} ${chalk.red(`-${totalDeletions}`)}`)
+    );
   }
 
   private computeDiff(content1: string, content2: string): DiffChange[] {
@@ -475,7 +480,10 @@ export class VersionGuardian {
   // 5️⃣ Auto-Backup - نسخ احتياطي ذكي
   // ============================================
 
-  async createBackup(name: string, options?: { compress?: boolean; cloud?: boolean }): Promise<Backup> {
+  async createBackup(
+    name: string,
+    options?: { compress?: boolean; cloud?: boolean }
+  ): Promise<Backup> {
     console.log(chalk.cyan(`💾 Creating backup: ${name}...\n`));
 
     const snapshot = await this.createSnapshot(`backup-${name}`, 'Auto-backup snapshot');
@@ -499,7 +507,7 @@ export class VersionGuardian {
       path: backupPath,
       size: stats.size,
       compressed,
-      cloud: options?.cloud
+      cloud: options?.cloud,
     };
 
     // Upload to cloud if requested
@@ -522,7 +530,9 @@ export class VersionGuardian {
       await this.createBackup(`auto-${Date.now()}`);
     }, interval);
 
-    console.log(chalk.green(`🔄 Auto-backup started (every ${this.config.backupInterval || 30} minutes)`));
+    console.log(
+      chalk.green(`🔄 Auto-backup started (every ${this.config.backupInterval || 30} minutes)`)
+    );
   }
 
   stopAutoBackup(): void {
@@ -577,9 +587,11 @@ export class VersionGuardian {
 
   async getGitHistory(): Promise<any[]> {
     const cwd = this.config.projectPath;
-    const output = execSync('git log --pretty=format:"%H|%an|%ae|%ad|%s" --date=iso', { cwd }).toString();
+    const output = execSync('git log --pretty=format:"%H|%an|%ae|%ad|%s" --date=iso', {
+      cwd,
+    }).toString();
 
-    return output.split('\n').map(line => {
+    return output.split('\n').map((line) => {
       const [hash, author, email, date, message] = line.split('|');
       return { hash, author, email, date, message };
     });
@@ -600,7 +612,7 @@ export class VersionGuardian {
 
     console.log(chalk.bold('\n📜 Change History:\n'));
 
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       const date = new Date(entry.timestamp).toLocaleString();
       const icon = this.getEventIcon(entry.type);
 
@@ -614,22 +626,22 @@ export class VersionGuardian {
     const changes: Change[] = [];
 
     for (let i = 0; i < snapshots.length - 1; i++) {
-      const current = snapshots[i].files.find(f => f.path === filePath);
-      const previous = snapshots[i + 1].files.find(f => f.path === filePath);
+      const current = snapshots[i].files.find((f) => f.path === filePath);
+      const previous = snapshots[i + 1].files.find((f) => f.path === filePath);
 
       if (!previous && current) {
         changes.push({
           type: 'added',
           path: filePath,
           newContent: current.content,
-          timestamp: snapshots[i].timestamp
+          timestamp: snapshots[i].timestamp,
         });
       } else if (previous && !current) {
         changes.push({
           type: 'deleted',
           path: filePath,
           oldContent: previous.content,
-          timestamp: snapshots[i].timestamp
+          timestamp: snapshots[i].timestamp,
         });
       } else if (previous && current && previous.hash !== current.hash) {
         changes.push({
@@ -637,7 +649,7 @@ export class VersionGuardian {
           path: filePath,
           oldContent: previous.content,
           newContent: current.content,
-          timestamp: snapshots[i].timestamp
+          timestamp: snapshots[i].timestamp,
         });
       }
     }
@@ -650,7 +662,7 @@ export class VersionGuardian {
 
     const changes = await this.getFileHistory(filePath);
 
-    changes.forEach(change => {
+    changes.forEach((change) => {
       const date = new Date(change.timestamp).toLocaleString();
       const icon = change.type === 'added' ? '➕' : change.type === 'deleted' ? '➖' : '✏️';
 
@@ -683,7 +695,7 @@ export class VersionGuardian {
       const previous = snapshots[i + 1];
 
       for (const file of current.files) {
-        const prevFile = previous.files.find(f => f.path === file.path);
+        const prevFile = previous.files.find((f) => f.path === file.path);
         if (prevFile && prevFile.hash !== file.hash) {
           fileChanges.set(file.path, (fileChanges.get(file.path) || 0) + 1);
         }
@@ -694,16 +706,16 @@ export class VersionGuardian {
       .map(([path, changeCount]) => ({
         path,
         changeCount,
-        lastModified: Date.now()
+        lastModified: Date.now(),
       }))
       .sort((a, b) => b.changeCount - a.changeCount)
       .slice(0, 10);
 
     // Calculate size growth
-    const sizeGrowth: SizeGrowthData[] = snapshots.map(s => ({
+    const sizeGrowth: SizeGrowthData[] = snapshots.map((s) => ({
       timestamp: s.timestamp,
       size: s.metadata.totalSize,
-      fileCount: s.metadata.totalFiles
+      fileCount: s.metadata.totalFiles,
     }));
 
     return {
@@ -713,7 +725,7 @@ export class VersionGuardian {
       averageChangesPerVersion: 0,
       mostChangedFiles,
       timeline: history,
-      sizeGrowth
+      sizeGrowth,
     };
   }
 
@@ -755,7 +767,9 @@ You are a code conflict resolution expert. Analyze these conflicts and suggest t
 File: ${file}
 
 Conflicts:
-${conflicts.map((c, i) => `
+${conflicts
+  .map(
+    (c, i) => `
 Conflict ${i + 1} (lines ${c.startLine}-${c.endLine}):
 Type: ${c.type}
 
@@ -764,7 +778,9 @@ ${c.currentVersion}
 
 Incoming Version:
 ${c.incomingVersion}
-`).join('\n')}
+`
+  )
+  .join('\n')}
 
 Provide:
 1. The best merged version that combines both changes intelligently
@@ -782,7 +798,7 @@ Format your response as JSON:
     const response = await this.anthropic.messages.create({
       model: 'claude-3-5-haiku-20241022',
       max_tokens: 4000,
-      messages: [{ role: 'user', content: prompt }]
+      messages: [{ role: 'user', content: prompt }],
     });
 
     const content = response.content[0];
@@ -790,13 +806,15 @@ Format your response as JSON:
 
     // Parse AI response
     const jsonMatch = text.match(/\{[\s\S]*\}/);
-    const result = jsonMatch ? JSON.parse(jsonMatch[0]) : { mergedCode: '', reasoning: '', confidence: 0 };
+    const result = jsonMatch
+      ? JSON.parse(jsonMatch[0])
+      : { mergedCode: '', reasoning: '', confidence: 0 };
 
     return {
       file,
       conflicts,
       suggestedResolution: result.mergedCode,
-      confidence: result.confidence
+      confidence: result.confidence,
     };
   }
 
@@ -822,12 +840,12 @@ Format your response as JSON:
           for (const snapshot of toDelete) {
             await this.deleteSnapshot(snapshot.id);
           }
-        }
+        },
       });
     }
 
     // Suggest backup if none created recently
-    const lastBackupTime = Math.max(...snapshots.map(s => s.timestamp));
+    const lastBackupTime = Math.max(...snapshots.map((s) => s.timestamp));
     const hoursSinceBackup = (Date.now() - lastBackupTime) / (1000 * 60 * 60);
 
     if (hoursSinceBackup > 24) {
@@ -838,7 +856,7 @@ Format your response as JSON:
         priority: 'high',
         action: async () => {
           await this.createBackup(`suggested-${Date.now()}`);
-        }
+        },
       });
     }
 
@@ -848,7 +866,7 @@ Format your response as JSON:
         type: 'merge',
         title: 'Consider merging snapshots',
         description: 'You have many snapshots with small changes. Consider merging them.',
-        priority: 'low'
+        priority: 'low',
       });
     }
 
@@ -870,10 +888,12 @@ Format your response as JSON:
         low: chalk.gray,
         medium: chalk.yellow,
         high: chalk.red,
-        critical: chalk.red.bold
+        critical: chalk.red.bold,
       }[suggestion.priority];
 
-      console.log(priorityColor(`${i + 1}. [${suggestion.priority.toUpperCase()}] ${suggestion.title}`));
+      console.log(
+        priorityColor(`${i + 1}. [${suggestion.priority.toUpperCase()}] ${suggestion.title}`)
+      );
       console.log(chalk.gray(`   ${suggestion.description}\n`));
     });
   }
@@ -884,15 +904,15 @@ Format your response as JSON:
 
   async showTimeline(days?: number): Promise<void> {
     const history = await this.getChangeHistory();
-    const cutoff = days ? Date.now() - (days * 24 * 60 * 60 * 1000) : 0;
-    const filtered = history.filter(e => e.timestamp > cutoff);
+    const cutoff = days ? Date.now() - days * 24 * 60 * 60 * 1000 : 0;
+    const filtered = history.filter((e) => e.timestamp > cutoff);
 
     console.log(chalk.bold('\n📅 Visual Timeline\n'));
 
     // Group by day
     const byDay = new Map<string, TimelineEntry[]>();
 
-    filtered.forEach(entry => {
+    filtered.forEach((entry) => {
       const day = new Date(entry.timestamp).toDateString();
       if (!byDay.has(day)) {
         byDay.set(day, []);
@@ -904,7 +924,7 @@ Format your response as JSON:
       console.log(chalk.bold.cyan(`\n${day}`));
       console.log(chalk.gray('─'.repeat(50)));
 
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         const time = new Date(entry.timestamp).toLocaleTimeString();
         const icon = this.getEventIcon(entry.type);
         console.log(chalk.white(`  ${time} ${icon} ${entry.event}`));
@@ -984,7 +1004,7 @@ Format your response as JSON:
       snapshot: '📸',
       version: '🏷️',
       backup: '💾',
-      rollback: '⏮️'
+      rollback: '⏮️',
     };
     return icons[type] || '📌';
   }

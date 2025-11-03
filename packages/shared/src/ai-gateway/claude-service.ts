@@ -19,12 +19,12 @@ export interface ChatCompletionOptions {
 
 export class ClaudeService {
   private client: Anthropic;
-  
+
   constructor(apiKey: string) {
     if (!apiKey) {
       throw new Error('Anthropic API key is required');
     }
-    
+
     this.client = new Anthropic({
       apiKey: apiKey,
     });
@@ -33,10 +33,7 @@ export class ClaudeService {
   /**
    * إرسال رسالة للـ AI
    */
-  async chatCompletion(
-    messages: Message[],
-    options: ChatCompletionOptions = {}
-  ): Promise<string> {
+  async chatCompletion(messages: Message[], options: ChatCompletionOptions = {}): Promise<string> {
     const {
       model = 'claude-3-haiku-20240307', // الأرخص: $0.25/$1.25 per 1M tokens
       maxTokens = 4096,
@@ -46,7 +43,7 @@ export class ClaudeService {
 
     try {
       // تحويل الرسائل لصيغة Claude
-      const claudeMessages = messages.map(msg => ({
+      const claudeMessages = messages.map((msg) => ({
         role: msg.role,
         content: msg.content,
       }));
@@ -88,7 +85,7 @@ export class ClaudeService {
     } = options;
 
     try {
-      const claudeMessages = messages.map(msg => ({
+      const claudeMessages = messages.map((msg) => ({
         role: msg.role,
         content: msg.content,
       }));
@@ -102,10 +99,7 @@ export class ClaudeService {
       });
 
       for await (const event of stream) {
-        if (
-          event.type === 'content_block_delta' &&
-          event.delta.type === 'text_delta'
-        ) {
+        if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
           yield event.delta.text;
         }
       }
@@ -118,23 +112,27 @@ export class ClaudeService {
   /**
    * حساب التكلفة التقريبية
    */
-  calculateCost(inputTokens: number, outputTokens: number, model: string = 'claude-3-haiku-20240307'): number {
+  calculateCost(
+    inputTokens: number,
+    outputTokens: number,
+    model: string = 'claude-3-haiku-20240307'
+  ): number {
     // Claude pricing
     const pricing: Record<string, { input: number; output: number }> = {
       'claude-3-haiku-20240307': {
-        input: 0.25,  // $0.25 per 1M tokens - الأرخص! 💰
+        input: 0.25, // $0.25 per 1M tokens - الأرخص! 💰
         output: 1.25, // $1.25 per 1M tokens
       },
       'claude-3-5-sonnet-20241022': {
-        input: 3.0,   // $3 per 1M tokens
+        input: 3.0, // $3 per 1M tokens
         output: 15.0, // $15 per 1M tokens
       },
       'claude-3-opus-20240229': {
-        input: 15.0,  // $15 per 1M tokens
+        input: 15.0, // $15 per 1M tokens
         output: 75.0, // $75 per 1M tokens
       },
       'claude-3-sonnet-20240229': {
-        input: 3.0,   // $3 per 1M tokens
+        input: 3.0, // $3 per 1M tokens
         output: 15.0, // $15 per 1M tokens
       },
     };
@@ -142,7 +140,7 @@ export class ClaudeService {
     const modelPricing = pricing[model] || pricing['claude-3-haiku-20240307'];
     const inputCost = (inputTokens / 1_000_000) * modelPricing.input;
     const outputCost = (outputTokens / 1_000_000) * modelPricing.output;
-    
+
     return inputCost + outputCost;
   }
 
@@ -151,9 +149,7 @@ export class ClaudeService {
    */
   async validateApiKey(): Promise<boolean> {
     try {
-      await this.chatCompletion([
-        { role: 'user', content: 'Hello' }
-      ], { maxTokens: 10 });
+      await this.chatCompletion([{ role: 'user', content: 'Hello' }], { maxTokens: 10 });
       return true;
     } catch (error) {
       return false;
@@ -204,7 +200,11 @@ export class ClaudeService {
     const statusCode = error.status || error.statusCode;
 
     // معالجة أخطاء API المعروفة
-    if (statusCode === 401 || errorMsg.includes('authentication') || errorMsg.includes('invalid x-api-key')) {
+    if (
+      statusCode === 401 ||
+      errorMsg.includes('authentication') ||
+      errorMsg.includes('invalid x-api-key')
+    ) {
       return '401 {"type":"error","error":{"type":"authentication_error","message":"invalid x-api-key"}}';
     }
     if (statusCode === 403) {

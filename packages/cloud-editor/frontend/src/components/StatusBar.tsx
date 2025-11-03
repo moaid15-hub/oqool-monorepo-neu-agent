@@ -17,7 +17,7 @@ const StatusBar: React.FC<StatusBarProps> = ({
   cursorPosition = { line: 1, column: 1 },
   gitBranch = 'main',
   errors = 0,
-  warnings = 0
+  warnings = 0,
 }) => {
   return (
     <div className="status-bar app-status-bar">
@@ -48,25 +48,17 @@ const StatusBar: React.FC<StatusBarProps> = ({
       </div>
 
       <div className="status-right">
-        <div className="status-item language">
-          {language.toUpperCase()}
-        </div>
+        <div className="status-item language">{language.toUpperCase()}</div>
 
         <div className="status-item">
           LN {cursorPosition.line}, COL {cursorPosition.column}
         </div>
 
-        <div className="status-item">
-          {lineCount} Lines
-        </div>
+        <div className="status-item">{lineCount} Lines</div>
 
-        <div className="status-item encoding">
-          UTF-8
-        </div>
+        <div className="status-item encoding">UTF-8</div>
 
-        <div className="status-item">
-          LF
-        </div>
+        <div className="status-item">LF</div>
       </div>
     </div>
   );

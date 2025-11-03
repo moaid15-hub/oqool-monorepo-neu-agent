@@ -41,7 +41,7 @@ export class GitHelper {
       hasChanges: false,
       staged: [],
       unstaged: [],
-      untracked: []
+      untracked: [],
     };
 
     if (!status.isRepo) {
@@ -55,7 +55,7 @@ export class GitHelper {
 
       // الحصول على التغييرات
       const statusResult = await this.execGit(['status', '--porcelain']);
-      const lines = statusResult.split('\n').filter(l => l.trim());
+      const lines = statusResult.split('\n').filter((l) => l.trim());
 
       for (const line of lines) {
         const code = line.substring(0, 2);
@@ -71,10 +71,7 @@ export class GitHelper {
       }
 
       status.hasChanges =
-        status.staged.length > 0 ||
-        status.unstaged.length > 0 ||
-        status.untracked.length > 0;
-
+        status.staged.length > 0 || status.unstaged.length > 0 || status.untracked.length > 0;
     } catch (error) {
       console.error(chalk.red('خطأ في الحصول على git status'));
     }
@@ -144,11 +141,7 @@ export class GitHelper {
   // ============================================
   // 🔀 إنشاء Pull Request (GitHub)
   // ============================================
-  async createPR(
-    title: string,
-    body: string,
-    baseBranch: string = 'main'
-  ): Promise<boolean> {
+  async createPR(title: string, body: string, baseBranch: string = 'main'): Promise<boolean> {
     try {
       // التحقق من وجود gh CLI
       const hasGH = await this.checkCommand('gh');
@@ -167,7 +160,7 @@ export class GitHelper {
         '--body',
         body,
         '--base',
-        baseBranch
+        baseBranch,
       ]);
 
       console.log(chalk.green('✅ تم إنشاء Pull Request'));
@@ -189,7 +182,7 @@ export class GitHelper {
         'log',
         `-${count}`,
         `--pretty=format:${format}`,
-        '--date=short'
+        '--date=short',
       ]);
 
       const lines = result.split('\n');
@@ -271,9 +264,9 @@ export class GitHelper {
     // تحليل نوع التغيير
     let type = 'chore';
 
-    if (changedFiles.some(f => f.includes('test'))) {
+    if (changedFiles.some((f) => f.includes('test'))) {
       type = 'test';
-    } else if (changedFiles.some(f => f.includes('doc') || f.endsWith('.md'))) {
+    } else if (changedFiles.some((f) => f.includes('doc') || f.endsWith('.md'))) {
       type = 'docs';
     } else if (diff.includes('bug') || diff.includes('fix')) {
       type = 'fix';
@@ -302,7 +295,7 @@ export class GitHelper {
     return new Promise((resolve, reject) => {
       const child = spawn(command, args, {
         cwd: this.workingDirectory,
-        shell: true
+        shell: true,
       });
 
       let stdout = '';
@@ -366,7 +359,7 @@ export class GitHelper {
 
     if (status.staged.length > 0) {
       console.log(chalk.green(`\n📦 Staged (${status.staged.length}):`));
-      status.staged.slice(0, 5).forEach(f => console.log(chalk.gray(`   + ${f}`)));
+      status.staged.slice(0, 5).forEach((f) => console.log(chalk.gray(`   + ${f}`)));
       if (status.staged.length > 5) {
         console.log(chalk.gray(`   ... و ${status.staged.length - 5} ملف آخر`));
       }
@@ -374,7 +367,7 @@ export class GitHelper {
 
     if (status.unstaged.length > 0) {
       console.log(chalk.yellow(`\n✏️  Modified (${status.unstaged.length}):`));
-      status.unstaged.slice(0, 5).forEach(f => console.log(chalk.gray(`   ~ ${f}`)));
+      status.unstaged.slice(0, 5).forEach((f) => console.log(chalk.gray(`   ~ ${f}`)));
       if (status.unstaged.length > 5) {
         console.log(chalk.gray(`   ... و ${status.unstaged.length - 5} ملف آخر`));
       }
@@ -382,7 +375,7 @@ export class GitHelper {
 
     if (status.untracked.length > 0) {
       console.log(chalk.cyan(`\n➕ Untracked (${status.untracked.length}):`));
-      status.untracked.slice(0, 5).forEach(f => console.log(chalk.gray(`   ? ${f}`)));
+      status.untracked.slice(0, 5).forEach((f) => console.log(chalk.gray(`   ? ${f}`)));
       if (status.untracked.length > 5) {
         console.log(chalk.gray(`   ... و ${status.untracked.length - 5} ملف آخر`));
       }

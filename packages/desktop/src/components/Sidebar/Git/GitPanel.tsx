@@ -21,7 +21,7 @@ export const GitPanel: React.FC = () => {
   };
 
   const handleCommit = async () => {
-    if (!commitMessage.trim()) return;
+    if (!commitMessage.trim()) {return;}
 
     try {
       await gitClient.commit(workspacePath, commitMessage);
@@ -76,11 +76,7 @@ export const GitPanel: React.FC = () => {
           onChange={(e) => setCommitMessage(e.target.value)}
           rows={3}
         />
-        <button
-          className="commit-button"
-          onClick={handleCommit}
-          disabled={!commitMessage.trim()}
-        >
+        <button className="commit-button" onClick={handleCommit} disabled={!commitMessage.trim()}>
           ✓ Commit
         </button>
       </div>
@@ -112,11 +108,7 @@ export const GitPanel: React.FC = () => {
               <div key={file} className="change-item modified">
                 <span className="file-icon">📝</span>
                 <span className="file-name">{file}</span>
-                <button
-                  className="action-button"
-                  onClick={() => handleStage(file)}
-                  title="Stage"
-                >
+                <button className="action-button" onClick={() => handleStage(file)} title="Stage">
                   +
                 </button>
               </div>
@@ -131,11 +123,7 @@ export const GitPanel: React.FC = () => {
               <div key={file} className="change-item untracked">
                 <span className="file-icon">❓</span>
                 <span className="file-name">{file}</span>
-                <button
-                  className="action-button"
-                  onClick={() => handleStage(file)}
-                  title="Stage"
-                >
+                <button className="action-button" onClick={() => handleStage(file)} title="Stage">
                   +
                 </button>
               </div>

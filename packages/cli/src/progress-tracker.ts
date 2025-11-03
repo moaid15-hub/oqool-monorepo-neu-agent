@@ -125,7 +125,7 @@ export class ProgressTracker {
       tags: options.tags || [],
       assignee: options.assignee,
       dependencies: options.dependencies || [],
-      progress: 0
+      progress: 0,
     };
 
     this.tasks.set(task.id, task);
@@ -212,16 +212,16 @@ export class ProgressTracker {
 
     if (filter) {
       if (filter.status) {
-        tasks = tasks.filter(t => t.status === filter.status);
+        tasks = tasks.filter((t) => t.status === filter.status);
       }
       if (filter.priority) {
-        tasks = tasks.filter(t => t.priority === filter.priority);
+        tasks = tasks.filter((t) => t.priority === filter.priority);
       }
       if (filter.tag) {
-        tasks = tasks.filter(t => filter.tag && t.tags.includes(filter.tag));
+        tasks = tasks.filter((t) => filter.tag && t.tags.includes(filter.tag));
       }
       if (filter.assignee) {
-        tasks = tasks.filter(t => t.assignee !== undefined && t.assignee === filter.assignee);
+        tasks = tasks.filter((t) => t.assignee !== undefined && t.assignee === filter.assignee);
       }
     }
 
@@ -246,7 +246,7 @@ export class ProgressTracker {
       dueDate: options.dueDate || Date.now() + 7 * 24 * 60 * 60 * 1000,
       tasks: options.tasks || [],
       completed: false,
-      progress: 0
+      progress: 0,
     };
 
     this.milestones.set(milestone.id, milestone);
@@ -266,8 +266,8 @@ export class ProgressTracker {
 
     // حساب التقدم
     const tasks = milestone.tasks
-      .map(id => this.tasks.get(id))
-      .filter(t => t !== undefined) as Task[];
+      .map((id) => this.tasks.get(id))
+      .filter((t) => t !== undefined) as Task[];
 
     if (tasks.length > 0) {
       const totalProgress = tasks.reduce((sum, t) => sum + t.progress, 0);
@@ -299,23 +299,24 @@ export class ProgressTracker {
   calculateStats(): ProjectStats {
     const allTasks = Array.from(this.tasks.values());
     const totalTasks = allTasks.length;
-    const completedTasks = allTasks.filter(t => t.status === 'completed').length;
-    const inProgressTasks = allTasks.filter(t => t.status === 'in_progress').length;
-    const blockedTasks = allTasks.filter(t => t.status === 'blocked').length;
+    const completedTasks = allTasks.filter((t) => t.status === 'completed').length;
+    const inProgressTasks = allTasks.filter((t) => t.status === 'in_progress').length;
+    const blockedTasks = allTasks.filter((t) => t.status === 'blocked').length;
 
     // معدل الإكمال
     const completionRate = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
     // متوسط وقت المهمة
-    const tasksWithTime = allTasks.filter(t => t.actualHours);
-    const averageTaskTime = tasksWithTime.length > 0
-      ? tasksWithTime.reduce((sum, t) => sum + (t.actualHours || 0), 0) / tasksWithTime.length
-      : 0;
+    const tasksWithTime = allTasks.filter((t) => t.actualHours);
+    const averageTaskTime =
+      tasksWithTime.length > 0
+        ? tasksWithTime.reduce((sum, t) => sum + (t.actualHours || 0), 0) / tasksWithTime.length
+        : 0;
 
     // السرعة (velocity)
     const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
     const tasksCompletedLastWeek = allTasks.filter(
-      t => t.completedAt && t.completedAt >= oneWeekAgo
+      (t) => t.completedAt && t.completedAt >= oneWeekAgo
     ).length;
 
     // تقدير الإكمال
@@ -334,20 +335,18 @@ export class ProgressTracker {
       completionRate,
       averageTaskTime,
       estimatedCompletion,
-      velocity: tasksCompletedLastWeek
+      velocity: tasksCompletedLastWeek,
     };
   }
 
   /**
    * توليد تقرير تقدم
    */
-  async generateReport(
-    period?: { from: number; to: number }
-  ): Promise<ProgressReport> {
+  async generateReport(period?: { from: number; to: number }): Promise<ProgressReport> {
     const now = Date.now();
     const defaultPeriod = {
       from: now - 7 * 24 * 60 * 60 * 1000,
-      to: now
+      to: now,
     };
 
     const reportPeriod = period || defaultPeriod;
@@ -355,11 +354,11 @@ export class ProgressTracker {
     // المهام في الفترة
     const allTasks = Array.from(this.tasks.values());
     const recentTasks = allTasks.filter(
-      t => t.updatedAt >= reportPeriod.from && t.updatedAt <= reportPeriod.to
+      (t) => t.updatedAt >= reportPeriod.from && t.updatedAt <= reportPeriod.to
     );
 
     // المهام المعطلة
-    const blockers = allTasks.filter(t => t.status === 'blocked');
+    const blockers = allTasks.filter((t) => t.status === 'blocked');
 
     // التوصيات
     const recommendations = this.generateRecommendations(allTasks);
@@ -376,7 +375,7 @@ export class ProgressTracker {
       milestones: Array.from(this.milestones.values()),
       recentTasks,
       blockers,
-      recommendations
+      recommendations,
     };
   }
 
@@ -387,14 +386,14 @@ export class ProgressTracker {
     const recommendations: string[] = [];
 
     // المهام المعطلة
-    const blockedTasks = tasks.filter(t => t.status === 'blocked');
+    const blockedTasks = tasks.filter((t) => t.status === 'blocked');
     if (blockedTasks.length > 0) {
       recommendations.push(`لديك ${blockedTasks.length} مهمة معطلة - حاول حل المعوقات`);
     }
 
     // المهام ذات الأولوية العالية
     const criticalTasks = tasks.filter(
-      t => t.priority === 'critical' && t.status !== 'completed'
+      (t) => t.priority === 'critical' && t.status !== 'completed'
     );
     if (criticalTasks.length > 0) {
       recommendations.push(`لديك ${criticalTasks.length} مهمة حرجة - ركز عليها`);
@@ -402,9 +401,7 @@ export class ProgressTracker {
 
     // المهام المتأخرة
     const overdueTasks = tasks.filter(
-      t => t.estimatedHours &&
-        t.actualHours &&
-        t.actualHours > t.estimatedHours * 1.5
+      (t) => t.estimatedHours && t.actualHours && t.actualHours > t.estimatedHours * 1.5
     );
     if (overdueTasks.length > 0) {
       recommendations.push('بعض المهام تأخذ وقتاً أطول من المتوقع - راجع التقديرات');
@@ -427,10 +424,7 @@ export class ProgressTracker {
   /**
    * تصدير التقرير
    */
-  async exportReport(
-    format: 'json' | 'markdown' | 'html',
-    outputPath?: string
-  ): Promise<string> {
+  async exportReport(format: 'json' | 'markdown' | 'html', outputPath?: string): Promise<string> {
     const report = await this.generateReport();
 
     let content = '';
@@ -615,7 +609,7 @@ export class ProgressTracker {
   private async saveData(): Promise<void> {
     const data = {
       tasks: Array.from(this.tasks.entries()),
-      milestones: Array.from(this.milestones.entries())
+      milestones: Array.from(this.milestones.entries()),
     };
 
     await fs.writeFile(
@@ -630,10 +624,7 @@ export class ProgressTracker {
    */
   private async loadData(): Promise<void> {
     try {
-      const content = await fs.readFile(
-        path.join(this.dataPath, 'tracker.json'),
-        'utf-8'
-      );
+      const content = await fs.readFile(path.join(this.dataPath, 'tracker.json'), 'utf-8');
 
       const data = JSON.parse(content);
       this.tasks = new Map(data.tasks);

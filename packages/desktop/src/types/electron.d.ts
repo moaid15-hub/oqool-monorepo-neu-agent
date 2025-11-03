@@ -38,11 +38,21 @@ export interface AIAPI {
   godMode: (message: string, model: string) => Promise<any>;
 }
 
+export interface IpcRendererAPI {
+  on: (channel: string, callback: (...args: any[]) => void) => void;
+  once: (channel: string, callback: (...args: any[]) => void) => void;
+  send: (channel: string, ...args: any[]) => void;
+  invoke: (channel: string, ...args: any[]) => Promise<any>;
+  removeListener: (channel: string, callback: (...args: any[]) => void) => void;
+  removeAllListeners: (channel: string) => void;
+}
+
 declare global {
   interface Window {
     electron: {
       fs: FileSystemAPI;
       ai: AIAPI;
+      ipcRenderer: IpcRendererAPI;
     };
   }
 }

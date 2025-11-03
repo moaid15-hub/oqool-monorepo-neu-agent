@@ -23,7 +23,7 @@ export class PerformanceOptimizer {
     try {
       const ast = parser.parse(code, {
         sourceType: 'module',
-        plugins: ['typescript', 'jsx']
+        plugins: ['typescript', 'jsx'],
       });
 
       // 1. كشف الحلقات المتداخلة
@@ -43,7 +43,6 @@ export class PerformanceOptimizer {
 
       // 6. كشف Regular Expressions معقدة
       issues.push(...this.detectRegexIssues(code));
-
     } catch (error) {
       // تجاهل أخطاء الـ parsing
     }
@@ -61,7 +60,7 @@ export class PerformanceOptimizer {
     traverse(ast, {
       enter(path: any) {
         const node = path.node;
-        
+
         if (
           path.isForStatement() ||
           path.isWhileStatement() ||
@@ -71,7 +70,7 @@ export class PerformanceOptimizer {
         ) {
           let depth = 1;
           let parent = path.parent;
-          
+
           // حساب عمق التداخل
           while (parent) {
             if (loopDepth.has(parent)) {
@@ -91,11 +90,11 @@ export class PerformanceOptimizer {
               type: 'NestedLoops',
               message: `حلقة متداخلة بعمق ${depth} - تعقيد O(n^${depth})`,
               line,
-              suggestion: `فكر في خوارزمية أفضل أو استخدم Map/Set للبحث السريع`
+              suggestion: `فكر في خوارزمية أفضل أو استخدم Map/Set للبحث السريع`,
             });
           }
         }
-      }
+      },
     });
 
     return issues;
@@ -127,8 +126,7 @@ export class PerformanceOptimizer {
 
         // DOM queries
         if (
-          callee.type === 'MemberExpression' &&
-          callee.property.name === 'querySelector' ||
+          (callee.type === 'MemberExpression' && callee.property.name === 'querySelector') ||
           callee.property.name === 'querySelectorAll' ||
           callee.property.name === 'getElementById'
         ) {
@@ -138,7 +136,7 @@ export class PerformanceOptimizer {
             type: 'ExpensiveInLoop',
             message: 'استعلام DOM داخل حلقة',
             line,
-            suggestion: 'احفظ نتيجة الاستعلام في متغير خارج الحلقة'
+            suggestion: 'احفظ نتيجة الاستعلام في متغير خارج الحلقة',
           });
         }
 
@@ -146,9 +144,9 @@ export class PerformanceOptimizer {
         if (
           callee.type === 'MemberExpression' &&
           (callee.property.name === 'map' ||
-           callee.property.name === 'filter' ||
-           callee.property.name === 'slice' ||
-           callee.property.name === 'concat')
+            callee.property.name === 'filter' ||
+            callee.property.name === 'slice' ||
+            callee.property.name === 'concat')
         ) {
           issues.push({
             stage: 'performance',
@@ -156,7 +154,7 @@ export class PerformanceOptimizer {
             type: 'ExpensiveInLoop',
             message: `استخدام .${callee.property.name}() داخل حلقة يُنشئ arrays جديدة`,
             line,
-            suggestion: 'فكر في إعادة هيكلة الكود أو استخدام for loop بسيطة'
+            suggestion: 'فكر في إعادة هيكلة الكود أو استخدام for loop بسيطة',
           });
         }
 
@@ -172,10 +170,10 @@ export class PerformanceOptimizer {
             type: 'ExpensiveInLoop',
             message: `JSON.${callee.property.name}() داخل حلقة مكلف`,
             line,
-            suggestion: 'احفظ النتيجة أو أعد التفكير في البنية'
+            suggestion: 'احفظ النتيجة أو أعد التفكير في البنية',
           });
         }
-      }
+      },
     });
   }
 
@@ -196,7 +194,7 @@ export class PerformanceOptimizer {
               type: 'MemoryLeak',
               message: 'إنشاء دالة داخل حلقة يستهلك الذاكرة',
               line: funcPath.node.loc?.start.line,
-              suggestion: 'أنشئ الدالة خارج الحلقة'
+              suggestion: 'أنشئ الدالة خارج الحلقة',
             });
           },
           ArrowFunctionExpression: (funcPath: any) => {
@@ -206,9 +204,9 @@ export class PerformanceOptimizer {
               type: 'MemoryLeak',
               message: 'إنشاء arrow function داخل حلقة يستهلك الذاكرة',
               line: funcPath.node.loc?.start.line,
-              suggestion: 'أنشئ الدالة خارج الحلقة'
+              suggestion: 'أنشئ الدالة خارج الحلقة',
             });
-          }
+          },
         });
       },
 
@@ -222,7 +220,7 @@ export class PerformanceOptimizer {
             if (idPath.isReferencedIdentifier()) {
               variableCount++;
             }
-          }
+          },
         });
 
         if (variableCount > 50) {
@@ -232,10 +230,10 @@ export class PerformanceOptimizer {
             type: 'MemoryLeak',
             message: 'closure كبير قد يستهلك الذاكرة',
             line: path.node.loc?.start.line,
-            suggestion: 'قلل من المتغيرات المُستخدمة أو أعد هيكلة الدالة'
+            suggestion: 'قلل من المتغيرات المُستخدمة أو أعد هيكلة الدالة',
           });
         }
-      }
+      },
     });
 
     return issues;
@@ -257,7 +255,7 @@ export class PerformanceOptimizer {
           type: 'SlowDOM',
           message: 'استخدام innerHTML في حلقة بطيء جداً',
           line: index + 1,
-          suggestion: 'استخدم DocumentFragment أو اجمع الـ HTML ثم اكتب مرة واحدة'
+          suggestion: 'استخدم DocumentFragment أو اجمع الـ HTML ثم اكتب مرة واحدة',
         });
       }
 
@@ -269,7 +267,7 @@ export class PerformanceOptimizer {
           type: 'SlowDOM',
           message: 'استخدام appendChild في حلقة يُحدث reflow متكرر',
           line: index + 1,
-          suggestion: 'استخدم DocumentFragment'
+          suggestion: 'استخدم DocumentFragment',
         });
       }
 
@@ -281,7 +279,7 @@ export class PerformanceOptimizer {
           type: 'SlowDOM',
           message: 'تغيير الـ styles في حلقة يُحدث reflow متكرر',
           line: index + 1,
-          suggestion: 'استخدم CSS classes أو cssText'
+          suggestion: 'استخدم CSS classes أو cssText',
         });
       }
     });
@@ -301,13 +299,10 @@ export class PerformanceOptimizer {
         const line = path.node.loc?.start.line;
 
         // استخدام Array.push في حلقة
-        if (
-          callee.type === 'MemberExpression' &&
-          callee.property.name === 'push'
-        ) {
+        if (callee.type === 'MemberExpression' && callee.property.name === 'push') {
           let parent = path.parent;
           let isInLoop = false;
-          
+
           while (parent) {
             if (
               parent.type === 'ForStatement' ||
@@ -327,41 +322,35 @@ export class PerformanceOptimizer {
               type: 'SlowArray',
               message: 'استخدام Array.push في حلقة قد يكون بطيئاً',
               line,
-              suggestion: 'فكر في تحديد حجم الـ array مسبقاً أو استخدام map/filter'
+              suggestion: 'فكر في تحديد حجم الـ array مسبقاً أو استخدام map/filter',
             });
           }
         }
 
         // استخدام Array.splice في حلقة
-        if (
-          callee.type === 'MemberExpression' &&
-          callee.property.name === 'splice'
-        ) {
+        if (callee.type === 'MemberExpression' && callee.property.name === 'splice') {
           issues.push({
             stage: 'performance',
             priority: 'P3',
             type: 'SlowArray',
             message: 'Array.splice مكلف - O(n)',
             line,
-            suggestion: 'استخدم filter() لإنشاء array جديد أو أعد التفكير في البنية'
+            suggestion: 'استخدم filter() لإنشاء array جديد أو أعد التفكير في البنية',
           });
         }
 
         // استخدام Array.indexOf للبحث المتكرر
-        if (
-          callee.type === 'MemberExpression' &&
-          callee.property.name === 'indexOf'
-        ) {
+        if (callee.type === 'MemberExpression' && callee.property.name === 'indexOf') {
           issues.push({
             stage: 'performance',
             priority: 'P3',
             type: 'SlowArray',
             message: 'Array.indexOf للبحث المتكرر بطيء - O(n)',
             line,
-            suggestion: 'استخدم Set أو Map للبحث السريع - O(1)'
+            suggestion: 'استخدم Set أو Map للبحث السريع - O(1)',
           });
         }
-      }
+      },
     });
 
     return issues;
@@ -379,7 +368,7 @@ export class PerformanceOptimizer {
       const regexMatch = line.match(/\/(.{30,})\//);
       if (regexMatch) {
         const pattern = regexMatch[1];
-        
+
         // Catastrophic backtracking
         if (/(.*\+.*\+|.*\*.*\*)/.test(pattern)) {
           issues.push({
@@ -388,7 +377,7 @@ export class PerformanceOptimizer {
             type: 'SlowRegex',
             message: 'Regular expression قد تسبب catastrophic backtracking',
             line: index + 1,
-            suggestion: 'بسّط الـ regex أو استخدم طرق String بديلة'
+            suggestion: 'بسّط الـ regex أو استخدم طرق String بديلة',
           });
         }
       }
@@ -401,7 +390,7 @@ export class PerformanceOptimizer {
           type: 'SlowRegex',
           message: 'إنشاء RegExp في حلقة مكلف',
           line: index + 1,
-          suggestion: 'أنشئ الـ RegExp مرة واحدة خارج الحلقة'
+          suggestion: 'أنشئ الـ RegExp مرة واحدة خارج الحلقة',
         });
       }
     });
@@ -414,24 +403,24 @@ export class PerformanceOptimizer {
    */
   private isInLoop(lines: string[], lineIndex: number): boolean {
     let depth = 0;
-    
+
     for (let i = lineIndex; i >= 0; i--) {
       const line = lines[i].trim();
-      
+
       if (line.includes('}')) depth--;
       if (line.includes('{')) depth++;
-      
+
       if (
         depth > 0 &&
         (line.startsWith('for') ||
-         line.startsWith('while') ||
-         line.includes('.map(') ||
-         line.includes('.forEach('))
+          line.startsWith('while') ||
+          line.includes('.map(') ||
+          line.includes('.forEach('))
       ) {
         return true;
       }
     }
-    
+
     return false;
   }
 
@@ -447,14 +436,10 @@ export class PerformanceOptimizer {
    * توليد تقرير الأداء
    */
   generatePerformanceReport(issues: FixIssue[]): string {
-    const report = [
-      '📊 تقرير تحسين الأداء',
-      '═══════════════════════════════════',
-      ''
-    ];
+    const report = ['📊 تقرير تحسين الأداء', '═══════════════════════════════════', ''];
 
     const categories = new Map<string, FixIssue[]>();
-    issues.forEach(issue => {
+    issues.forEach((issue) => {
       if (!categories.has(issue.type)) {
         categories.set(issue.type, []);
       }
@@ -464,8 +449,8 @@ export class PerformanceOptimizer {
     for (const [type, typeIssues] of categories) {
       report.push(`\n${this.getTypeEmoji(type)} ${this.getTypeName(type)} (${typeIssues.length})`);
       report.push('─'.repeat(40));
-      
-      typeIssues.slice(0, 5).forEach(issue => {
+
+      typeIssues.slice(0, 5).forEach((issue) => {
         report.push(`  السطر ${issue.line}: ${issue.message}`);
         report.push(`  💡 ${issue.suggestion}`);
         report.push('');
@@ -481,24 +466,24 @@ export class PerformanceOptimizer {
 
   private getTypeEmoji(type: string): string {
     const emojis: { [key: string]: string } = {
-      'NestedLoops': '🔄',
-      'ExpensiveInLoop': '⚠️',
-      'MemoryLeak': '💾',
-      'SlowDOM': '🎨',
-      'SlowArray': '📊',
-      'SlowRegex': '🔍'
+      NestedLoops: '🔄',
+      ExpensiveInLoop: '⚠️',
+      MemoryLeak: '💾',
+      SlowDOM: '🎨',
+      SlowArray: '📊',
+      SlowRegex: '🔍',
     };
     return emojis[type] || '💡';
   }
 
   private getTypeName(type: string): string {
     const names: { [key: string]: string } = {
-      'NestedLoops': 'حلقات متداخلة',
-      'ExpensiveInLoop': 'عمليات مكلفة في الحلقات',
-      'MemoryLeak': 'استهلاك ذاكرة',
-      'SlowDOM': 'عمليات DOM بطيئة',
-      'SlowArray': 'عمليات Array غير فعالة',
-      'SlowRegex': 'Regular Expressions بطيئة'
+      NestedLoops: 'حلقات متداخلة',
+      ExpensiveInLoop: 'عمليات مكلفة في الحلقات',
+      MemoryLeak: 'استهلاك ذاكرة',
+      SlowDOM: 'عمليات DOM بطيئة',
+      SlowArray: 'عمليات Array غير فعالة',
+      SlowRegex: 'Regular Expressions بطيئة',
     };
     return names[type] || type;
   }

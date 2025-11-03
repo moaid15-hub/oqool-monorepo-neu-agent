@@ -17,7 +17,8 @@ export class VoiceInterface {
   }
 
   private setupRecognition(): void {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
       console.error('Speech recognition not supported');
@@ -64,7 +65,7 @@ export class VoiceInterface {
   }
 
   stopListening(): void {
-    if (!this.recognition) return;
+    if (!this.recognition) {return;}
 
     this.isListening = false;
     this.recognition.stop();

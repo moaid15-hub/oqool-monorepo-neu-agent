@@ -18,7 +18,10 @@ export class ReviewerAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     // 🔄 Smart default: use Claude if available, otherwise DeepSeek
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
@@ -50,7 +53,7 @@ export class ReviewerAgent {
         improvements.push({
           type: issue.type,
           description: `[${file.path}] ${issue.description}`,
-          applied: false
+          applied: false,
         });
       }
     }
@@ -60,7 +63,7 @@ export class ReviewerAgent {
     return {
       score: Math.max(0, score),
       improvements,
-      feedback
+      feedback,
     };
   }
 
@@ -76,7 +79,7 @@ export class ReviewerAgent {
 
     // Apply improvements to each file that needs them
     for (const file of code.files) {
-      const fileImprovements = review.improvements.filter(imp =>
+      const fileImprovements = review.improvements.filter((imp) =>
         imp.description.includes(`[${file.path}]`)
       );
 
@@ -86,7 +89,7 @@ export class ReviewerAgent {
           improvedFiles.push(improved);
 
           // Mark as applied
-          fileImprovements.forEach(imp => imp.applied = true);
+          fileImprovements.forEach((imp) => (imp.applied = true));
         } else {
           improvedFiles.push(file); // Keep original if improvement failed
         }
@@ -99,7 +102,7 @@ export class ReviewerAgent {
 
     return {
       files: improvedFiles,
-      totalLines
+      totalLines,
     };
   }
 
@@ -152,7 +155,7 @@ TYPE: type | SEVERITY: severity | DESCRIPTION: description
   // Improve single file
   // ============================================
   private async improveFile(file: CodeFile, improvements: Improvement[]): Promise<CodeFile | null> {
-    const issuesList = improvements.map(imp => `- ${imp.description}`).join('\n');
+    const issuesList = improvements.map((imp) => `- ${imp.description}`).join('\n');
 
     const prompt = `
 Improve this code file by fixing the following issues:
@@ -208,11 +211,14 @@ Keep the same functionality but fix all mentioned issues.
       feedback += `## Issues Found (${improvements.length})\n\n`;
 
       // Group by type
-      const byType = improvements.reduce((acc, imp) => {
-        if (!acc[imp.type]) acc[imp.type] = [];
-        acc[imp.type].push(imp);
-        return acc;
-      }, {} as Record<string, Improvement[]>);
+      const byType = improvements.reduce(
+        (acc, imp) => {
+          if (!acc[imp.type]) acc[imp.type] = [];
+          acc[imp.type].push(imp);
+          return acc;
+        },
+        {} as Record<string, Improvement[]>
+      );
 
       for (const [type, issues] of Object.entries(byType)) {
         feedback += `### ${type.toUpperCase()}\n\n`;
@@ -240,7 +246,9 @@ Keep the same functionality but fix all mentioned issues.
     const lines = response.split('\n');
 
     for (const line of lines) {
-      const match = line.match(/TYPE:\s*(\w+)\s*\|\s*SEVERITY:\s*(\w+)\s*\|\s*DESCRIPTION:\s*(.+)/i);
+      const match = line.match(
+        /TYPE:\s*(\w+)\s*\|\s*SEVERITY:\s*(\w+)\s*\|\s*DESCRIPTION:\s*(.+)/i
+      );
       if (match) {
         const [, type, severity, description] = match;
 
@@ -248,7 +256,7 @@ Keep the same functionality but fix all mentioned issues.
           file: filePath,
           type: type.toLowerCase(),
           severity: severity.toLowerCase() as 'critical' | 'high' | 'medium' | 'low',
-          description: description.trim()
+          description: description.trim(),
         });
       }
     }
@@ -273,7 +281,7 @@ Keep the same functionality but fix all mentioned issues.
       path: originalFile.path,
       content,
       language: originalFile.language,
-      lines
+      lines,
     };
   }
 
@@ -287,5 +295,4 @@ Keep the same functionality but fix all mentioned issues.
 
     return result.response;
   }
-
 }

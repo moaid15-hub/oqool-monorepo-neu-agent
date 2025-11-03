@@ -105,19 +105,11 @@ export class LearningSystem {
 
       // حفظ تاريخ الأخطاء (آخر 1000 خطأ فقط)
       const historyPath = join(this.learningPath, 'error-history.json');
-      await fs.writeJSON(
-        historyPath,
-        this.errorHistory.slice(-1000),
-        { spaces: 2 }
-      );
+      await fs.writeJSON(historyPath, this.errorHistory.slice(-1000), { spaces: 2 });
 
       // حفظ الأنماط
       const patternsPath = join(this.learningPath, 'patterns.json');
-      await fs.writeJSON(
-        patternsPath,
-        Array.from(this.patterns.entries()),
-        { spaces: 2 }
-      );
+      await fs.writeJSON(patternsPath, Array.from(this.patterns.entries()), { spaces: 2 });
 
       console.log(chalk.gray('💾 تم حفظ بيانات التعلم'));
     } catch (error) {
@@ -128,10 +120,7 @@ export class LearningSystem {
   // ============================================
   // 📝 تسجيل خطأ
   // ============================================
-  async recordError(
-    error: string,
-    context: ErrorRecord['context'] = {}
-  ): Promise<string> {
+  async recordError(error: string, context: ErrorRecord['context'] = {}): Promise<string> {
     const errorId = `err_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
 
     const record: ErrorRecord = {
@@ -140,7 +129,7 @@ export class LearningSystem {
       error,
       context,
       successful: false,
-      attemptCount: 0
+      attemptCount: 0,
     };
 
     this.errorHistory.push(record);
@@ -164,16 +153,13 @@ export class LearningSystem {
 
     // 1. البحث في الأخطاء المماثلة
     const similarErrors = this.errorHistory.filter(
-      record =>
-        record.successful &&
-        record.solution &&
-        this.calculateSimilarity(error, record.error) > 0.7
+      (record) =>
+        record.successful && record.solution && this.calculateSimilarity(error, record.error) > 0.7
     );
 
     if (similarErrors.length > 0) {
       // استخدام أكثر حل ناجح
-      const bestSolution = similarErrors
-        .sort((a, b) => b.timestamp - a.timestamp)[0];
+      const bestSolution = similarErrors.sort((a, b) => b.timestamp - a.timestamp)[0];
 
       console.log(chalk.green(`✅ وجدت حل سابق ناجح!`));
       return bestSolution.solution!;
@@ -185,8 +171,7 @@ export class LearningSystem {
 
     if (pattern && pattern.solutions.length > 0) {
       // استخدام الحل الأكثر نجاحاً
-      const bestSolution = pattern.solutions
-        .sort((a, b) => b.successRate - a.successRate)[0];
+      const bestSolution = pattern.solutions.sort((a, b) => b.successRate - a.successRate)[0];
 
       if (bestSolution.successRate > 0.5) {
         console.log(chalk.green(`✅ وجدت حل من الأنماط!`));
@@ -220,9 +205,9 @@ export class LearningSystem {
             content: `أنا أواجه هذا الخطأ:
 ${error}
 
-ما الحل المقترح؟ أعطني حل مباشر وواضح.`
-          }
-        ]
+ما الحل المقترح؟ أعطني حل مباشر وواضح.`,
+          },
+        ],
       });
 
       const content = response.content[0];
@@ -240,7 +225,7 @@ ${error}
   // ✅ تسجيل نجاح حل
   // ============================================
   async recordSuccess(errorId: string, solution: string): Promise<void> {
-    const errorRecord = this.errorHistory.find(e => e.id === errorId);
+    const errorRecord = this.errorHistory.find((e) => e.id === errorId);
 
     if (errorRecord) {
       errorRecord.successful = true;
@@ -253,7 +238,7 @@ ${error}
       if (pattern) {
         // البحث عن الحل في القائمة
         let solutionEntry = pattern.solutions.find(
-          s => this.calculateSimilarity(s.solution, solution) > 0.8
+          (s) => this.calculateSimilarity(s.solution, solution) > 0.8
         );
 
         if (solutionEntry) {
@@ -266,7 +251,7 @@ ${error}
           pattern.solutions.push({
             solution,
             successRate: 1.0,
-            timesUsed: 1
+            timesUsed: 1,
           });
         }
       }
@@ -294,7 +279,7 @@ ${error}
         pattern: this.extractPattern(error),
         frequency: 1,
         solutions: [],
-        lastSeen: Date.now()
+        lastSeen: Date.now(),
       };
 
       this.patterns.set(errorType, pattern);
@@ -337,7 +322,7 @@ ${error}
     const words1 = str1.toLowerCase().split(/\s+/);
     const words2 = str2.toLowerCase().split(/\s+/);
 
-    const common = words1.filter(w => words2.includes(w)).length;
+    const common = words1.filter((w) => words2.includes(w)).length;
     const total = Math.max(words1.length, words2.length);
 
     return common / total;
@@ -348,7 +333,7 @@ ${error}
   // ============================================
   getStats(): LearningStats {
     const totalErrors = this.errorHistory.length;
-    const solvedErrors = this.errorHistory.filter(e => e.successful).length;
+    const solvedErrors = this.errorHistory.filter((e) => e.successful).length;
     const successRate = totalErrors > 0 ? solvedErrors / totalErrors : 0;
 
     // أكثر الأخطاء تكراراً
@@ -368,7 +353,7 @@ ${error}
       solvedErrors,
       patterns: this.patterns.size,
       successRate: Math.round(successRate * 100) / 100,
-      topErrors
+      topErrors,
     };
   }
 
@@ -404,9 +389,7 @@ ${error}
 
     // حذف الأخطاء القديمة جداً
     const beforeCount = this.errorHistory.length;
-    this.errorHistory = this.errorHistory.filter(
-      e => now - e.timestamp < maxAge
-    );
+    this.errorHistory = this.errorHistory.filter((e) => now - e.timestamp < maxAge);
     const removed = beforeCount - this.errorHistory.length;
 
     if (removed > 0) {

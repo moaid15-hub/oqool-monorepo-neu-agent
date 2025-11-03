@@ -10,13 +10,9 @@ interface WorkspaceContextType {
   setActiveFile: (file: string | null) => void;
 }
 
-const WorkspaceContext = createContext<WorkspaceContextType | undefined>(
-  undefined
-);
+const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefined);
 
-export const WorkspaceProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const WorkspaceProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [workspacePath, setWorkspacePath] = useState<string | null>(null);
   const [openFiles, setOpenFiles] = useState<string[]>([]);
   const [activeFile, setActiveFile] = useState<string | null>(null);
@@ -31,7 +27,7 @@ export const WorkspaceProvider: React.FC<{ children: ReactNode }> = ({
   const removeOpenFile = (file: string) => {
     const newOpenFiles = openFiles.filter((f) => f !== file);
     setOpenFiles(newOpenFiles);
-    
+
     if (activeFile === file) {
       setActiveFile(newOpenFiles.length > 0 ? newOpenFiles[0] : null);
     }

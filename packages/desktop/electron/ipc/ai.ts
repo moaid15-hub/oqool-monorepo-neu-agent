@@ -1,6 +1,6 @@
 // electron/ipc/ai.ts
 import { ipcMain } from 'electron';
-import { UnifiedAIAdapter, type AIRole } from '@oqool/shared/ai-gateway';
+import { UnifiedAIAdapter, type AIRole } from '@oqool/shared';
 
 // ============================================
 // تهيئة Unified AI Adapter
@@ -76,46 +76,48 @@ const PERSONALITIES: Record<AIRole, { name: string; emoji: string; description: 
 // ============================================
 
 export function setupAIHandlers() {
-
   // ============================================
   // 1. إرسال رسالة للـ AI
   // ============================================
-  ipcMain.handle('ai:sendMessage', async (_, message: string, personality: string, provider?: string) => {
-    try {
-      const adapter = initializeAIAdapter();
-      const role = personality as AIRole;
-      const personalityConfig = PERSONALITIES[role];
+  ipcMain.handle(
+    'ai:sendMessage',
+    async (_, message: string, personality: string, provider?: string) => {
+      try {
+        const adapter = initializeAIAdapter();
+        const role = personality as AIRole;
+        const personalityConfig = PERSONALITIES[role];
 
-      if (!personalityConfig) {
-        throw new Error('Personality not found');
+        if (!personalityConfig) {
+          throw new Error('Personality not found');
+        }
+
+        // استخدام Unified AI Adapter مع Smart Provider Selection
+        const response = await adapter.processWithPersonality(
+          role,
+          message,
+          undefined, // no context
+          (provider as any) || 'auto' // auto-select best provider
+        );
+
+        return {
+          success: true,
+          message: response.response,
+          personality: personalityConfig.name,
+          emoji: personalityConfig.emoji,
+          model: response.model,
+          provider: response.provider,
+          cost: response.cost,
+          tokensUsed: response.tokensUsed,
+        };
+      } catch (error: any) {
+        console.error('AI Error:', error);
+        return {
+          success: false,
+          error: error.message,
+        };
       }
-
-      // استخدام Unified AI Adapter مع Smart Provider Selection
-      const response = await adapter.processWithPersonality(
-        role,
-        message,
-        undefined, // no context
-        (provider as any) || 'auto' // auto-select best provider
-      );
-
-      return {
-        success: true,
-        message: response.response,
-        personality: personalityConfig.name,
-        emoji: personalityConfig.emoji,
-        model: response.model,
-        provider: response.provider,
-        cost: response.cost,
-        tokensUsed: response.tokensUsed,
-      };
-    } catch (error: any) {
-      console.error('AI Error:', error);
-      return {
-        success: false,
-        error: error.message,
-      };
     }
-  });
+  );
 
   // ============================================
   // 2. الحصول على قائمة الشخصيات

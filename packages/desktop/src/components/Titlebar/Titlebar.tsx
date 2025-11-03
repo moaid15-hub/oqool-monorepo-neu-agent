@@ -16,7 +16,10 @@ export function Titlebar() {
   };
 
   const handleClose = () => {
-    if (typeof window !== 'undefined' && window.confirm('Are you sure you want to close the IDE?')) {
+    if (
+      typeof window !== 'undefined' &&
+      window.confirm('Are you sure you want to close the IDE?')
+    ) {
       window.close();
     }
   };
@@ -28,11 +31,7 @@ export function Titlebar() {
         <span className="logo-text">Oqool Desktop IDE</span>
       </div>
       <div className="titlebar-controls">
-        <button
-          className="titlebar-button minimize"
-          title="Minimize"
-          onClick={handleMinimize}
-        >
+        <button className="titlebar-button minimize" title="Minimize" onClick={handleMinimize}>
           ─
         </button>
         <button
@@ -42,11 +41,7 @@ export function Titlebar() {
         >
           □
         </button>
-        <button
-          className="titlebar-button close"
-          title="Close"
-          onClick={handleClose}
-        >
+        <button className="titlebar-button close" title="Close" onClick={handleClose}>
           ×
         </button>
       </div>

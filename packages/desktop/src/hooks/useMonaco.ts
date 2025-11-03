@@ -7,7 +7,7 @@ export function useMonaco() {
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current) {return;}
 
     // Configure Monaco on first use
     configureMonaco();

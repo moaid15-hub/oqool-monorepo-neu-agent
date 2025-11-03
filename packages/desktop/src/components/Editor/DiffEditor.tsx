@@ -17,7 +17,7 @@ export const DiffEditor: React.FC<DiffEditorProps> = ({
   const editorRef = useRef<monaco.editor.IStandaloneDiffEditor | null>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current) {return;}
 
     const diffEditor = monaco.editor.createDiffEditor(containerRef.current, {
       theme: 'oqool-dark',

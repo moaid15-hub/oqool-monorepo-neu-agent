@@ -16,7 +16,10 @@ export class TesterAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     // Use OpenAI for testing - أسرع من DeepSeek (5-10x faster)
     const hasOpenAI = config.openai?.startsWith('sk-');
 
@@ -50,7 +53,7 @@ export class TesterAgent {
 
     // Execute all in parallel
     const results = await Promise.all(promises);
-    testFiles.push(...results.filter(f => f !== null) as TestFile[]);
+    testFiles.push(...(results.filter((f) => f !== null) as TestFile[]));
 
     const totalTests = testFiles.reduce((sum, f) => sum + f.testCount, 0);
 
@@ -59,7 +62,7 @@ export class TesterAgent {
       passed: totalTests, // افتراضياً كلها تمر
       failed: 0,
       coverage: this.estimateCoverage(code.files.length, testFiles.length),
-      details: this.formatTestDetails(testFiles)
+      details: this.formatTestDetails(testFiles),
     };
   }
 
@@ -128,7 +131,7 @@ Make tests clear, descriptive, and complete.
 Generate integration tests for this project.
 
 Files:
-${code.files.map(f => `- ${f.path}`).join('\n')}
+${code.files.map((f) => `- ${f.path}`).join('\n')}
 
 Test:
 1. API endpoints working together
@@ -184,7 +187,7 @@ Output format:
     return {
       path,
       content,
-      testCount
+      testCount,
     };
   }
 
@@ -192,11 +195,7 @@ Output format:
   // Count tests in content
   // ============================================
   private countTests(content: string): number {
-    const patterns = [
-      /\btest\s*\(/g,
-      /\bit\s*\(/g,
-      /\btest\.each/g
-    ];
+    const patterns = [/\btest\s*\(/g, /\bit\s*\(/g, /\btest\.each/g];
 
     let count = 0;
     for (const pattern of patterns) {
@@ -214,12 +213,12 @@ Output format:
   // ============================================
   private detectTestFramework(language: string): string {
     const frameworks: Record<string, string> = {
-      'javascript': 'Jest',
-      'typescript': 'Jest',
-      'python': 'pytest',
-      'java': 'JUnit',
-      'go': 'testing',
-      'rust': 'cargo test'
+      javascript: 'Jest',
+      typescript: 'Jest',
+      python: 'pytest',
+      java: 'JUnit',
+      go: 'testing',
+      rust: 'cargo test',
     };
 
     return frameworks[language] || 'Jest';

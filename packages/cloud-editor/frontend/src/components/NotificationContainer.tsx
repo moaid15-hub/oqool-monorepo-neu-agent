@@ -12,22 +12,24 @@ interface NotificationContainerProps {
   onClose: (id: number) => void;
 }
 
-const NotificationContainer: React.FC<NotificationContainerProps> = ({ 
-  notifications, 
-  onClose 
+const NotificationContainer: React.FC<NotificationContainerProps> = ({
+  notifications,
+  onClose,
 }) => {
   return (
-    <div style={{
-      position: 'fixed',
-      top: '20px',
-      right: '20px',
-      zIndex: 1000,
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '12px',
-      maxHeight: '80vh',
-      overflow: 'visible'
-    }}>
+    <div
+      style={{
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        zIndex: 1000,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+        maxHeight: '80vh',
+        overflow: 'visible',
+      }}
+    >
       {notifications.map((notification, index) => (
         <div
           key={notification.id}
@@ -35,7 +37,7 @@ const NotificationContainer: React.FC<NotificationContainerProps> = ({
             transform: `translateY(${index * 5}px)`,
             transition: 'all 0.4s ease',
             zIndex: 1000 - index,
-            opacity: Math.max(0.7, 1 - index * 0.1)
+            opacity: Math.max(0.7, 1 - index * 0.1),
           }}
         >
           <Notification

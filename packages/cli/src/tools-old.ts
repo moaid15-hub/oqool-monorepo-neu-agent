@@ -15,14 +15,16 @@ const execAsync = promisify(exec);
 // ============================================
 // 📖 أداة قراءة الملفات
 // ============================================
-export async function readFile(filePath: string): Promise<{ success: boolean; content?: string; error?: string }> {
+export async function readFile(
+  filePath: string
+): Promise<{ success: boolean; content?: string; error?: string }> {
   try {
     const absolutePath = path.resolve(filePath);
 
     if (!existsSync(absolutePath)) {
       return {
         success: false,
-        error: `الملف غير موجود: ${filePath}`
+        error: `الملف غير موجود: ${filePath}`,
       };
     }
 
@@ -30,12 +32,12 @@ export async function readFile(filePath: string): Promise<{ success: boolean; co
 
     return {
       success: true,
-      content
+      content,
     };
   } catch (error: any) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 }
@@ -59,12 +61,12 @@ export async function writeFile(
     console.log(chalk.green(`✅ تم إنشاء الملف: ${filePath}`));
 
     return {
-      success: true
+      success: true,
     };
   } catch (error: any) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 }
@@ -83,7 +85,7 @@ export async function editFile(
     if (!existsSync(absolutePath)) {
       return {
         success: false,
-        error: `الملف غير موجود: ${filePath}`
+        error: `الملف غير موجود: ${filePath}`,
       };
     }
 
@@ -92,7 +94,7 @@ export async function editFile(
     if (!content.includes(oldText)) {
       return {
         success: false,
-        error: `النص المطلوب تعديله غير موجود في الملف`
+        error: `النص المطلوب تعديله غير موجود في الملف`,
       };
     }
 
@@ -102,12 +104,12 @@ export async function editFile(
     console.log(chalk.green(`✅ تم تعديل الملف: ${filePath}`));
 
     return {
-      success: true
+      success: true,
     };
   } catch (error: any) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 }
@@ -122,7 +124,7 @@ export async function runCommand(
     console.log(chalk.cyan(`⚡ تنفيذ: ${command}`));
 
     const { stdout, stderr } = await execAsync(command, {
-      maxBuffer: 10 * 1024 * 1024 // 10MB
+      maxBuffer: 10 * 1024 * 1024, // 10MB
     });
 
     const output = stdout + (stderr || '');
@@ -131,13 +133,13 @@ export async function runCommand(
 
     return {
       success: true,
-      output
+      output,
     };
   } catch (error: any) {
     return {
       success: false,
       error: error.message,
-      output: error.stdout || error.stderr
+      output: error.stdout || error.stderr,
     };
   }
 }
@@ -154,7 +156,7 @@ export async function listDirectory(
     if (!existsSync(absolutePath)) {
       return {
         success: false,
-        error: `المجلد غير موجود: ${dirPath}`
+        error: `المجلد غير موجود: ${dirPath}`,
       };
     }
 
@@ -162,12 +164,12 @@ export async function listDirectory(
 
     return {
       success: true,
-      files
+      files,
     };
   } catch (error: any) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 }
@@ -184,16 +186,19 @@ export async function searchInFiles(
     const command = `grep -r "${searchPattern}" ${absolutePath} 2>/dev/null || true`;
 
     const { stdout } = await execAsync(command);
-    const matches = stdout.trim().split('\n').filter(line => line);
+    const matches = stdout
+      .trim()
+      .split('\n')
+      .filter((line) => line);
 
     return {
       success: true,
-      matches
+      matches,
     };
   } catch (error: any) {
     return {
       success: false,
-      error: error.message
+      error: error.message,
     };
   }
 }
@@ -210,11 +215,11 @@ export const toolDefinitions = [
       properties: {
         file_path: {
           type: 'string',
-          description: 'مسار الملف المطلوب قراءته (نسبي أو مطلق)'
-        }
+          description: 'مسار الملف المطلوب قراءته (نسبي أو مطلق)',
+        },
       },
-      required: ['file_path']
-    }
+      required: ['file_path'],
+    },
   },
   {
     name: 'write_file',
@@ -224,15 +229,15 @@ export const toolDefinitions = [
       properties: {
         file_path: {
           type: 'string',
-          description: 'مسار الملف المطلوب كتابته'
+          description: 'مسار الملف المطلوب كتابته',
         },
         content: {
           type: 'string',
-          description: 'محتوى الملف'
-        }
+          description: 'محتوى الملف',
+        },
       },
-      required: ['file_path', 'content']
-    }
+      required: ['file_path', 'content'],
+    },
   },
   {
     name: 'edit_file',
@@ -242,19 +247,19 @@ export const toolDefinitions = [
       properties: {
         file_path: {
           type: 'string',
-          description: 'مسار الملف المطلوب تعديله'
+          description: 'مسار الملف المطلوب تعديله',
         },
         old_text: {
           type: 'string',
-          description: 'النص المطلوب استبداله'
+          description: 'النص المطلوب استبداله',
         },
         new_text: {
           type: 'string',
-          description: 'النص الجديد'
-        }
+          description: 'النص الجديد',
+        },
       },
-      required: ['file_path', 'old_text', 'new_text']
-    }
+      required: ['file_path', 'old_text', 'new_text'],
+    },
   },
   {
     name: 'run_command',
@@ -264,11 +269,11 @@ export const toolDefinitions = [
       properties: {
         command: {
           type: 'string',
-          description: 'الأمر المطلوب تنفيذه'
-        }
+          description: 'الأمر المطلوب تنفيذه',
+        },
       },
-      required: ['command']
-    }
+      required: ['command'],
+    },
   },
   {
     name: 'list_directory',
@@ -278,11 +283,11 @@ export const toolDefinitions = [
       properties: {
         dir_path: {
           type: 'string',
-          description: 'مسار المجلد'
-        }
+          description: 'مسار المجلد',
+        },
       },
-      required: ['dir_path']
-    }
+      required: ['dir_path'],
+    },
   },
   {
     name: 'search_in_files',
@@ -292,25 +297,22 @@ export const toolDefinitions = [
       properties: {
         dir_path: {
           type: 'string',
-          description: 'مسار المجلد للبحث فيه'
+          description: 'مسار المجلد للبحث فيه',
         },
         search_pattern: {
           type: 'string',
-          description: 'النص أو Pattern المطلوب البحث عنه'
-        }
+          description: 'النص أو Pattern المطلوب البحث عنه',
+        },
       },
-      required: ['dir_path', 'search_pattern']
-    }
-  }
+      required: ['dir_path', 'search_pattern'],
+    },
+  },
 ];
 
 // ============================================
 // 🎯 تنفيذ الأداة المطلوبة
 // ============================================
-export async function executeTool(
-  toolName: string,
-  toolInput: any
-): Promise<any> {
+export async function executeTool(toolName: string, toolInput: any): Promise<any> {
   switch (toolName) {
     case 'read_file':
       return await readFile(toolInput.file_path);
@@ -319,11 +321,7 @@ export async function executeTool(
       return await writeFile(toolInput.file_path, toolInput.content);
 
     case 'edit_file':
-      return await editFile(
-        toolInput.file_path,
-        toolInput.old_text,
-        toolInput.new_text
-      );
+      return await editFile(toolInput.file_path, toolInput.old_text, toolInput.new_text);
 
     case 'run_command':
       return await runCommand(toolInput.command);
@@ -337,7 +335,7 @@ export async function executeTool(
     default:
       return {
         success: false,
-        error: `أداة غير معروفة: ${toolName}`
+        error: `أداة غير معروفة: ${toolName}`,
       };
   }
 }

@@ -24,7 +24,7 @@ export const useI18n = (): UseI18nReturn => {
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem('oqool-language', lang);
-    
+
     // تحديث اتجاه النص في HTML
     document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
     document.documentElement.setAttribute('lang', lang);
@@ -48,6 +48,6 @@ export const useI18n = (): UseI18nReturn => {
     setLanguage,
     t,
     dir,
-    isRTL
+    isRTL,
   };
 };

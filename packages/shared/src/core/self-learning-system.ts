@@ -28,7 +28,7 @@ export interface SuccessAnalysis {
   patterns: string[];
 }
 
-export interface Pattern {
+export interface LearningPattern {
   task: string;
   architecture: Architecture;
   rating: number;
@@ -53,12 +53,12 @@ export interface Strategy {
 
 export interface Lesson {
   task: string;
-  pattern: Pattern;
+  pattern: LearningPattern;
   relevanceScore: number;
 }
 
 export interface LearningMemory {
-  patterns: Pattern[];
+  patterns: LearningPattern[];
   errors: ErrorAnalysis[];
   strategies: Strategy[];
   projectHistory: Project[];
@@ -117,9 +117,9 @@ export class SelfLearningSystem {
         architecture: project.architecture,
         rating: success.score,
         usageCount: 1,
-        lastUsed: Date.now()
+        lastUsed: Date.now(),
       });
-      console.log('   ✅ Pattern saved (high success rate)');
+      console.log('   ✅ LearningPattern saved (high success rate)');
     }
 
     // 3. تحليل الأخطاء
@@ -153,10 +153,10 @@ export class SelfLearningSystem {
     const result = project.result;
 
     const score = Math.round(
-      (result.analytics.qualityScore * 0.4) +
-      (result.analytics.securityScore * 0.3) +
-      ((result.analytics.testsPassed / result.analytics.testsCreated) * 100 * 0.2) +
-      (result.success ? 10 : 0)
+      result.analytics.qualityScore * 0.4 +
+        result.analytics.securityScore * 0.3 +
+        (result.analytics.testsPassed / result.analytics.testsCreated) * 100 * 0.2 +
+        (result.success ? 10 : 0)
     );
 
     const strengths: string[] = [];
@@ -165,14 +165,17 @@ export class SelfLearningSystem {
     // تحليل النقاط القوية
     if (result.analytics.qualityScore >= 90) strengths.push('High code quality');
     if (result.analytics.securityScore >= 90) strengths.push('Excellent security');
-    if (result.analytics.testsPassed === result.analytics.testsCreated) strengths.push('All tests passing');
+    if (result.analytics.testsPassed === result.analytics.testsCreated)
+      strengths.push('All tests passing');
     if (result.analytics.filesGenerated >= 10) strengths.push('Comprehensive project structure');
 
     // تحليل النقاط الضعيفة
     if (result.analytics.qualityScore < 70) weaknesses.push('Code quality needs improvement');
     if (result.analytics.securityScore < 70) weaknesses.push('Security concerns');
     if (result.analytics.testsPassed < result.analytics.testsCreated) {
-      weaknesses.push(`${result.analytics.testsCreated - result.analytics.testsPassed} tests failing`);
+      weaknesses.push(
+        `${result.analytics.testsCreated - result.analytics.testsPassed} tests failing`
+      );
     }
 
     // استخراج الأنماط
@@ -182,17 +185,17 @@ export class SelfLearningSystem {
       score,
       strengths,
       weaknesses,
-      patterns
+      patterns,
     };
   }
 
   // ============================================
-  // 3. Save Pattern
+  // 3. Save LearningPattern
   // ============================================
-  private async savePattern(pattern: Pattern): Promise<void> {
+  private async savePattern(pattern: LearningPattern): Promise<void> {
     // Check if similar pattern exists
-    const existing = this.memory.patterns.find(p =>
-      this.calculateSimilarity(p.task, pattern.task) > 0.8
+    const existing = this.memory.patterns.find(
+      (p) => this.calculateSimilarity(p.task, pattern.task) > 0.8
     );
 
     if (existing) {
@@ -225,7 +228,7 @@ export class SelfLearningSystem {
         type: 'security',
         description: issue.description,
         frequency: 1,
-        solution: `Fix ${issue.type} in ${issue.file}`
+        solution: `Fix ${issue.type} in ${issue.file}`,
       });
     }
 
@@ -236,7 +239,7 @@ export class SelfLearningSystem {
         type: 'test_failure',
         description: `${failedTests} tests failed`,
         frequency: 1,
-        solution: 'Review test implementation and fix failing assertions'
+        solution: 'Review test implementation and fix failing assertions',
       });
     }
 
@@ -246,7 +249,7 @@ export class SelfLearningSystem {
         type: 'low_quality',
         description: `Quality score below threshold: ${result.analytics.qualityScore}/100`,
         frequency: 1,
-        solution: 'Apply code review improvements'
+        solution: 'Apply code review improvements',
       });
     }
 
@@ -258,8 +261,8 @@ export class SelfLearningSystem {
   // ============================================
   private async learnFromErrors(errors: ErrorAnalysis[]): Promise<void> {
     for (const error of errors) {
-      const existing = this.memory.errors.find(e =>
-        e.type === error.type && e.description === error.description
+      const existing = this.memory.errors.find(
+        (e) => e.type === error.type && e.description === error.description
       );
 
       if (existing) {
@@ -287,7 +290,7 @@ export class SelfLearningSystem {
     const usedStrategies = this.identifyStrategies(project);
 
     for (const strategyName of usedStrategies) {
-      const strategy = this.memory.strategies.find(s => s.name === strategyName);
+      const strategy = this.memory.strategies.find((s) => s.name === strategyName);
 
       if (strategy) {
         // Update success rate
@@ -301,7 +304,7 @@ export class SelfLearningSystem {
           description: `Strategy identified from: ${project.task}`,
           successRate: success.score,
           applicableTo: [this.categorizeTask(project.task)],
-          lastUpdated: Date.now()
+          lastUpdated: Date.now(),
         });
       }
     }
@@ -323,7 +326,7 @@ export class SelfLearningSystem {
         lessons.push({
           task: pattern.task,
           pattern,
-          relevanceScore: relevance
+          relevanceScore: relevance,
         });
       }
     }
@@ -355,8 +358,8 @@ export class SelfLearningSystem {
 
     // Get common errors to avoid
     const category = this.categorizeTask(task);
-    const relevantErrors = this.memory.errors.filter(e =>
-      e.type.includes(category) || e.frequency > 5
+    const relevantErrors = this.memory.errors.filter(
+      (e) => e.type.includes(category) || e.frequency > 5
     );
 
     if (relevantErrors.length > 0) {
@@ -372,7 +375,7 @@ export class SelfLearningSystem {
 
     // Get best strategies
     const bestStrategies = this.memory.strategies
-      .filter(s => s.applicableTo.includes(category))
+      .filter((s) => s.applicableTo.includes(category))
       .slice(0, 3);
 
     if (bestStrategies.length > 0) {
@@ -433,7 +436,7 @@ export class SelfLearningSystem {
     const words1 = task1.toLowerCase().split(/\s+/);
     const words2 = task2.toLowerCase().split(/\s+/);
 
-    const commonWords = words1.filter(w => words2.includes(w));
+    const commonWords = words1.filter((w) => words2.includes(w));
     const totalWords = new Set([...words1, ...words2]).size;
 
     return commonWords.length / totalWords;
@@ -443,7 +446,8 @@ export class SelfLearningSystem {
     const stats = this.memory.stats;
 
     stats.totalProjects++;
-    stats.averageScore = (stats.averageScore * (stats.totalProjects - 1) + success.score) / stats.totalProjects;
+    stats.averageScore =
+      (stats.averageScore * (stats.totalProjects - 1) + success.score) / stats.totalProjects;
 
     const category = this.categorizeTask(project.task);
     stats.mostCommonTasks[category] = (stats.mostCommonTasks[category] || 0) + 1;
@@ -454,8 +458,11 @@ export class SelfLearningSystem {
       const older = this.memory.projectHistory.slice(-20, -10);
 
       if (older.length > 0) {
-        const recentAvg = recent.reduce((sum, p) => sum + (p.result.analytics.qualityScore || 0), 0) / recent.length;
-        const olderAvg = older.reduce((sum, p) => sum + (p.result.analytics.qualityScore || 0), 0) / older.length;
+        const recentAvg =
+          recent.reduce((sum, p) => sum + (p.result.analytics.qualityScore || 0), 0) /
+          recent.length;
+        const olderAvg =
+          older.reduce((sum, p) => sum + (p.result.analytics.qualityScore || 0), 0) / older.length;
 
         stats.improvementRate = ((recentAvg - olderAvg) / olderAvg) * 100;
       }
@@ -484,16 +491,13 @@ export class SelfLearningSystem {
         totalProjects: 0,
         averageScore: 0,
         mostCommonTasks: {},
-        improvementRate: 0
-      }
+        improvementRate: 0,
+      },
     };
   }
 
   private async saveMemory(): Promise<void> {
-    await fs.writeFile(
-      this.memoryPath,
-      JSON.stringify(this.memory, null, 2)
-    );
+    await fs.writeFile(this.memoryPath, JSON.stringify(this.memory, null, 2));
   }
 
   // ============================================
@@ -508,11 +512,12 @@ export class SelfLearningSystem {
     console.log(`📁 Memory Location: ${this.memoryPath}`);
     console.log(`Total Projects: ${stats.totalProjects}`);
     console.log(`Average Score: ${Math.round(stats.averageScore)}/100`);
-    console.log(`Improvement Rate: ${stats.improvementRate > 0 ? '+' : ''}${Math.round(stats.improvementRate)}%`);
+    console.log(
+      `Improvement Rate: ${stats.improvementRate > 0 ? '+' : ''}${Math.round(stats.improvementRate)}%`
+    );
 
     console.log('\n📈 Most Common Tasks:');
-    const sorted = Object.entries(stats.mostCommonTasks)
-      .sort(([, a], [, b]) => b - a);
+    const sorted = Object.entries(stats.mostCommonTasks).sort(([, a], [, b]) => b - a);
 
     for (const [category, count] of sorted) {
       console.log(`   ${category}: ${count} projects`);
@@ -530,9 +535,6 @@ export class SelfLearningSystem {
 // Factory
 // ============================================
 
-export function createSelfLearningSystem(
-  apiKey: string,
-  memoryPath?: string
-): SelfLearningSystem {
+export function createSelfLearningSystem(apiKey: string, memoryPath?: string): SelfLearningSystem {
   return new SelfLearningSystem(apiKey, memoryPath);
 }

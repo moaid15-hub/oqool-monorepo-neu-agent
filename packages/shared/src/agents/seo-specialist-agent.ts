@@ -69,7 +69,10 @@ export class SEOSpecialistAgent {
 
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
     this.aiAdapter = new UnifiedAIAdapter({
@@ -91,7 +94,6 @@ export class SEOSpecialistAgent {
     competitors?: string[];
     framework: string;
   }): Promise<SEOResult> {
-
     // 1. Generate metadata for all pages
     const metadata = await this.generateMetadata(specification);
 
@@ -132,7 +134,7 @@ export class SEOSpecialistAgent {
       mobileOptimization,
       technicalSEO,
       contentStrategy,
-      analytics
+      analytics,
     };
   }
 
@@ -228,9 +230,9 @@ Output format (JSON):
         name: spec.siteName,
         url: spec.siteUrl,
         description: spec.description,
-        logo: `${spec.siteUrl}/logo.png`
+        logo: `${spec.siteUrl}/logo.png`,
       },
-      code: this.generateSchemaCode('Organization', spec)
+      code: this.generateSchemaCode('Organization', spec),
     });
 
     // Website schema
@@ -244,10 +246,10 @@ Output format (JSON):
         potentialAction: {
           '@type': 'SearchAction',
           target: `${spec.siteUrl}/search?q={search_term_string}`,
-          'query-input': 'required name=search_term_string'
-        }
+          'query-input': 'required name=search_term_string',
+        },
       },
-      code: this.generateSchemaCode('WebSite', spec)
+      code: this.generateSchemaCode('WebSite', spec),
     });
 
     return structuredData;
@@ -300,17 +302,21 @@ Output format (JSON):
     const urls = spec.pages.map((page: string) => ({
       loc: `${spec.siteUrl}/${page.toLowerCase()}`,
       changefreq: page === 'home' ? 'daily' : 'weekly',
-      priority: page === 'home' ? 1.0 : 0.8
+      priority: page === 'home' ? 1.0 : 0.8,
     }));
 
     const code = `
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((url: any) => `  <url>
+${urls
+  .map(
+    (url: any) => `  <url>
     <loc>${url.loc}</loc>
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
-  </url>`).join('\n')}
+  </url>`
+  )
+  .join('\n')}
 </urlset>
     `.trim();
 
@@ -354,14 +360,14 @@ Crawl-delay: 1
         '💾 Implement service worker caching',
         '📊 Remove unused CSS/JS',
         '🔤 Preload critical fonts',
-        '⚡ Minimize third-party scripts'
+        '⚡ Minimize third-party scripts',
       ],
       criticalIssues: [
         'Large images without optimization',
         'Blocking JavaScript in <head>',
         'Missing cache headers',
-        'No compression enabled'
-      ]
+        'No compression enabled',
+      ],
     };
   }
 
@@ -375,7 +381,7 @@ Crawl-delay: 1
         'Some images missing alt text',
         'Insufficient color contrast in buttons',
         'Missing ARIA labels on icons',
-        'Form inputs without labels'
+        'Form inputs without labels',
       ],
       fixes: [
         '✅ Add descriptive alt text to all images',
@@ -385,8 +391,8 @@ Crawl-delay: 1
         '✅ Add skip navigation link',
         '✅ Ensure keyboard navigation works',
         '✅ Use semantic HTML (header, nav, main, footer)',
-        '✅ Test with screen reader'
-      ]
+        '✅ Test with screen reader',
+      ],
     };
   }
 
@@ -402,7 +408,7 @@ Crawl-delay: 1
       '⚡ Fast mobile page speed',
       '🎨 Optimized for small screens',
       '📊 Reduce mobile data usage',
-      '🔄 Test on real devices'
+      '🔄 Test on real devices',
     ];
   }
 
@@ -415,12 +421,12 @@ Crawl-delay: 1
       redirects: [
         '301 redirect from www to non-www (or vice versa)',
         '301 redirect from http to https',
-        'Redirect old URLs to new URLs'
+        'Redirect old URLs to new URLs',
       ],
       canonicalization: 'Use canonical tags to prevent duplicate content',
-      hreflang: spec.targetAudience.includes('international') 
-        ? 'Implement hreflang tags for multi-language' 
-        : undefined
+      hreflang: spec.targetAudience.includes('international')
+        ? 'Implement hreflang tags for multi-language'
+        : undefined,
     };
   }
 
@@ -438,7 +444,7 @@ Crawl-delay: 1
       '📰 Regular content updates',
       '🔗 Internal linking strategy',
       '🎯 Target long-tail keywords',
-      '🔄 Update old content regularly'
+      '🔄 Update old content regularly',
     ];
   }
 
@@ -456,7 +462,7 @@ Crawl-delay: 1
       '📱 Mobile analytics',
       '🔗 Track outbound links',
       '📥 Track downloads',
-      '🎬 Track video engagement'
+      '🎬 Track video engagement',
     ];
   }
 

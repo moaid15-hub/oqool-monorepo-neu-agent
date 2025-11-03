@@ -39,7 +39,9 @@ export const StatusBar: React.FC<StatusBarProps> = ({
 
       <div className="status-right">
         <div className="status-item">
-          <span>السطر {line}, العمود {column}</span>
+          <span>
+            السطر {line}, العمود {column}
+          </span>
         </div>
 
         <div className="status-item language">

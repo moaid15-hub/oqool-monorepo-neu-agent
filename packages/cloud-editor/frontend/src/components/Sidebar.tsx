@@ -23,10 +23,7 @@ interface SidebarItem {
   isNew?: boolean;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ 
-  isCollapsed = false, 
-  onToggle 
-}) => {
+const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle }) => {
   const [activeSection, setActiveSection] = useState<string>('explorer');
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
@@ -53,27 +50,59 @@ const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   const gitItems: SidebarItem[] = [
-    { id: 'changes', label: 'التغييرات', icon: '📝', action: () => console.log('Changes'), badge: 5 },
+    {
+      id: 'changes',
+      label: 'التغييرات',
+      icon: '📝',
+      action: () => console.log('Changes'),
+      badge: 5,
+    },
     { id: 'commits', label: 'الحفظات', icon: '💾', action: () => console.log('Commits') },
     { id: 'branches', label: 'الفروع', icon: '🌳', action: () => console.log('Branches') },
     { id: 'remote', label: 'المستودع البعيد', icon: '☁️', action: () => console.log('Remote') },
   ];
 
   const aiItems: SidebarItem[] = [
-    { id: 'assistant', label: 'المساعد الذكي', icon: '🤖', action: () => console.log('AI Assistant') },
-    { id: 'completion', label: 'إكمال الكود', icon: '✨', action: () => console.log('Code Completion') },
-    { id: 'explanation', label: 'شرح الكود', icon: '📖', action: () => console.log('Code Explanation') },
+    {
+      id: 'assistant',
+      label: 'المساعد الذكي',
+      icon: '🤖',
+      action: () => console.log('AI Assistant'),
+    },
+    {
+      id: 'completion',
+      label: 'إكمال الكود',
+      icon: '✨',
+      action: () => console.log('Code Completion'),
+    },
+    {
+      id: 'explanation',
+      label: 'شرح الكود',
+      icon: '📖',
+      action: () => console.log('Code Explanation'),
+    },
     { id: 'review', label: 'مراجعة الكود', icon: '👁️', action: () => console.log('Code Review') },
-    { id: 'optimization', label: 'تحسين الأداء', icon: '⚡', action: () => console.log('Performance'), isNew: true },
+    {
+      id: 'optimization',
+      label: 'تحسين الأداء',
+      icon: '⚡',
+      action: () => console.log('Performance'),
+      isNew: true,
+    },
   ];
 
   const getSectionItems = (sectionId: string): SidebarItem[] => {
     switch (sectionId) {
-      case 'explorer': return explorerItems;
-      case 'search': return searchItems;
-      case 'git': return gitItems;
-      case 'ai': return aiItems;
-      default: return [];
+      case 'explorer':
+        return explorerItems;
+      case 'search':
+        return searchItems;
+      case 'git':
+        return gitItems;
+      case 'ai':
+        return aiItems;
+      default:
+        return [];
     }
   };
 
@@ -84,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const shouldShowExpanded = !isCollapsed || isHovered;
 
   return (
-    <div 
+    <div
       className={`modern-sidebar ${isCollapsed ? 'collapsed' : 'expanded'}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -92,7 +121,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       {/* شريط الأيقونات الجانبي */}
       <div className="sidebar-icons">
         {/* زر التبديل */}
-        <button 
+        <button
           className="sidebar-toggle-btn"
           onClick={onToggle}
           title={isCollapsed ? 'توسيع الشريط الجانبي' : 'طي الشريط الجانبي'}
@@ -101,7 +130,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </button>
 
         {/* أيقونات الأقسام */}
-        {sections.map(section => (
+        {sections.map((section) => (
           <div
             key={section.id}
             className={`sidebar-icon ${activeSection === section.id ? 'active' : ''}`}
@@ -109,12 +138,8 @@ const Sidebar: React.FC<SidebarProps> = ({
             title={section.title}
           >
             <span className="icon">{section.icon}</span>
-            {section.badge && (
-              <span className="badge">{section.badge}</span>
-            )}
-            {section.isNew && (
-              <span className="new-indicator">جديد</span>
-            )}
+            {section.badge && <span className="badge">{section.badge}</span>}
+            {section.isNew && <span className="new-indicator">جديد</span>}
             <div className="icon-label">{section.title}</div>
           </div>
         ))}
@@ -141,11 +166,11 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div className="sidebar-header">
             <h3 className="section-title">
               <span className="title-icon">
-                {sections.find(s => s.id === activeSection)?.icon}
+                {sections.find((s) => s.id === activeSection)?.icon}
               </span>
-              {sections.find(s => s.id === activeSection)?.title}
+              {sections.find((s) => s.id === activeSection)?.title}
             </h3>
-            
+
             {activeSection === 'search' && (
               <div className="section-actions">
                 <button className="action-btn" title="بحث متقدم">
@@ -188,9 +213,9 @@ const Sidebar: React.FC<SidebarProps> = ({
             <div className="section-search">
               <div className="search-input-container">
                 <span className="search-icon">🔍</span>
-                <input 
-                  type="text" 
-                  placeholder={`بحث في ${sections.find(s => s.id === activeSection)?.title}...`}
+                <input
+                  type="text"
+                  placeholder={`بحث في ${sections.find((s) => s.id === activeSection)?.title}...`}
                   className="section-search-input"
                 />
                 <button className="clear-search-btn" title="مسح البحث">
@@ -251,21 +276,13 @@ const Sidebar: React.FC<SidebarProps> = ({
 
             {/* قائمة العناصر */}
             <div className="section-items">
-              {getSectionItems(activeSection).map(item => (
-                <div
-                  key={item.id}
-                  className="sidebar-item"
-                  onClick={item.action}
-                >
+              {getSectionItems(activeSection).map((item) => (
+                <div key={item.id} className="sidebar-item" onClick={item.action}>
                   <div className="item-content">
                     <span className="item-icon">{item.icon}</span>
                     <span className="item-label">{item.label}</span>
-                    {item.badge && (
-                      <span className="item-badge">{item.badge}</span>
-                    )}
-                    {item.isNew && (
-                      <span className="item-new">جديد</span>
-                    )}
+                    {item.badge && <span className="item-badge">{item.badge}</span>}
+                    {item.isNew && <span className="item-new">جديد</span>}
                   </div>
                   <span className="item-arrow">›</span>
                 </div>
@@ -282,7 +299,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     <p>إكمال تلقائي محسن وشرح الكود المتقدم</p>
                   </div>
                 </div>
-                
+
                 <div className="feature-card">
                   <div className="feature-icon">⚡</div>
                   <div className="feature-content">
@@ -298,28 +315,20 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div className="sidebar-footer">
             {activeSection === 'git' && (
               <div className="git-actions">
-                <button className="footer-btn primary">
-                  💾 حفظ التغييرات
-                </button>
-                <button className="footer-btn secondary">
-                  🔄 تحديث
-                </button>
+                <button className="footer-btn primary">💾 حفظ التغييرات</button>
+                <button className="footer-btn secondary">🔄 تحديث</button>
               </div>
             )}
 
             {activeSection === 'ai' && (
               <div className="ai-actions">
-                <button className="footer-btn primary">
-                  🤖 فتح المساعد
-                </button>
+                <button className="footer-btn primary">🤖 فتح المساعد</button>
               </div>
             )}
 
             {activeSection !== 'git' && activeSection !== 'ai' && (
               <div className="general-actions">
-                <button className="footer-btn secondary">
-                  ⚙️ إعدادات القسم
-                </button>
+                <button className="footer-btn secondary">⚙️ إعدادات القسم</button>
               </div>
             )}
           </div>

@@ -20,10 +20,10 @@ function example1_SimpleSetup() {
       {
         name: 'anthropic',
         apiKey: process.env.ANTHROPIC_API_KEY || 'your-api-key',
-        model: 'claude-sonnet-4-20250514'
-      }
+        model: 'claude-sonnet-4-20250514',
+      },
     ],
-    defaultProvider: 'anthropic'
+    defaultProvider: 'anthropic',
   };
 
   const agent = new ArabicAgent(config);
@@ -41,31 +41,31 @@ function example2_MultiProviderSetup() {
         name: 'deepseek',
         apiKey: process.env.DEEPSEEK_API_KEY || 'your-deepseek-key',
         baseURL: 'https://api.deepseek.com/v1',
-        model: 'deepseek-coder'
+        model: 'deepseek-coder',
       },
       // OpenAI - متوسط السعر والجودة
       {
         name: 'openai',
         apiKey: process.env.OPENAI_API_KEY || 'your-openai-key',
-        model: 'gpt-4o'
+        model: 'gpt-4o',
       },
       // Anthropic Claude - الأفضل جودة للمهام المعقدة
       {
         name: 'anthropic',
         apiKey: process.env.ANTHROPIC_API_KEY || 'your-anthropic-key',
-        model: 'claude-sonnet-4-20250514'
-      }
+        model: 'claude-sonnet-4-20250514',
+      },
     ],
-    defaultProvider: 'deepseek',  // الأرخص كافتراضي
-    fallbackEnabled: true,         // تفعيل Fallback
-    costOptimization: true,        // تفعيل توفير التكاليف
-    retryAttempts: 3,             // 3 محاولات
-    timeout: 30000                // 30 ثانية
+    defaultProvider: 'deepseek', // الأرخص كافتراضي
+    fallbackEnabled: true, // تفعيل Fallback
+    costOptimization: true, // تفعيل توفير التكاليف
+    retryAttempts: 3, // 3 محاولات
+    timeout: 30000, // 30 ثانية
   };
 
   const agent = new ArabicAgent(config);
   console.log('✅ تم إعداد Arabic Agent مع توفير 70-80% من التكاليف!');
-  
+
   return agent;
 }
 
@@ -92,17 +92,16 @@ async function example3_UnderstandRequirement() {
 
   try {
     console.log('\n📋 تحليل المتطلب العربي...\n');
-    
+
     const architecture = await agent.understandArabicRequirement(requirement);
-    
+
     console.log('✅ المعمارية المقترحة:\n');
     console.log('المكونات:', architecture.components);
     console.log('API Endpoints:', architecture.api?.endpoints?.length || 0);
     console.log('جداول قاعدة البيانات:', architecture.database?.tables?.length || 0);
     console.log('إطار الواجهة:', architecture.frontend?.framework || 'N/A');
-    
+
     return architecture;
-    
   } catch (error) {
     console.error('❌ خطأ:', error);
   }
@@ -120,17 +119,16 @@ async function example4_IdeaToCode() {
 
   try {
     console.log('\n💻 تحويل الفكرة إلى كود...\n');
-    
+
     const codeFile = await agent.ideaToCode(idea, 'javascript', 'simple');
-    
+
     console.log('✅ الكود المولد:\n');
     console.log('الملف:', codeFile.path);
     console.log('عدد الأسطر:', codeFile.lines);
     console.log('\nالكود:\n');
     console.log(codeFile.content);
-    
+
     return codeFile;
-    
   } catch (error) {
     console.error('❌ خطأ:', error);
   }
@@ -160,16 +158,15 @@ function quickSort(arr) {
 
 const numbers = [64, 34, 25, 12, 22, 11, 90];
 console.log(quickSort(numbers));
-`
+`,
   };
 
   try {
     console.log('\n📖 شرح الكود بالعربية...\n');
-    
+
     const explanation = await agent.explainCodeInArabic(code, 'intermediate');
-    
+
     console.log(explanation);
-    
   } catch (error) {
     console.error('❌ خطأ:', error);
   }
@@ -198,11 +195,10 @@ console.log(getUserName(3)); // undefined
 
   try {
     console.log('\n🐛 تحليل الخطأ...\n');
-    
+
     const analysis = await agent.explainError(errorMessage, code, 'javascript');
-    
+
     console.log(analysis);
-    
   } catch (error) {
     console.error('❌ خطأ:', error);
   }
@@ -216,18 +212,13 @@ async function example7_GenerateExample() {
 
   try {
     console.log('\n💡 توليد مثال عن Promises...\n');
-    
-    const example = await agent.generateExample(
-      'Promises في JavaScript',
-      'javascript',
-      'backend'
-    );
-    
+
+    const example = await agent.generateExample('Promises في JavaScript', 'javascript', 'backend');
+
     console.log('الكود:\n');
     console.log(example.code);
     console.log('\n\nالشرح:\n');
     console.log(example.explanation);
-    
   } catch (error) {
     console.error('❌ خطأ:', error);
   }
@@ -244,22 +235,21 @@ async function example8_ExtractIntent() {
     'كيف أصلح هذا الخطأ في React؟',
     'اشرح لي مفهوم Closures في JavaScript',
     'حسّن أداء هذا الكود',
-    'اكتب اختبارات لهذه الدالة'
+    'اكتب اختبارات لهذه الدالة',
   ];
 
   try {
     console.log('\n🧠 استخراج النية من الجمل العربية...\n');
-    
+
     for (const text of texts) {
       const result = await agent.extractIntent(text);
-      
+
       console.log(`📝 النص: "${text}"`);
       console.log(`🎯 النية: ${result.intent}`);
       console.log(`📊 الثقة: ${(result.confidence * 100).toFixed(1)}%`);
       console.log(`🔖 الكيانات:`, result.entities);
       console.log('---\n');
     }
-    
   } catch (error) {
     console.error('❌ خطأ:', error);
   }
@@ -271,18 +261,11 @@ async function example8_ExtractIntent() {
 function example9_TranslateTerms() {
   const agent = example2_MultiProviderSetup();
 
-  const arabicTerms = [
-    'دالة',
-    'مصفوفة',
-    'حلقة',
-    'شرط',
-    'كائن',
-    'متغير'
-  ];
+  const arabicTerms = ['دالة', 'مصفوفة', 'حلقة', 'شرط', 'كائن', 'متغير'];
 
   console.log('\n🔤 ترجمة المصطلحات البرمجية:\n');
-  
-  arabicTerms.forEach(term => {
+
+  arabicTerms.forEach((term) => {
     const english = agent.translateTerm(term);
     console.log(`${term} → ${english}`);
   });
@@ -290,7 +273,7 @@ function example9_TranslateTerms() {
   // ترجمة نص كامل
   const arabicCode = 'أنشئ دالة تأخذ مصفوفة وترجع الكائن';
   const englishCode = agent.translateCodeText(arabicCode);
-  
+
   console.log('\n📄 ترجمة النص:\n');
   console.log(`عربي: ${arabicCode}`);
   console.log(`إنجليزي: ${englishCode}`);
@@ -306,21 +289,20 @@ async function example10_InteractiveChat() {
     'ما هو الفرق بين let و const في JavaScript؟',
     'وما هو الفرق بين var و let؟',
     'متى يجب استخدام كل واحد منهم؟',
-    'هل يمكنك إعطائي مثال عملي؟'
+    'هل يمكنك إعطائي مثال عملي؟',
   ];
 
   try {
     console.log('\n💬 محادثة تفاعلية مع السياق:\n');
-    
+
     for (const message of conversation) {
       console.log(`\n👤 أنت: ${message}\n`);
-      
+
       const response = await agent.chat(message);
-      
+
       console.log(`🤖 المساعد: ${response}\n`);
       console.log('─'.repeat(60));
     }
-    
   } catch (error) {
     console.error('❌ خطأ:', error);
   }
@@ -350,8 +332,14 @@ async function example11_DisplayStatistics() {
   const metrics = agent.getMetrics();
   console.log('\n📈 مقاييس الأداء التفصيلية:\n');
   console.log('إجمالي الطلبات:', metrics.totalRequests);
-  console.log('نسبة النجاح:', (metrics.successfulRequests / metrics.totalRequests * 100).toFixed(1) + '%');
-  console.log('Cache Hit Rate:', (metrics.cacheHits / (metrics.cacheHits + metrics.cacheMisses) * 100).toFixed(1) + '%');
+  console.log(
+    'نسبة النجاح:',
+    ((metrics.successfulRequests / metrics.totalRequests) * 100).toFixed(1) + '%'
+  );
+  console.log(
+    'Cache Hit Rate:',
+    ((metrics.cacheHits / (metrics.cacheHits + metrics.cacheMisses)) * 100).toFixed(1) + '%'
+  );
 }
 
 /**
@@ -399,7 +387,6 @@ async function example12_CompleteProjectWorkflow() {
 
     console.log('\n🎉 اكتمل المشروع بنجاح!\n');
     console.log('═'.repeat(60) + '\n');
-
   } catch (error) {
     console.error('❌ خطأ في المشروع:', error);
   }
@@ -419,13 +406,15 @@ async function example13_CostComparison() {
 
   // استراتيجية 1: استخدام Claude فقط (تكلفة عالية)
   const config1: MultiProviderConfig = {
-    providers: [{
-      name: 'anthropic',
-      apiKey: process.env.ANTHROPIC_API_KEY || 'key',
-      model: 'claude-sonnet-4-20250514'
-    }],
+    providers: [
+      {
+        name: 'anthropic',
+        apiKey: process.env.ANTHROPIC_API_KEY || 'key',
+        model: 'claude-sonnet-4-20250514',
+      },
+    ],
     defaultProvider: 'anthropic',
-    costOptimization: false
+    costOptimization: false,
   };
 
   const agent1 = new ArabicAgent(config1);
@@ -434,12 +423,7 @@ async function example13_CostComparison() {
   const agent2 = example2_MultiProviderSetup();
 
   // تنفيذ نفس المهام
-  const tasks = [
-    'اكتب دالة بسيطة',
-    'اشرح مفهوم Promises',
-    'صمم API متقدم',
-    'حلل هذا الكود المعقد'
-  ];
+  const tasks = ['اكتب دالة بسيطة', 'اشرح مفهوم Promises', 'صمم API متقدم', 'حلل هذا الكود المعقد'];
 
   for (const task of tasks) {
     await agent1.chat(task);
@@ -455,7 +439,7 @@ async function example13_CostComparison() {
   const metrics2 = agent2.getMetrics();
   console.log(`   التكلفة: $${metrics2.totalCost.toFixed(4)}`);
 
-  const savings = ((metrics1.totalCost - metrics2.totalCost) / metrics1.totalCost * 100);
+  const savings = ((metrics1.totalCost - metrics2.totalCost) / metrics1.totalCost) * 100;
   console.log(`\n💰 التوفير: ${savings.toFixed(1)}%`);
 }
 
@@ -484,10 +468,12 @@ async function example14_CachingExample() {
   const time2 = Date.now() - start2;
   console.log(`⏱️  الوقت: ${time2}ms\n`);
 
-  console.log(`🚀 تحسن السرعة: ${((time1 - time2) / time1 * 100).toFixed(1)}%`);
+  console.log(`🚀 تحسن السرعة: ${(((time1 - time2) / time1) * 100).toFixed(1)}%`);
 
   const metrics = agent.getMetrics();
-  console.log(`💰 توفير التكلفة من الكاش: ${(metrics.cacheHits / (metrics.cacheHits + metrics.cacheMisses) * 100).toFixed(1)}%`);
+  console.log(
+    `💰 توفير التكلفة من الكاش: ${((metrics.cacheHits / (metrics.cacheHits + metrics.cacheMisses)) * 100).toFixed(1)}%`
+  );
 }
 
 // ============================================
@@ -531,7 +517,7 @@ export {
   example12_CompleteProjectWorkflow,
   example13_CostComparison,
   example14_CachingExample,
-  runAllExamples
+  runAllExamples,
 };
 
 // تشغيل تلقائي إذا تم استدعاء الملف مباشرة

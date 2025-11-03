@@ -6,9 +6,7 @@
 
 import { Command } from 'commander';
 import chalk from 'chalk';
-import {
-  ValidationPipeline
-} from '@oqool/shared/core';
+import { ValidationPipeline } from '@oqool/shared/core';
 import { createFileManager } from './file-manager.js';
 import { hasApiKey } from './auth.js';
 
@@ -16,7 +14,6 @@ import { hasApiKey } from './auth.js';
  * إضافة أوامر الأنظمة الأساسية
  */
 export function addCoreSystemsCommands(program: Command) {
-
   // ========================================
   // أوامر Validation Pipeline
   // ========================================
@@ -48,12 +45,27 @@ export function addCoreSystemsCommands(program: Command) {
 
         const pipeline = new ValidationPipeline({
           stages: {
-            syntax: { enabled: true, priority: 'P1', autoFix: options.autoFix || false, stopOnError: false },
-            types: { enabled: true, priority: 'P2', autoFix: options.autoFix || false, stopOnError: false },
+            syntax: {
+              enabled: true,
+              priority: 'P1',
+              autoFix: options.autoFix || false,
+              stopOnError: false,
+            },
+            types: {
+              enabled: true,
+              priority: 'P2',
+              autoFix: options.autoFix || false,
+              stopOnError: false,
+            },
             security: { enabled: true, priority: 'P1', autoFix: false, stopOnError: false },
             performance: { enabled: true, priority: 'P3', autoFix: false, stopOnError: false },
-            style: { enabled: true, priority: 'P3', autoFix: options.autoFix || false, stopOnError: false }
-          }
+            style: {
+              enabled: true,
+              priority: 'P3',
+              autoFix: options.autoFix || false,
+              stopOnError: false,
+            },
+          },
         });
 
         const result = await pipeline.validate(code, file);
@@ -67,13 +79,16 @@ export function addCoreSystemsCommands(program: Command) {
           console.log(chalk.red('\n❌ فشل التحقق!\n'));
 
           // Show stages results
-          result.stages.forEach(stage => {
+          result.stages.forEach((stage) => {
             const icon = stage.passed ? '✅' : '❌';
-            console.log(chalk.white(`${icon} ${stage.stage}: ${stage.errors.length} أخطاء, ${stage.warnings.length} تحذيرات`));
+            console.log(
+              chalk.white(
+                `${icon} ${stage.stage}: ${stage.errors.length} أخطاء, ${stage.warnings.length} تحذيرات`
+              )
+            );
           });
           console.log();
         }
-
       } catch (error: any) {
         console.error(chalk.red('\n❌ خطأ:'), error.message);
       }
@@ -96,7 +111,6 @@ export function addCoreSystemsCommands(program: Command) {
         console.log(chalk.gray('  • Style - التحقق من الأسلوب\n'));
 
         console.log(chalk.cyan('استخدم: oqool-code validate <file> لفحص ملف\n'));
-
       } catch (error: any) {
         console.error(chalk.red('\n❌ خطأ:'), error.message);
       }

@@ -83,9 +83,7 @@ await aiAdapter.processWithPersonality('devops', 'اكتب CI/CD pipeline');
 
 ```typescript
 // مساعدة سريعة في الكود
-const help = await aiAdapter.quickCodeHelp(
-  'كيف أستخدم async/await؟'
-);
+const help = await aiAdapter.quickCodeHelp('كيف أستخدم async/await؟');
 
 // مراجعة سريعة
 const review = await aiAdapter.quickReview(myCode);
@@ -101,10 +99,7 @@ const fix = await aiAdapter.quickDebug(errorMessage, code);
 
 ```typescript
 // استقبال الرد جزءاً جزءاً
-for await (const chunk of aiAdapter.processStream(
-  'coder',
-  'اشرح كيف يعمل React Hooks'
-)) {
+for await (const chunk of aiAdapter.processStream('coder', 'اشرح كيف يعمل React Hooks')) {
   process.stdout.write(chunk); // طباعة فورية
 }
 ```
@@ -160,22 +155,25 @@ console.log(costs);
 عند استخدام `'auto'`، يختار النظام المزود الأنسب حسب:
 
 ### 1. الشخصية
+
 - **Architect, Reviewer, Security** → Claude (يحتاج تفكير عميق)
 - **Coder, Debugger, Optimizer** → DeepSeek (سريع ورخيص)
 - **Tester, DevOps** → DeepSeek (مهام روتينية)
 
 ### 2. تعقيد السؤال
+
 - **معقد جداً** → Claude
 - **بسيط** → DeepSeek
 - **متوسط** → يعتمد على الشخصية
 
 ### 3. الكلمات المفتاحية
+
 ```typescript
 // كلمات تؤدي لاختيار Claude:
-'architecture', 'design pattern', 'security', 'review'
+('architecture', 'design pattern', 'security', 'review');
 
 // كلمات تؤدي لاختيار DeepSeek:
-'simple', 'basic', 'quick'
+('simple', 'basic', 'quick');
 ```
 
 ---
@@ -238,9 +236,7 @@ async function main() {
   });
 
   // طلب كتابة كود
-  const code = await ai.quickCodeHelp(
-    'اكتب React component لعرض قائمة المهام'
-  );
+  const code = await ai.quickCodeHelp('اكتب React component لعرض قائمة المهام');
 
   console.log('Generated Code:', code);
 
@@ -261,16 +257,19 @@ main();
 ## 🎨 ملاحظات
 
 ### التكلفة
+
 - **DeepSeek**: أرخص 10x من Claude
 - **Claude**: أفضل جودة للمهام المعقدة
 - **OpenAI**: متوازن بين الاثنين
 
 ### الجودة
+
 - **Claude**: الأفضل للمراجعة والتصميم
 - **DeepSeek**: ممتاز للكود والمهام الروتينية
 - **OpenAI**: متوازن وموثوق
 
 ### السرعة
+
 - **DeepSeek**: الأسرع
 - **OpenAI**: سريع
 - **Claude**: الأبطأ قليلاً

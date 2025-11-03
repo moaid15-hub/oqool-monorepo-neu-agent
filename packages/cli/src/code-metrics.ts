@@ -39,7 +39,14 @@ export interface CodeDuplication {
 }
 
 export interface CodeSmell {
-  type: 'long_method' | 'large_class' | 'long_parameter_list' | 'duplicate_code' | 'complex_condition' | 'dead_code' | 'feature_envy';
+  type:
+    | 'long_method'
+    | 'large_class'
+    | 'long_parameter_list'
+    | 'duplicate_code'
+    | 'complex_condition'
+    | 'dead_code'
+    | 'feature_envy';
   description: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
   line: number;
@@ -175,7 +182,6 @@ export class CodeMetricsAnalyzer {
       spinner.succeed(`تم تحليل ${filePath}`);
 
       return metrics;
-
     } catch (error: any) {
       spinner.fail(`فشل تحليل ${filePath}`);
       throw error;
@@ -183,7 +189,9 @@ export class CodeMetricsAnalyzer {
   }
 
   // تحليل مشروع كامل
-  async analyzeProject(pattern: string = '**/*.{js,ts,jsx,tsx,py,java,go,rs,php,rb}'): Promise<ProjectMetrics> {
+  async analyzeProject(
+    pattern: string = '**/*.{js,ts,jsx,tsx,py,java,go,rs,php,rb}'
+  ): Promise<ProjectMetrics> {
     console.log(chalk.cyan('\n📏 تحليل مقاييس الكود...\n'));
 
     const spinner = ora('جمع ملفات المشروع...').start();
@@ -199,7 +207,11 @@ export class CodeMetricsAnalyzer {
       for (const filePath of files) {
         try {
           const content = await fs.readFile(filePath, 'utf-8');
-          const metrics = await this.calculateFileMetrics(filePath, content, this.detectLanguage(filePath));
+          const metrics = await this.calculateFileMetrics(
+            filePath,
+            content,
+            this.detectLanguage(filePath)
+          );
           allMetrics.push(metrics);
         } catch (error) {
           // تجاهل الأخطاء في الملفات الفردية
@@ -224,7 +236,7 @@ export class CodeMetricsAnalyzer {
         summary,
         trends,
         recommendations,
-        benchmarks
+        benchmarks,
       };
 
       spinner.succeed(`تم تحليل ${allMetrics.length} ملف`);
@@ -235,7 +247,6 @@ export class CodeMetricsAnalyzer {
       this.displayTopIssues(allMetrics);
 
       return projectMetrics;
-
     } catch (error: any) {
       spinner.fail('فشل تحليل المشروع');
       throw error;
@@ -243,20 +254,37 @@ export class CodeMetricsAnalyzer {
   }
 
   // حساب مقاييس الملف
-  private async calculateFileMetrics(filePath: string, content: string, language: string): Promise<CodeMetrics> {
+  private async calculateFileMetrics(
+    filePath: string,
+    content: string,
+    language: string
+  ): Promise<CodeMetrics> {
     const lines = content.split('\n');
     const timestamp = new Date().toISOString();
 
     // حساب الأسطر
-    const linesOfCode = lines.filter(line => line.trim().length > 0 && !line.trim().startsWith('//') && !line.trim().startsWith('#') && !line.trim().startsWith('/*')).length;
-    const linesOfComments = lines.filter(line => line.trim().startsWith('//') || line.trim().startsWith('#') || line.trim().startsWith('/*')).length;
-    const linesOfBlank = lines.filter(line => line.trim().length === 0).length;
+    const linesOfCode = lines.filter(
+      (line) =>
+        line.trim().length > 0 &&
+        !line.trim().startsWith('//') &&
+        !line.trim().startsWith('#') &&
+        !line.trim().startsWith('/*')
+    ).length;
+    const linesOfComments = lines.filter(
+      (line) =>
+        line.trim().startsWith('//') || line.trim().startsWith('#') || line.trim().startsWith('/*')
+    ).length;
+    const linesOfBlank = lines.filter((line) => line.trim().length === 0).length;
 
     // حساب التعقيد الدوري (محاكاة بسيطة)
     const cyclomaticComplexity = this.calculateCyclomaticComplexity(content, language);
 
     // مؤشر الصيانة (محاكاة)
-    const maintainabilityIndex = this.calculateMaintainabilityIndex(linesOfCode, cyclomaticComplexity, linesOfComments);
+    const maintainabilityIndex = this.calculateMaintainabilityIndex(
+      linesOfCode,
+      cyclomaticComplexity,
+      linesOfComments
+    );
 
     // العمق الوراثي (محاكاة)
     const depthOfInheritance = this.calculateDepthOfInheritance(content, language);
@@ -286,7 +314,7 @@ export class CodeMetricsAnalyzer {
       coverage: codeCoverage,
       issues: issues.length,
       smells: smells.length,
-      duplications: duplications.length
+      duplications: duplications.length,
     });
 
     return {
@@ -305,7 +333,7 @@ export class CodeMetricsAnalyzer {
       duplications,
       smells,
       issues,
-      score
+      score,
     };
   }
 
@@ -327,7 +355,7 @@ export class CodeMetricsAnalyzer {
         /catch\s*\(/g,
         /&&/g,
         /\|\|/g,
-        /\?/g
+        /\?/g,
       ];
 
       for (const pattern of patterns) {
@@ -347,7 +375,7 @@ export class CodeMetricsAnalyzer {
         /while\s+/g,
         /except\s+/g,
         /and\s+/g,
-        /or\s+/g
+        /or\s+/g,
       ];
 
       for (const pattern of patterns) {
@@ -366,7 +394,10 @@ export class CodeMetricsAnalyzer {
     if (loc === 0) return 100;
 
     const volume = loc * Math.log2(loc + complexity);
-    const maintainability = Math.max(0, (171 - 5.2 * Math.log(volume) - 0.23 * complexity - 16.2 * Math.log(loc)) * 100 / 171);
+    const maintainability = Math.max(
+      0,
+      ((171 - 5.2 * Math.log(volume) - 0.23 * complexity - 16.2 * Math.log(loc)) * 100) / 171
+    );
 
     return Math.round(maintainability);
   }
@@ -423,14 +454,20 @@ export class CodeMetricsAnalyzer {
   }): CodeScore {
     // تطبيع المقاييس (0-100)
     const maintainability = factors.maintainability;
-    const complexity = Math.max(0, 100 - (factors.complexity * 2));
+    const complexity = Math.max(0, 100 - factors.complexity * 2);
     const coverage = factors.coverage;
-    const issues = Math.max(0, 100 - (factors.issues * 10));
-    const smells = Math.max(0, 100 - (factors.smells * 5));
-    const duplications = Math.max(0, 100 - (factors.duplications * 20));
+    const issues = Math.max(0, 100 - factors.issues * 10);
+    const smells = Math.max(0, 100 - factors.smells * 5);
+    const duplications = Math.max(0, 100 - factors.duplications * 20);
 
     // حساب الدرجة الإجمالية
-    const overall = (maintainability * 0.3 + complexity * 0.2 + coverage * 0.2 + issues * 0.15 + smells * 0.1 + duplications * 0.05);
+    const overall =
+      maintainability * 0.3 +
+      complexity * 0.2 +
+      coverage * 0.2 +
+      issues * 0.15 +
+      smells * 0.1 +
+      duplications * 0.05;
 
     // تحديد الدرجة
     let grade: CodeScore['grade'];
@@ -448,7 +485,7 @@ export class CodeMetricsAnalyzer {
       security: smells,
       performance: complexity,
       coverage,
-      grade
+      grade,
     };
   }
 
@@ -464,7 +501,7 @@ export class CodeMetricsAnalyzer {
         description: 'الدالة طويلة جداً',
         severity: lines.length > 100 ? 'high' : 'medium',
         line: 1,
-        suggestion: 'قسم الدالة إلى دوال أصغر'
+        suggestion: 'قسم الدالة إلى دوال أصغر',
       });
     }
 
@@ -476,7 +513,7 @@ export class CodeMetricsAnalyzer {
         description: 'قائمة المعاملات طويلة',
         severity: 'medium',
         line: content.indexOf(longParams[1]) + 1,
-        suggestion: 'استخدم object للمعاملات أو قسم الدالة'
+        suggestion: 'استخدم object للمعاملات أو قسم الدالة',
       });
     }
 
@@ -488,7 +525,7 @@ export class CodeMetricsAnalyzer {
         description: 'شرط معقد جداً',
         severity: 'medium',
         line: content.indexOf(complexConditions[0]) + 1,
-        suggestion: 'قسم الشرط إلى متغيرات منفصلة'
+        suggestion: 'قسم الشرط إلى متغيرات منفصلة',
       });
     }
 
@@ -500,7 +537,7 @@ export class CodeMetricsAnalyzer {
         description: `متغير غير مستخدم: ${unused.name}`,
         severity: 'low',
         line: unused.line,
-        suggestion: 'احذف المتغير غير المستخدم'
+        suggestion: 'احذف المتغير غير المستخدم',
       });
     }
 
@@ -508,7 +545,10 @@ export class CodeMetricsAnalyzer {
   }
 
   // كشف المتغيرات غير المستخدمة
-  private detectUnusedVariables(content: string, language: string): Array<{ name: string; line: number }> {
+  private detectUnusedVariables(
+    content: string,
+    language: string
+  ): Array<{ name: string; line: number }> {
     // محاكاة بسيطة
     const unused: Array<{ name: string; line: number }> = [];
 
@@ -518,7 +558,7 @@ export class CodeMetricsAnalyzer {
         for (const match of varMatches) {
           const varName = match.match(/const\s+(\w+)/)?.[1];
           if (varName && !content.includes(varName)) {
-            const line = content.split('\n').findIndex(l => l.includes(match)) + 1;
+            const line = content.split('\n').findIndex((l) => l.includes(match)) + 1;
             unused.push({ name: varName, line });
           }
         }
@@ -561,7 +601,7 @@ export class CodeMetricsAnalyzer {
           description: 'استخدام eval قد يؤدي إلى تنفيذ كود ضار',
           file: 'current',
           effort: '30min',
-          debt: '1h'
+          debt: '1h',
         });
       }
 
@@ -574,7 +614,7 @@ export class CodeMetricsAnalyzer {
           description: 'استخدام innerHTML قد يؤدي إلى XSS attacks',
           file: 'current',
           effort: '15min',
-          debt: '30min'
+          debt: '30min',
         });
       }
     }
@@ -588,7 +628,8 @@ export class CodeMetricsAnalyzer {
 
     if (['javascript', 'typescript'].includes(language)) {
       // loops داخل loops
-      const nestedLoops = (content.match(/for\s*\(/g) || []).length + (content.match(/while\s*\(/g) || []).length;
+      const nestedLoops =
+        (content.match(/for\s*\(/g) || []).length + (content.match(/while\s*\(/g) || []).length;
       if (nestedLoops > 2) {
         issues.push({
           type: 'code_smell',
@@ -597,7 +638,7 @@ export class CodeMetricsAnalyzer {
           description: 'حلقات متداخلة قد تؤثر على الأداء',
           file: 'current',
           effort: '1h',
-          debt: '2h'
+          debt: '2h',
         });
       }
     }
@@ -614,7 +655,9 @@ export class CodeMetricsAnalyzer {
     if (['javascript', 'typescript'].includes(language)) {
       const functions = content.match(/function\s+\w+|const\s+\w+\s*=\s*\(/g);
       if (functions && functions.length > 0) {
-        const comments = lines.filter(line => line.trim().startsWith('//') || line.trim().startsWith('/*')).length;
+        const comments = lines.filter(
+          (line) => line.trim().startsWith('//') || line.trim().startsWith('/*')
+        ).length;
 
         if (comments / lines.length < 0.1) {
           issues.push({
@@ -624,7 +667,7 @@ export class CodeMetricsAnalyzer {
             description: 'الكود يحتاج إلى المزيد من التعليقات',
             file: 'current',
             effort: '30min',
-            debt: '1h'
+            debt: '1h',
           });
         }
       }
@@ -659,7 +702,7 @@ export class CodeMetricsAnalyzer {
           lines: content.split('\n').length,
           files: fileList,
           content: content.substring(0, 100) + '...',
-          similarity: 100
+          similarity: 100,
         });
       }
     }
@@ -671,24 +714,24 @@ export class CodeMetricsAnalyzer {
   private detectLanguage(filePath: string): string {
     const ext = path.extname(filePath).toLowerCase().substring(1);
     const languageMap: Record<string, string> = {
-      'js': 'javascript',
-      'ts': 'typescript',
-      'jsx': 'javascript',
-      'tsx': 'typescript',
-      'py': 'python',
-      'java': 'java',
-      'go': 'go',
-      'rs': 'rust',
-      'php': 'php',
-      'rb': 'ruby',
-      'html': 'html',
-      'css': 'css',
-      'scss': 'scss',
-      'json': 'json',
-      'md': 'markdown',
-      'sql': 'sql',
-      'yaml': 'yaml',
-      'yml': 'yaml'
+      js: 'javascript',
+      ts: 'typescript',
+      jsx: 'javascript',
+      tsx: 'typescript',
+      py: 'python',
+      java: 'java',
+      go: 'go',
+      rs: 'rust',
+      php: 'php',
+      rb: 'ruby',
+      html: 'html',
+      css: 'css',
+      scss: 'scss',
+      json: 'json',
+      md: 'markdown',
+      sql: 'sql',
+      yaml: 'yaml',
+      yml: 'yaml',
     };
 
     return languageMap[ext] || 'text';
@@ -710,15 +753,17 @@ export class CodeMetricsAnalyzer {
         codeCoverage: 0,
         technicalDebt: '0h',
         estimatedEffort: '0h',
-        overallScore: 0
+        overallScore: 0,
       };
     }
 
     const totalLinesOfCode = metrics.reduce((sum, m) => sum + m.linesOfCode, 0);
     const totalLinesOfComments = metrics.reduce((sum, m) => sum + m.linesOfComments, 0);
     const totalLinesOfBlank = metrics.reduce((sum, m) => sum + m.linesOfBlank, 0);
-    const averageComplexity = metrics.reduce((sum, m) => sum + m.cyclomaticComplexity, 0) / metrics.length;
-    const averageMaintainability = metrics.reduce((sum, m) => sum + m.maintainabilityIndex, 0) / metrics.length;
+    const averageComplexity =
+      metrics.reduce((sum, m) => sum + m.cyclomaticComplexity, 0) / metrics.length;
+    const averageMaintainability =
+      metrics.reduce((sum, m) => sum + m.maintainabilityIndex, 0) / metrics.length;
     const totalDuplications = metrics.reduce((sum, m) => sum + m.duplications.length, 0);
     const totalSmells = metrics.reduce((sum, m) => sum + m.smells.length, 0);
     const totalIssues = metrics.reduce((sum, m) => sum + m.issues.length, 0);
@@ -746,13 +791,17 @@ export class CodeMetricsAnalyzer {
       codeCoverage: Math.round(codeCoverage * 100) / 100,
       technicalDebt,
       estimatedEffort,
-      overallScore: Math.round(overallScore)
+      overallScore: Math.round(overallScore),
     };
   }
 
   // حساب الدين التقني
-  private calculateTechnicalDebt(totalIssues: number, totalSmells: number, totalDuplications: number): string {
-    const debtHours = (totalIssues * 2) + (totalSmells * 1) + (totalDuplications * 3);
+  private calculateTechnicalDebt(
+    totalIssues: number,
+    totalSmells: number,
+    totalDuplications: number
+  ): string {
+    const debtHours = totalIssues * 2 + totalSmells * 1 + totalDuplications * 3;
 
     if (debtHours < 8) return `${debtHours}h`;
     if (debtHours < 40) return `${Math.ceil(debtHours / 8)}d`;
@@ -761,7 +810,7 @@ export class CodeMetricsAnalyzer {
 
   // حساب الجهد المطلوب
   private calculateEstimatedEffort(totalIssues: number, totalSmells: number): string {
-    const effortHours = (totalIssues * 1.5) + (totalSmells * 0.5);
+    const effortHours = totalIssues * 1.5 + totalSmells * 0.5;
 
     if (effortHours < 8) return `${effortHours}h`;
     if (effortHours < 40) return `${Math.ceil(effortHours / 8)}d`;
@@ -778,14 +827,16 @@ export class CodeMetricsAnalyzer {
       maintainability: [],
       coverage: [],
       duplications: [],
-      issues: []
+      issues: [],
     };
 
     // إضافة البيانات الحالية
     const today = new Date().toISOString().split('T')[0];
 
-    const currentComplexity = metrics.reduce((sum, m) => sum + m.cyclomaticComplexity, 0) / metrics.length;
-    const currentMaintainability = metrics.reduce((sum, m) => sum + m.maintainabilityIndex, 0) / metrics.length;
+    const currentComplexity =
+      metrics.reduce((sum, m) => sum + m.cyclomaticComplexity, 0) / metrics.length;
+    const currentMaintainability =
+      metrics.reduce((sum, m) => sum + m.maintainabilityIndex, 0) / metrics.length;
     const currentCoverage = metrics.reduce((sum, m) => sum + m.codeCoverage, 0) / metrics.length;
     const currentDuplications = metrics.reduce((sum, m) => sum + m.duplications.length, 0);
     const currentIssues = metrics.reduce((sum, m) => sum + m.issues.length, 0);
@@ -793,31 +844,31 @@ export class CodeMetricsAnalyzer {
     trends.complexity.push({
       date: today,
       value: Math.round(currentComplexity * 100) / 100,
-      change: 0
+      change: 0,
     });
 
     trends.maintainability.push({
       date: today,
       value: Math.round(currentMaintainability * 100) / 100,
-      change: 0
+      change: 0,
     });
 
     trends.coverage.push({
       date: today,
       value: Math.round(currentCoverage * 100) / 100,
-      change: 0
+      change: 0,
     });
 
     trends.duplications.push({
       date: today,
       value: currentDuplications,
-      change: 0
+      change: 0,
     });
 
     trends.issues.push({
       date: today,
       value: currentIssues,
-      change: 0
+      change: 0,
     });
 
     return trends;
@@ -830,7 +881,7 @@ export class CodeMetricsAnalyzer {
       complexity: 5,
       maintainability: 75,
       coverage: 80,
-      debt: '2d'
+      debt: '2d',
     };
 
     // معايير المشاريع المشابهة (محاكاة)
@@ -838,26 +889,30 @@ export class CodeMetricsAnalyzer {
       complexity: 7,
       maintainability: 70,
       coverage: 75,
-      debt: '3d'
+      debt: '3d',
     };
 
     // تحديد الحالة
     let status: BenchmarkComparison['status'] = 'average';
 
-    if (summary.averageComplexity < industry.complexity &&
-        summary.averageMaintainability > industry.maintainability &&
-        summary.codeCoverage > industry.coverage) {
+    if (
+      summary.averageComplexity < industry.complexity &&
+      summary.averageMaintainability > industry.maintainability &&
+      summary.codeCoverage > industry.coverage
+    ) {
       status = 'above_average';
-    } else if (summary.averageComplexity > industry.complexity * 1.5 ||
-               summary.averageMaintainability < industry.maintainability * 0.8 ||
-               summary.codeCoverage < industry.coverage * 0.8) {
+    } else if (
+      summary.averageComplexity > industry.complexity * 1.5 ||
+      summary.averageMaintainability < industry.maintainability * 0.8 ||
+      summary.codeCoverage < industry.coverage * 0.8
+    ) {
       status = 'below_average';
     }
 
     return {
       industry,
       similarProjects,
-      status
+      status,
     };
   }
 
@@ -908,13 +963,23 @@ export class CodeMetricsAnalyzer {
 
     console.log(chalk.yellow('📈 الإحصائيات:'));
     console.log(chalk.white(`   الملفات: ${chalk.cyan(summary.totalFiles)}`));
-    console.log(chalk.white(`   أسطر الكود: ${chalk.cyan(summary.totalLinesOfCode.toLocaleString('ar'))}`));
-    console.log(chalk.white(`   أسطر التعليقات: ${chalk.cyan(summary.totalLinesOfComments.toLocaleString('ar'))}`));
-    console.log(chalk.white(`   أسطر فارغة: ${chalk.cyan(summary.totalLinesOfBlank.toLocaleString('ar'))}`));
+    console.log(
+      chalk.white(`   أسطر الكود: ${chalk.cyan(summary.totalLinesOfCode.toLocaleString('ar'))}`)
+    );
+    console.log(
+      chalk.white(
+        `   أسطر التعليقات: ${chalk.cyan(summary.totalLinesOfComments.toLocaleString('ar'))}`
+      )
+    );
+    console.log(
+      chalk.white(`   أسطر فارغة: ${chalk.cyan(summary.totalLinesOfBlank.toLocaleString('ar'))}`)
+    );
 
     console.log(chalk.yellow('🎯 جودة الكود:'));
     console.log(chalk.white(`   متوسط التعقيد: ${chalk.cyan(summary.averageComplexity)}`));
-    console.log(chalk.white(`   مؤشر الصيانة: ${chalk.cyan(summary.averageMaintainability + '%')}`));
+    console.log(
+      chalk.white(`   مؤشر الصيانة: ${chalk.cyan(summary.averageMaintainability + '%')}`)
+    );
     console.log(chalk.white(`   تغطية الاختبارات: ${chalk.cyan(summary.codeCoverage + '%')}`));
 
     console.log(chalk.yellow('⚠️  المشاكل:'));
@@ -928,7 +993,11 @@ export class CodeMetricsAnalyzer {
 
     // عرض الدرجة الإجمالية
     const gradeColor = this.getGradeColor(summary.overallScore);
-    console.log(chalk.white(`   الدرجة الإجمالية: ${gradeColor(summary.overallScore + '/100')} (${this.getGradeLetter(summary.overallScore)})`));
+    console.log(
+      chalk.white(
+        `   الدرجة الإجمالية: ${gradeColor(summary.overallScore + '/100')} (${this.getGradeLetter(summary.overallScore)})`
+      )
+    );
 
     console.log();
   }
@@ -954,7 +1023,9 @@ export class CodeMetricsAnalyzer {
       const severityIcon = this.getSeverityIcon(item.issue.severity);
       const typeColor = this.getIssueTypeColor(item.issue.type);
 
-      console.log(chalk.gray(`   ${i + 1}. ${severityIcon} ${typeColor(item.issue.type)} ${item.issue.title}`));
+      console.log(
+        chalk.gray(`   ${i + 1}. ${severityIcon} ${typeColor(item.issue.type)} ${item.issue.title}`)
+      );
       console.log(chalk.gray(`      📁 ${item.file} - ${item.issue.description}`));
       console.log(chalk.gray(`      ⏱️  ${item.issue.effort} - 💰 ${item.issue.debt}\n`));
     }
@@ -986,35 +1057,52 @@ export class CodeMetricsAnalyzer {
   // الحصول على أيقونة الخطورة
   private getSeverityIcon(severity: string): string {
     switch (severity) {
-      case 'critical': return '🔴';
-      case 'major': return '🟠';
-      case 'minor': return '🟡';
-      case 'info': return '🔵';
-      default: return '⚪';
+      case 'critical':
+        return '🔴';
+      case 'major':
+        return '🟠';
+      case 'minor':
+        return '🟡';
+      case 'info':
+        return '🔵';
+      default:
+        return '⚪';
     }
   }
 
   // الحصول على لون نوع المشكلة
   private getIssueTypeColor(type: string): Function {
     switch (type) {
-      case 'bug': return chalk.red;
-      case 'vulnerability': return chalk.magenta;
-      case 'code_smell': return chalk.yellow;
-      case 'duplication': return chalk.blue;
-      case 'coverage': return chalk.cyan;
-      default: return chalk.white;
+      case 'bug':
+        return chalk.red;
+      case 'vulnerability':
+        return chalk.magenta;
+      case 'code_smell':
+        return chalk.yellow;
+      case 'duplication':
+        return chalk.blue;
+      case 'coverage':
+        return chalk.cyan;
+      default:
+        return chalk.white;
     }
   }
 
   // الحصول على درجة الخطورة
   private getSeverityScore(severity: string): number {
     switch (severity) {
-      case 'critical': return 5;
-      case 'blocker': return 5;
-      case 'major': return 4;
-      case 'minor': return 2;
-      case 'info': return 1;
-      default: return 3;
+      case 'critical':
+        return 5;
+      case 'blocker':
+        return 5;
+      case 'major':
+        return 4;
+      case 'minor':
+        return 2;
+      case 'info':
+        return 1;
+      default:
+        return 3;
     }
   }
 
@@ -1024,7 +1112,8 @@ export class CodeMetricsAnalyzer {
       const files = await fs.readdir(this.historyPath);
       const history: ProjectMetrics[] = [];
 
-      for (const file of files.filter(f => f.endsWith('.json')).slice(-7)) { // آخر 7 أيام
+      for (const file of files.filter((f) => f.endsWith('.json')).slice(-7)) {
+        // آخر 7 أيام
         const metrics = await fs.readJson(path.join(this.historyPath, file));
         history.push(metrics);
       }
@@ -1043,6 +1132,9 @@ export class CodeMetricsAnalyzer {
   }
 }
 
-export function createCodeMetricsAnalyzer(apiClient: OqoolAPIClient, workingDir?: string): CodeMetricsAnalyzer {
+export function createCodeMetricsAnalyzer(
+  apiClient: OqoolAPIClient,
+  workingDir?: string
+): CodeMetricsAnalyzer {
   return new CodeMetricsAnalyzer(apiClient, workingDir);
 }

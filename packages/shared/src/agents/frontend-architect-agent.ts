@@ -48,7 +48,10 @@ export class FrontendArchitectAgent {
 
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
     this.aiAdapter = new UnifiedAIAdapter({
@@ -67,7 +70,6 @@ export class FrontendArchitectAgent {
     framework?: string;
     styling?: string;
   }): Promise<FrontendArchitecture> {
-    
     // 1. Design component architecture
     const structure = await this.designComponentStructure(requirements);
 
@@ -102,7 +104,7 @@ export class FrontendArchitectAgent {
       stateManagement,
       styling,
       fileStructure,
-      recommendations
+      recommendations,
     };
   }
 
@@ -278,31 +280,28 @@ Output format (JSON):
   // ============================================
   // Plan routing
   // ============================================
-  private async planRouting(
-    requirements: any,
-    structure: ComponentStructure[]
-  ): Promise<any> {
-    const pages = structure.filter(c => c.type === 'page');
+  private async planRouting(requirements: any, structure: ComponentStructure[]): Promise<any> {
+    const pages = structure.filter((c) => c.type === 'page');
     const framework = requirements.framework || 'react';
 
     // File-based routing for Next.js/Nuxt
     if (framework === 'nextjs' || framework === 'nuxt') {
       return {
         type: 'file-based',
-        routes: pages.map(p => ({
+        routes: pages.map((p) => ({
           path: this.pageToRoute(p.name),
-          component: p.path
-        }))
+          component: p.path,
+        })),
       };
     }
 
     // Config-based routing for React/Vue
     return {
       type: 'config-based',
-      routes: pages.map(p => ({
+      routes: pages.map((p) => ({
         path: this.pageToRoute(p.name),
-        component: p.path
-      }))
+        component: p.path,
+      })),
     };
   }
 
@@ -313,12 +312,12 @@ Output format (JSON):
     requirements: any,
     structure: ComponentStructure[]
   ): Promise<any> {
-    const hasAuth = requirements.features.some((f: string) => 
-      f.toLowerCase().includes('auth') || f.toLowerCase().includes('login')
+    const hasAuth = requirements.features.some(
+      (f: string) => f.toLowerCase().includes('auth') || f.toLowerCase().includes('login')
     );
     const hasComplexState = structure.length > 20;
-    const isRealtime = requirements.features.some((f: string) => 
-      f.toLowerCase().includes('realtime') || f.toLowerCase().includes('chat')
+    const isRealtime = requirements.features.some(
+      (f: string) => f.toLowerCase().includes('realtime') || f.toLowerCase().includes('chat')
     );
 
     let solution: string;
@@ -345,26 +344,23 @@ Output format (JSON):
     const styling = requirements.styling || 'tailwind';
 
     const approaches: Record<string, string> = {
-      'tailwind': 'Utility-first CSS with Tailwind classes',
+      tailwind: 'Utility-first CSS with Tailwind classes',
       'css-modules': 'Scoped CSS with CSS Modules',
       'styled-components': 'CSS-in-JS with styled-components',
-      'emotion': 'CSS-in-JS with Emotion',
-      'sass': 'Preprocessed CSS with SASS/SCSS'
+      emotion: 'CSS-in-JS with Emotion',
+      sass: 'Preprocessed CSS with SASS/SCSS',
     };
 
     return {
       solution: styling,
-      approach: approaches[styling] || approaches['tailwind']
+      approach: approaches[styling] || approaches['tailwind'],
     };
   }
 
   // ============================================
   // Generate file structure
   // ============================================
-  private generateFileStructure(
-    structure: ComponentStructure[],
-    framework: string
-  ): string {
+  private generateFileStructure(structure: ComponentStructure[], framework: string): string {
     const tree: Record<string, string[]> = {};
 
     // Group by directory
@@ -384,7 +380,7 @@ Output format (JSON):
       const indent = '  '.repeat(depth);
       const dirName = dir.split('/').pop();
       fileStructure += `${indent}📁 ${dirName}/\n`;
-      
+
       for (const file of tree[dir].sort()) {
         fileStructure += `${indent}  📄 ${file}\n`;
       }
@@ -440,11 +436,14 @@ Output format (JSON):
   // Helper: Page name to route
   // ============================================
   private pageToRoute(pageName: string): string {
-    return '/' + pageName
-      .replace('Page', '')
-      .replace(/([A-Z])/g, '-$1')
-      .toLowerCase()
-      .replace(/^-/, '');
+    return (
+      '/' +
+      pageName
+        .replace('Page', '')
+        .replace(/([A-Z])/g, '-$1')
+        .toLowerCase()
+        .replace(/^-/, '')
+    );
   }
 
   // ============================================
@@ -491,7 +490,7 @@ Output format (JSON):
         typography: data.typography || {},
         spacing: data.spacing || {},
         components: data.components || [],
-        tokens: data.tokens || {}
+        tokens: data.tokens || {},
       };
     } catch (error) {
       console.error('Failed to parse design system');
@@ -506,18 +505,18 @@ Output format (JSON):
     return {
       colors: {
         primary: { '500': '#3b82f6' },
-        gray: { '500': '#6b7280' }
+        gray: { '500': '#6b7280' },
       },
       typography: {
-        fonts: { body: 'Inter, sans-serif' }
+        fonts: { body: 'Inter, sans-serif' },
       },
       spacing: {
         '1': '0.25rem',
         '2': '0.5rem',
-        '4': '1rem'
+        '4': '1rem',
       },
       components: [],
-      tokens: {}
+      tokens: {},
     };
   }
 }

@@ -69,7 +69,10 @@ export class BackendDeveloperAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
     this.aiAdapter = new UnifiedAIAdapter({
@@ -90,7 +93,6 @@ export class BackendDeveloperAgent {
     language?: 'javascript' | 'typescript' | 'python' | 'go' | 'rust';
     database?: 'postgresql' | 'mysql' | 'mongodb' | 'redis';
   }): Promise<BackendArchitecture> {
-
     // 1. Choose tech stack
     const techStack = await this.chooseTechStack(requirements);
 
@@ -133,7 +135,7 @@ export class BackendDeveloperAgent {
       middleware,
       errorHandling,
       logging,
-      validation
+      validation,
     };
   }
 
@@ -149,11 +151,11 @@ export class BackendDeveloperAgent {
 
     // Choose framework based on language
     const frameworks: Record<string, string> = {
-      'javascript': 'Express.js',
-      'typescript': 'NestJS',
-      'python': 'FastAPI',
-      'go': 'Gin',
-      'rust': 'Actix-web'
+      javascript: 'Express.js',
+      typescript: 'NestJS',
+      python: 'FastAPI',
+      go: 'Gin',
+      rust: 'Actix-web',
     };
 
     framework = frameworks[language];
@@ -255,7 +257,9 @@ Features: ${requirements.features.join(', ')}
 Database: ${dbType}
 Type: ${isSQL ? 'SQL' : 'NoSQL'}
 
-${isSQL ? `
+${
+  isSQL
+    ? `
 Design SQL tables with:
 1. Proper table names (plural, lowercase)
 2. Primary keys (id)
@@ -284,7 +288,8 @@ Output format (JSON):
   ]
 }
 \`\`\`
-` : `
+`
+    : `
 Design NoSQL collections with:
 1. Collection names
 2. Document schema
@@ -315,7 +320,8 @@ Output format (JSON):
   ]
 }
 \`\`\`
-`}
+`
+}
 
 Design complete schema for all features!
     `;
@@ -329,7 +335,7 @@ Design complete schema for all features!
         name: dbType,
         type: isSQL ? 'sql' : 'nosql',
         tables: [],
-        collections: []
+        collections: [],
       };
     }
   }
@@ -338,14 +344,16 @@ Design complete schema for all features!
   // Design authentication
   // ============================================
   private async designAuthentication(requirements: any): Promise<any> {
-    const hasUsers = requirements.users || requirements.features.some((f: string) => 
-      f.toLowerCase().includes('user') || f.toLowerCase().includes('auth')
-    );
+    const hasUsers =
+      requirements.users ||
+      requirements.features.some(
+        (f: string) => f.toLowerCase().includes('user') || f.toLowerCase().includes('auth')
+      );
 
     if (!hasUsers) {
       return {
         strategy: 'None',
-        implementation: 'No authentication required'
+        implementation: 'No authentication required',
       };
     }
 
@@ -357,7 +365,7 @@ Design complete schema for all features!
 3. Protected routes: Verify JWT middleware
 4. Refresh tokens: Long-lived refresh + short-lived access
 5. Password reset: Email token flow
-      `.trim()
+      `.trim(),
     };
   }
 
@@ -374,22 +382,19 @@ Design complete schema for all features!
           'API response caching (hot endpoints)',
           'Database query caching',
           'Session storage',
-          'Rate limiting'
-        ]
+          'Rate limiting',
+        ],
       };
     } else if (expectedLoad === 'medium') {
       return {
         strategy: 'In-Memory',
-        layers: [
-          'LRU cache for frequent queries',
-          'Memoization for expensive operations'
-        ]
+        layers: ['LRU cache for frequent queries', 'Memoization for expensive operations'],
       };
     }
 
     return {
       strategy: 'None',
-      layers: []
+      layers: [],
     };
   }
 
@@ -403,11 +408,11 @@ Design complete schema for all features!
       'Helmet - Security headers',
       'Compression - Gzip responses',
       'Request Logger - Log all requests',
-      'Error Handler - Catch and format errors'
+      'Error Handler - Catch and format errors',
     ];
 
-    const hasAuth = requirements.features.some((f: string) => 
-      f.toLowerCase().includes('auth') || f.toLowerCase().includes('user')
+    const hasAuth = requirements.features.some(
+      (f: string) => f.toLowerCase().includes('auth') || f.toLowerCase().includes('user')
     );
 
     if (hasAuth) {
@@ -464,11 +469,11 @@ Logging strategy:
   // ============================================
   private async designValidation(techStack: any): Promise<string> {
     const validators: Record<string, string> = {
-      'javascript': 'Joi or Yup',
-      'typescript': 'Zod or class-validator',
-      'python': 'Pydantic',
-      'go': 'go-playground/validator',
-      'rust': 'validator crate'
+      javascript: 'Joi or Yup',
+      typescript: 'Zod or class-validator',
+      python: 'Pydantic',
+      go: 'go-playground/validator',
+      rust: 'validator crate',
     };
 
     return `
@@ -489,7 +494,7 @@ Return 400 with detailed errors on validation failure
   // ============================================
   private generateFileStructure(techStack: any): string {
     const structures: Record<string, string> = {
-      'NestJS': `
+      NestJS: `
 📁 src/
   📁 modules/
     📁 users/
@@ -528,7 +533,7 @@ Return 400 with detailed errors on validation failure
   📄 app.js
   📄 server.js
 `,
-      'FastAPI': `
+      FastAPI: `
 📁 app/
   📁 api/
     📁 v1/
@@ -546,7 +551,7 @@ Return 400 with detailed errors on validation failure
   📁 db/
     📄 session.py
   📄 main.py
-`
+`,
     };
 
     return structures[techStack.framework] || structures['Express.js'];

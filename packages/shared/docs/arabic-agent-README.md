@@ -75,31 +75,21 @@ const explanation = await agent.explainCodeInArabic(
 
 ```typescript
 // تحليل وشرح الأخطاء البرمجية مع حلول
-const analysis = await agent.explainError(
-  errorMessage,
-  buggyCode,
-  'javascript'
-);
+const analysis = await agent.explainError(errorMessage, buggyCode, 'javascript');
 ```
 
 ### 💡 توليد أمثلة عملية
 
 ```typescript
 // توليد أمثلة برمجية واقعية
-const example = await agent.generateExample(
-  'Async/Await في JavaScript',
-  'javascript',
-  'backend'
-);
+const example = await agent.generateExample('Async/Await في JavaScript', 'javascript', 'backend');
 ```
 
 ### 🧠 استخراج النية (Intent Recognition)
 
 ```typescript
 // فهم ما يريده المستخدم من جملة عربية
-const intent = await agent.extractIntent(
-  'اكتب لي API بسيط بـ Express'
-);
+const intent = await agent.extractIntent('اكتب لي API بسيط بـ Express');
 // { intent: 'create_project', entities: [...], confidence: 0.95 }
 ```
 
@@ -158,18 +148,18 @@ const code = agent.translateCodeText('أنشئ دالة جديدة'); // 'create
 // ❌ الطريقة التقليدية (Claude فقط)
 const traditionalConfig = {
   providers: [{ name: 'anthropic', apiKey: '...' }],
-  costOptimization: false
+  costOptimization: false,
 };
 // التكلفة: $0.15 لـ 10K tokens
 
 // ✅ مع Arabic Agent (Multi-Provider)
 const optimizedConfig = {
   providers: [
-    { name: 'deepseek', apiKey: '...' },  // للبسيط
-    { name: 'openai', apiKey: '...' },    // للمتوسط
-    { name: 'anthropic', apiKey: '...' }  // للمعقد
+    { name: 'deepseek', apiKey: '...' }, // للبسيط
+    { name: 'openai', apiKey: '...' }, // للمتوسط
+    { name: 'anthropic', apiKey: '...' }, // للمعقد
   ],
-  costOptimization: true
+  costOptimization: true,
 };
 // التكلفة: $0.03 لـ 10K tokens
 
@@ -195,17 +185,16 @@ import { ArabicAgent } from '@oqool/arabic-agent';
 
 // إعداد بسيط (مزود واحد)
 const agent = new ArabicAgent({
-  providers: [{
-    name: 'anthropic',
-    apiKey: process.env.ANTHROPIC_API_KEY
-  }]
+  providers: [
+    {
+      name: 'anthropic',
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    },
+  ],
 });
 
 // الاستخدام
-const code = await agent.ideaToCode(
-  'اكتب دالة للبحث الثنائي',
-  'javascript'
-);
+const code = await agent.ideaToCode('اكتب دالة للبحث الثنائي', 'javascript');
 
 console.log(code.content);
 ```
@@ -218,21 +207,21 @@ const agent = new ArabicAgent({
     {
       name: 'deepseek',
       apiKey: process.env.DEEPSEEK_API_KEY,
-      baseURL: 'https://api.deepseek.com/v1'
+      baseURL: 'https://api.deepseek.com/v1',
     },
     {
       name: 'openai',
-      apiKey: process.env.OPENAI_API_KEY
+      apiKey: process.env.OPENAI_API_KEY,
     },
     {
       name: 'anthropic',
-      apiKey: process.env.ANTHROPIC_API_KEY
-    }
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    },
   ],
   defaultProvider: 'deepseek',
   fallbackEnabled: true,
   costOptimization: true,
-  retryAttempts: 3
+  retryAttempts: 3,
 });
 
 // الآن يوفر 70-80% تلقائياً!
@@ -272,7 +261,7 @@ console.log(architecture);
 const simpleCode = await agent.ideaToCode(
   'دالة لحساب مجموع مصفوفة من الأرقام',
   'javascript',
-  'simple'  // مستوى التعقيد
+  'simple' // مستوى التعقيد
 );
 
 // مثال معقد
@@ -292,12 +281,12 @@ const codeToExplain = {
   path: 'algorithm.js',
   language: 'javascript',
   lines: 25,
-  content: `/* كود معقد هنا */`
+  content: `/* كود معقد هنا */`,
 };
 
 const explanation = await agent.explainCodeInArabic(
   codeToExplain,
-  'beginner'  // مستوى الشرح
+  'beginner' // مستوى الشرح
 );
 
 console.log(explanation);
@@ -318,11 +307,7 @@ const user = null;
 console.log(user.name); // Error!
 `;
 
-const analysis = await agent.explainError(
-  errorMessage,
-  buggyCode,
-  'javascript'
-);
+const analysis = await agent.explainError(errorMessage, buggyCode, 'javascript');
 
 console.log(analysis);
 // يحتوي على:
@@ -338,10 +323,10 @@ console.log(analysis);
 const example = await agent.generateExample(
   'Redux Toolkit',
   'javascript',
-  'web'  // السياق
+  'web' // السياق
 );
 
-console.log(example.code);        // الكود
+console.log(example.code); // الكود
 console.log(example.explanation); // الشرح
 ```
 
@@ -360,9 +345,7 @@ await agent.chat('موضوع جديد', true);
 ### 7. استخراج النية
 
 ```typescript
-const result = await agent.extractIntent(
-  'اكتب لي REST API للمنتجات بـ Node.js'
-);
+const result = await agent.extractIntent('اكتب لي REST API للمنتجات بـ Node.js');
 
 console.log(result);
 // {
@@ -391,38 +374,38 @@ const config: MultiProviderConfig = {
       baseURL: 'https://api.deepseek.com/v1',
       model: 'deepseek-coder',
       maxTokens: 4096,
-      temperature: 0.7
+      temperature: 0.7,
     },
     {
       name: 'openai',
       apiKey: process.env.OPENAI_API_KEY,
       model: 'gpt-4o',
       maxTokens: 4096,
-      temperature: 0.7
+      temperature: 0.7,
     },
     {
       name: 'anthropic',
       apiKey: process.env.ANTHROPIC_API_KEY,
       model: 'claude-sonnet-4-20250514',
       maxTokens: 8192,
-      temperature: 0.7
-    }
+      temperature: 0.7,
+    },
   ],
-  
+
   // المزود الافتراضي (للمهام البسيطة)
   defaultProvider: 'deepseek',
-  
+
   // تفعيل Fallback التلقائي
   fallbackEnabled: true,
-  
+
   // تفعيل تحسين التكلفة
   costOptimization: true,
-  
+
   // عدد محاولات إعادة الطلب
   retryAttempts: 3,
-  
+
   // وقت الانتظار الأقصى
-  timeout: 30000 // 30 ثانية
+  timeout: 30000, // 30 ثانية
 };
 
 const agent = new ArabicAgent(config);
@@ -433,7 +416,7 @@ const agent = new ArabicAgent(config);
 ```typescript
 // تفعيل الكاش (افتراضي)
 const result1 = await agent.chat('ما هو TypeScript؟', {
-  useCache: true  // سيتم حفظه في الكاش
+  useCache: true, // سيتم حفظه في الكاش
 });
 
 // نفس السؤال (من الكاش - أسرع وأرخص)
@@ -495,13 +478,9 @@ const requirement = 'تطبيق TODO List مع React و Express';
 const arch = await agent.understandArabicRequirement(requirement);
 
 // 2. توليد Backend
-const backend = await agent.ideaToCode(
-  'Express API لإدارة المهام (CRUD)',
-  'javascript',
-  'medium'
-);
+const backend = await agent.ideaToCode('Express API لإدارة المهام (CRUD)', 'javascript', 'medium');
 
-// 3. توليد Frontend  
+// 3. توليد Frontend
 const frontend = await agent.ideaToCode(
   'React component لعرض وإدارة المهام',
   'javascript',
@@ -518,7 +497,7 @@ agent.displayStatistics();
 ### مثال 2: تحليل وإصلاح خطأ
 
 ```typescript
-const error = "ReferenceError: user is not defined";
+const error = 'ReferenceError: user is not defined';
 const code = `
 function greetUser() {
   console.log('Hello ' + user); // user غير معرف
@@ -552,7 +531,7 @@ await agent.chat('كيف أتعامل مع الأخطاء في كل حالة؟')
 // ❌ استخدام Claude فقط
 const expensiveAgent = new ArabicAgent({
   providers: [{ name: 'anthropic', apiKey: '...' }],
-  costOptimization: false
+  costOptimization: false,
 });
 
 // ✅ استخدام Multi-Provider
@@ -560,9 +539,9 @@ const cheapAgent = new ArabicAgent({
   providers: [
     { name: 'deepseek', apiKey: '...' },
     { name: 'openai', apiKey: '...' },
-    { name: 'anthropic', apiKey: '...' }
+    { name: 'anthropic', apiKey: '...' },
   ],
-  costOptimization: true
+  costOptimization: true,
 });
 
 // تنفيذ نفس المهام
@@ -574,7 +553,7 @@ for (const task of tasks) {
 // مقارنة النتائج
 const cost1 = expensiveAgent.getMetrics().totalCost;
 const cost2 = cheapAgent.getMetrics().totalCost;
-console.log(`التوفير: ${((cost1 - cost2) / cost1 * 100).toFixed(1)}%`);
+console.log(`التوفير: ${(((cost1 - cost2) / cost1) * 100).toFixed(1)}%`);
 // التوفير: 78.5%
 ```
 
@@ -633,16 +612,19 @@ console.log(`التوفير: ${((cost1 - cost2) / cost1 * 100).toFixed(1)}%`);
 ## 🎯 حالات الاستخدام
 
 ### للمطورين المبتدئين
+
 - 📚 **تعلم البرمجة بالعربية** - شرح المفاهيم بطريقة مبسطة
 - 💡 **توليد أمثلة عملية** - أمثلة واقعية من البيئة العربية
 - 🐛 **فهم الأخطاء** - شرح الأخطاء وكيفية حلها
 
 ### للمطورين المحترفين
+
 - 🚀 **تسريع التطوير** - توليد كود نظيف وموثق
 - 🏗️ **تصميم المعماريات** - تحويل المتطلبات لمعمارية تقنية
 - 📝 **توثيق الكود** - توليد وثائق شاملة بالعربية
 
 ### للفرق والشركات
+
 - 💰 **توفير التكاليف** - تقليل 70-80% من تكاليف AI
 - 🔄 **سير عمل موحد** - نظام موحد لجميع أعضاء الفريق
 - 📊 **تحليل الأداء** - مقاييس دقيقة للاستخدام والتكلفة
