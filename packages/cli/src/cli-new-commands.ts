@@ -12,6 +12,7 @@ import { createAPITesting } from './api-testing.js';
 import { createVersionGuardian } from '@oqool/shared/core';
 import { createFileArchaeology } from './file-archaeology.js';
 import { createNotificationSystem } from './notifications.js';
+import { addAutoFixCommand } from './cli-auto-fix-command.js';
 
 export function registerNewCommands(program: Command): void {
 
@@ -640,5 +641,11 @@ program
       console.error(chalk.red('\n❌ خطأ:'), error.message);
     }
   });
+
+// ========================================
+// أوامر Auto-Fix System
+// ========================================
+
+addAutoFixCommand(program);
 
 }
