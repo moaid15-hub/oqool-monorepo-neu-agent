@@ -7,6 +7,7 @@
 export { DeepSeekService } from './deepseek-service.js';
 export { ClaudeService } from './claude-service.js';
 export { OpenAIService } from './openai-service.js';
+export { GeminiService } from './gemini-service.js';
 
 // Main Adapter
 export {

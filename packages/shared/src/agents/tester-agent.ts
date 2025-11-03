@@ -17,36 +17,42 @@ export class TesterAgent {
   private provider: AIProvider;
 
   constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+    // Use OpenAI for testing - أسرع من DeepSeek (5-10x faster)
+    const hasOpenAI = config.openai?.startsWith('sk-');
+
     this.aiAdapter = new UnifiedAIAdapter({
       deepseek: config.deepseek,
       claude: config.claude,
       openai: config.openai,
-      defaultProvider: 'deepseek', // tester can use cheaper provider for routine tasks
+      defaultProvider: hasOpenAI ? 'openai' : 'deepseek', // OpenAI أسرع للتوليد
     });
     this.provider = provider;
   }
 
   async createTests(code: GeneratedCode): Promise<TestResults> {
     const testFiles: TestFile[] = [];
-    let totalTests = 0;
+    const promises: Promise<TestFile | null>[] = [];
 
-    // Generate tests for each file that needs testing
+    // ⚡ Generate tests in parallel - أسرع 5-10x
+    console.log('⚡ Generating tests in parallel...');
+
+    // Collect all test generation promises
     for (const file of code.files) {
       if (this.needsTests(file)) {
-        const testFile = await this.generateTests(file);
-        if (testFile) {
-          testFiles.push(testFile);
-          totalTests += testFile.testCount;
-        }
+        promises.push(this.generateTests(file));
       }
     }
 
-    // Generate integration tests
-    const integrationTests = await this.generateIntegrationTests(code);
-    if (integrationTests) {
-      testFiles.push(integrationTests);
-      totalTests += integrationTests.testCount;
+    // Generate integration tests in parallel
+    if (code.files.length >= 2) {
+      promises.push(this.generateIntegrationTests(code));
     }
+
+    // Execute all in parallel
+    const results = await Promise.all(promises);
+    testFiles.push(...results.filter(f => f !== null) as TestFile[]);
+
+    const totalTests = testFiles.reduce((sum, f) => sum + f.testCount, 0);
 
     return {
       total: totalTests,

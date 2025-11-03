@@ -7,8 +7,9 @@
 import { DeepSeekService } from './deepseek-service.js';
 import { ClaudeService } from './claude-service.js';
 import { OpenAIService } from './openai-service.js';
+import { GeminiService } from './gemini-service.js';
 
-export type AIProvider = 'deepseek' | 'claude' | 'openai' | 'auto';
+export type AIProvider = 'deepseek' | 'claude' | 'openai' | 'gemini' | 'auto';
 
 export type AIRole =
   | 'architect'
@@ -40,6 +41,7 @@ export interface UnifiedAIAdapterConfig {
   deepseek?: string;
   claude?: string;
   openai?: string;
+  gemini?: string;
   defaultProvider?: AIProvider;
 }
 
@@ -49,6 +51,12 @@ export class UnifiedAIAdapter {
   
   constructor(config: UnifiedAIAdapterConfig) {
     // تهيئة المزودين المتاحين (فقط لو الـ key صالح)
+
+    // Gemini (Google) - الأسرع والأرخص
+    if (config.gemini && config.gemini.startsWith('AIzaSy')) {
+      this.providers.set('gemini', new GeminiService(config.gemini));
+    }
+
     if (config.deepseek && config.deepseek.startsWith('sk-')) {
       this.providers.set('deepseek', new DeepSeekService(config.deepseek));
     }
@@ -66,7 +74,10 @@ export class UnifiedAIAdapter {
       this.defaultProvider = config.defaultProvider;
     } else {
       // إذا المزود الافتراضي مش متاح، استخدم أول مزود متاح
-      if (this.providers.has('deepseek')) {
+      // الترتيب: Gemini (أسرع) → DeepSeek (رخيص) → OpenAI → Claude
+      if (this.providers.has('gemini')) {
+        this.defaultProvider = 'gemini';
+      } else if (this.providers.has('deepseek')) {
         this.defaultProvider = 'deepseek';
       } else if (this.providers.has('openai')) {
         this.defaultProvider = 'openai';
@@ -208,31 +219,33 @@ export class UnifiedAIAdapter {
 
     // استراتيجية الاختيار الذكي
     const providerStrategies: Record<AIRole, AIProvider[]> = {
-      architect: ['claude', 'openai', 'deepseek'],    // يحتاج تفكير عميق
-      coder: ['deepseek', 'claude', 'openai'],        // DeepSeek ممتاز في الكود
-      reviewer: ['claude', 'openai', 'deepseek'],     // Claude ممتاز في المراجعة
-      tester: ['deepseek', 'openai', 'claude'],       // مهمة روتينية
-      debugger: ['deepseek', 'claude', 'openai'],     // تحليل سريع
-      optimizer: ['deepseek', 'openai', 'claude'],    // تحسينات بسيطة
-      security: ['claude', 'openai', 'deepseek'],     // يحتاج دقة عالية
-      devops: ['deepseek', 'openai', 'claude'],       // مهام عملية
+      architect: ['claude', 'openai', 'gemini', 'deepseek'],    // يحتاج تفكير عميق
+      coder: ['gemini', 'deepseek', 'claude', 'openai'],        // Gemini سريع ممتاز في الكود
+      reviewer: ['claude', 'openai', 'gemini', 'deepseek'],     // Claude ممتاز في المراجعة
+      tester: ['gemini', 'deepseek', 'openai', 'claude'],       // مهمة روتينية - Gemini أسرع
+      debugger: ['gemini', 'deepseek', 'claude', 'openai'],     // تحليل سريع
+      optimizer: ['gemini', 'deepseek', 'openai', 'claude'],    // تحسينات بسيطة
+      security: ['claude', 'openai', 'gemini', 'deepseek'],     // يحتاج دقة عالية
+      devops: ['gemini', 'deepseek', 'openai', 'claude'],       // مهام عملية
     };
 
     // اختيار حسب تعقيد السؤال
     const complexity = this.estimateComplexity(prompt);
-    
+
     if (complexity === 'high') {
       // مهمة معقدة → Claude أو GPT-4
       if (this.providers.has('claude')) return 'claude';
       if (this.providers.has('openai')) return 'openai';
+      if (this.providers.has('gemini')) return 'gemini';
     } else if (complexity === 'low') {
-      // مهمة بسيطة → DeepSeek (أرخص)
+      // مهمة بسيطة → Gemini (أسرع) أو DeepSeek (أرخص)
+      if (this.providers.has('gemini')) return 'gemini';
       if (this.providers.has('deepseek')) return 'deepseek';
     }
 
     // حسب الشخصية
-    const preferredProviders = providerStrategies[personality] || ['deepseek', 'claude', 'openai'];
-    
+    const preferredProviders = providerStrategies[personality] || ['gemini', 'deepseek', 'openai', 'claude'];
+
     for (const provider of preferredProviders) {
       if (this.providers.has(provider)) {
         return provider;
@@ -287,15 +300,16 @@ export class UnifiedAIAdapter {
    * 🎯 تحديد سلسلة Fallback حسب المزود الفاشل
    */
   private getFallbackChain(failedProvider: AIProvider): AIProvider[] {
-    // DeepSeek دائماً الخيار الأخير (الأرخص والأكثر موثوقية)
+    // Gemini دائماً الخيار الأول (الأسرع والأرخص)
     const fallbackStrategies: Record<AIProvider, AIProvider[]> = {
-      'claude': ['deepseek', 'openai'],      // Claude فشل → DeepSeek → OpenAI
-      'openai': ['deepseek', 'claude'],      // OpenAI فشل → DeepSeek → Claude
-      'deepseek': ['openai', 'claude'],      // DeepSeek فشل → OpenAI → Claude
-      'auto': ['deepseek', 'openai', 'claude'], // Auto → DeepSeek أولاً
+      'claude': ['gemini', 'deepseek', 'openai'],      // Claude فشل → Gemini → DeepSeek → OpenAI
+      'openai': ['gemini', 'deepseek', 'claude'],      // OpenAI فشل → Gemini → DeepSeek → Claude
+      'deepseek': ['gemini', 'openai', 'claude'],      // DeepSeek فشل → Gemini → OpenAI → Claude
+      'gemini': ['deepseek', 'openai', 'claude'],      // Gemini فشل → DeepSeek → OpenAI → Claude
+      'auto': ['gemini', 'deepseek', 'openai', 'claude'], // Auto → Gemini أولاً
     };
 
-    return fallbackStrategies[failedProvider] || ['deepseek'];
+    return fallbackStrategies[failedProvider] || ['gemini', 'deepseek'];
   }
 
   /**
@@ -430,6 +444,7 @@ export class UnifiedAIAdapter {
    */
   getAvailableProviders(): Array<{ id: AIProvider; name: string; available: boolean }> {
     return [
+      { id: 'gemini', name: 'Gemini (Google)', available: this.providers.has('gemini') },
       { id: 'deepseek', name: 'DeepSeek', available: this.providers.has('deepseek') },
       { id: 'claude', name: 'Claude (Anthropic)', available: this.providers.has('claude') },
       { id: 'openai', name: 'OpenAI (GPT-4)', available: this.providers.has('openai') },
@@ -453,14 +468,18 @@ export class UnifiedAIAdapter {
   getCostComparison(): Array<{ provider: string; inputCost: number; outputCost: number }> {
     const costs: Array<{ provider: string; inputCost: number; outputCost: number }> = [];
 
+    if (this.providers.has('gemini')) {
+      costs.push({ provider: 'Gemini 2.0 Flash', inputCost: 0.10, outputCost: 0.40 });
+    }
+
     if (this.providers.has('deepseek')) {
       costs.push({ provider: 'DeepSeek', inputCost: 0.14, outputCost: 0.28 });
     }
-    
+
     if (this.providers.has('claude')) {
       costs.push({ provider: 'Claude 3.5 Sonnet', inputCost: 3.0, outputCost: 15.0 });
     }
-    
+
     if (this.providers.has('openai')) {
       costs.push({ provider: 'GPT-4 Turbo', inputCost: 10.0, outputCost: 30.0 });
     }

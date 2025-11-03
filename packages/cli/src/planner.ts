@@ -59,7 +59,7 @@ TASK 3: [وصف المهمة]
 
     try {
       const response = await this.client.messages.create({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-3-5-haiku-20241022',
         max_tokens: 2000,
         messages: [{ role: 'user', content: planningPrompt }]
       });
@@ -257,7 +257,7 @@ TASK 2: ...`;
 
     try {
       const response = await this.client.messages.create({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-3-5-haiku-20241022',
         max_tokens: 2000,
         messages: [{ role: 'user', content: replanPrompt }]
       });

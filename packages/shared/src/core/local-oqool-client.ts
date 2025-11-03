@@ -34,7 +34,7 @@ export class LocalClaudeClient {
 
       // إرسال للـ API
       const response = await this.client.messages.create({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-3-5-haiku-20241022',
         max_tokens: 8192,
         system: systemMessage?.content,
         messages: claudeMessages
@@ -161,7 +161,7 @@ ${contextMessage}
     try {
       // اختبار بسيط للتحقق من صحة المفتاح
       const response = await this.client.messages.create({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-3-5-haiku-20241022',
         max_tokens: 10,
         messages: [{ role: 'user', content: 'test' }]
       });

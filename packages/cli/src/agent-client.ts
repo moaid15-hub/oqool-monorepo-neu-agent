@@ -30,7 +30,7 @@ export class AgentClient {
 
   constructor(config: AgentConfig) {
     this.config = {
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-3-5-haiku-20241022',
       maxIterations: 25,
       workingDirectory: process.cwd(),
       enablePlanning: true,

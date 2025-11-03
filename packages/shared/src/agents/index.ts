@@ -1,5 +1,34 @@
-// Agents exports
+// ============================================
+// Agents Index - تصدير جميع الوكلاء
+// ============================================
+
+// Core Architecture Agents - وكلاء المعمارية الأساسية
 export * from './architect-agent.js';
+export * from './backend-developer-agent.js';
+export * from './frontend-architect-agent.js';
+export * from './fullstack-integrator-agent.js';
+
+// Development Agents - وكلاء التطوير
 export * from './coder-agent.js';
+
+// Quality & Testing Agents - وكلاء الجودة والاختبار
 export * from './reviewer-agent.js';
 export * from './tester-agent.js';
+export * from './security-agent.js';
+export * from './debugger-agent.js';
+export * from './optimizer-agent.js';
+
+// Design & UX Agents - وكلاء التصميم وتجربة المستخدم
+export * from './ui-ux-designer-agent.js';
+export * from './seo-specialist-agent.js';
+
+// Infrastructure Agents - وكلاء البنية التحتية
+export * from './devops-agent.js';
+
+// AI & Machine Learning - الذكاء الاصطناعي والتعلم الآلي
+export * from './ml-agent.js';
+
+// Arabic Language Support - دعم اللغة العربية
+export * from './arabic-agent.js';
+export * from './arabic-learning-agent.js';
+export * from './arabic-quality-agent.js';

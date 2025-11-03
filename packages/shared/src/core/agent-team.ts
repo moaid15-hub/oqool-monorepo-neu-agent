@@ -221,7 +221,7 @@ export class AgentTeam {
 
   constructor(config: AgentTeamConfig) {
     this.config = {
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-3-5-haiku-20241022',
       verbose: true,
       ...config
     };

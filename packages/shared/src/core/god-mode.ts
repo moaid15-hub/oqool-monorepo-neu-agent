@@ -150,6 +150,9 @@ export class GodMode {
     // Initialize Agents with new UnifiedAIAdapter configuration
     // Automatically detect which API key is provided
     const aiConfig = {
+      gemini: this.config.apiKey?.startsWith('AIzaSy')
+              ? this.config.apiKey
+              : process.env.GEMINI_API_KEY,
       claude: this.config.apiKey?.startsWith('sk-ant-')
               ? this.config.apiKey
               : (process.env.ANTHROPIC_API_KEY?.startsWith('sk-ant-') ? process.env.ANTHROPIC_API_KEY : undefined),
@@ -159,13 +162,17 @@ export class GodMode {
       openai: this.config.apiKey?.startsWith('sk-proj-') ? this.config.apiKey : process.env.OPENAI_API_KEY,
     };
 
-    // 🔄 Smart Fallback System: DeepSeek as backup for all providers
+    // 🔄 Smart Fallback System: Gemini (fastest) → DeepSeek → OpenAI
+    const hasValidGemini = aiConfig.gemini?.startsWith('AIzaSy');
     const hasValidClaude = aiConfig.claude?.startsWith('sk-ant-');
-    const forceProvider: AIProvider = hasValidClaude ? 'auto' : 'deepseek';
+    const forceProvider: AIProvider = hasValidGemini ? 'gemini' : (hasValidClaude ? 'auto' : 'deepseek');
 
     // Log provider status
-    if (!hasValidClaude && this.config.verbose) {
-      console.log(chalk.yellow('⚠️  Claude not available - Using DeepSeek as primary provider'));
+    if (hasValidGemini && this.config.verbose) {
+      console.log(chalk.green('⚡ Using Gemini as primary provider (fastest!)'));
+      console.log(chalk.gray('💡 All providers will automatically fallback to Gemini on failure\n'));
+    } else if (!hasValidClaude && !hasValidGemini && this.config.verbose) {
+      console.log(chalk.yellow('⚠️  Claude & Gemini not available - Using DeepSeek as primary provider'));
       console.log(chalk.gray('💡 All providers will automatically fallback to DeepSeek on failure\n'));
     }
 
