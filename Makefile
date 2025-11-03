@@ -147,3 +147,11 @@ info: ## Show project information
 	@echo "$(YELLOW)Node version:$(NC) $$(node --version)"
 	@echo "$(YELLOW)npm version:$(NC) $$(npm --version)"
 	@echo "$(YELLOW)Git branch:$(NC) $$(git branch --show-current)"
+
+commit: ## Create a commit using commitizen
+	@echo "$(GREEN)📝 Creating commit with commitizen...$(NC)"
+	npm run commit
+
+commit-msg: ## Validate commit message
+	@echo "$(GREEN)✅ Validating commit message...$(NC)"
+	npx commitlint --edit
