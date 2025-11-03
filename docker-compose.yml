@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # Cloud Editor Frontend
+  cloud-editor-frontend:
+    build:
+      context: ./packages/cloud-editor/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./packages/cloud-editor/frontend:/app
+      - /app/node_modules
+    depends_on:
+      - cloud-editor-backend
+
+  # Cloud Editor Backend
+  cloud-editor-backend:
+    build:
+      context: ./packages/cloud-editor/backend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+    volumes:
+      - ./packages/cloud-editor/backend:/app
+      - /app/node_modules
+
+  # Desktop (development only)
+  desktop-dev:
+    build:
+      context: ./packages/desktop
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./packages/desktop:/app
+      - /app/node_modules
+    environment:
+      - DISPLAY=${DISPLAY}
+      - NODE_ENV=development
+    privileged: true
+
+  # CLI (utility container)
+  oqool-cli:
+    build:
+      context: ./packages/cli
+      dockerfile: Dockerfile
+    volumes:
+      - ./packages/cli:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=production
+    command: tail -f /dev/null
+
+  # Shared package (base for others)
+  oqool-shared:
+    build:
+      context: ./packages/shared
+      dockerfile: Dockerfile
+    volumes:
+      - ./packages/shared:/app
+      - /app/node_modules
+
+networks:
+  default:
+    name: oqool-network
