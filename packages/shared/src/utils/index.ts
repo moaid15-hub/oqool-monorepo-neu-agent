@@ -36,3 +36,6 @@ export class Logger {
     console.warn(`[WARN] ${message}`, ...args);
   }
 }
+
+// Arabic Text Utilities
+export * from './arabic-text.js';

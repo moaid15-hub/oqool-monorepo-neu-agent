@@ -66,5 +66,9 @@
   "bugs": {
     "url": "https://github.com/moaid15-hub/oqool-monorepo/issues"
   },
-  "homepage": "https://github.com/moaid15-hub/oqool-monorepo#readme"
+  "homepage": "https://github.com/moaid15-hub/oqool-monorepo#readme",
+  "dependencies": {
+    "arabic-reshaper": "^1.1.0",
+    "transliterate": "^1.0.1"
+  }
 }
