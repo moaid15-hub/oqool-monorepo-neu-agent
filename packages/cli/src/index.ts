@@ -18,4 +18,4 @@ export * from './analytics.js';
 
 // Re-export from shared package (includes api-client, self-learning-system, and all core features)
 export * from '@oqool/shared/core';
-export * from '@oqool/shared/agents';
+// Note: Agents are exported from shared/core already, no need to export again

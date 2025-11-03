@@ -10,6 +10,8 @@ import { createAICodeCompletion } from './ai-code-completion.js';
 import { createDatabaseIntegration } from './database-integration.js';
 import { createAPITesting } from './api-testing.js';
 import { createVersionGuardian } from '@oqool/shared/core';
+import { createFileArchaeology } from './file-archaeology.js';
+import { createNotificationSystem } from './notifications.js';
 
 export function registerNewCommands(program: Command): void {
 
@@ -498,6 +500,142 @@ program
       });
 
       await guardian.importSnapshot(importPath);
+    } catch (error: any) {
+      console.error(chalk.red('\n❌ خطأ:'), error.message);
+    }
+  });
+
+// ========================================
+// أوامر File Archaeology - علم آثار الملفات
+// ========================================
+
+program
+  .command('archaeology <filePath>')
+  .alias('arch')
+  .description('🔍 تتبع تاريخ ملف معين عبر جميع الإصدارات')
+  .action(async (filePath: string) => {
+    try {
+      const archaeology = createFileArchaeology(process.cwd());
+      await archaeology.displayFileHistory(filePath);
+    } catch (error: any) {
+      console.error(chalk.red('\n❌ خطأ:'), error.message);
+    }
+  });
+
+program
+  .command('arch-compare <filePath> <snapshotId>')
+  .description('📊 مقارنة ملف مع snapshot معينة')
+  .action(async (filePath: string, snapshotId: string) => {
+    try {
+      const archaeology = createFileArchaeology(process.cwd());
+      await archaeology.compareWithSnapshot(filePath, snapshotId);
+    } catch (error: any) {
+      console.error(chalk.red('\n❌ خطأ:'), error.message);
+    }
+  });
+
+program
+  .command('most-changed')
+  .description('🔥 عرض الملفات الأكثر تغييراً في المشروع')
+  .option('-l, --limit <number>', 'عدد الملفات', '10')
+  .action(async (options: any) => {
+    try {
+      const archaeology = createFileArchaeology(process.cwd());
+      await archaeology.findMostChangedFiles(parseInt(options.limit));
+    } catch (error: any) {
+      console.error(chalk.red('\n❌ خطأ:'), error.message);
+    }
+  });
+
+// ========================================
+// أوامر Notifications - نظام الإشعارات
+// ========================================
+
+program
+  .command('notifications-config')
+  .description('⚙️ إعداد نظام الإشعارات')
+  .option('--enable', 'تفعيل الإشعارات')
+  .option('--disable', 'تعطيل الإشعارات')
+  .option('--slack <webhookUrl>', 'تفعيل Slack')
+  .option('--discord <webhookUrl>', 'تفعيل Discord')
+  .option('--webhook <url>', 'تفعيل Webhook مخصص')
+  .action(async (options: any) => {
+    try {
+      const notifications = createNotificationSystem(process.cwd());
+
+      const config: any = {};
+
+      if (options.enable) config.enabled = true;
+      if (options.disable) config.enabled = false;
+
+      if (options.slack) {
+        config.channels = ['console', 'slack'];
+        config.slack = { webhookUrl: options.slack };
+      }
+
+      if (options.discord) {
+        if (!config.channels) config.channels = ['console'];
+        config.channels.push('discord');
+        config.discord = { webhookUrl: options.discord };
+      }
+
+      if (options.webhook) {
+        if (!config.channels) config.channels = ['console'];
+        config.channels.push('webhook');
+        config.webhook = { url: options.webhook };
+      }
+
+      await notifications.saveConfig(config);
+      console.log(chalk.green('\n✅ تم حفظ إعدادات الإشعارات'));
+      console.log(chalk.cyan('\nالإعدادات الحالية:'));
+      console.log(JSON.stringify(config, null, 2));
+    } catch (error: any) {
+      console.error(chalk.red('\n❌ خطأ:'), error.message);
+    }
+  });
+
+program
+  .command('test-notification')
+  .description('🔔 اختبار نظام الإشعارات')
+  .option('-t, --type <type>', 'نوع الإشعار (info|success|warning|error)', 'info')
+  .action(async (options: any) => {
+    try {
+      const notifications = createNotificationSystem(process.cwd());
+      await notifications.send({
+        type: options.type,
+        title: 'إشعار تجريبي',
+        message: 'هذا اختبار لنظام الإشعارات في Oqool Guardian'
+      });
+      console.log(chalk.green('\n✅ تم إرسال الإشعار التجريبي'));
+    } catch (error: any) {
+      console.error(chalk.red('\n❌ خطأ:'), error.message);
+    }
+  });
+
+program
+  .command('notification-history')
+  .description('📜 عرض سجل الإشعارات')
+  .option('-l, --limit <number>', 'عدد الإشعارات', '20')
+  .action(async (options: any) => {
+    try {
+      const notifications = createNotificationSystem(process.cwd());
+      const history = notifications.getHistory(parseInt(options.limit));
+
+      if (history.length === 0) {
+        console.log(chalk.yellow('\n⚠️ لا توجد إشعارات في السجل'));
+        return;
+      }
+
+      console.log(chalk.cyan('\n📜 سجل الإشعارات:\n'));
+      history.forEach((notification, i) => {
+        const icon = notification.type === 'success' ? '✅' :
+                    notification.type === 'error' ? '❌' :
+                    notification.type === 'warning' ? '⚠️' : '🔔';
+
+        console.log(chalk.white(`${icon} [${new Date(notification.timestamp).toLocaleString()}]`));
+        console.log(chalk.yellow(`   ${notification.title}`));
+        console.log(chalk.gray(`   ${notification.message}\n`));
+      });
     } catch (error: any) {
       console.error(chalk.red('\n❌ خطأ:'), error.message);
     }
