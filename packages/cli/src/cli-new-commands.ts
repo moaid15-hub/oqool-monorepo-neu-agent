@@ -13,6 +13,7 @@ import { createVersionGuardian } from '@oqool/shared/core';
 import { createFileArchaeology } from './file-archaeology.js';
 import { createNotificationSystem } from './notifications.js';
 import { addAutoFixCommand } from './cli-auto-fix-command.js';
+import { addCoreSystemsCommands } from './cli-core-systems-commands.js';
 
 export function registerNewCommands(program: Command): void {
 
@@ -647,5 +648,11 @@ program
 // ========================================
 
 addAutoFixCommand(program);
+
+// ========================================
+// أوامر Core Systems (Cache, Context, Validation)
+// ========================================
+
+addCoreSystemsCommands(program);
 
 }

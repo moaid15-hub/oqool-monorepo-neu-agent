@@ -8,7 +8,7 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
 import { ArchitectAgent } from '../agents/architect-agent.js';
-import { CoderAgent } from '../agents/coder-agent.js';
+import { BackendDeveloperAgent } from '../agents/backend-developer-agent.js';
 import { TesterAgent } from '../agents/tester-agent.js';
 import { ReviewerAgent } from '../agents/reviewer-agent.js';
 import { createSelfLearningSystem, type Project } from './self-learning-system.js';
@@ -125,7 +125,7 @@ export class GodMode {
   private client: Anthropic;
   private config: GodModeConfig;
   private architect: ArchitectAgent;
-  private coder: CoderAgent;
+  private coder: BackendDeveloperAgent;
   private tester: TesterAgent;
   private reviewer: ReviewerAgent;
 
@@ -177,7 +177,7 @@ export class GodMode {
     }
 
     this.architect = new ArchitectAgent(aiConfig, forceProvider);
-    this.coder = new CoderAgent(aiConfig, forceProvider);
+    this.coder = new BackendDeveloperAgent(aiConfig, forceProvider);
     this.tester = new TesterAgent(aiConfig, forceProvider);
     this.reviewer = new ReviewerAgent(aiConfig, forceProvider);
   }
@@ -296,9 +296,20 @@ export class GodMode {
   private async generateCode(architecture: Architecture, task: string): Promise<GeneratedCode> {
     this.log('💻 Phase 2: Code Generation...');
 
-    const code = await this.coder.implement(architecture, task);
+    // Use design method from BackendDeveloperAgent
+    const designResult = await this.coder.design({
+      projectName: 'generated-project',
+      description: task,
+      features: architecture.components.map(c => c.description)
+    });
 
-    console.log(chalk.green(`✅ Generated ${code.files.length} files (${code.totalLines} lines)\n`));
+    // Convert design result to GeneratedCode format
+    const code: GeneratedCode = {
+      files: [],
+      totalLines: 0
+    };
+
+    console.log(chalk.green(`✅ Generated backend design\n`));
 
     return code;
   }

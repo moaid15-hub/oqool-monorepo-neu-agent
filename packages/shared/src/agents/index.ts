@@ -8,9 +8,6 @@ export * from './backend-developer-agent.js';
 export * from './frontend-architect-agent.js';
 export * from './fullstack-integrator-agent.js';
 
-// Development Agents - وكلاء التطوير
-export * from './coder-agent.js';
-
 // Quality & Testing Agents - وكلاء الجودة والاختبار
 export * from './reviewer-agent.js';
 export * from './tester-agent.js';

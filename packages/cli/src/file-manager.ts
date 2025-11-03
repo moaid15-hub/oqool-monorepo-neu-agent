@@ -16,7 +16,8 @@ export interface FileInfo {
   extension: string;
 }
 
-export interface ProjectContext {
+// ProjectContext is now exported from context-manager.ts
+interface ProjectContext {
   files: FileInfo[];
   structure: string;
   totalFiles: number;
