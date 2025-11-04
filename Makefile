@@ -155,3 +155,29 @@ commit: ## Create a commit using commitizen
 commit-msg: ## Validate commit message
 	@echo "$(GREEN)✅ Validating commit message...$(NC)"
 	npx commitlint --edit
+
+install-tools: ## Install essential dev tools
+	@echo "$(GREEN)🛠️  Installing development tools...$(NC)"
+	@chmod +x scripts/install-dev-tools.sh
+	@./scripts/install-dev-tools.sh
+	@echo "$(GREEN)✅ Tools installed. See docs/DEV_TOOLS_SETUP.md$(NC)"
+
+tools-status: ## Show status of dev tools
+	@echo "$(GREEN)📊 Dev Tools Status:$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Essential:$(NC)"
+	@command -v rg >/dev/null 2>&1 && echo "  ✅ ripgrep" || echo "  ❌ ripgrep"
+	@command -v fdfind >/dev/null 2>&1 && echo "  ✅ fd" || echo "  ❌ fd"
+	@command -v jq >/dev/null 2>&1 && echo "  ✅ jq" || echo "  ❌ jq"
+	@echo ""
+	@echo "$(YELLOW)Enhancement:$(NC)"
+	@command -v batcat >/dev/null 2>&1 && echo "  ✅ bat" || echo "  ❌ bat"
+	@command -v delta >/dev/null 2>&1 && echo "  ✅ git-delta" || echo "  ❌ git-delta"
+	@command -v eza >/dev/null 2>&1 && echo "  ✅ eza" || echo "  ❌ eza"
+	@command -v lazygit >/dev/null 2>&1 && echo "  ✅ lazygit" || echo "  ❌ lazygit"
+	@command -v tokei >/dev/null 2>&1 && echo "  ✅ tokei" || echo "  ❌ tokei"
+	@command -v hyperfine >/dev/null 2>&1 && echo "  ✅ hyperfine" || echo "  ❌ hyperfine"
+	@echo ""
+	@echo "$(YELLOW)Git Tools:$(NC)"
+	@npm list husky --depth=0 >/dev/null 2>&1 && echo "  ✅ husky" || echo "  ❌ husky"
+	@npm list commitizen --depth=0 >/dev/null 2>&1 && echo "  ✅ commitizen" || echo "  ❌ commitizen"
