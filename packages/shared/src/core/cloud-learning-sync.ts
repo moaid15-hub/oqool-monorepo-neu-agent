@@ -4,13 +4,13 @@
 // ============================================
 
 import axios from 'axios';
-import type { Pattern, ErrorAnalysis, Strategy } from './self-learning-system.js';
+import { LearningPattern, ErrorAnalysis, Strategy } from './self-learning-system.js';
 
 // ============================================
 // Types
 // ============================================
 
-export interface CloudPattern extends Pattern {
+export interface CloudPattern extends LearningPattern {
   userId?: string;
   shared: boolean;
   downloads: number;
@@ -56,7 +56,7 @@ export class CloudLearningSync {
   // ============================================
   // 1. Upload Learning (مشاركة ما تعلمته)
   // ============================================
-  async uploadPattern(pattern: Pattern): Promise<void> {
+  async uploadPattern(pattern: LearningPattern): Promise<void> {
     if (!this.shareMyLearning) {
       return; // المستخدم لا يريد المشاركة
     }
@@ -68,7 +68,7 @@ export class CloudLearningSync {
         timestamp: Date.now(),
       });
 
-      console.log(`   ☁️  Pattern uploaded to cloud`);
+      console.log(`   ☁️  LearningPattern uploaded to cloud`);
     } catch (error) {
       console.warn('   ⚠️  Failed to upload pattern (offline mode)');
     }
@@ -130,7 +130,7 @@ export class CloudLearningSync {
   }
 
   // ============================================
-  // 5. Upvote Pattern (تقييم نمط)
+  // 5. Upvote LearningPattern (تقييم نمط)
   // ============================================
   async upvotePattern(patternId: string): Promise<void> {
     try {
@@ -138,14 +138,14 @@ export class CloudLearningSync {
         userId: this.userId,
       });
 
-      console.log('   👍 Pattern upvoted');
+      console.log('   👍 LearningPattern upvoted');
     } catch (error) {
       console.warn('   ⚠️  Failed to upvote pattern');
     }
   }
 
   // ============================================
-  // 6. Report Error Pattern (الإبلاغ عن خطأ شائع)
+  // 6. Report Error LearningPattern (الإبلاغ عن خطأ شائع)
   // ============================================
   async reportError(error: ErrorAnalysis): Promise<void> {
     if (!this.shareMyLearning) {
@@ -202,7 +202,7 @@ export class CloudLearningSync {
   // ============================================
   // 8. Full Sync (مزامنة كاملة)
   // ============================================
-  async sync(localPatterns: Pattern[]): Promise<CloudPattern[]> {
+  async sync(localPatterns: LearningPattern[]): Promise<CloudPattern[]> {
     try {
       console.log('\n☁️  Syncing with cloud...');
 

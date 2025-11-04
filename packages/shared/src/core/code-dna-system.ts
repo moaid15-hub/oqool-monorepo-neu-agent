@@ -19,7 +19,7 @@ export interface CodeDNA {
   filePath: string;
   hash: string;
   signature: CodeSignature;
-  patterns: CodePattern[];
+  patterns: DNACodePattern[];
   metrics: CodeMetrics;
   style: CodingStyle;
   complexity: ComplexityProfile;
@@ -38,7 +38,7 @@ export interface CodeSignature {
   uniqueIdentifier: string; // معرف فريد للكود
 }
 
-export interface CodePattern {
+export interface DNACodePattern {
   id: string;
   name: string;
   type: 'structural' | 'behavioral' | 'stylistic' | 'logical';
@@ -297,8 +297,8 @@ export class CodeDNASystem {
   /**
    * استخراج الأنماط
    */
-  private async extractPatterns(ast: any, content: string): Promise<CodePattern[]> {
-    const patterns: CodePattern[] = [];
+  private async extractPatterns(ast: any, content: string): Promise<DNACodePattern[]> {
+    const patterns: DNACodePattern[] = [];
     const visitor = {
       FunctionDeclaration: (node: any) => {
         patterns.push({
@@ -374,8 +374,8 @@ export class CodeDNASystem {
   /**
    * تحليل الأنماط النصية
    */
-  private analyzeTextPatterns(content: string): CodePattern[] {
-    const patterns: CodePattern[] = [];
+  private analyzeTextPatterns(content: string): DNACodePattern[] {
+    const patterns: DNACodePattern[] = [];
     const lines = content.split('\n');
 
     // أنماط التعليقات
@@ -925,7 +925,7 @@ export class CodeDNASystem {
    */
   private generateCodeSignature(
     hash: string,
-    patterns: CodePattern[],
+    patterns: DNACodePattern[],
     metrics: CodeMetrics,
     style: CodingStyle,
     complexity: ComplexityProfile,

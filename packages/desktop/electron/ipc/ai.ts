@@ -1,6 +1,6 @@
 // electron/ipc/ai.ts
 import { ipcMain } from 'electron';
-import { UnifiedAIAdapter, type AIRole } from '@oqool/shared/ai-gateway';
+import { UnifiedAIAdapter, type AIRole } from '@oqool/shared';
 
 // ============================================
 // تهيئة Unified AI Adapter

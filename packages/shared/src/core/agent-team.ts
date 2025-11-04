@@ -6,7 +6,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import chalk from 'chalk';
 
-export interface TaskResult {
+export interface AgentTaskResult {
   design: string;
   code: string;
   tests: string;
@@ -248,7 +248,7 @@ export class AgentTeam {
   // ============================================
   // 🤝 التعاون على المهمة
   // ============================================
-  async collaborate(task: string): Promise<TaskResult> {
+  async collaborate(task: string): Promise<AgentTaskResult> {
     console.log(chalk.bold.cyan('\n👥 فريق Agents يبدأ العمل...\n'));
     console.log(chalk.gray('═'.repeat(60)));
     console.log(chalk.yellow(`\n📋 المهمة: ${task}\n`));
@@ -309,7 +309,7 @@ export class AgentTeam {
   // ============================================
   // 📊 عرض ملخص النتيجة
   // ============================================
-  async showSummary(result: TaskResult): Promise<void> {
+  async showSummary(result: AgentTaskResult): Promise<void> {
     console.log(chalk.cyan('\n📊 ملخص النتيجة:\n'));
     console.log(chalk.gray('═'.repeat(60)));
 
@@ -334,7 +334,7 @@ export class AgentTeam {
   // ============================================
   // 💾 حفظ النتيجة
   // ============================================
-  async saveResult(result: TaskResult, outputPath: string): Promise<void> {
+  async saveResult(result: AgentTaskResult, outputPath: string): Promise<void> {
     const fs = await import('fs-extra');
     const path = await import('path');
 

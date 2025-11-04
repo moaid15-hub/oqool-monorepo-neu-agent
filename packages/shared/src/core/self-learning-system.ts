@@ -28,7 +28,7 @@ export interface SuccessAnalysis {
   patterns: string[];
 }
 
-export interface Pattern {
+export interface LearningPattern {
   task: string;
   architecture: Architecture;
   rating: number;
@@ -53,12 +53,12 @@ export interface Strategy {
 
 export interface Lesson {
   task: string;
-  pattern: Pattern;
+  pattern: LearningPattern;
   relevanceScore: number;
 }
 
 export interface LearningMemory {
-  patterns: Pattern[];
+  patterns: LearningPattern[];
   errors: ErrorAnalysis[];
   strategies: Strategy[];
   projectHistory: Project[];
@@ -119,7 +119,7 @@ export class SelfLearningSystem {
         usageCount: 1,
         lastUsed: Date.now(),
       });
-      console.log('   ✅ Pattern saved (high success rate)');
+      console.log('   ✅ LearningPattern saved (high success rate)');
     }
 
     // 3. تحليل الأخطاء
@@ -190,9 +190,9 @@ export class SelfLearningSystem {
   }
 
   // ============================================
-  // 3. Save Pattern
+  // 3. Save LearningPattern
   // ============================================
-  private async savePattern(pattern: Pattern): Promise<void> {
+  private async savePattern(pattern: LearningPattern): Promise<void> {
     // Check if similar pattern exists
     const existing = this.memory.patterns.find(
       (p) => this.calculateSimilarity(p.task, pattern.task) > 0.8

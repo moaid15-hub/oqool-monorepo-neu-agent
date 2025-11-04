@@ -35,7 +35,7 @@ export interface LanguageConfig {
   testCommand?: string;
 }
 
-export interface ExecutionResult {
+export interface EnhancedExecutionResult {
   success: boolean;
   output: string;
   error?: string;
@@ -179,7 +179,7 @@ export class EnhancedExecutor {
   /**
    * تنفيذ ملف
    */
-  async executeFile(filePath: string, args: string[] = []): Promise<ExecutionResult> {
+  async executeFile(filePath: string, args: string[] = []): Promise<EnhancedExecutionResult> {
     const startTime = Date.now();
 
     try {
@@ -260,7 +260,7 @@ export class EnhancedExecutor {
   /**
    * بناء مشروع
    */
-  async buildProject(language?: SupportedLanguage): Promise<ExecutionResult> {
+  async buildProject(language?: SupportedLanguage): Promise<EnhancedExecutionResult> {
     const startTime = Date.now();
 
     try {
@@ -562,7 +562,7 @@ export class EnhancedExecutor {
   /**
    * تشغيل الاختبارات
    */
-  async runTests(language?: SupportedLanguage): Promise<ExecutionResult> {
+  async runTests(language?: SupportedLanguage): Promise<EnhancedExecutionResult> {
     const startTime = Date.now();
 
     try {

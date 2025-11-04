@@ -9,7 +9,7 @@ import { glob } from 'glob';
 import chalk from 'chalk';
 import { join } from 'path';
 
-export interface ReviewResult {
+export interface CodeReviewResult {
   overallScore: number;
   security: SecurityReview;
   performance: PerformanceReview;
@@ -73,14 +73,14 @@ export class CodeReviewer {
   // ============================================
   // 🔍 المراجعة الشاملة
   // ============================================
-  async review(): Promise<ReviewResult> {
+  async review(): Promise<CodeReviewResult> {
     console.log(chalk.cyan('\n🔍 بدء المراجعة الشاملة للكود...\n'));
 
     // جمع الملفات
     const files = await this.getProjectFiles();
     console.log(chalk.gray(`📁 وجدت ${files.length} ملف للمراجعة`));
 
-    const result: ReviewResult = {
+    const result: CodeReviewResult = {
       overallScore: 0,
       security: await this.reviewSecurity(files),
       performance: await this.reviewPerformance(files),
@@ -317,7 +317,7 @@ export class CodeReviewer {
   // ============================================
   // 💡 توليد التوصيات
   // ============================================
-  private async generateRecommendations(result: ReviewResult): Promise<string[]> {
+  private async generateRecommendations(result: CodeReviewResult): Promise<string[]> {
     const recommendations: string[] = [];
 
     if (result.security.score < 80) {
@@ -342,7 +342,7 @@ export class CodeReviewer {
   // ============================================
   // 🎨 عرض النتائج
   // ============================================
-  private displayResults(result: ReviewResult): void {
+  private displayResults(result: CodeReviewResult): void {
     console.log(chalk.cyan('\n📊 تقرير المراجعة:'));
     console.log(chalk.gray('━'.repeat(60)));
 

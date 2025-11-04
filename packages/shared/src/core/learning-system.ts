@@ -27,7 +27,7 @@ export interface ErrorRecord {
   attemptCount: number;
 }
 
-export interface LearningPattern {
+export interface LSLearningPattern {
   errorType: string;
   pattern: string;
   frequency: number;
@@ -58,7 +58,7 @@ export class LearningSystem {
   private workingDirectory: string;
   private learningPath: string;
   private errorHistory: ErrorRecord[] = [];
-  private patterns: Map<string, LearningPattern> = new Map();
+  private patterns: Map<string, LSLearningPattern> = new Map();
   private client?: Anthropic;
 
   constructor(workingDirectory: string, apiKey?: string) {

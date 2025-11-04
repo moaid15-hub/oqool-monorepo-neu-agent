@@ -27,12 +27,12 @@ export interface SecurityConfig {
 
 export interface SecurityScanResult {
   safe: boolean;
-  issues: SecurityIssue[];
+  issues: SecurityVulnerability[];
   score: number; // 0-100
   recommendations: string[];
 }
 
-export interface SecurityIssue {
+export interface SecurityVulnerability {
   type: 'malicious' | 'vulnerable' | 'suspicious' | 'policy';
   severity: 'critical' | 'high' | 'medium' | 'low';
   file: string;
@@ -42,7 +42,7 @@ export interface SecurityIssue {
   fix?: string;
 }
 
-export interface CodeSignature {
+export interface CodeSign {
   hash: string;
   algorithm: string;
   timestamp: string;
@@ -147,7 +147,7 @@ export class SecurityEnhancements {
       return { safe: true, issues: [], score: 100, recommendations: [] };
     }
 
-    const issues: SecurityIssue[] = [];
+    const issues: SecurityVulnerability[] = [];
     let score = 100;
 
     // فحص الأنماط الممنوعة
@@ -322,12 +322,12 @@ export class SecurityEnhancements {
   /**
    * توقيع الكود رقمياً
    */
-  async signCode(filePath: string, author: string): Promise<CodeSignature> {
+  async signCode(filePath: string, author: string): Promise<CodeSign> {
     try {
       const content = await fs.readFile(filePath, 'utf8');
       const hash = crypto.createHash('sha256').update(content).digest('hex');
 
-      const signature: CodeSignature = {
+      const signature: CodeSign = {
         hash,
         algorithm: 'SHA-256',
         timestamp: new Date().toISOString(),
@@ -359,7 +359,7 @@ export class SecurityEnhancements {
         return false;
       }
 
-      const signature: CodeSignature = await fs.readJson(signaturePath);
+      const signature: CodeSign = await fs.readJson(signaturePath);
       const content = await fs.readFile(filePath, 'utf8');
       const currentHash = crypto.createHash('sha256').update(content).digest('hex');
 
@@ -678,7 +678,7 @@ export class SecurityEnhancements {
    * فحص إضافي للملفات القابلة للتنفيذ
    */
   private async scanExecutableFile(content: string, filePath: string): Promise<SecurityScanResult> {
-    const issues: SecurityIssue[] = [];
+    const issues: SecurityVulnerability[] = [];
     let score = 100;
 
     // فحص استخدام eval
@@ -717,7 +717,7 @@ export class SecurityEnhancements {
   /**
    * توليد التوصيات
    */
-  private generateRecommendations(issues: SecurityIssue[]): string[] {
+  private generateRecommendations(issues: SecurityVulnerability[]): string[] {
     const recommendations: string[] = [];
 
     const criticalIssues = issues.filter((i) => i.severity === 'critical');

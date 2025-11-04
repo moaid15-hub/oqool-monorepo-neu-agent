@@ -16,7 +16,7 @@ export interface FileInfo {
   extension: string;
 }
 
-export interface ProjectContext {
+export interface FileProjectContext {
   files: FileInfo[];
   structure: string;
   totalFiles: number;
@@ -103,7 +103,7 @@ export class FileManager {
   }
 
   // الحصول على سياق المشروع
-  async getProjectContext(maxFiles: number = 10): Promise<ProjectContext> {
+  async getProjectContext(maxFiles: number = 10): Promise<FileProjectContext> {
     const files = await this.scanFiles(maxFiles);
     const structure = await this.getDirectoryStructure();
 
