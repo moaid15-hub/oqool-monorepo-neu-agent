@@ -57,12 +57,16 @@ export class TeamCollaboration {
     this.members.set(creator.id, creator);
 
     // حفظ معلومات Team
-    await fs.writeJSON(join(this.teamDir, 'info.json'), {
-      id: this.teamId,
-      name: teamName,
-      createdAt: Date.now(),
-      createdBy: creator.id
-    }, { spaces: 2 });
+    await fs.writeJSON(
+      join(this.teamDir, 'info.json'),
+      {
+        id: this.teamId,
+        name: teamName,
+        createdAt: Date.now(),
+        createdBy: creator.id,
+      },
+      { spaces: 2 }
+    );
 
     await this.saveMembers();
 
@@ -75,7 +79,7 @@ export class TeamCollaboration {
   async addMember(member: TeamMember): Promise<void> {
     this.members.set(member.id, {
       ...member,
-      joinedAt: Date.now()
+      joinedAt: Date.now(),
     });
 
     await this.saveMembers();
@@ -101,7 +105,7 @@ export class TeamCollaboration {
       author,
       timestamp: Date.now(),
       votes: 0,
-      tags
+      tags,
     };
 
     this.solutions.set(solutionId, sharedSolution);
@@ -149,10 +153,7 @@ export class TeamCollaboration {
     const contributions = new Map<string, number>();
 
     for (const solution of this.solutions.values()) {
-      contributions.set(
-        solution.author,
-        (contributions.get(solution.author) || 0) + 1
-      );
+      contributions.set(solution.author, (contributions.get(solution.author) || 0) + 1);
     }
 
     let topContributor: string | undefined;
@@ -166,19 +167,19 @@ export class TeamCollaboration {
     }
 
     // معدل النجاح
-    const successfulSolutions = Array.from(this.solutions.values())
-      .filter(s => s.votes > 0).length;
+    const successfulSolutions = Array.from(this.solutions.values()).filter(
+      (s) => s.votes > 0
+    ).length;
 
-    const teamSuccessRate = sharedSolutions > 0
-      ? Math.round((successfulSolutions / sharedSolutions) * 100)
-      : 0;
+    const teamSuccessRate =
+      sharedSolutions > 0 ? Math.round((successfulSolutions / sharedSolutions) * 100) : 0;
 
     return {
       members,
       sharedSolutions,
       avgResponseTime: 0, // TODO: حساب من البيانات
       teamSuccessRate,
-      topContributor
+      topContributor,
     };
   }
 
@@ -206,19 +207,15 @@ export class TeamCollaboration {
   // 💾 حفظ البيانات
   // ============================================
   private async saveMembers(): Promise<void> {
-    await fs.writeJSON(
-      join(this.teamDir, 'members.json'),
-      Array.from(this.members.values()),
-      { spaces: 2 }
-    );
+    await fs.writeJSON(join(this.teamDir, 'members.json'), Array.from(this.members.values()), {
+      spaces: 2,
+    });
   }
 
   private async saveSolutions(): Promise<void> {
-    await fs.writeJSON(
-      join(this.teamDir, 'solutions.json'),
-      Array.from(this.solutions.values()),
-      { spaces: 2 }
-    );
+    await fs.writeJSON(join(this.teamDir, 'solutions.json'), Array.from(this.solutions.values()), {
+      spaces: 2,
+    });
   }
 
   // ============================================
@@ -230,14 +227,14 @@ export class TeamCollaboration {
       const membersPath = join(this.teamDir, 'members.json');
       if (await fs.pathExists(membersPath)) {
         const members: TeamMember[] = await fs.readJSON(membersPath);
-        this.members = new Map(members.map(m => [m.id, m]));
+        this.members = new Map(members.map((m) => [m.id, m]));
       }
 
       // تحميل الحلول
       const solutionsPath = join(this.teamDir, 'solutions.json');
       if (await fs.pathExists(solutionsPath)) {
         const solutions: SharedSolution[] = await fs.readJSON(solutionsPath);
-        this.solutions = new Map(solutions.map(s => [s.id, s]));
+        this.solutions = new Map(solutions.map((s) => [s.id, s]));
       }
 
       console.log(chalk.gray('📚 تم تحميل بيانات الفريق'));

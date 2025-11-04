@@ -1,0 +1,2 @@
+"use strict";
+// Auto Updater

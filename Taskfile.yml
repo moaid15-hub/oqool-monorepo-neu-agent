@@ -1,0 +1,232 @@
+version: '3'
+
+# Oqool Monorepo Task Runner
+# للاستخدام: task <command>
+# مثال: task install, task dev, task build
+
+vars:
+  PACKAGES: cli desktop cloud-editor
+
+tasks:
+  # ==========================================
+  # Installation & Setup
+  # ==========================================
+  install:
+    desc: Install all dependencies
+    cmds:
+      - npm install
+      - task: install:workspaces
+
+  install:workspaces:
+    desc: Install workspace dependencies
+    cmds:
+      - npm run install:all
+
+  # ==========================================
+  # Development
+  # ==========================================
+  dev:
+    desc: Start all packages in dev mode
+    cmds:
+      - npm run dev
+
+  dev:cli:
+    desc: Start CLI in dev mode
+    cmds:
+      - npm run dev:cli
+
+  dev:desktop:
+    desc: Start Desktop in dev mode
+    cmds:
+      - npm run dev:desktop
+
+  dev:cloud:
+    desc: Start Cloud Editor in dev mode
+    cmds:
+      - npm run dev:cloud
+
+  # ==========================================
+  # Build
+  # ==========================================
+  build:
+    desc: Build all packages
+    cmds:
+      - npm run build
+      - task: check:size
+
+  build:cli:
+    desc: Build CLI package
+    cmds:
+      - npm run build:cli
+
+  build:desktop:
+    desc: Build Desktop package
+    cmds:
+      - npm run build:desktop
+
+  build:cloud:
+    desc: Build Cloud Editor package
+    cmds:
+      - npm run build:cloud
+
+  # ==========================================
+  # Testing
+  # ==========================================
+  test:
+    desc: Run all tests
+    cmds:
+      - npm test
+
+  test:watch:
+    desc: Run tests in watch mode
+    cmds:
+      - npm run test:watch
+
+  test:coverage:
+    desc: Run tests with coverage
+    cmds:
+      - npm run test:coverage
+
+  # ==========================================
+  # Code Quality
+  # ==========================================
+  lint:
+    desc: Lint all packages
+    cmds:
+      - npm run lint
+
+  format:
+    desc: Format code with Prettier
+    cmds:
+      - npm run format
+
+  format:check:
+    desc: Check code formatting
+    cmds:
+      - npm run format:check
+
+  typecheck:
+    desc: Type check all packages
+    cmds:
+      - npm run type-check
+
+  # ==========================================
+  # Docker
+  # ==========================================
+  docker:build:
+    desc: Build Docker images
+    cmds:
+      - docker-compose build
+
+  docker:up:
+    desc: Start Docker containers
+    cmds:
+      - docker-compose up -d
+
+  docker:down:
+    desc: Stop Docker containers
+    cmds:
+      - docker-compose down
+
+  docker:logs:
+    desc: View Docker logs
+    cmds:
+      - docker-compose logs -f
+
+  docker:clean:
+    desc: Clean Docker resources
+    cmds:
+      - docker-compose down -v
+      - docker system prune -f
+
+  # ==========================================
+  # PM2 Process Management
+  # ==========================================
+  pm2:start:
+    desc: Start all processes with PM2
+    cmds:
+      - npm run pm2:start
+
+  pm2:stop:
+    desc: Stop all PM2 processes
+    cmds:
+      - npm run pm2:stop
+
+  pm2:restart:
+    desc: Restart all PM2 processes
+    cmds:
+      - npm run pm2:restart
+
+  pm2:logs:
+    desc: View PM2 logs
+    cmds:
+      - npm run pm2:logs
+
+  pm2:monit:
+    desc: Monitor PM2 processes
+    cmds:
+      - npm run pm2:monit
+
+  # ==========================================
+  # Analysis & Optimization
+  # ==========================================
+  analyze:
+    desc: Analyze bundle sizes
+    cmds:
+      - npm run analyze
+
+  check:size:
+    desc: Check bundle size limits
+    cmds:
+      - npm run check:size
+
+  # ==========================================
+  # Cleanup
+  # ==========================================
+  clean:
+    desc: Clean all build artifacts
+    cmds:
+      - npm run clean
+      - rm -rf bundle-analysis logs
+
+  clean:deep:
+    desc: Deep clean (including node_modules)
+    cmds:
+      - task: clean
+      - rm -rf node_modules packages/*/node_modules
+
+  # ==========================================
+  # Git & GitHub
+  # ==========================================
+  commit:
+    desc: Run pre-commit checks
+    cmds:
+      - npm run precommit
+
+  # ==========================================
+  # Complete Workflows
+  # ==========================================
+  ci:
+    desc: Run full CI pipeline
+    cmds:
+      - task: install
+      - task: lint
+      - task: typecheck
+      - task: test
+      - task: build
+
+  release:
+    desc: Build and prepare for release
+    cmds:
+      - task: clean
+      - task: install
+      - task: ci
+      - echo "✅ Ready for release!"
+
+  # ==========================================
+  # Quick Commands
+  # ==========================================
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list

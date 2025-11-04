@@ -15,7 +15,7 @@ export const SearchPanel: React.FC = () => {
   const [searching, setSearching] = useState(false);
 
   const handleSearch = async () => {
-    if (!query.trim()) return;
+    if (!query.trim()) {return;}
 
     setSearching(true);
     // TODO: Implement actual search functionality
@@ -59,8 +59,7 @@ export const SearchPanel: React.FC = () => {
         ) : results.length > 0 ? (
           <>
             <div className="results-header">
-              {results.length} نتيجة في {new Set(results.map((r) => r.file)).size}{' '}
-              ملف
+              {results.length} نتيجة في {new Set(results.map((r) => r.file)).size} ملف
             </div>
             {results.map((result, index) => (
               <div key={index} className="result-item">

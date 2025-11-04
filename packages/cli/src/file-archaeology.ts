@@ -50,7 +50,7 @@ export class FileArchaeology {
 
     try {
       // التحقق من وجود مجلد Guardian
-      if (!await fs.pathExists(this.guardianPath)) {
+      if (!(await fs.pathExists(this.guardianPath))) {
         spinner.fail('لم يتم تهيئة Version Guardian في هذا المشروع');
         throw new Error('Version Guardian not initialized');
       }
@@ -67,7 +67,7 @@ export class FileArchaeology {
         const snapshotPath = path.join(snapshotsPath, snapshotId);
         const metadataPath = path.join(snapshotPath, 'metadata.json');
 
-        if (!await fs.pathExists(metadataPath)) continue;
+        if (!(await fs.pathExists(metadataPath))) continue;
 
         const metadata = await fs.readJson(metadataPath);
         const fileInSnapshot = path.join(snapshotPath, 'files', filePath);
@@ -79,7 +79,7 @@ export class FileArchaeology {
             timestamp: metadata.timestamp || metadata.date,
             size: stats.size,
             action: firstSnapshot ? 'modified' : 'created',
-            author: metadata.author
+            author: metadata.author,
           };
 
           fileSnapshots.push(snapshot);
@@ -94,14 +94,14 @@ export class FileArchaeology {
             snapshotId,
             timestamp: metadata.timestamp || metadata.date,
             size: 0,
-            action: 'deleted'
+            action: 'deleted',
           });
         }
       }
 
       // ترتيب حسب التاريخ
-      fileSnapshots.sort((a, b) =>
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+      fileSnapshots.sort(
+        (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
       );
 
       const initialSize = firstSnapshot?.size || 0;
@@ -110,16 +110,16 @@ export class FileArchaeology {
       const history: FileHistory = {
         filePath,
         created: firstSnapshot?.timestamp || 'unknown',
-        totalModifications: fileSnapshots.filter(s => s.action === 'modified').length,
+        totalModifications: fileSnapshots.filter((s) => s.action === 'modified').length,
         currentSize,
         sizeGrowth,
         snapshots: fileSnapshots,
-        status: fileSnapshots[fileSnapshots.length - 1]?.action === 'deleted' ? 'deleted' : 'active'
+        status:
+          fileSnapshots[fileSnapshots.length - 1]?.action === 'deleted' ? 'deleted' : 'active',
       };
 
       spinner.succeed(`تم تتبع ${fileSnapshots.length} إصدار للملف`);
       return history;
-
     } catch (error) {
       spinner.fail('فشل تتبع الملف');
       throw error;
@@ -140,7 +140,8 @@ export class FileArchaeology {
       recommendations.push('قد تحتاج لمراجعة بنية هذا الملف لتقليل التعديلات المتكررة');
     }
 
-    if (history.sizeGrowth > 100000) { // أكبر من 100KB
+    if (history.sizeGrowth > 100000) {
+      // أكبر من 100KB
       insights.push(`الملف نما بشكل كبير (+${this.formatSize(history.sizeGrowth)})`);
       recommendations.push('راجع الكود الزائد أو البيانات المكررة');
     }
@@ -164,7 +165,7 @@ export class FileArchaeology {
     return {
       history,
       insights,
-      recommendations
+      recommendations,
     };
   }
 
@@ -187,10 +188,18 @@ export class FileArchaeology {
 
     const growthColor = history.sizeGrowth >= 0 ? chalk.green : chalk.red;
     const growthSign = history.sizeGrowth >= 0 ? '+' : '';
-    console.log(chalk.white(`   نمو الحجم:        ${growthColor(growthSign + this.formatSize(history.sizeGrowth))}`));
+    console.log(
+      chalk.white(
+        `   نمو الحجم:        ${growthColor(growthSign + this.formatSize(history.sizeGrowth))}`
+      )
+    );
 
     const statusColor = history.status === 'active' ? chalk.green : chalk.red;
-    console.log(chalk.white(`   الحالة:           ${statusColor(history.status === 'active' ? 'نشط' : 'محذوف')}`));
+    console.log(
+      chalk.white(
+        `   الحالة:           ${statusColor(history.status === 'active' ? 'نشط' : 'محذوف')}`
+      )
+    );
 
     // التاريخ التفصيلي
     console.log(chalk.yellow('\n📅 التاريخ التفصيلي:\n'));
@@ -200,25 +209,27 @@ export class FileArchaeology {
         chalk.cyan('التاريخ'),
         chalk.cyan('الإجراء'),
         chalk.cyan('الحجم'),
-        chalk.cyan('Snapshot ID')
+        chalk.cyan('Snapshot ID'),
       ],
-      colWidths: [22, 12, 12, 20]
+      colWidths: [22, 12, 12, 20],
     });
 
     for (const snapshot of history.snapshots) {
-      const actionColor = snapshot.action === 'created' ? chalk.green :
-                         snapshot.action === 'modified' ? chalk.yellow :
-                         chalk.red;
+      const actionColor =
+        snapshot.action === 'created'
+          ? chalk.green
+          : snapshot.action === 'modified'
+            ? chalk.yellow
+            : chalk.red;
 
-      const actionText = snapshot.action === 'created' ? 'إنشاء' :
-                        snapshot.action === 'modified' ? 'تعديل' :
-                        'حذف';
+      const actionText =
+        snapshot.action === 'created' ? 'إنشاء' : snapshot.action === 'modified' ? 'تعديل' : 'حذف';
 
       table.push([
         this.formatDate(snapshot.timestamp),
         actionColor(actionText),
         this.formatSize(snapshot.size),
-        snapshot.snapshotId.substring(0, 16) + '...'
+        snapshot.snapshotId.substring(0, 16) + '...',
       ]);
     }
 
@@ -227,7 +238,7 @@ export class FileArchaeology {
     // رؤى ذكية
     if (insights.length > 0) {
       console.log(chalk.yellow('\n💡 رؤى ذكية:\n'));
-      insights.forEach(insight => {
+      insights.forEach((insight) => {
         console.log(chalk.white(`   • ${insight}`));
       });
     }
@@ -235,7 +246,7 @@ export class FileArchaeology {
     // توصيات
     if (recommendations.length > 0) {
       console.log(chalk.yellow('\n📌 توصيات:\n'));
-      recommendations.forEach(rec => {
+      recommendations.forEach((rec) => {
         console.log(chalk.white(`   → ${rec}`));
       });
     }
@@ -253,19 +264,19 @@ export class FileArchaeology {
       const snapshotPath = path.join(this.guardianPath, 'snapshots', snapshotId, 'files', filePath);
       const currentPath = path.join(this.workingDir, filePath);
 
-      if (!await fs.pathExists(snapshotPath)) {
+      if (!(await fs.pathExists(snapshotPath))) {
         spinner.fail('الملف غير موجود في الـ snapshot المحدد');
         return;
       }
 
-      if (!await fs.pathExists(currentPath)) {
+      if (!(await fs.pathExists(currentPath))) {
         spinner.warn('الملف غير موجود في الإصدار الحالي (تم حذفه)');
         return;
       }
 
       const [oldContent, newContent] = await Promise.all([
         fs.readFile(snapshotPath, 'utf-8'),
-        fs.readFile(currentPath, 'utf-8')
+        fs.readFile(currentPath, 'utf-8'),
       ]);
 
       const oldLines = oldContent.split('\n').length;
@@ -279,8 +290,11 @@ export class FileArchaeology {
       console.log(chalk.white(`   الإصدار الحالي:   ${newLines} سطر`));
 
       const diffColor = linesDiff >= 0 ? chalk.green : chalk.red;
-      console.log(chalk.white(`   الفرق:            ${diffColor((linesDiff >= 0 ? '+' : '') + linesDiff)} سطر\n`));
-
+      console.log(
+        chalk.white(
+          `   الفرق:            ${diffColor((linesDiff >= 0 ? '+' : '') + linesDiff)} سطر\n`
+        )
+      );
     } catch (error) {
       spinner.fail('فشلت المقارنة');
       throw error;
@@ -303,7 +317,7 @@ export class FileArchaeology {
       for (const snapshotId of snapshots) {
         const filesPath = path.join(snapshotsPath, snapshotId, 'files');
 
-        if (!await fs.pathExists(filesPath)) continue;
+        if (!(await fs.pathExists(filesPath))) continue;
 
         const files = await this.getAllFiles(filesPath);
 
@@ -324,20 +338,19 @@ export class FileArchaeology {
 
       const table = new Table({
         head: [chalk.cyan('#'), chalk.cyan('الملف'), chalk.cyan('عدد التغييرات')],
-        colWidths: [5, 50, 18]
+        colWidths: [5, 50, 18],
       });
 
       sorted.forEach(([file, count], index) => {
         table.push([
           chalk.yellow((index + 1).toString()),
           chalk.white(file),
-          chalk.green(count.toString())
+          chalk.green(count.toString()),
         ]);
       });
 
       console.log(table.toString());
       console.log();
-
     } catch (error) {
       spinner.fail('فشل التحليل');
       throw error;
@@ -379,7 +392,7 @@ export class FileArchaeology {
       month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   }
 

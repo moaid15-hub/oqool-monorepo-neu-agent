@@ -39,8 +39,8 @@ export const FileTree: React.FC<FileTreeProps> = ({ rootPath, onFileSelect }) =>
           }))
           .sort((a: FileNode, b: FileNode) => {
             // Directories first, then alphabetically
-            if (a.isDirectory && !b.isDirectory) return -1;
-            if (!a.isDirectory && b.isDirectory) return 1;
+            if (a.isDirectory && !b.isDirectory) {return -1;}
+            if (!a.isDirectory && b.isDirectory) {return 1;}
             return a.name.localeCompare(b.name);
           });
         setTree(nodes);
@@ -82,8 +82,8 @@ export const FileTree: React.FC<FileTreeProps> = ({ rootPath, onFileSelect }) =>
               isExpanded: false,
             }))
             .sort((a: FileNode, b: FileNode) => {
-              if (a.isDirectory && !b.isDirectory) return -1;
-              if (!a.isDirectory && b.isDirectory) return 1;
+              if (a.isDirectory && !b.isDirectory) {return -1;}
+              if (!a.isDirectory && b.isDirectory) {return 1;}
               return a.name.localeCompare(b.name);
             });
         }
@@ -97,9 +97,7 @@ export const FileTree: React.FC<FileTreeProps> = ({ rootPath, onFileSelect }) =>
   };
 
   const renderNode = (node: FileNode, depth: number = 0, path: number[] = []) => {
-    const icon = node.isDirectory
-      ? (node.isExpanded ? '📂' : '📁')
-      : getFileIcon(node.name);
+    const icon = node.isDirectory ? (node.isExpanded ? '📂' : '📁') : getFileIcon(node.name);
 
     return (
       <div key={node.path}>
@@ -113,9 +111,7 @@ export const FileTree: React.FC<FileTreeProps> = ({ rootPath, onFileSelect }) =>
         </div>
         {node.isExpanded && node.children && (
           <div className="file-tree-children">
-            {node.children.map((child, index) =>
-              renderNode(child, depth + 1, [...path, index])
-            )}
+            {node.children.map((child, index) => renderNode(child, depth + 1, [...path, index]))}
           </div>
         )}
       </div>
@@ -125,37 +121,37 @@ export const FileTree: React.FC<FileTreeProps> = ({ rootPath, onFileSelect }) =>
   const getFileIcon = (filename: string): string => {
     const ext = filename.split('.').pop()?.toLowerCase();
     const iconMap: Record<string, string> = {
-      'js': '🟨',
-      'jsx': '⚛️',
-      'ts': '🔷',
-      'tsx': '⚛️',
-      'json': '📋',
-      'html': '🌐',
-      'css': '🎨',
-      'scss': '🎨',
-      'md': '📝',
-      'txt': '📄',
-      'py': '🐍',
-      'java': '☕',
-      'cpp': '⚙️',
-      'c': '⚙️',
-      'go': '🔵',
-      'rs': '🦀',
-      'php': '🐘',
-      'rb': '💎',
-      'sh': '🖥️',
-      'yaml': '📋',
-      'yml': '📋',
-      'xml': '📋',
-      'svg': '🖼️',
-      'png': '🖼️',
-      'jpg': '🖼️',
-      'jpeg': '🖼️',
-      'gif': '🖼️',
-      'pdf': '📕',
-      'zip': '🗜️',
-      'tar': '🗜️',
-      'gz': '🗜️',
+      js: '🟨',
+      jsx: '⚛️',
+      ts: '🔷',
+      tsx: '⚛️',
+      json: '📋',
+      html: '🌐',
+      css: '🎨',
+      scss: '🎨',
+      md: '📝',
+      txt: '📄',
+      py: '🐍',
+      java: '☕',
+      cpp: '⚙️',
+      c: '⚙️',
+      go: '🔵',
+      rs: '🦀',
+      php: '🐘',
+      rb: '💎',
+      sh: '🖥️',
+      yaml: '📋',
+      yml: '📋',
+      xml: '📋',
+      svg: '🖼️',
+      png: '🖼️',
+      jpg: '🖼️',
+      jpeg: '🖼️',
+      gif: '🖼️',
+      pdf: '📕',
+      zip: '🗜️',
+      tar: '🗜️',
+      gz: '🗜️',
     };
     return iconMap[ext || ''] || '📄';
   };
@@ -164,9 +160,7 @@ export const FileTree: React.FC<FileTreeProps> = ({ rootPath, onFileSelect }) =>
     return (
       <div className="file-tree-empty">
         <p>لا يوجد مجلد مفتوح</p>
-        <p style={{ fontSize: '11px', color: '#888' }}>
-          ملف → فتح مجلد
-        </p>
+        <p style={{ fontSize: '11px', color: '#888' }}>ملف → فتح مجلد</p>
       </div>
     );
   }

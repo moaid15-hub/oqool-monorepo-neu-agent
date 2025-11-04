@@ -6,11 +6,11 @@ import { XTermTerminal } from './components/Terminal/XTermTerminal';
 import { CommandPalette } from './components/CommandPalette/CommandPalette';
 import { APIProviderModal } from './components/Settings/APIProviderModal';
 import { getTranslation, Language } from './translations';
-import { 
-  VscFiles, 
-  VscSearch, 
-  VscSourceControl, 
-  VscDebugAlt, 
+import {
+  VscFiles,
+  VscSearch,
+  VscSourceControl,
+  VscDebugAlt,
   VscRobot,
   VscClose,
   VscSettings,
@@ -18,7 +18,7 @@ import {
   VscError,
   VscWarning,
   VscFeedback,
-  VscBell
+  VscBell,
 } from 'react-icons/vsc';
 import './App.css';
 
@@ -41,22 +41,54 @@ interface APIProvider {
 // Available AI Models for Code Generation (متخصصة في البرمجة)
 const AI_MODELS = [
   // Claude Models (Priority 1) - أقوى في كتابة الأكواد
-  { group: '🧠 Anthropic Claude (Code)', value: 'claude-sonnet-4-20250514', label: 'Claude Sonnet 4.5 - Best for Code' },
-  { group: '🧠 Anthropic Claude (Code)', value: 'claude-opus-4-20250514', label: 'Claude Opus 4 - Most Powerful' },
-  { group: '🧠 Anthropic Claude (Code)', value: 'claude-3-5-sonnet-20241022', label: 'Claude 3.5 Sonnet - Code Expert' },
+  {
+    group: '🧠 Anthropic Claude (Code)',
+    value: 'claude-sonnet-4-20250514',
+    label: 'Claude Sonnet 4.5 - Best for Code',
+  },
+  {
+    group: '🧠 Anthropic Claude (Code)',
+    value: 'claude-opus-4-20250514',
+    label: 'Claude Opus 4 - Most Powerful',
+  },
+  {
+    group: '🧠 Anthropic Claude (Code)',
+    value: 'claude-3-5-sonnet-20241022',
+    label: 'Claude 3.5 Sonnet - Code Expert',
+  },
 
   // DeepSeek Models (Priority 2) - متخصص 100% في البرمجة
-  { group: '🔮 DeepSeek (Code Specialist)', value: 'deepseek-coder', label: 'DeepSeek Coder - Pure Code Model' },
-  { group: '🔮 DeepSeek (Code Specialist)', value: 'deepseek-coder-33b-instruct', label: 'DeepSeek Coder 33B' },
+  {
+    group: '🔮 DeepSeek (Code Specialist)',
+    value: 'deepseek-coder',
+    label: 'DeepSeek Coder - Pure Code Model',
+  },
+  {
+    group: '🔮 DeepSeek (Code Specialist)',
+    value: 'deepseek-coder-33b-instruct',
+    label: 'DeepSeek Coder 33B',
+  },
 
   // Google Models (Priority 3) - نماذج الكود من جوجل
-  { group: '✨ Google CodeGemini', value: 'codechat-bison-32k', label: 'CodeChat Bison - Code Expert' },
-  { group: '✨ Google CodeGemini', value: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro - Advanced Coding' },
+  {
+    group: '✨ Google CodeGemini',
+    value: 'codechat-bison-32k',
+    label: 'CodeChat Bison - Code Expert',
+  },
+  {
+    group: '✨ Google CodeGemini',
+    value: 'gemini-1.5-pro',
+    label: 'Gemini 1.5 Pro - Advanced Coding',
+  },
   { group: '✨ Google CodeGemini', value: 'code-gecko', label: 'Code Gecko - Fast & Efficient' },
 
   // OpenAI Models (Priority 4) - الأفضل في البرمجة من OpenAI
   { group: '⚡ OpenAI (Code Focused)', value: 'gpt-4o', label: 'GPT-4o - Latest Code Model' },
-  { group: '⚡ OpenAI (Code Focused)', value: 'gpt-4-turbo', label: 'GPT-4 Turbo - Advanced Coding' },
+  {
+    group: '⚡ OpenAI (Code Focused)',
+    value: 'gpt-4-turbo',
+    label: 'GPT-4 Turbo - Advanced Coding',
+  },
   { group: '⚡ OpenAI (Code Focused)', value: 'gpt-4', label: 'GPT-4 - Reliable for Code' },
 ];
 
@@ -68,7 +100,7 @@ interface OpenFile {
 }
 
 function App() {
-  const [aiPersonality, setAiPersonality] = useState('claude-sonnet');
+  // const [aiPersonality, setAiPersonality] = useState('claude-sonnet'); // Unused - removed
   const [aiMode, setAiMode] = useState('coder');
   const [aiInput, setAiInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
@@ -89,7 +121,7 @@ function App() {
   const [showCommandPalette, setShowCommandPalette] = useState(false);
   const [isAPIModalOpen, setIsAPIModalOpen] = useState(false);
   const [apiProviders, setApiProviders] = useState<APIProvider[]>([]);
-  const [selectedProvider, setSelectedProvider] = useState<string>('');
+  // const [selectedProvider, setSelectedProvider] = useState<string>(''); // Unused - removed
   const [selectedModel, setSelectedModel] = useState<string>('claude-sonnet-4-20250514');
   const [currentFile, setCurrentFile] = useState<OpenFile | null>(null);
   const [fileContent, setFileContent] = useState<string>('');
@@ -204,26 +236,28 @@ function App() {
 
   // Helper function to get language from file extension
   const getLanguageFromFile = (fileName: string): string => {
-    if (fileName.endsWith('.tsx') || fileName.endsWith('.ts')) return 'typescript';
-    if (fileName.endsWith('.jsx') || fileName.endsWith('.js')) return 'javascript';
-    if (fileName.endsWith('.css')) return 'css';
-    if (fileName.endsWith('.json')) return 'json';
-    if (fileName.endsWith('.html')) return 'html';
-    if (fileName.endsWith('.py')) return 'python';
-    if (fileName.endsWith('.java')) return 'java';
-    if (fileName.endsWith('.cpp') || fileName.endsWith('.c')) return 'cpp';
-    if (fileName.endsWith('.go')) return 'go';
-    if (fileName.endsWith('.rs')) return 'rust';
+    if (fileName.endsWith('.tsx') || fileName.endsWith('.ts')) {return 'typescript';}
+    if (fileName.endsWith('.jsx') || fileName.endsWith('.js')) {return 'javascript';}
+    if (fileName.endsWith('.css')) {return 'css';}
+    if (fileName.endsWith('.json')) {return 'json';}
+    if (fileName.endsWith('.html')) {return 'html';}
+    if (fileName.endsWith('.py')) {return 'python';}
+    if (fileName.endsWith('.java')) {return 'java';}
+    if (fileName.endsWith('.cpp') || fileName.endsWith('.c')) {return 'cpp';}
+    if (fileName.endsWith('.go')) {return 'go';}
+    if (fileName.endsWith('.rs')) {return 'rust';}
     return 'plaintext';
   };
 
   // Menu Actions
   const handleNewFile = async () => {
-    const fileName = prompt('اسم الملف الجديد (مع الامتداد):\nEnter new file name (with extension):');
+    const fileName = prompt(
+      'اسم الملف الجديد (مع الامتداد):\nEnter new file name (with extension):'
+    );
     if (fileName) {
       const newFile: OpenFile = {
         name: fileName,
-        path: '',  // Will be set when saved
+        path: '', // Will be set when saved
         language: getLanguageFromFile(fileName),
         content: '',
       };
@@ -282,7 +316,7 @@ function App() {
       // @ts-ignore
       const result = await window.electron?.dialog?.showOpenDialog({
         properties: ['openDirectory'],
-        title: 'اختر مجلد المشروع / Select Project Folder'
+        title: 'اختر مجلد المشروع / Select Project Folder',
       });
 
       if (result?.success && !result.canceled && result.filePaths?.length > 0) {
@@ -381,7 +415,8 @@ function App() {
         const writeResult = await window.electron?.fs?.write(result.filePath, fileContent);
 
         if (writeResult?.success) {
-          const fileName = result.filePath.split('/').pop() || result.filePath.split('\\').pop() || 'untitled';
+          const fileName =
+            result.filePath.split('/').pop() || result.filePath.split('\\').pop() || 'untitled';
           setCurrentFile({
             ...currentFile,
             name: fileName,
@@ -402,7 +437,11 @@ function App() {
 
   const handleCloseEditor = () => {
     if (currentFile && fileContent) {
-      if (confirm('هل تريد إغلاق الملف؟ قد تفقد التغييرات غير المحفوظة.\nClose file? Unsaved changes will be lost.')) {
+      if (
+        confirm(
+          'هل تريد إغلاق الملف؟ قد تفقد التغييرات غير المحفوظة.\nClose file? Unsaved changes will be lost.'
+        )
+      ) {
         setCurrentFile(null);
         setFileContent('');
         console.log('✅ File closed');
@@ -474,11 +513,13 @@ function App() {
 
   // AI Chat Functions
   const sendMessage = async () => {
-    if (!aiInput.trim()) return;
+    if (!aiInput.trim()) {return;}
 
     // Check if API provider is configured
     if (apiProviders.length === 0) {
-      alert('⚠️ يجب إضافة API Key أولاً!\nاضغط على زر "إضافة API" في الأعلى لإضافة مفتاح API الخاص بك.\n\nPlease add an API Key first!\nClick "Add API" button at the top to add your API key.');
+      alert(
+        '⚠️ يجب إضافة API Key أولاً!\nاضغط على زر "إضافة API" في الأعلى لإضافة مفتاح API الخاص بك.\n\nPlease add an API Key first!\nClick "Add API" button at the top to add your API key.'
+      );
       return;
     }
 
@@ -531,7 +572,10 @@ function App() {
     }
   };
 
-  const generateAIResponse = (_question: string, model: string, mode: string): string => {
+  // Reserved for future use - Demo response generator
+  // Commented out to avoid TypeScript unused variable error
+  /*
+  const generateAIResponse = (question: string, model: string, mode: string): string => {
     const modelName = model === 'claude-sonnet' ? '🧠 Claude Sonnet 4.5' :
                       model === 'claude-opus' ? '💎 Claude Opus 4' :
                       model === 'gpt4' ? '⚡ ChatGPT-4' :
@@ -587,6 +631,7 @@ function App() {
 
     return `${modelName}\n\n${randomResponse}\n\n💡 هل تريد المزيد من التفاصيل؟`;
   };
+  */
 
   const clearChat = () => {
     if (confirm('هل تريد مسح جميع الرسائل؟')) {
@@ -605,10 +650,7 @@ function App() {
     <div className="app">
       <Titlebar />
 
-      <CommandPalette 
-        isOpen={showCommandPalette} 
-        onClose={() => setShowCommandPalette(false)} 
-      />
+      <CommandPalette isOpen={showCommandPalette} onClose={() => setShowCommandPalette(false)} />
 
       {/* Menu Bar */}
       <div className="menu-bar" ref={menuRef}>
@@ -625,11 +667,23 @@ function App() {
                 <span>New File...</span>
                 <span className="shortcut-hint">Ctrl+Alt+Super+N</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('New Window'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('New Window');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>New Window</span>
                 <span className="shortcut-hint">Ctrl+Shift+N</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('New Window with Profile'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('New Window with Profile');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>New Window with Profile</span>
                 <span className="shortcut-hint">▸</span>
               </div>
@@ -645,10 +699,22 @@ function App() {
                 <span>Open Folder...</span>
                 <span className="shortcut-hint">Ctrl+K Ctrl+O</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Open Workspace from File'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Open Workspace from File');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Open Workspace from File...</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Open Recent'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Open Recent');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Open Recent</span>
                 <span className="shortcut-hint">▸</span>
               </div>
@@ -656,13 +722,31 @@ function App() {
               <div className="dropdown-separator"></div>
 
               {/* Workspace Section */}
-              <div className="dropdown-item" onClick={() => { alert('Add Folder to Workspace'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Add Folder to Workspace');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Add Folder to Workspace...</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Save Workspace As'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Save Workspace As');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Save Workspace As...</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Duplicate Workspace'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Duplicate Workspace');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Duplicate Workspace</span>
               </div>
 
@@ -677,14 +761,26 @@ function App() {
                 <span>Save As...</span>
                 <span className="shortcut-hint">Ctrl+Shift+S</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Save All'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Save All');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Save All</span>
               </div>
 
               <div className="dropdown-separator"></div>
 
               {/* Share Section */}
-              <div className="dropdown-item" onClick={() => { alert('Share'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Share');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Share</span>
                 <span className="shortcut-hint">▸</span>
               </div>
@@ -692,10 +788,22 @@ function App() {
               <div className="dropdown-separator"></div>
 
               {/* Settings Section */}
-              <div className="dropdown-item" onClick={() => { alert('Auto Save: Enabled'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Auto Save: Enabled');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>✓ Auto Save</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Preferences'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Preferences');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Preferences</span>
                 <span className="shortcut-hint">▸</span>
               </div>
@@ -703,18 +811,36 @@ function App() {
               <div className="dropdown-separator"></div>
 
               {/* Close Section */}
-              <div className="dropdown-item" onClick={() => { alert('Revert File'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Revert File');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Revert File</span>
               </div>
               <div className="dropdown-item" onClick={handleCloseEditor}>
                 <span>Close Editor</span>
                 <span className="shortcut-hint">Ctrl+W</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Close Folder'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Close Folder');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Close Folder</span>
                 <span className="shortcut-hint">Ctrl+K F</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Close Window'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Close Window');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Close Window</span>
                 <span className="shortcut-hint">Alt+F4</span>
               </div>
@@ -722,13 +848,16 @@ function App() {
               <div className="dropdown-separator"></div>
 
               {/* Exit */}
-              <div className="dropdown-item" onClick={() => {
-                if(confirm('هل تريد الخروج من التطبيق؟\nExit application?')) {
-                  // @ts-ignore
-                  window.electron?.window?.close();
-                }
-                setOpenMenu(null);
-              }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  if (confirm('هل تريد الخروج من التطبيق؟\nExit application?')) {
+                    // @ts-ignore
+                    window.electron?.window?.close();
+                  }
+                  setOpenMenu(null);
+                }}
+              >
                 <span>Exit</span>
                 <span className="shortcut-hint">Ctrl+Q</span>
               </div>
@@ -779,20 +908,44 @@ function App() {
                 <span className="shortcut-hint">Ctrl+Shift+P</span>
               </div>
               <div className="dropdown-separator"></div>
-              <div className="dropdown-item" onClick={() => { alert('Explorer panel'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Explorer panel');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>{t('menu.view.explorer')}</span>
                 <span className="shortcut-hint">Ctrl+Shift+E</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Search panel'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Search panel');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>{t('menu.view.search')}</span>
                 <span className="shortcut-hint">Ctrl+Shift+F</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Extensions panel'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Extensions panel');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>{t('menu.view.extensions')}</span>
                 <span className="shortcut-hint">Ctrl+Shift+X</span>
               </div>
               <div className="dropdown-separator"></div>
-              <div className="dropdown-item" onClick={() => { alert('Terminal panel'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Terminal panel');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>{t('menu.view.terminal')}</span>
                 <span className="shortcut-hint">Ctrl+`</span>
               </div>
@@ -802,11 +955,23 @@ function App() {
           <div className="menu-item" onClick={() => toggleMenu('go')}>
             {t('menu.go')}
             <div className={`dropdown-menu ${openMenu === 'go' ? 'show' : ''}`}>
-              <div className="dropdown-item" onClick={() => { alert('Go back'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Go back');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>{t('menu.go.back')}</span>
                 <span className="shortcut-hint">Ctrl+Alt+←</span>
               </div>
-              <div className="dropdown-item" onClick={() => { alert('Go forward'); setOpenMenu(null); }}>
+              <div
+                className="dropdown-item"
+                onClick={() => {
+                  alert('Go forward');
+                  setOpenMenu(null);
+                }}
+              >
                 <span>{t('menu.go.forward')}</span>
                 <span className="shortcut-hint">Ctrl+Alt+→</span>
               </div>
@@ -855,7 +1020,7 @@ function App() {
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = '#454545';
@@ -906,10 +1071,7 @@ function App() {
           </div>
         </div>
 
-        <Sidebar
-          openedFolderPath={openedFolderPath}
-          onFileSelect={handleFileSelectFromTree}
-        />
+        <Sidebar openedFolderPath={openedFolderPath} onFileSelect={handleFileSelectFromTree} />
 
         <div className="app-main">
           <Editor />
@@ -934,7 +1096,16 @@ function App() {
             <div className="ai-setting-group">
               <label className="ai-setting-label">🤖 AI Model</label>
               {apiProviders.length === 0 ? (
-                <div style={{padding: '10px', background: '#3c3c3c', borderRadius: '4px', fontSize: '11px', color: '#858585', marginBottom: '5px'}}>
+                <div
+                  style={{
+                    padding: '10px',
+                    background: '#3c3c3c',
+                    borderRadius: '4px',
+                    fontSize: '11px',
+                    color: '#858585',
+                    marginBottom: '5px',
+                  }}
+                >
                   ⚠️ لم تضف API Key بعد. اضغط "إضافة API" في الأعلى لإضافة مفتاح API
                 </div>
               ) : null}
@@ -942,7 +1113,7 @@ function App() {
                 className="ai-setting-select"
                 value={selectedModel}
                 onChange={(e) => setSelectedModel(e.target.value)}
-                style={{fontSize: '13px'}}
+                style={{ fontSize: '13px' }}
               >
                 {AI_MODELS.reduce((acc, model, index, array) => {
                   // Check if this is the first item or if the group changed
@@ -963,10 +1134,11 @@ function App() {
 
                     acc[acc.length - 1] = (
                       <optgroup key={model.group} label={model.group}>
-                        {[...children,
+                        {[
+                          ...children,
                           <option key={model.value} value={model.value}>
                             {model.label}
-                          </option>
+                          </option>,
                         ]}
                       </optgroup>
                     );
@@ -1001,9 +1173,7 @@ function App() {
                 key={message.id}
                 className={`ai-message ${message.role === 'user' ? 'ai-message-user' : 'ai-message-assistant'}`}
               >
-                <div className="ai-message-avatar">
-                  {message.role === 'user' ? 'U' : 'AI'}
-                </div>
+                <div className="ai-message-avatar">{message.role === 'user' ? 'U' : 'AI'}</div>
                 <div className="ai-message-content">
                   <div className="ai-message-text">{message.content}</div>
                   <div className="ai-message-time">
@@ -1044,11 +1214,7 @@ function App() {
               }}
               rows={3}
             />
-            <button
-              className="ai-send-button"
-              onClick={sendMessage}
-              disabled={!aiInput.trim()}
-            >
+            <button className="ai-send-button" onClick={sendMessage} disabled={!aiInput.trim()}>
               ↗
             </button>
           </div>
@@ -1081,8 +1247,12 @@ function App() {
           <span className="status-item status-language" title="Language">
             TypeScript
           </span>
-          <span className="status-item" title="Encoding">UTF-8</span>
-          <span className="status-item" title="Line Ending">LF</span>
+          <span className="status-item" title="Encoding">
+            UTF-8
+          </span>
+          <span className="status-item" title="Line Ending">
+            LF
+          </span>
           <span className="status-item status-position" title="Line:Column">
             Ln {cursorPosition.line}, Col {cursorPosition.column}
           </span>

@@ -87,7 +87,7 @@ export class CodeReviewer {
       quality: await this.reviewQuality(files),
       documentation: await this.reviewDocumentation(),
       testing: await this.reviewTesting(),
-      recommendations: []
+      recommendations: [],
     };
 
     // حساب النتيجة الإجمالية
@@ -96,7 +96,8 @@ export class CodeReviewer {
         result.performance.score +
         result.quality.score +
         result.documentation.score +
-        result.testing.score) / 5
+        result.testing.score) /
+        5
     );
 
     // توليد التوصيات
@@ -126,7 +127,7 @@ export class CodeReviewer {
           severity: 'critical',
           file,
           description: 'احتمالية SQL Injection',
-          suggestion: 'استخدم Parameterized Queries'
+          suggestion: 'استخدم Parameterized Queries',
         });
         score -= 15;
       }
@@ -137,7 +138,7 @@ export class CodeReviewer {
           severity: 'high',
           file,
           description: 'كلمات سر مخزنة في الكود',
-          suggestion: 'استخدم متغيرات البيئة (.env)'
+          suggestion: 'استخدم متغيرات البيئة (.env)',
         });
         score -= 10;
       }
@@ -148,7 +149,7 @@ export class CodeReviewer {
           severity: 'high',
           file,
           description: 'استخدام eval/exec خطر',
-          suggestion: 'تجنب eval واستخدم طرق آمنة'
+          suggestion: 'تجنب eval واستخدم طرق آمنة',
         });
         score -= 10;
       }
@@ -156,7 +157,7 @@ export class CodeReviewer {
 
     return {
       score: Math.max(0, score),
-      issues
+      issues,
     };
   }
 
@@ -179,7 +180,7 @@ export class CodeReviewer {
           file,
           function: 'unknown',
           complexity: 'O(n²)',
-          suggestion: 'استخدم Map أو Set لتحسين الأداء'
+          suggestion: 'استخدم Map أو Set لتحسين الأداء',
         });
         score -= 10;
       }
@@ -190,7 +191,7 @@ export class CodeReviewer {
           file,
           function: 'unknown',
           complexity: 'O(n)',
-          suggestion: 'استخدم Set.has() للبحث الأسرع'
+          suggestion: 'استخدم Set.has() للبحث الأسرع',
         });
         score -= 5;
       }
@@ -198,7 +199,7 @@ export class CodeReviewer {
 
     return {
       score: Math.max(0, score),
-      hotspots
+      hotspots,
     };
   }
 
@@ -220,7 +221,7 @@ export class CodeReviewer {
         smells.push({
           type: 'Long Function',
           file,
-          description: 'دالة طويلة جداً (500+ سطر)'
+          description: 'دالة طويلة جداً (500+ سطر)',
         });
         score -= 5;
       }
@@ -231,7 +232,7 @@ export class CodeReviewer {
         smells.push({
           type: 'Magic Numbers',
           file,
-          description: 'أرقام غامضة - استخدم constants'
+          description: 'أرقام غامضة - استخدم constants',
         });
         score -= 3;
       }
@@ -241,7 +242,7 @@ export class CodeReviewer {
         smells.push({
           type: 'Console Logs',
           file,
-          description: 'console.log موجود - احذفه قبل production'
+          description: 'console.log موجود - احذفه قبل production',
         });
         score -= 2;
       }
@@ -249,7 +250,7 @@ export class CodeReviewer {
 
     return {
       score: Math.max(0, score),
-      smells
+      smells,
     };
   }
 
@@ -264,19 +265,19 @@ export class CodeReviewer {
     let score = 100;
 
     // فحص README
-    if (!await fs.pathExists(join(this.workingDirectory, 'README.md'))) {
+    if (!(await fs.pathExists(join(this.workingDirectory, 'README.md')))) {
       missing.push('README.md');
       score -= 20;
     }
 
     // فحص CHANGELOG
-    if (!await fs.pathExists(join(this.workingDirectory, 'CHANGELOG.md'))) {
+    if (!(await fs.pathExists(join(this.workingDirectory, 'CHANGELOG.md')))) {
       missing.push('CHANGELOG.md');
       score -= 10;
     }
 
     // فحص LICENSE
-    if (!await fs.pathExists(join(this.workingDirectory, 'LICENSE'))) {
+    if (!(await fs.pathExists(join(this.workingDirectory, 'LICENSE')))) {
       missing.push('LICENSE');
       score -= 10;
     }
@@ -284,7 +285,7 @@ export class CodeReviewer {
     return {
       score: Math.max(0, score),
       missing,
-      outdated
+      outdated,
     };
   }
 
@@ -298,8 +299,9 @@ export class CodeReviewer {
     let score = 100;
 
     // فحص وجود مجلد tests
-    const hasTests = await fs.pathExists(join(this.workingDirectory, 'tests')) ||
-                     await fs.pathExists(join(this.workingDirectory, '__tests__'));
+    const hasTests =
+      (await fs.pathExists(join(this.workingDirectory, 'tests'))) ||
+      (await fs.pathExists(join(this.workingDirectory, '__tests__')));
 
     if (!hasTests) {
       score = 0;
@@ -308,7 +310,7 @@ export class CodeReviewer {
 
     return {
       score: Math.max(0, score),
-      missingTests
+      missingTests,
     };
   }
 
@@ -345,18 +347,29 @@ export class CodeReviewer {
     console.log(chalk.gray('━'.repeat(60)));
 
     // Overall Score
-    const scoreColor = result.overallScore >= 80 ? chalk.green :
-                       result.overallScore >= 60 ? chalk.yellow :
-                       chalk.red;
+    const scoreColor =
+      result.overallScore >= 80
+        ? chalk.green
+        : result.overallScore >= 60
+          ? chalk.yellow
+          : chalk.red;
 
     console.log(scoreColor(`\n🎯 النتيجة الإجمالية: ${result.overallScore}/100\n`));
 
     // Detailed Scores
     console.log(chalk.blue('📋 التفاصيل:'));
-    console.log(`  🔒 الأمان: ${result.security.score}/100 ${result.security.issues.length > 0 ? chalk.red(`(${result.security.issues.length} مشاكل)`) : chalk.green('✓')}`);
-    console.log(`  ⚡ الأداء: ${result.performance.score}/100 ${result.performance.hotspots.length > 0 ? chalk.yellow(`(${result.performance.hotspots.length} نقاط ساخنة)`) : chalk.green('✓')}`);
-    console.log(`  ✨ الجودة: ${result.quality.score}/100 ${result.quality.smells.length > 0 ? chalk.yellow(`(${result.quality.smells.length} code smells)`) : chalk.green('✓')}`);
-    console.log(`  📚 التوثيق: ${result.documentation.score}/100 ${result.documentation.missing.length > 0 ? chalk.yellow(`(${result.documentation.missing.length} ملفات ناقصة)`) : chalk.green('✓')}`);
+    console.log(
+      `  🔒 الأمان: ${result.security.score}/100 ${result.security.issues.length > 0 ? chalk.red(`(${result.security.issues.length} مشاكل)`) : chalk.green('✓')}`
+    );
+    console.log(
+      `  ⚡ الأداء: ${result.performance.score}/100 ${result.performance.hotspots.length > 0 ? chalk.yellow(`(${result.performance.hotspots.length} نقاط ساخنة)`) : chalk.green('✓')}`
+    );
+    console.log(
+      `  ✨ الجودة: ${result.quality.score}/100 ${result.quality.smells.length > 0 ? chalk.yellow(`(${result.quality.smells.length} code smells)`) : chalk.green('✓')}`
+    );
+    console.log(
+      `  📚 التوثيق: ${result.documentation.score}/100 ${result.documentation.missing.length > 0 ? chalk.yellow(`(${result.documentation.missing.length} ملفات ناقصة)`) : chalk.green('✓')}`
+    );
     console.log(`  🧪 الاختبارات: ${result.testing.score}/100\n`);
 
     // Recommendations
@@ -380,7 +393,7 @@ export class CodeReviewer {
     for (const pattern of patterns) {
       const matches = await glob(pattern, {
         cwd: this.workingDirectory,
-        absolute: true
+        absolute: true,
       });
       files.push(...matches);
     }

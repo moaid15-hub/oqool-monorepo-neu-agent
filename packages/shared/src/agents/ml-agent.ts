@@ -2,6 +2,12 @@
 // ============================================
 // 🤖 Machine Learning Agent - وكيل التعلم الآلي
 // ============================================
+//
+// ⚠️ LEGACY FILE - This is the original ML Agent
+// ✅ USE ml-agent-enhanced.ts instead - it's more advanced
+//
+// This file is kept for reference only and is not exported
+// ============================================
 
 import { UnifiedAIAdapter, type AIProvider } from '../ai-gateway/index.js';
 import type { CodeFile } from '../core/god-mode.js';
@@ -44,7 +50,10 @@ export class MLAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
     this.aiAdapter = new UnifiedAIAdapter({
@@ -72,7 +81,7 @@ export class MLAgent {
       totalFiles: codeBase.length,
       uniquePatterns: patterns.length,
       languages: this.detectLanguages(codeBase),
-      complexity: this.calculateComplexity(patterns)
+      complexity: this.calculateComplexity(patterns),
     };
 
     return {
@@ -83,10 +92,10 @@ export class MLAgent {
         name: 'OqoolCodeLearner',
         version: '1.0.0',
         capabilities: ['code completion', 'pattern recognition'],
-        accuracy: this.calculateModelAccuracy(patterns)
+        accuracy: this.calculateModelAccuracy(patterns),
       },
       patterns,
-      stats: trainingStats
+      stats: trainingStats,
     };
   }
 
@@ -174,7 +183,7 @@ Identify:
   }
 
   private detectLanguages(codeBase: CodeFile[]): string[] {
-    const languages = new Set(codeBase.map(file => file.language));
+    const languages = new Set(codeBase.map((file) => file.language));
     return Array.from(languages);
   }
 
@@ -201,7 +210,7 @@ Identify:
           pattern: line.trim(),
           frequency: 1,
           context: 'generic',
-          complexity: 3
+          complexity: 3,
         });
       }
     }
@@ -214,12 +223,13 @@ Identify:
     const lines = text.split('\n');
 
     for (const line of lines) {
-      if (line.trim().length > 10) {  // Filter out short/invalid lines
+      if (line.trim().length > 10) {
+        // Filter out short/invalid lines
         completions.push(line.trim());
       }
     }
 
-    return completions.slice(0, 3);  // Return top 3 completions
+    return completions.slice(0, 3); // Return top 3 completions
   }
 
   private parseCodeSmells(text: string): string[] {

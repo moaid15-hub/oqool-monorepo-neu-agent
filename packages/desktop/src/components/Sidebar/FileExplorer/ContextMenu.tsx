@@ -10,13 +10,7 @@ interface ContextMenuProps {
   onAction: (action: string, node: FileNode) => void;
 }
 
-export const ContextMenu: React.FC<ContextMenuProps> = ({
-  node,
-  x,
-  y,
-  onClose,
-  onAction,
-}) => {
+export const ContextMenu: React.FC<ContextMenuProps> = ({ node, x, y, onClose, onAction }) => {
   const menuItems =
     node.type === 'directory'
       ? [

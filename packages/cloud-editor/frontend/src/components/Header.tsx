@@ -14,11 +14,7 @@ interface DropdownItem {
   separator?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ 
-  onKeyManagerOpen, 
-  onSettingsOpen,
-  onThemeToggle 
-}) => {
+const Header: React.FC<HeaderProps> = ({ onKeyManagerOpen, onSettingsOpen, onThemeToggle }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -40,82 +36,82 @@ const Header: React.FC<HeaderProps> = ({
   }, []);
 
   const menuItems: DropdownItem[] = [
-    { 
-      label: 'مشروع جديد', 
-      icon: '📁', 
+    {
+      label: 'مشروع جديد',
+      icon: '📁',
       action: () => {
         notificationManager.info('تم إنشاء مشروع جديد', { title: 'المشاريع' });
         setIsMenuOpen(false);
-      }
+      },
     },
-    { 
-      label: 'فتح مشروع', 
-      icon: '📂', 
+    {
+      label: 'فتح مشروع',
+      icon: '📂',
       action: () => {
         notificationManager.success('تم فتح المشروع بنجاح', { title: 'المشاريع' });
         setIsMenuOpen(false);
-      }
+      },
     },
-    { 
-      label: 'حفظ الكل', 
-      icon: '💾', 
+    {
+      label: 'حفظ الكل',
+      icon: '💾',
       action: () => {
         notificationManager.success('تم حفظ جميع الملفات', { title: 'حفظ الملفات' });
         setIsMenuOpen(false);
-      }, 
-      separator: true 
+      },
+      separator: true,
     },
-    { 
-      label: 'استيراد', 
-      icon: '📥', 
+    {
+      label: 'استيراد',
+      icon: '📥',
       action: () => {
         notificationManager.info('جاري استيراد الملفات...', { title: 'الاستيراد', duration: 3000 });
         setIsMenuOpen(false);
-      }
+      },
     },
-    { 
-      label: 'تصدير', 
-      icon: '📤', 
+    {
+      label: 'تصدير',
+      icon: '📤',
       action: () => {
-        notificationManager.success('تم تصدير المشروع بنجاح', { 
+        notificationManager.success('تم تصدير المشروع بنجاح', {
           title: 'التصدير',
           action: {
             label: 'تحميل',
-            onClick: () => console.log('تحميل الملف')
-          }
+            onClick: () => console.log('تحميل الملف'),
+          },
         });
         setIsMenuOpen(false);
-      }
+      },
     },
   ];
 
   const userMenuItems: DropdownItem[] = [
-    { 
-      label: 'الملف الشخصي', 
-      icon: '👤', 
+    {
+      label: 'الملف الشخصي',
+      icon: '👤',
       action: () => {
         notificationManager.info('عرض الملف الشخصي', { title: 'المستخدم' });
         setIsUserMenuOpen(false);
-      }
+      },
     },
-    { 
-      label: 'مفاتيح API', 
-      icon: '🔑', 
+    {
+      label: 'مفاتيح API',
+      icon: '🔑',
       action: () => {
         onKeyManagerOpen?.();
         notificationManager.info('فتح مدير مفاتيح API', { title: 'الأمان' });
         setIsUserMenuOpen(false);
-      }
+      },
     },
-    { 
-      label: 'الإعدادات', 
-      icon: '⚙️', 
+    {
+      label: 'الإعدادات',
+      icon: '⚙️',
       action: () => {
         onSettingsOpen?.();
         notificationManager.info('فتح الإعدادات', { title: 'النظام' });
         setIsUserMenuOpen(false);
-      }, 
-      separator: true 
+      },
+      separator: true,
     },
     { label: 'المساعدة', icon: '❓', action: () => console.log('المساعدة') },
     { label: 'عن التطبيق', icon: 'ℹ️', action: () => console.log('عن التطبيق') },
@@ -138,15 +134,12 @@ const Header: React.FC<HeaderProps> = ({
 
           <nav className="main-nav">
             <div className="nav-dropdown" ref={menuRef}>
-              <button 
-                className="nav-button"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
+              <button className="nav-button" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 <span>📁</span>
                 ملف
                 <span className={`dropdown-arrow ${isMenuOpen ? 'open' : ''}`}>▼</span>
               </button>
-              
+
               {isMenuOpen && (
                 <div className="dropdown-menu animate-fade-in">
                   {menuItems.map((item, index) => (
@@ -191,15 +184,15 @@ const Header: React.FC<HeaderProps> = ({
           <div className="search-container">
             <div className="search-input-wrapper">
               <span className="search-icon">🔍</span>
-              <input 
-                type="text" 
-                placeholder="بحث في الملفات والمجلدات..." 
+              <input
+                type="text"
+                placeholder="بحث في الملفات والمجلدات..."
                 className="search-input"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && e.currentTarget.value.trim()) {
                     notificationManager.info(`جاري البحث عن: "${e.currentTarget.value}"`, {
                       title: 'البحث',
-                      duration: 2000
+                      duration: 2000,
                     });
                   }
                 }}
@@ -233,13 +226,10 @@ const Header: React.FC<HeaderProps> = ({
 
             {/* قائمة المستخدم */}
             <div className="user-menu" ref={userMenuRef}>
-              <button 
-                className="user-avatar"
-                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-              >
-                <img 
-                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=OqoolAI" 
-                  alt="User Avatar" 
+              <button className="user-avatar" onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}>
+                <img
+                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=OqoolAI"
+                  alt="User Avatar"
                   className="avatar-img"
                 />
                 <span className="user-name">مطور</span>

@@ -12,7 +12,7 @@ export const AIStatusIndicator: React.FC<AIStatusIndicatorProps> = ({
   isActive,
   isProcessing,
   hasApiKey,
-  className
+  className,
 }) => {
   const getStatusIcon = () => {
     if (isProcessing) return '🔄';
@@ -36,20 +36,16 @@ export const AIStatusIndicator: React.FC<AIStatusIndicatorProps> = ({
   };
 
   return (
-    <div 
+    <div
       className={`ai-status-indicator ${className || ''}`}
       style={{
         background: `linear-gradient(135deg, ${getStatusColor()}, ${getStatusColor()}aa)`,
-        borderColor: getStatusColor()
+        borderColor: getStatusColor(),
       }}
       title={getStatusText()}
     >
-      <span className="status-icon">
-        {getStatusIcon()}
-      </span>
-      <span className="status-text">
-        {getStatusText()}
-      </span>
+      <span className="status-icon">{getStatusIcon()}</span>
+      <span className="status-text">{getStatusText()}</span>
       {isProcessing && (
         <div className="processing-spinner">
           <div className="spinner"></div>

@@ -12,7 +12,7 @@ export class DeepSeekService {
       const response = await fetch(`${this.baseURL}/chat/completions`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
+          Authorization: `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -20,15 +20,16 @@ export class DeepSeekService {
           messages: [
             {
               role: 'system',
-              content: 'You are an expert coding assistant. Provide helpful code completions and explanations in Arabic when needed.'
+              content:
+                'You are an expert coding assistant. Provide helpful code completions and explanations in Arabic when needed.',
             },
             {
               role: 'user',
-              content: `Context: ${context}\n\nCode: ${prompt}\n\nPlease provide a code completion:`
-            }
+              content: `Context: ${context}\n\nCode: ${prompt}\n\nPlease provide a code completion:`,
+            },
           ],
-          max_tokens: 500
-        })
+          max_tokens: 500,
+        }),
       });
 
       if (!response.ok) {
@@ -48,7 +49,7 @@ export class DeepSeekService {
       const response = await fetch(`${this.baseURL}/chat/completions`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
+          Authorization: `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -56,11 +57,11 @@ export class DeepSeekService {
           messages: [
             {
               role: 'user',
-              content: `Please explain this code in Arabic:\n\n${code}`
-            }
+              content: `Please explain this code in Arabic:\n\n${code}`,
+            },
           ],
-          max_tokens: 300
-        })
+          max_tokens: 300,
+        }),
       });
 
       const data = await response.json();
@@ -76,7 +77,7 @@ export class DeepSeekService {
       const response = await fetch(`${this.baseURL}/chat/completions`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
+          Authorization: `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -84,15 +85,15 @@ export class DeepSeekService {
           messages: [
             {
               role: 'system',
-              content: `You are an expert ${language} developer. Generate clean, efficient code based on the user's description.`
+              content: `You are an expert ${language} developer. Generate clean, efficient code based on the user's description.`,
             },
             {
               role: 'user',
-              content: `Generate ${language} code for: ${description}`
-            }
+              content: `Generate ${language} code for: ${description}`,
+            },
           ],
-          max_tokens: 800
-        })
+          max_tokens: 800,
+        }),
       });
 
       const data = await response.json();
@@ -108,7 +109,7 @@ export class DeepSeekService {
       const response = await fetch(`${this.baseURL}/chat/completions`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
+          Authorization: `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -116,15 +117,16 @@ export class DeepSeekService {
           messages: [
             {
               role: 'system',
-              content: 'You are an expert debugging assistant. Fix the provided code and explain the issue in Arabic.'
+              content:
+                'You are an expert debugging assistant. Fix the provided code and explain the issue in Arabic.',
             },
             {
               role: 'user',
-              content: `Code with error:\n${code}\n\nError message:\n${error}\n\nPlease fix the code and explain the issue:`
-            }
+              content: `Code with error:\n${code}\n\nError message:\n${error}\n\nPlease fix the code and explain the issue:`,
+            },
           ],
-          max_tokens: 600
-        })
+          max_tokens: 600,
+        }),
       });
 
       const data = await response.json();
@@ -140,7 +142,7 @@ export class DeepSeekService {
       const response = await fetch(`${this.baseURL}/chat/completions`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
+          Authorization: `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -148,15 +150,16 @@ export class DeepSeekService {
           messages: [
             {
               role: 'system',
-              content: 'You are a code optimization expert. Improve the provided code for better performance, readability, and best practices.'
+              content:
+                'You are a code optimization expert. Improve the provided code for better performance, readability, and best practices.',
             },
             {
               role: 'user',
-              content: `Please optimize this code and explain the improvements in Arabic:\n\n${code}`
-            }
+              content: `Please optimize this code and explain the improvements in Arabic:\n\n${code}`,
+            },
           ],
-          max_tokens: 700
-        })
+          max_tokens: 700,
+        }),
       });
 
       const data = await response.json();

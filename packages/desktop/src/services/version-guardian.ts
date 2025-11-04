@@ -63,7 +63,10 @@ export class VersionGuardian {
     console.log(`Snapshot ${snapshotId} restored`);
   }
 
-  async compareSnapshots(snapshotId1: string, snapshotId2: string): Promise<Map<string, { before: string; after: string }>> {
+  async compareSnapshots(
+    snapshotId1: string,
+    snapshotId2: string
+  ): Promise<Map<string, { before: string; after: string }>> {
     const snapshot1 = this.snapshots.get(snapshotId1);
     const snapshot2 = this.snapshots.get(snapshotId2);
 
@@ -93,7 +96,9 @@ export class VersionGuardian {
     return differences;
   }
 
-  async getFileHistory(filePath: string): Promise<Array<{ snapshotId: string; timestamp: Date; content: string }>> {
+  async getFileHistory(
+    filePath: string
+  ): Promise<Array<{ snapshotId: string; timestamp: Date; content: string }>> {
     const history: Array<{ snapshotId: string; timestamp: Date; content: string }> = [];
 
     const snapshotsArray = Array.from(this.snapshots.values());
@@ -119,12 +124,15 @@ export class VersionGuardian {
       clearInterval(this.autoSnapshotInterval);
     }
 
-    this.autoSnapshotInterval = setInterval(async () => {
-      await this.createSnapshot('Auto-snapshot', {
-        reason: 'automatic',
-        tags: ['auto'],
-      });
-    }, intervalMinutes * 60 * 1000);
+    this.autoSnapshotInterval = setInterval(
+      async () => {
+        await this.createSnapshot('Auto-snapshot', {
+          reason: 'automatic',
+          tags: ['auto'],
+        });
+      },
+      intervalMinutes * 60 * 1000
+    );
 
     console.log(`Auto-snapshot enabled: every ${intervalMinutes} minutes`);
   }
@@ -156,10 +164,10 @@ export class VersionGuardian {
   private async traverseDirectory(dirPath: string, files: Map<string, string>): Promise<void> {
     const result = await window.electron.ipcRenderer.invoke('fs:readdir', dirPath);
 
-    if (!result.success) return;
+    if (!result.success) {return;}
 
     for (const item of result.items) {
-      if (item.name.startsWith('.')) continue;
+      if (item.name.startsWith('.')) {continue;}
 
       if (item.isDirectory) {
         await this.traverseDirectory(item.path, files);

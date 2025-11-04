@@ -17,7 +17,7 @@ import {
   logout,
   validateApiKey,
   displayAccountInfo,
-  hasApiKey
+  hasApiKey,
 } from './auth.js';
 import { OqoolAPIClient, createClientFromConfig } from './api-client.js';
 import { FileManager, createFileManager } from './file-manager.js';
@@ -76,14 +76,14 @@ program
       // وضع التطوير
       if (options.dev || !apiKey || apiKey === 'dev') {
         console.log(chalk.yellow('⚠️  وضع التطوير - بدون مصادقة\n'));
-        
+
         await saveConfig({
           apiKey: 'dev_mode',
           apiUrl: 'http://localhost:3000', // أو https://oqool.net
           userId: 'dev_user',
           email: 'developer@oqool.net',
           plan: 'Development (Unlimited)',
-          lastSync: new Date().toISOString()
+          lastSync: new Date().toISOString(),
         });
 
         console.log(chalk.green('✅ تم التفعيل في وضع التطوير!\n'));
@@ -120,11 +120,11 @@ program
         userId: verification.userId,
         email: verification.email,
         plan: verification.plan,
-        lastSync: new Date().toISOString()
+        lastSync: new Date().toISOString(),
       });
 
       ui.succeedSpinner('تم تسجيل الدخول بنجاح!');
-      
+
       console.log(chalk.green('\n✅ أهلاً بك في Oqool Code!\n'));
       if (verification.email) {
         console.log(chalk.white('البريد:'), chalk.cyan(verification.email));
@@ -133,9 +133,12 @@ program
         console.log(chalk.white('الباقة:'), chalk.magenta(verification.plan));
       }
       if (verification.remainingMessages !== undefined) {
-        console.log(chalk.white('الرسائل المتبقية اليوم:'), chalk.yellow(verification.remainingMessages.toString()));
+        console.log(
+          chalk.white('الرسائل المتبقية اليوم:'),
+          chalk.yellow(verification.remainingMessages.toString())
+        );
       }
-      
+
       console.log(chalk.gray('\nابدأ الآن: oqool-code "اصنع API بسيط"\n'));
     } catch (error: any) {
       ui.failSpinner('حدث خطأ');
@@ -187,7 +190,7 @@ program
 
       // جمع سياق الملفات
       let fileContext: Array<{ path: string; content: string }> = [];
-      
+
       if (options.files && options.files.length > 0) {
         // قراءة ملفات محددة
         for (const filePath of options.files) {
@@ -199,14 +202,14 @@ program
       } else {
         // فحص المشروع تلقائياً
         const context = await fileManager.getProjectContext(parseInt(options.maxFiles));
-        fileContext = context.files.map(f => ({
+        fileContext = context.files.map((f) => ({
           path: f.path,
-          content: f.content
+          content: f.content,
         }));
-        
+
         ui.stopSpinner();
         ui.showProjectInfo(context.totalFiles, context.totalSize);
-        ui.showFilesList(context.files.map(f => ({ path: f.path, size: f.size })));
+        ui.showFilesList(context.files.map((f) => ({ path: f.path, size: f.size })));
       }
 
       ui.startSpinner('جاري توليد الكود...');
@@ -242,8 +245,8 @@ program
           type: 'confirm',
           name: 'confirm',
           message: 'هل تريد كتابة هذه الملفات؟',
-          default: true
-        }
+          default: true,
+        },
       ]);
 
       if (confirm) {
@@ -272,15 +275,15 @@ program
                   type: 'confirm',
                   name: 'doCommit',
                   message: 'هل تريد عمل commit وpush تلقائي؟',
-                  default: true
-                }
+                  default: true,
+                },
               ]);
 
               if (doCommit) {
                 // تشغيل Git workflow
                 await gitManager.autoWorkflow(changedFiles, prompt, {
                   autoCommit: true,
-                  autoPush: false
+                  autoPush: false,
                 });
 
                 // سؤال عن push
@@ -289,8 +292,8 @@ program
                     type: 'confirm',
                     name: 'doPush',
                     message: '🚀 هل تريد push للـ remote؟',
-                    default: false
-                  }
+                    default: false,
+                  },
                 ]);
 
                 if (doPush) {
@@ -314,7 +317,6 @@ program
       } else {
         ui.info('تم إلغاء الكتابة');
       }
-
     } catch (error: any) {
       ui.failSpinner('حدث خطأ');
       console.error(chalk.red('\n❌'), error.message);
@@ -341,7 +343,7 @@ program
         workingDirectory: process.cwd(),
         enablePlanning: true,
         enableContext: true,
-        enableLearning: true
+        enableLearning: true,
       });
 
       ui.showBanner();
@@ -353,7 +355,12 @@ program
       console.log('');
       console.log(BRANDING.warningBox);
       console.log('');
-      console.log(chalk.green.bold('   💬 محادثة تفاعلية مع Agent Tools') + chalk.gray(' - اكتب ') + chalk.yellow('"exit"') + chalk.gray(' للخروج\n'));
+      console.log(
+        chalk.green.bold('   💬 محادثة تفاعلية مع Agent Tools') +
+          chalk.gray(' - اكتب ') +
+          chalk.yellow('"exit"') +
+          chalk.gray(' للخروج\n')
+      );
 
       // حلقة المحادثة
       while (true) {
@@ -362,8 +369,8 @@ program
             type: 'input',
             name: 'message',
             message: chalk.white('    أنت:'),
-            validate: (input) => input.trim().length > 0 || 'الرسالة لا يمكن أن تكون فارغة'
-          }
+            validate: (input) => input.trim().length > 0 || 'الرسالة لا يمكن أن تكون فارغة',
+          },
         ]);
 
         const userMessage = message.trim();
@@ -374,7 +381,10 @@ program
         }
 
         // 🔥 اكتشاف ذكي: هل المهمة كبيرة؟
-        const isComplexTask = /\b(build|create|make|generate|develop|implement)\s+(full|complete|entire|whole|saas|platform|app|application|system|project)/i.test(userMessage);
+        const isComplexTask =
+          /\b(build|create|make|generate|develop|implement)\s+(full|complete|entire|whole|saas|platform|app|application|system|project)/i.test(
+            userMessage
+          );
 
         if (isComplexTask) {
           // استخدام God Mode تلقائياً
@@ -382,7 +392,7 @@ program
 
           const team = createAgentTeam({
             apiKey: process.env.ANTHROPIC_API_KEY,
-            verbose: false // quiet mode في chat
+            verbose: false, // quiet mode في chat
           });
 
           const result = await team.collaborate(userMessage);
@@ -401,7 +411,6 @@ program
           console.log();
         }
       }
-
     } catch (error: any) {
       ui.failSpinner('حدث خطأ');
       console.error(chalk.red('\n❌'), error.message);
@@ -454,7 +463,6 @@ program
           if (!options.issues && analysis.issues.length > 0) {
             console.log(chalk.gray(`\n💡 استخدم بدون --no-issues لعرض المشاكل المحتملة`));
           }
-
         } catch (error: any) {
           ui.failSpinner(`فشل تحليل ${file}`);
           console.error(chalk.red(`\n❌ ${error.message}\n`));
@@ -465,7 +473,6 @@ program
           console.log('\n');
         }
       }
-
     } catch (error: any) {
       ui.failSpinner('حدث خطأ');
       console.error(chalk.red('\n❌'), error.message);
@@ -530,7 +537,7 @@ const newCode = "updated";
 \`\`\`
 
 الملفات المتاحة:
-${fileContext.map(f => `- ${f.path} (${f.content.split('\n').length} سطر)`).join('\n')}
+${fileContext.map((f) => `- ${f.path} (${f.content.split('\n').length} سطر)`).join('\n')}
 
 قواعد مهمة:
 1. استخدم LINE لتحديد رقم السطر بدقة
@@ -541,7 +548,7 @@ ${fileContext.map(f => `- ${f.path} (${f.content.split('\n').length} سطر)`).j
 
       const messages = [
         { role: 'system' as const, content: systemPrompt },
-        { role: 'user' as const, content: prompt }
+        { role: 'user' as const, content: prompt },
       ];
 
       ui.updateSpinner('جاري توليد التعديلات...');
@@ -588,8 +595,8 @@ ${fileContext.map(f => `- ${f.path} (${f.content.split('\n').length} سطر)`).j
           type: 'confirm',
           name: 'confirm',
           message: 'هل تريد تطبيق هذه التعديلات؟',
-          default: true
-        }
+          default: true,
+        },
       ]);
 
       if (confirm) {
@@ -616,14 +623,14 @@ ${fileContext.map(f => `- ${f.path} (${f.content.split('\n').length} سطر)`).j
                   type: 'confirm',
                   name: 'doCommit',
                   message: 'هل تريد عمل commit وpush تلقائي؟',
-                  default: true
-                }
+                  default: true,
+                },
               ]);
 
               if (doCommit) {
                 await gitManager.autoWorkflow(changedFiles, prompt, {
                   autoCommit: true,
-                  autoPush: false
+                  autoPush: false,
                 });
 
                 const { doPush } = await inquirer.prompt([
@@ -631,8 +638,8 @@ ${fileContext.map(f => `- ${f.path} (${f.content.split('\n').length} سطر)`).j
                     type: 'confirm',
                     name: 'doPush',
                     message: '🚀 هل تريد push للـ remote؟',
-                    default: false
-                  }
+                    default: false,
+                  },
                 ]);
 
                 if (doPush) {
@@ -656,7 +663,6 @@ ${fileContext.map(f => `- ${f.path} (${f.content.split('\n').length} سطر)`).j
       } else {
         ui.info('تم إلغاء التعديلات');
       }
-
     } catch (error: any) {
       ui.failSpinner('حدث خطأ');
       console.error(chalk.red('\n❌'), error.message);
@@ -680,7 +686,7 @@ program
         file,
         timeout: parseInt(options.timeout),
         env: options.sandbox ? 'sandbox' : 'normal',
-        args: options.args || []
+        args: options.args || [],
       });
 
       if (result.success) {
@@ -706,7 +712,6 @@ program
 
         console.log(chalk.cyan('\n💡 جرب: oqool-code fix ' + file + ' --auto-apply\n'));
       }
-
     } catch (error: any) {
       ui.failSpinner('حدث خطأ');
       console.error(chalk.red('\n❌'), error.message);
@@ -735,7 +740,7 @@ program
 
       const result = await executor.executeCode({
         file,
-        timeout: 5000
+        timeout: 5000,
       });
 
       if (result.success) {
@@ -751,7 +756,7 @@ program
         error: result.error || 'Unknown error',
         errorType: result.errorType,
         maxAttempts: parseInt(options.maxAttempts),
-        autoApply: options.autoApply
+        autoApply: options.autoApply,
       });
 
       if (fixResult.fixed) {
@@ -759,7 +764,6 @@ program
       } else {
         console.log(chalk.red(`\n❌ ${fixResult.message}\n`));
       }
-
     } catch (error: any) {
       ui.failSpinner('حدث خطأ');
       console.error(chalk.red('\n❌'), error.message);
@@ -787,7 +791,7 @@ program
       const result = await executor.runAndFix(file, {
         timeout: parseInt(options.timeout),
         autoApply: options.autoApply ?? true,
-        maxAttempts: parseInt(options.maxAttempts)
+        maxAttempts: parseInt(options.maxAttempts),
       });
 
       if (result.success && result.output) {
@@ -796,7 +800,6 @@ program
         console.log(chalk.white(result.output));
         console.log(chalk.gray('─'.repeat(60) + '\n'));
       }
-
     } catch (error: any) {
       ui.failSpinner('حدث خطأ');
       console.error(chalk.red('\n❌'), error.message);
@@ -863,7 +866,6 @@ program
       }
 
       historyManager.showHistory();
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -916,11 +918,15 @@ program
   .command('template-create <templateName> <projectName>')
   .description('إنشاء مشروع جديد من قالب')
   .option('-o, --output <dir>', 'مجلد الإخراج')
-  .option('-v, --var <key=value>', 'تعيين متغير', (value, previous: Record<string, string> = {}) => {
-    const [key, val] = value.split('=');
-    previous[key] = val;
-    return previous;
-  })
+  .option(
+    '-v, --var <key=value>',
+    'تعيين متغير',
+    (value, previous: Record<string, string> = {}) => {
+      const [key, val] = value.split('=');
+      previous[key] = val;
+      return previous;
+    }
+  )
   .option('--no-git', 'عدم تهيئة Git')
   .option('--install', 'تثبيت المكتبات تلقائياً')
   .action(async (templateName: string, projectName: string, options: any) => {
@@ -932,9 +938,8 @@ program
         outputDir: options.output,
         variables: options.var || {},
         initGit: options.git !== false,
-        installDeps: options.install
+        installDeps: options.install,
       });
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -947,22 +952,20 @@ program
   .option('-p, --path <path>', 'مسار المشروع', '.')
   .option('-d, --description <desc>', 'وصف القالب', 'Custom template')
   .option('-l, --language <lang>', 'لغة البرمجة', 'typescript')
-  .option('-c, --category <cat>', 'فئة القالب (backend/frontend/fullstack/library/cli/other)', 'other')
+  .option(
+    '-c, --category <cat>',
+    'فئة القالب (backend/frontend/fullstack/library/cli/other)',
+    'other'
+  )
   .action(async (name: string, options: any) => {
     try {
       const templateManager = createTemplateManager();
 
-      await templateManager.createTemplateFromProject(
-        options.path,
-        name,
-        options.description,
-        {
-          language: options.language,
-          category: options.category,
-          variables: []
-        }
-      );
-
+      await templateManager.createTemplateFromProject(options.path, name, options.description, {
+        language: options.language,
+        category: options.category,
+        variables: [],
+      });
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -982,8 +985,8 @@ program
           type: 'confirm',
           name: 'confirm',
           message: `هل أنت متأكد من حذف القالب "${name}"؟`,
-          default: false
-        }
+          default: false,
+        },
       ]);
 
       if (answers.confirm) {
@@ -991,7 +994,6 @@ program
       } else {
         console.log(chalk.yellow('⚠️  تم إلغاء الحذف'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1126,9 +1128,13 @@ program
 
       console.log(chalk.cyan(`\n🔧 أدوات ${language}:\n`));
       console.log(chalk.white(`   المنفذ: ${tools.executor ? chalk.green('✓') : chalk.red('✗')}`));
-      console.log(chalk.white(`   التنسيق: ${tools.formatter ? chalk.green('✓') : chalk.red('✗')}`));
+      console.log(
+        chalk.white(`   التنسيق: ${tools.formatter ? chalk.green('✓') : chalk.red('✗')}`)
+      );
       console.log(chalk.white(`   الفحص: ${tools.linter ? chalk.green('✓') : chalk.red('✗')}`));
-      console.log(chalk.white(`   الاختبار: ${tools.tester ? chalk.green('✓') : chalk.red('✗')}\n`));
+      console.log(
+        chalk.white(`   الاختبار: ${tools.tester ? chalk.green('✓') : chalk.red('✗')}\n`)
+      );
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1163,7 +1169,7 @@ program
           base: options.base,
           head: options.head,
           draft: options.draft,
-          labels: options.labels ? options.labels.split(',').map((l: string) => l.trim()) : []
+          labels: options.labels ? options.labels.split(',').map((l: string) => l.trim()) : [],
         });
       } else {
         await prManager.create({
@@ -1172,7 +1178,7 @@ program
           base: options.base,
           head: options.head,
           draft: options.draft,
-          labels: options.labels ? options.labels.split(',').map((l: string) => l.trim()) : []
+          labels: options.labels ? options.labels.split(',').map((l: string) => l.trim()) : [],
         });
       }
     } catch (error: any) {
@@ -1269,8 +1275,8 @@ program
               type: 'input',
               name: 'query',
               message: 'ماذا تبحث عن؟',
-              validate: (input) => input.trim().length > 0 || 'الاستعلام لا يمكن أن يكون فارغاً'
-            }
+              validate: (input) => input.trim().length > 0 || 'الاستعلام لا يمكن أن يكون فارغاً',
+            },
           ]);
 
           const results = await docManager.searchDocumentation(query);
@@ -1279,7 +1285,11 @@ program
           for (const result of results.slice(0, 5)) {
             console.log(chalk.cyan(`📅 ${new Date(result.timestamp).toLocaleString('ar')}`));
             console.log(chalk.white(`   ${result.prompt.substring(0, 100)}...`));
-            console.log(chalk.gray(`   ${result.filesGenerated.length} ملف، ${result.language || 'غير محدد'}\n`));
+            console.log(
+              chalk.gray(
+                `   ${result.filesGenerated.length} ملف، ${result.language || 'غير محدد'}\n`
+              )
+            );
           }
           break;
 
@@ -1304,8 +1314,8 @@ program
               name: 'format',
               message: 'اختر صيغة التصدير:',
               choices: ['json', 'csv', 'markdown'],
-              default: 'json'
-            }
+              default: 'json',
+            },
           ]);
 
           const exportPath = await docManager.exportDocumentation(format as any);
@@ -1315,7 +1325,6 @@ program
         default:
           console.log(chalk.yellow('الأوامر المتاحة: search, stats, export'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1339,19 +1348,19 @@ program
               type: 'input',
               name: 'name',
               message: 'اسم الجلسة:',
-              validate: (input) => input.trim().length > 0 || 'الاسم مطلوب'
+              validate: (input) => input.trim().length > 0 || 'الاسم مطلوب',
             },
             {
               type: 'input',
               name: 'description',
-              message: 'وصف الجلسة:'
+              message: 'وصف الجلسة:',
             },
             {
               type: 'input',
               name: 'membersInput',
               message: 'الأعضاء (مفصولين بفواصل):',
-              validate: (input) => input.trim().length > 0 || 'يجب إضافة عضو واحد على الأقل'
-            }
+              validate: (input) => input.trim().length > 0 || 'يجب إضافة عضو واحد على الأقل',
+            },
           ]);
 
           const members = membersInput.split(',').map((email: string) => email.trim());
@@ -1365,7 +1374,6 @@ program
         default:
           console.log(chalk.yellow('الأوامر المتاحة: create, list'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1389,25 +1397,25 @@ program
               type: 'input',
               name: 'title',
               message: 'عنوان المراجعة:',
-              validate: (input) => input.trim().length > 0 || 'العنوان مطلوب'
+              validate: (input) => input.trim().length > 0 || 'العنوان مطلوب',
             },
             {
               type: 'input',
               name: 'description',
-              message: 'وصف المراجعة:'
+              message: 'وصف المراجعة:',
             },
             {
               type: 'input',
               name: 'files',
               message: 'الملفات للمراجعة (مفصولة بفواصل):',
-              validate: (input) => input.trim().length > 0 || 'يجب تحديد ملف واحد على الأقل'
+              validate: (input) => input.trim().length > 0 || 'يجب تحديد ملف واحد على الأقل',
             },
             {
               type: 'input',
               name: 'reviewer',
               message: 'اسم المراجع:',
-              validate: (input) => input.trim().length > 0 || 'اسم المراجع مطلوب'
-            }
+              validate: (input) => input.trim().length > 0 || 'اسم المراجع مطلوب',
+            },
           ]);
 
           const filesList = files.split(',').map((file: string) => file.trim());
@@ -1416,14 +1424,15 @@ program
 
         case 'list':
           console.log(chalk.green('\n📋 المراجعات المعلقة:\n'));
-          console.log(chalk.yellow('   استخدم: oqool-code review comment <id> <file> <line> <type> <comment>'));
+          console.log(
+            chalk.yellow('   استخدم: oqool-code review comment <id> <file> <line> <type> <comment>')
+          );
           console.log(chalk.yellow('   لإضافة تعليقات للمراجعة\n'));
           break;
 
         default:
           console.log(chalk.yellow('الأوامر المتاحة: create, list, comment'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1447,18 +1456,27 @@ program
               type: 'input',
               name: 'file',
               message: 'الملف لفحصه:',
-              validate: (input) => input.trim().length > 0 || 'مسار الملف مطلوب'
-            }
+              validate: (input) => input.trim().length > 0 || 'مسار الملف مطلوب',
+            },
           ]);
 
           const scanResult = await securityManager.scanBeforeExecution(file);
-          console.log(chalk.green(`\n🔍 نتيجة الفحص: ${scanResult.safe ? '✅ آمن' : '❌ غير آمن'}`));
+          console.log(
+            chalk.green(`\n🔍 نتيجة الفحص: ${scanResult.safe ? '✅ آمن' : '❌ غير آمن'}`)
+          );
           console.log(chalk.cyan(`   الدرجة: ${scanResult.score}/100`));
 
           if (scanResult.issues.length > 0) {
             console.log(chalk.yellow('\n   المشاكل المكتشفة:'));
             for (const issue of scanResult.issues) {
-              const severity = issue.severity === 'critical' ? '🔴' : issue.severity === 'high' ? '🟠' : issue.severity === 'medium' ? '🟡' : '🟢';
+              const severity =
+                issue.severity === 'critical'
+                  ? '🔴'
+                  : issue.severity === 'high'
+                    ? '🟠'
+                    : issue.severity === 'medium'
+                      ? '🟡'
+                      : '🟢';
               console.log(`${severity} ${issue.description}`);
             }
           }
@@ -1474,14 +1492,14 @@ program
               type: 'input',
               name: 'signFile',
               message: 'الملف لتوقيعه:',
-              validate: (input) => input.trim().length > 0 || 'مسار الملف مطلوب'
+              validate: (input) => input.trim().length > 0 || 'مسار الملف مطلوب',
             },
             {
               type: 'input',
               name: 'author',
               message: 'اسم المؤلف:',
-              default: 'Oqool User'
-            }
+              default: 'Oqool User',
+            },
           ]);
 
           await securityManager.signCode(signFile, author);
@@ -1493,16 +1511,19 @@ program
               type: 'input',
               name: 'encryptFile',
               message: 'الملف لتشفيره:',
-              validate: (input) => input.trim().length > 0 || 'مسار الملف مطلوب'
+              validate: (input) => input.trim().length > 0 || 'مسار الملف مطلوب',
             },
             {
               type: 'input',
               name: 'key',
-              message: 'مفتاح التشفير (اتركه فارغاً لتوليد مفتاح عشوائي):'
-            }
+              message: 'مفتاح التشفير (اتركه فارغاً لتوليد مفتاح عشوائي):',
+            },
           ]);
 
-          const encryptedPath = await securityManager.encryptSensitiveFile(encryptFile, key || undefined);
+          const encryptedPath = await securityManager.encryptSensitiveFile(
+            encryptFile,
+            key || undefined
+          );
           console.log(chalk.green(`\n🔐 تم التشفير: ${encryptedPath}\n`));
           break;
 
@@ -1513,7 +1534,6 @@ program
         default:
           console.log(chalk.yellow('الأوامر المتاحة: scan, deps, sign, encrypt, report'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1537,31 +1557,31 @@ program
               type: 'input',
               name: 'name',
               message: 'اسم القالب:',
-              validate: (input) => input.trim().length > 0 || 'الاسم مطلوب'
+              validate: (input) => input.trim().length > 0 || 'الاسم مطلوب',
             },
             {
               type: 'input',
               name: 'description',
-              message: 'وصف القالب:'
+              message: 'وصف القالب:',
             },
             {
               type: 'list',
               name: 'category',
               message: 'الفئة:',
               choices: ['backend', 'frontend', 'fullstack', 'library', 'cli', 'other'],
-              default: 'other'
+              default: 'other',
             },
             {
               type: 'input',
               name: 'files',
               message: 'الملفات للقالب (مفصولة بفواصل):',
-              validate: (input) => input.trim().length > 0 || 'يجب تحديد ملف واحد على الأقل'
+              validate: (input) => input.trim().length > 0 || 'يجب تحديد ملف واحد على الأقل',
             },
             {
               type: 'input',
               name: 'tags',
-              message: 'العلامات (مفصولة بفواصل):'
-            }
+              message: 'العلامات (مفصولة بفواصل):',
+            },
           ]);
 
           const filesList = files.split(',').map((file: string) => file.trim());
@@ -1576,8 +1596,8 @@ program
               type: 'input',
               name: 'query',
               message: 'ماذا تبحث عن؟',
-              validate: (input) => input.trim().length > 0 || 'الاستعلام مطلوب'
-            }
+              validate: (input) => input.trim().length > 0 || 'الاستعلام مطلوب',
+            },
           ]);
 
           const results = await collabManager.searchTeamTemplates(query);
@@ -1586,14 +1606,17 @@ program
           for (const template of results.slice(0, 5)) {
             console.log(chalk.cyan(`📋 ${template.name}`));
             console.log(chalk.white(`   ${template.description}`));
-            console.log(chalk.gray(`   الفئة: ${template.category} | الملفات: ${template.files.length} | الاستخدام: ${template.usageCount}\n`));
+            console.log(
+              chalk.gray(
+                `   الفئة: ${template.category} | الملفات: ${template.files.length} | الاستخدام: ${template.usageCount}\n`
+              )
+            );
           }
           break;
 
         default:
           console.log(chalk.yellow('الأوامر المتاحة: create, search'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1617,26 +1640,26 @@ program
               type: 'input',
               name: 'name',
               message: 'اسم الفريق:',
-              validate: (input) => input.trim().length > 0 || 'الاسم مطلوب'
+              validate: (input) => input.trim().length > 0 || 'الاسم مطلوب',
             },
             {
               type: 'input',
               name: 'description',
-              message: 'وصف الفريق:'
+              message: 'وصف الفريق:',
             },
             {
               type: 'input',
               name: 'projectType',
               message: 'نوع المشروع:',
-              default: 'web-application'
+              default: 'web-application',
             },
             {
               type: 'list',
               name: 'complexity',
               message: 'مستوى التعقيد:',
               choices: ['simple', 'moderate', 'complex', 'enterprise'],
-              default: 'moderate'
-            }
+              default: 'moderate',
+            },
           ]);
 
           await teamManager.createTeam(name, description, projectType, complexity);
@@ -1662,18 +1685,18 @@ program
               type: 'input',
               name: 'teamId',
               message: 'معرف الفريق:',
-              validate: (input) => input.trim().length > 0 || 'معرف الفريق مطلوب'
+              validate: (input) => input.trim().length > 0 || 'معرف الفريق مطلوب',
             },
             {
               type: 'input',
               name: 'topic',
-              message: 'موضوع النقاش:'
+              message: 'موضوع النقاش:',
             },
             {
               type: 'input',
               name: 'prompt',
-              message: 'السؤال أو الموضوع للنقاش:'
-            }
+              message: 'السؤال أو الموضوع للنقاش:',
+            },
           ]);
 
           await teamManager.startTeamDiscussion(teamId, topic, prompt);
@@ -1682,7 +1705,6 @@ program
         default:
           console.log(chalk.yellow('الأوامر المتاحة: create, list, personalities, discuss'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1706,19 +1728,19 @@ program
               type: 'input',
               name: 'topic',
               message: 'الموضوع:',
-              validate: (input) => input.trim().length > 0 || 'الموضوع مطلوب'
+              validate: (input) => input.trim().length > 0 || 'الموضوع مطلوب',
             },
             {
               type: 'input',
               name: 'question',
-              message: 'السؤال:'
-            }
+              message: 'السؤال:',
+            },
           ]);
 
           const options = [
             { title: 'خيار 1', description: 'الوصف الأول', pros: ['مميزة 1'], cons: ['عيب 1'] },
             { title: 'خيار 2', description: 'الوصف الثاني', pros: ['مميزة 2'], cons: ['عيب 2'] },
-            { title: 'خيار 3', description: 'الوصف الثالث', pros: ['مميزة 3'], cons: ['عيب 3'] }
+            { title: 'خيار 3', description: 'الوصف الثالث', pros: ['مميزة 3'], cons: ['عيب 3'] },
           ];
 
           await collectiveManager.createCollectiveDecision(topic, question, options);
@@ -1736,8 +1758,8 @@ program
               type: 'input',
               name: 'decisionId',
               message: 'معرف القرار:',
-              validate: (input) => input.trim().length > 0 || 'معرف القرار مطلوب'
-            }
+              validate: (input) => input.trim().length > 0 || 'معرف القرار مطلوب',
+            },
           ]);
 
           await collectiveManager.collectOpinions(decisionId);
@@ -1752,18 +1774,18 @@ program
             {
               type: 'input',
               name: 'clusterName',
-              message: 'اسم المجموعة:'
+              message: 'اسم المجموعة:',
             },
             {
               type: 'input',
               name: 'clusterTopic',
-              message: 'الموضوع:'
+              message: 'الموضوع:',
             },
             {
               type: 'input',
               name: 'participants',
-              message: 'المشاركون (مفصولين بفواصل):'
-            }
+              message: 'المشاركون (مفصولين بفواصل):',
+            },
           ]);
 
           const participantList = participants.split(',').map((name: string) => ({
@@ -1772,10 +1794,14 @@ program
             type: 'ai' as const,
             expertise: ['general'],
             influence: 0.5,
-            reliability: 0.8
+            reliability: 0.8,
           }));
 
-          await collectiveManager.createIntelligenceCluster(clusterName, clusterTopic, participantList);
+          await collectiveManager.createIntelligenceCluster(
+            clusterName,
+            clusterTopic,
+            participantList
+          );
           break;
 
         case 'knowledge':
@@ -1789,23 +1815,23 @@ program
             {
               type: 'input',
               name: 'clusterId',
-              message: 'معرف المجموعة:'
+              message: 'معرف المجموعة:',
             },
             {
               type: 'input',
               name: 'content',
-              message: 'المحتوى:'
+              message: 'المحتوى:',
             },
             {
               type: 'input',
               name: 'source',
-              message: 'المصدر:'
+              message: 'المصدر:',
             },
             {
               type: 'input',
               name: 'tags',
-              message: 'العلامات (مفصولة بفواصل):'
-            }
+              message: 'العلامات (مفصولة بفواصل):',
+            },
           ]);
 
           const tagList = tags.split(',').map((tag: string) => tag.trim());
@@ -1815,7 +1841,6 @@ program
         default:
           console.log(chalk.yellow('الأوامر المتاحة: create, decide, list, cluster, knowledge'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1839,8 +1864,8 @@ program
               type: 'input',
               name: 'file',
               message: 'الملف لاستخراج DNA:',
-              validate: (input) => input.trim().length > 0 || 'مسار الملف مطلوب'
-            }
+              validate: (input) => input.trim().length > 0 || 'مسار الملف مطلوب',
+            },
           ]);
 
           await dnaManager.extractCodeDNA(file);
@@ -1852,14 +1877,14 @@ program
               type: 'input',
               name: 'file1',
               message: 'الملف الأول:',
-              validate: (input) => input.trim().length > 0 || 'مسار الملف الأول مطلوب'
+              validate: (input) => input.trim().length > 0 || 'مسار الملف الأول مطلوب',
             },
             {
               type: 'input',
               name: 'file2',
               message: 'الملف الثاني:',
-              validate: (input) => input.trim().length > 0 || 'مسار الملف الثاني مطلوب'
-            }
+              validate: (input) => input.trim().length > 0 || 'مسار الملف الثاني مطلوب',
+            },
           ]);
 
           await dnaManager.compareCodeDNA(file1, file2);
@@ -1872,7 +1897,6 @@ program
         default:
           console.log(chalk.yellow('الأوامر المتاحة: extract, compare, list'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1900,7 +1924,7 @@ program
               type: 'confirm',
               name: 'enable',
               message: 'تفعيل النظام الصوتي؟',
-              default: false
+              default: false,
             },
             {
               type: 'list',
@@ -1908,7 +1932,7 @@ program
               message: 'اللغة:',
               choices: ['ar', 'en', 'mixed'],
               default: 'ar',
-              when: (answers) => answers.enable
+              when: (answers) => answers.enable,
             },
             {
               type: 'list',
@@ -1916,7 +1940,7 @@ program
               message: 'نوع الصوت:',
               choices: ['male', 'female', 'neutral'],
               default: 'neutral',
-              when: (answers) => answers.enable
+              when: (answers) => answers.enable,
             },
             {
               type: 'number',
@@ -1925,7 +1949,7 @@ program
               min: 0.5,
               max: 2.0,
               default: 1.0,
-              when: (answers) => answers.enable
+              when: (answers) => answers.enable,
             },
             {
               type: 'number',
@@ -1934,8 +1958,8 @@ program
               min: 0.5,
               max: 2.0,
               default: 1.0,
-              when: (answers) => answers.enable
-            }
+              when: (answers) => answers.enable,
+            },
           ]);
 
           await voiceManager.configureVoice(configOptions);
@@ -1956,7 +1980,6 @@ program
         default:
           console.log(chalk.yellow('الأوامر المتاحة: start, config, train, sessions, stats'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -1985,17 +2008,36 @@ program
               type: 'input',
               name: 'topic',
               message: 'موضوع العصف الذهني:',
-              validate: (input) => input.trim().length > 0 || 'الموضوع مطلوب'
-            }
+              validate: (input) => input.trim().length > 0 || 'الموضوع مطلوب',
+            },
           ]);
 
           const options = [
-            { title: 'الحل التقليدي', description: 'الحل المعتاد والمستخدم', pros: ['مختبر', 'موثوق'], cons: ['غير مبتكر'] },
-            { title: 'الحل الإبداعي', description: 'حل جديد ومبتكر', pros: ['مبتكر', 'مميز'], cons: ['مخاطر', 'تعقيد'] },
-            { title: 'الحل التقني', description: 'حل يعتمد على التقنية المتقدمة', pros: ['متقدم', 'قابل للتطوير'], cons: ['تعقيد', 'تكلفة'] }
+            {
+              title: 'الحل التقليدي',
+              description: 'الحل المعتاد والمستخدم',
+              pros: ['مختبر', 'موثوق'],
+              cons: ['غير مبتكر'],
+            },
+            {
+              title: 'الحل الإبداعي',
+              description: 'حل جديد ومبتكر',
+              pros: ['مبتكر', 'مميز'],
+              cons: ['مخاطر', 'تعقيد'],
+            },
+            {
+              title: 'الحل التقني',
+              description: 'حل يعتمد على التقنية المتقدمة',
+              pros: ['متقدم', 'قابل للتطوير'],
+              cons: ['تعقيد', 'تكلفة'],
+            },
           ];
 
-          await collectiveManager.createCollectiveDecision(topic, 'ما هو أفضل حل لهذا الموضوع؟', options);
+          await collectiveManager.createCollectiveDecision(
+            topic,
+            'ما هو أفضل حل لهذا الموضوع؟',
+            options
+          );
           break;
 
         case 'debate':
@@ -2010,13 +2052,13 @@ program
             {
               type: 'input',
               name: 'teamId',
-              message: 'معرف الفريق:'
+              message: 'معرف الفريق:',
             },
             {
               type: 'input',
               name: 'debateTopic',
-              message: 'موضوع المناقشة:'
-            }
+              message: 'موضوع المناقشة:',
+            },
           ]);
 
           await teamManager.startTeamDiscussion(teamId, debateTopic, debateTopic);
@@ -2025,7 +2067,6 @@ program
         default:
           console.log(chalk.yellow('الأوامر المتاحة: personality, brainstorm, debate'));
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -2058,7 +2099,7 @@ program
         includeExamples: options.examples !== false,
         outputDir: options.output,
         language: options.language,
-        level: options.level
+        level: options.level,
       });
 
       if (result.success) {
@@ -2075,7 +2116,7 @@ program
         ui.failSpinner('فشل توليد التوثيق');
         if (result.errors && result.errors.length > 0) {
           console.log(chalk.red('\n❌ الأخطاء:'));
-          result.errors.forEach(err => console.log(chalk.red(`   - ${err}`)));
+          result.errors.forEach((err) => console.log(chalk.red(`   - ${err}`)));
         }
       }
     } catch (error: any) {
@@ -2098,7 +2139,7 @@ program
 
       const result = await docsGenerator.addJSDocComments(files, {
         useAI: options.ai,
-        language: options.language
+        language: options.language,
       });
 
       if (result.success) {
@@ -2108,7 +2149,7 @@ program
         ui.failSpinner('فشل إضافة JSDoc');
         if (result.errors && result.errors.length > 0) {
           console.log(chalk.red('\n❌ الأخطاء:'));
-          result.errors.forEach(err => console.log(chalk.red(`   - ${err}`)));
+          result.errors.forEach((err) => console.log(chalk.red(`   - ${err}`)));
         }
       }
     } catch (error: any) {
@@ -2146,7 +2187,7 @@ program
         generateMocks: options.mocks !== false,
         includeEdgeCases: options.edgeCases !== false,
         outputDir: options.output,
-        language: options.language
+        language: options.language,
       });
 
       if (result.success) {
@@ -2160,7 +2201,7 @@ program
         ui.failSpinner('فشل توليد الاختبارات');
         if (result.errors && result.errors.length > 0) {
           console.log(chalk.red('\n❌ الأخطاء:'));
-          result.errors.forEach(err => console.log(chalk.red(`   - ${err}`)));
+          result.errors.forEach((err) => console.log(chalk.red(`   - ${err}`)));
         }
       }
     } catch (error: any) {
@@ -2180,10 +2221,7 @@ program
 
       ui.startSpinner('إنشاء ملف الإعدادات...');
 
-      const configPath = await testGenerator.generateTestConfig(
-        framework as any,
-        options.output
-      );
+      const configPath = await testGenerator.generateTestConfig(framework as any, options.output);
 
       ui.succeedSpinner('تم إنشاء ملف الإعدادات!');
       console.log(chalk.cyan(`\n📁 الملف: ${configPath}\n`));
@@ -2203,7 +2241,7 @@ program
 
       ui.startSpinner('تشغيل الاختبارات...');
 
-      const result = await testGenerator.runTests(framework as any || 'jest');
+      const result = await testGenerator.runTests((framework as any) || 'jest');
 
       if (result.success) {
         ui.succeedSpinner('نجحت الاختبارات!');
@@ -2292,12 +2330,12 @@ program
         console.log(chalk.green('\n✅ الإعدادات صحيحة!\n'));
       } else {
         console.log(chalk.red('\n❌ الإعدادات غير صحيحة:\n'));
-        result.errors.forEach(err => console.log(chalk.red(`   - ${err}`)));
+        result.errors.forEach((err) => console.log(chalk.red(`   - ${err}`)));
       }
 
       if (result.warnings.length > 0) {
         console.log(chalk.yellow('\n⚠️  تحذيرات:\n'));
-        result.warnings.forEach(warn => console.log(chalk.yellow(`   - ${warn}`)));
+        result.warnings.forEach((warn) => console.log(chalk.yellow(`   - ${warn}`)));
       }
       console.log();
     } catch (error: any) {
@@ -2350,7 +2388,7 @@ program
         priority: options.priority,
         estimatedHours: options.estimate ? parseFloat(options.estimate) : undefined,
         tags: options.tags ? options.tags.split(',').map((t: string) => t.trim()) : [],
-        assignee: options.assignee
+        assignee: options.assignee,
       });
 
       console.log(chalk.green('\n✅ تم إنشاء المهمة!'));
@@ -2380,7 +2418,7 @@ program
         status: options.status,
         priority: options.priority,
         tag: options.tag,
-        assignee: options.assignee
+        assignee: options.assignee,
       });
 
       if (tasks.length === 0) {
@@ -2391,18 +2429,31 @@ program
       console.log(chalk.cyan(`\n📋 المهام (${tasks.length}):\n`));
 
       for (const task of tasks) {
-        const statusIcon = task.status === 'completed' ? '✅' :
-                          task.status === 'in_progress' ? '⏳' :
-                          task.status === 'blocked' ? '🚫' :
-                          task.status === 'cancelled' ? '❌' : '📝';
+        const statusIcon =
+          task.status === 'completed'
+            ? '✅'
+            : task.status === 'in_progress'
+              ? '⏳'
+              : task.status === 'blocked'
+                ? '🚫'
+                : task.status === 'cancelled'
+                  ? '❌'
+                  : '📝';
 
-        const priorityColor = task.priority === 'critical' ? chalk.red :
-                             task.priority === 'high' ? chalk.yellow :
-                             task.priority === 'medium' ? chalk.cyan : chalk.gray;
+        const priorityColor =
+          task.priority === 'critical'
+            ? chalk.red
+            : task.priority === 'high'
+              ? chalk.yellow
+              : task.priority === 'medium'
+                ? chalk.cyan
+                : chalk.gray;
 
         console.log(`${statusIcon} ${chalk.white(task.title)}`);
         console.log(`   ${chalk.gray(`ID: ${task.id}`)}`);
-        console.log(`   ${priorityColor(`الأولوية: ${task.priority}`)} | ${chalk.white(`التقدم: ${task.progress}%`)}`);
+        console.log(
+          `   ${priorityColor(`الأولوية: ${task.priority}`)} | ${chalk.white(`التقدم: ${task.progress}%`)}`
+        );
         if (task.assignee) {
           console.log(`   ${chalk.white(`المسؤول: ${task.assignee}`)}`);
         }
@@ -2465,7 +2516,7 @@ program
 
       const milestone = await tracker.createMilestone(name, {
         description: options.description,
-        dueDate
+        dueDate,
       });
 
       console.log(chalk.green('\n✅ تم إنشاء Milestone!'));
@@ -2487,10 +2538,7 @@ program
       const tracker = createProgressTracker(process.cwd());
       await tracker.initialize();
 
-      const output = await tracker.exportReport(
-        options.format,
-        options.output
-      );
+      const output = await tracker.exportReport(options.format, options.output);
 
       if (options.output) {
         console.log(chalk.green(`\n✅ تم حفظ التقرير في: ${output}\n`));
@@ -2536,7 +2584,7 @@ program
       const godMode = createGodMode({
         apiKey: process.env.ANTHROPIC_API_KEY,
         outputPath: options.output,
-        verbose: true
+        verbose: true,
       });
 
       const result = await godMode.execute(task);
@@ -2546,7 +2594,11 @@ program
       console.log(chalk.cyan('📊 Statistics:'));
       console.log(chalk.white(`   Files: ${result.analytics.filesGenerated}`));
       console.log(chalk.white(`   Lines: ${result.analytics.linesOfCode}`));
-      console.log(chalk.white(`   Tests: ${result.analytics.testsCreated} (${result.analytics.testsPassed} passed)`));
+      console.log(
+        chalk.white(
+          `   Tests: ${result.analytics.testsCreated} (${result.analytics.testsPassed} passed)`
+        )
+      );
       console.log(chalk.white(`   Security Score: ${result.security.score}/100`));
       console.log(chalk.white(`   Quality Score: ${result.review.score}/100`));
       console.log(chalk.white(`   Duration: ${(result.duration / 1000).toFixed(2)}s`));
@@ -2563,12 +2615,12 @@ program
         command: 'god',
         timestamp: Date.now(),
         duration: result.duration,
-        success: true
+        success: true,
       });
 
       // حفظ في Library
       const library = createCodeLibrary({
-        libraryPath: process.cwd()
+        libraryPath: process.cwd(),
       });
 
       if (result.code.files.length > 0) {
@@ -2579,7 +2631,6 @@ program
           `God Mode: ${task}`
         );
       }
-
     } catch (error: any) {
       console.error(chalk.red('\n❌ God Mode failed:'), error.message);
     }
@@ -2637,8 +2688,8 @@ program
           type: 'confirm',
           name: 'confirm',
           message: 'هل أنت متأكد من إعادة تعيين جميع البيانات؟',
-          default: false
-        }
+          default: false,
+        },
       ]);
 
       if (confirm) {
@@ -2694,7 +2745,7 @@ program
 
       const team = createAgentTeam({
         apiKey: process.env.ANTHROPIC_API_KEY,
-        verbose: !options.quiet
+        verbose: !options.quiet,
       });
 
       // بدء التعاون
@@ -2711,7 +2762,6 @@ program
       }
 
       console.log(chalk.green('\n✅ انتهى الفريق من العمل بنجاح!\n'));
-
     } catch (error: any) {
       console.error(chalk.red('\n❌'), error.message);
     }
@@ -2730,7 +2780,7 @@ program
   .action(async (name: string, options: any) => {
     try {
       const library = createCodeLibrary({
-        libraryPath: process.cwd()
+        libraryPath: process.cwd(),
       });
 
       // طلب الكود من المستخدم
@@ -2739,8 +2789,8 @@ program
           type: 'editor',
           name: 'code',
           message: 'اكتب الكود:',
-          default: '// اكتب الكود هنا...'
-        }
+          default: '// اكتب الكود هنا...',
+        },
       ]);
 
       const tags = options.tags ? options.tags.split(',').map((t: string) => t.trim()) : [];
@@ -2758,7 +2808,7 @@ program
   .action(async (query: string) => {
     try {
       const library = createCodeLibrary({
-        libraryPath: process.cwd()
+        libraryPath: process.cwd(),
       });
 
       await library.searchSnippets(query);
@@ -2775,7 +2825,7 @@ program
   .action(async () => {
     try {
       const library = createCodeLibrary({
-        libraryPath: process.cwd()
+        libraryPath: process.cwd(),
       });
 
       await library.listAllSnippets();
@@ -2791,7 +2841,7 @@ program
   .action(async (name: string) => {
     try {
       const library = createCodeLibrary({
-        libraryPath: process.cwd()
+        libraryPath: process.cwd(),
       });
 
       const sharedPath = await library.shareSnippet(name);
@@ -2812,7 +2862,7 @@ program
   .action(async (name: string) => {
     try {
       const library = createCodeLibrary({
-        libraryPath: process.cwd()
+        libraryPath: process.cwd(),
       });
 
       const { confirm } = await inquirer.prompt([
@@ -2820,8 +2870,8 @@ program
           type: 'confirm',
           name: 'confirm',
           message: `هل أنت متأكد من حذف "${name}"؟`,
-          default: false
-        }
+          default: false,
+        },
       ]);
 
       if (confirm) {
@@ -2841,7 +2891,7 @@ program
   .action(async (name: string) => {
     try {
       const library = createCodeLibrary({
-        libraryPath: process.cwd()
+        libraryPath: process.cwd(),
       });
 
       const snippet = await library.getSnippet(name);
@@ -2871,13 +2921,15 @@ program
   .action(async () => {
     try {
       const library = createCodeLibrary({
-        libraryPath: process.cwd()
+        libraryPath: process.cwd(),
       });
 
       const stats = await library.getStats();
 
       console.log(chalk.cyan('\n📊 إحصائيات المكتبة:\n'));
-      console.log(chalk.white(`📚 إجمالي الـ snippets: ${chalk.green(stats.totalSnippets.toString())}`));
+      console.log(
+        chalk.white(`📚 إجمالي الـ snippets: ${chalk.green(stats.totalSnippets.toString())}`)
+      );
       console.log(chalk.white(`📈 إجمالي الاستخدام: ${chalk.green(stats.totalUsage.toString())}`));
 
       console.log(chalk.cyan('\n🗂️ حسب اللغة:'));

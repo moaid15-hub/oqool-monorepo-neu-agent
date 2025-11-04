@@ -71,7 +71,7 @@ export class ConfigWizard {
     this.workingDir = workingDir;
     this.rl = readline.createInterface({
       input: process.stdin,
-      output: process.stdout
+      output: process.stdout,
     });
   }
 
@@ -98,7 +98,7 @@ export class ConfigWizard {
         message:
           language === 'ar'
             ? `✅ تم حفظ الإعدادات في: ${configPath}`
-            : `✅ Configuration saved to: ${configPath}`
+            : `✅ Configuration saved to: ${configPath}`,
       };
     } catch (error) {
       this.rl.close();
@@ -107,7 +107,7 @@ export class ConfigWizard {
         success: false,
         config: this.getDefaultConfig(language),
         configPath: '',
-        message: `❌ ${error}`
+        message: `❌ ${error}`,
       };
     }
   }
@@ -125,21 +125,21 @@ export class ConfigWizard {
       caching: {
         enabled: true,
         ttl: 3600000,
-        maxSize: 100
+        maxSize: 100,
       },
       performance: {
         parallel: true,
         concurrency: 5,
-        incremental: true
+        incremental: true,
       },
       features: {
         templates: true,
         hooks: true,
         review: true,
         docs: true,
-        tests: true
+        tests: true,
       },
-      language
+      language,
     };
 
     // نوع المشروع
@@ -159,17 +159,12 @@ export class ConfigWizard {
 
     // API Key
     const needsApi = await this.askYesNo(
-      language === 'ar'
-        ? 'هل تريد استخدام Oqool AI API؟'
-        : 'Do you want to use Oqool AI API?',
+      language === 'ar' ? 'هل تريد استخدام Oqool AI API؟' : 'Do you want to use Oqool AI API?',
       true
     );
 
     if (needsApi) {
-      config.apiKey = await this.ask(
-        language === 'ar' ? 'API Key:' : 'API Key:',
-        ''
-      );
+      config.apiKey = await this.ask(language === 'ar' ? 'API Key:' : 'API Key:', '');
       config.apiUrl = await this.ask(
         language === 'ar' ? 'API URL:' : 'API URL:',
         'https://oqool.net'
@@ -177,10 +172,7 @@ export class ConfigWizard {
     }
 
     // Git
-    config.gitEnabled = await this.askYesNo(
-      language === 'ar' ? 'تفعيل Git؟' : 'Enable Git?',
-      true
-    );
+    config.gitEnabled = await this.askYesNo(language === 'ar' ? 'تفعيل Git؟' : 'Enable Git?', true);
 
     // AI
     config.aiEnabled = await this.askYesNo(
@@ -222,11 +214,7 @@ export class ConfigWizard {
     );
 
     // Features
-    console.log(
-      language === 'ar'
-        ? '\n📦 اختر الميزات المطلوبة:'
-        : '\n📦 Select features:'
-    );
+    console.log(language === 'ar' ? '\n📦 اختر الميزات المطلوبة:' : '\n📦 Select features:');
 
     config.features.templates = await this.askYesNo(
       language === 'ar' ? 'القوالب (Templates)؟' : 'Templates?',
@@ -260,11 +248,7 @@ export class ConfigWizard {
    * سؤال عن نوع المشروع
    */
   private async askProjectType(language: 'ar' | 'en'): Promise<ProjectType> {
-    console.log(
-      language === 'ar'
-        ? '\nنوع المشروع:'
-        : '\nProject type:'
-    );
+    console.log(language === 'ar' ? '\nنوع المشروع:' : '\nProject type:');
     console.log('1. TypeScript');
     console.log('2. Node.js');
     console.log('3. React');
@@ -278,10 +262,7 @@ export class ConfigWizard {
     console.log('11. Rust');
     console.log('12. Other');
 
-    const choice = await this.ask(
-      language === 'ar' ? 'اختر رقم (1-12):' : 'Choose (1-12):',
-      '1'
-    );
+    const choice = await this.ask(language === 'ar' ? 'اختر رقم (1-12):' : 'Choose (1-12):', '1');
 
     const types: ProjectType[] = [
       'typescript',
@@ -295,7 +276,7 @@ export class ConfigWizard {
       'python',
       'go',
       'rust',
-      'other'
+      'other',
     ];
 
     const index = parseInt(choice) - 1;
@@ -307,9 +288,7 @@ export class ConfigWizard {
    */
   private async ask(question: string, defaultValue: string = ''): Promise<string> {
     return new Promise((resolve) => {
-      const prompt = defaultValue
-        ? `${question} [${defaultValue}] `
-        : `${question} `;
+      const prompt = defaultValue ? `${question} [${defaultValue}] ` : `${question} `;
 
       this.rl.question(prompt, (answer) => {
         resolve(answer.trim() || defaultValue);
@@ -339,14 +318,10 @@ export class ConfigWizard {
     const configData = {
       ...config,
       version: '1.0.0',
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
 
-    await fs.writeFile(
-      configPath,
-      JSON.stringify(configData, null, 2),
-      'utf-8'
-    );
+    await fs.writeFile(configPath, JSON.stringify(configData, null, 2), 'utf-8');
 
     return configPath;
   }
@@ -364,21 +339,21 @@ export class ConfigWizard {
       caching: {
         enabled: true,
         ttl: 3600000,
-        maxSize: 100
+        maxSize: 100,
       },
       performance: {
         parallel: true,
         concurrency: 5,
-        incremental: true
+        incremental: true,
       },
       features: {
         templates: true,
         hooks: true,
         review: true,
         docs: true,
-        tests: true
+        tests: true,
       },
-      language
+      language,
     };
   }
 
@@ -398,20 +373,20 @@ export class ConfigWizard {
         caching: {
           enabled: false,
           ttl: 0,
-          maxSize: 0
+          maxSize: 0,
         },
         performance: {
           parallel: false,
           concurrency: 1,
-          incremental: false
+          incremental: false,
         },
         features: {
           templates: false,
           hooks: false,
           review: false,
           docs: false,
-          tests: false
-        }
+          tests: false,
+        },
       };
     } else if (preset === 'recommended') {
       config = {
@@ -420,20 +395,20 @@ export class ConfigWizard {
         caching: {
           enabled: true,
           ttl: 3600000,
-          maxSize: 50
+          maxSize: 50,
         },
         performance: {
           parallel: true,
           concurrency: 3,
-          incremental: true
+          incremental: true,
         },
         features: {
           templates: true,
           hooks: true,
           review: true,
           docs: false,
-          tests: false
-        }
+          tests: false,
+        },
       };
     } else if (preset === 'full') {
       config = {
@@ -442,20 +417,20 @@ export class ConfigWizard {
         caching: {
           enabled: true,
           ttl: 7200000,
-          maxSize: 100
+          maxSize: 100,
         },
         performance: {
           parallel: true,
           concurrency: 5,
-          incremental: true
+          incremental: true,
         },
         features: {
           templates: true,
           hooks: true,
           review: true,
           docs: true,
-          tests: true
-        }
+          tests: true,
+        },
       };
     }
 
@@ -466,18 +441,14 @@ export class ConfigWizard {
       config,
       configPath,
       message:
-        language === 'ar'
-          ? `✅ تم إنشاء إعدادات ${preset}`
-          : `✅ Created ${preset} configuration`
+        language === 'ar' ? `✅ تم إنشاء إعدادات ${preset}` : `✅ Created ${preset} configuration`,
     };
   }
 
   /**
    * تحديث إعدادات موجودة
    */
-  async updateConfig(
-    updates: Partial<ProjectConfig>
-  ): Promise<WizardResult> {
+  async updateConfig(updates: Partial<ProjectConfig>): Promise<WizardResult> {
     try {
       const configPath = path.join(this.workingDir, 'oqool.config.json');
 
@@ -493,7 +464,7 @@ export class ConfigWizard {
       // دمج التحديثات
       const newConfig: ProjectConfig = {
         ...currentConfig,
-        ...updates
+        ...updates,
       };
 
       // حفظ
@@ -503,14 +474,14 @@ export class ConfigWizard {
         success: true,
         config: newConfig,
         configPath,
-        message: '✅ تم تحديث الإعدادات'
+        message: '✅ تم تحديث الإعدادات',
       };
     } catch (error) {
       return {
         success: false,
         config: this.getDefaultConfig('ar'),
         configPath: '',
-        message: `❌ ${error}`
+        message: `❌ ${error}`,
       };
     }
   }
@@ -535,19 +506,11 @@ export class ConfigWizard {
     const config = await this.loadConfig();
 
     if (!config) {
-      console.log(
-        language === 'ar'
-          ? '❌ لا توجد إعدادات محفوظة'
-          : '❌ No configuration found'
-      );
+      console.log(language === 'ar' ? '❌ لا توجد إعدادات محفوظة' : '❌ No configuration found');
       return;
     }
 
-    console.log(
-      language === 'ar'
-        ? '\n📋 الإعدادات الحالية:'
-        : '\n📋 Current Configuration:'
-    );
+    console.log(language === 'ar' ? '\n📋 الإعدادات الحالية:' : '\n📋 Current Configuration:');
     console.log(JSON.stringify(config, null, 2));
   }
 
@@ -591,7 +554,7 @@ export class ConfigWizard {
     return {
       valid: errors.length === 0,
       errors,
-      warnings
+      warnings,
     };
   }
 
@@ -675,10 +638,7 @@ export class ConfigWizard {
   /**
    * استيراد الإعدادات
    */
-  async importConfig(
-    source: string,
-    format: 'json' | 'yaml' | 'env'
-  ): Promise<WizardResult> {
+  async importConfig(source: string, format: 'json' | 'yaml' | 'env'): Promise<WizardResult> {
     try {
       let config: ProjectConfig;
 
@@ -698,14 +658,14 @@ export class ConfigWizard {
         success: true,
         config,
         configPath,
-        message: '✅ Configuration imported successfully'
+        message: '✅ Configuration imported successfully',
       };
     } catch (error) {
       return {
         success: false,
         config: this.getDefaultConfig('ar'),
         configPath: '',
-        message: `❌ ${error}`
+        message: `❌ ${error}`,
       };
     }
   }
@@ -719,7 +679,7 @@ export class ConfigWizard {
 
     const lines = yaml.split('\n');
     for (const line of lines) {
-      const [key, value] = line.split(':').map(s => s.trim());
+      const [key, value] = line.split(':').map((s) => s.trim());
       // ... تحليل الحقول
     }
 

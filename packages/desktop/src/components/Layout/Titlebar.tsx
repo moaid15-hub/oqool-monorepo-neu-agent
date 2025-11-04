@@ -30,25 +30,13 @@ export const Titlebar: React.FC<TitlebarProps> = ({
         </div>
 
         <div className="titlebar-right">
-          <button
-            className="titlebar-control minimize"
-            onClick={onMinimize}
-            title="تصغير"
-          >
+          <button className="titlebar-control minimize" onClick={onMinimize} title="تصغير">
             −
           </button>
-          <button
-            className="titlebar-control maximize"
-            onClick={onMaximize}
-            title="تكبير"
-          >
+          <button className="titlebar-control maximize" onClick={onMaximize} title="تكبير">
             □
           </button>
-          <button
-            className="titlebar-control close"
-            onClick={onClose}
-            title="إغلاق"
-          >
+          <button className="titlebar-control close" onClick={onClose} title="إغلاق">
             ×
           </button>
         </div>

@@ -109,9 +109,7 @@ export const FindReplace: React.FC<FindReplaceProps> = ({
             <input
               type="checkbox"
               checked={options.caseSensitive}
-              onChange={(e) =>
-                setOptions({ ...options, caseSensitive: e.target.checked })
-              }
+              onChange={(e) => setOptions({ ...options, caseSensitive: e.target.checked })}
             />
             <span>حساس لحالة الأحرف</span>
           </label>
@@ -119,9 +117,7 @@ export const FindReplace: React.FC<FindReplaceProps> = ({
             <input
               type="checkbox"
               checked={options.wholeWord}
-              onChange={(e) =>
-                setOptions({ ...options, wholeWord: e.target.checked })
-              }
+              onChange={(e) => setOptions({ ...options, wholeWord: e.target.checked })}
             />
             <span>كلمة كاملة</span>
           </label>

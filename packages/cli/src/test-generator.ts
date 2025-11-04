@@ -105,10 +105,7 @@ export class TestGenerator {
   /**
    * توليد اختبارات للملفات
    */
-  async generateTests(
-    files: string[],
-    options: TestOptions = {}
-  ): Promise<TestGenerationResult> {
+  async generateTests(files: string[], options: TestOptions = {}): Promise<TestGenerationResult> {
     const {
       framework = 'jest',
       type = 'unit',
@@ -116,7 +113,7 @@ export class TestGenerator {
       generateMocks = true,
       includeEdgeCases = true,
       outputDir = path.join(this.workingDir, '__tests__'),
-      language = 'ar'
+      language = 'ar',
     } = options;
 
     const result: TestGenerationResult = {
@@ -126,9 +123,9 @@ export class TestGenerator {
       coverage: {
         functions: 0,
         classes: 0,
-        lines: 0
+        lines: 0,
       },
-      errors: []
+      errors: [],
     };
 
     try {
@@ -138,10 +135,14 @@ export class TestGenerator {
       // معالجة كل ملف
       for (const file of files) {
         try {
-          const testFile = await this.generateTestFile(
-            file,
-            { framework, type, useAI, generateMocks, includeEdgeCases, language }
-          );
+          const testFile = await this.generateTestFile(file, {
+            framework,
+            type,
+            useAI,
+            generateMocks,
+            includeEdgeCases,
+            language,
+          });
 
           if (testFile) {
             result.files.push(testFile);
@@ -155,7 +156,6 @@ export class TestGenerator {
       // حساب التغطية
       result.coverage = await this.calculateCoverage(files);
       result.success = (result.errors?.length || 0) === 0;
-
     } catch (error) {
       result.success = false;
       result.errors?.push(`Fatal error: ${error}`);
@@ -207,10 +207,9 @@ export class TestGenerator {
     options: Required<Omit<TestOptions, 'outputDir'>>
   ): string {
     const moduleName = path.basename(sourceFile, path.extname(sourceFile));
-    const importPath = path.relative(
-      path.join(this.workingDir, '__tests__'),
-      sourceFile
-    ).replace(/\\/g, '/');
+    const importPath = path
+      .relative(path.join(this.workingDir, '__tests__'), sourceFile)
+      .replace(/\\/g, '/');
 
     let header = '';
 
@@ -237,11 +236,7 @@ export class TestGenerator {
     const base = path.basename(sourceFile, ext);
     const testExt = framework === 'jest' || framework === 'vitest' ? '.test.ts' : '.spec.ts';
 
-    return path.join(
-      this.workingDir,
-      '__tests__',
-      base + testExt
-    );
+    return path.join(this.workingDir, '__tests__', base + testExt);
   }
 
   /**
@@ -255,7 +250,7 @@ export class TestGenerator {
 
     const functionTest: FunctionTest = {
       functionName: func.name,
-      testCases
+      testCases,
     };
 
     if (options.generateMocks) {
@@ -298,15 +293,14 @@ export class TestGenerator {
     const inputs = this.generateSampleInputs(func);
 
     return {
-      name: options.language === 'ar'
-        ? `يجب أن تعمل ${func.name} بشكل صحيح`
-        : `${func.name} should work correctly`,
-      description: options.language === 'ar'
-        ? 'اختبار الحالة العادية'
-        : 'Test normal case',
+      name:
+        options.language === 'ar'
+          ? `يجب أن تعمل ${func.name} بشكل صحيح`
+          : `${func.name} should work correctly`,
+      description: options.language === 'ar' ? 'اختبار الحالة العادية' : 'Test normal case',
       input: inputs,
       expected: this.generateExpectedOutput(func, inputs),
-      type: 'normal'
+      type: 'normal',
     };
   }
 
@@ -324,13 +318,12 @@ export class TestGenerator {
       const firstParam = func.params[0];
       // Since params are just strings, we'll test with empty string
       cases.push({
-        name: options.language === 'ar'
-          ? 'يجب أن تتعامل مع قيم فارغة'
-          : 'should handle empty values',
+        name:
+          options.language === 'ar' ? 'يجب أن تتعامل مع قيم فارغة' : 'should handle empty values',
         description: 'Edge case: empty input',
         input: { [firstParam]: '' },
         expected: null,
-        type: 'edge'
+        type: 'edge',
       });
     }
 
@@ -350,13 +343,14 @@ export class TestGenerator {
     if (func.params.length > 0) {
       const firstParam = func.params[0];
       cases.push({
-        name: options.language === 'ar'
-          ? 'يجب أن ترمي خطأ عند تمرير null'
-          : 'should throw error with null input',
+        name:
+          options.language === 'ar'
+            ? 'يجب أن ترمي خطأ عند تمرير null'
+            : 'should throw error with null input',
         description: 'Error case: null input',
         input: { [firstParam]: null },
         expected: 'Error',
-        type: 'error'
+        type: 'error',
       });
     }
 
@@ -434,7 +428,7 @@ export class TestGenerator {
       mocks.push({
         name: `mock${this.capitalize(paramName)}`,
         type: 'any',
-        implementation: `jest.fn()`
+        implementation: `jest.fn()`,
       });
     }
 
@@ -446,7 +440,7 @@ export class TestGenerator {
    */
   private isPrimitiveType(type: string): boolean {
     const primitives = ['string', 'number', 'boolean', 'any', 'void', 'null', 'undefined'];
-    return primitives.some(p => type.includes(p));
+    return primitives.some((p) => type.includes(p));
   }
 
   /**
@@ -476,11 +470,7 @@ export class TestGenerator {
 
     // Test cases
     for (const testCase of functionTest.testCases) {
-      code += this.generateTestCaseCode(
-        functionTest.functionName,
-        testCase,
-        options
-      );
+      code += this.generateTestCaseCode(functionTest.functionName, testCase, options);
     }
 
     code += `});\n`;
@@ -550,7 +540,7 @@ export class TestGenerator {
         params: [],
         async: false,
         lineStart: 0,
-        lineEnd: 0
+        lineEnd: 0,
       };
       const methodTest = await this.generateFunctionTest(dummyFuncInfo, options);
       methods.push(methodTest);
@@ -560,7 +550,7 @@ export class TestGenerator {
       className: cls.name,
       methods,
       beforeEach: `instance = new ${cls.name}();`,
-      afterEach: `instance = null;`
+      afterEach: `instance = null;`,
     };
   }
 
@@ -593,11 +583,7 @@ export class TestGenerator {
       code += `  describe('${method.functionName}', () => {\n`;
 
       for (const testCase of method.testCases) {
-        code += this.generateMethodTestCase(
-          method.functionName,
-          testCase,
-          options
-        );
+        code += this.generateMethodTestCase(method.functionName, testCase, options);
       }
 
       code += `  });\n\n`;
@@ -668,17 +654,14 @@ export class TestGenerator {
     return {
       functions: totalFunctions,
       classes: totalClasses,
-      lines: totalLines
+      lines: totalLines,
     };
   }
 
   /**
    * توليد package.json للاختبارات
    */
-  async generateTestConfig(
-    framework: TestFramework,
-    outputDir: string
-  ): Promise<string> {
+  async generateTestConfig(framework: TestFramework, outputDir: string): Promise<string> {
     let config = '';
 
     if (framework === 'jest') {
@@ -715,9 +698,11 @@ export default defineConfig({
 
     const configPath = path.join(
       outputDir,
-      framework === 'vitest' ? 'vitest.config.ts' :
-      framework === 'mocha' ? '.mocharc.json' :
-      'jest.config.json'
+      framework === 'vitest'
+        ? 'vitest.config.ts'
+        : framework === 'mocha'
+          ? '.mocharc.json'
+          : 'jest.config.json'
     );
 
     await fs.writeFile(configPath, config, 'utf-8');
@@ -727,9 +712,7 @@ export default defineConfig({
   /**
    * تشغيل الاختبارات
    */
-  async runTests(
-    framework: TestFramework = 'jest'
-  ): Promise<{ success: boolean; output: string }> {
+  async runTests(framework: TestFramework = 'jest'): Promise<{ success: boolean; output: string }> {
     const { exec } = require('child_process');
     const { promisify } = require('util');
     const execPromise = promisify(exec);
@@ -747,17 +730,17 @@ export default defineConfig({
 
     try {
       const { stdout, stderr } = await execPromise(command, {
-        cwd: this.workingDir
+        cwd: this.workingDir,
       });
 
       return {
         success: true,
-        output: stdout + (stderr || '')
+        output: stdout + (stderr || ''),
       };
     } catch (error: any) {
       return {
         success: false,
-        output: error.message
+        output: error.message,
       };
     }
   }

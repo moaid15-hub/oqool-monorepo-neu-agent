@@ -36,11 +36,11 @@ export class AgentClient {
       enablePlanning: true,
       enableContext: true,
       enableLearning: true,
-      ...config
+      ...config,
     };
 
     this.client = new Anthropic({
-      apiKey: this.config.apiKey
+      apiKey: this.config.apiKey,
     });
 
     // تهيئة Context Manager
@@ -55,17 +55,14 @@ export class AgentClient {
 
     // تهيئة Learning System
     if (this.config.enableLearning) {
-      this.learningSystem = new LearningSystem(
-        this.config.workingDirectory!,
-        this.config.apiKey
-      );
+      this.learningSystem = new LearningSystem(this.config.workingDirectory!, this.config.apiKey);
       // تحميل البيانات المحفوظة
       this.learningSystem.load().catch(() => {
         // تجاهل الأخطاء في التحميل
       });
     }
   }
-  
+
   // ============================================
   // 🎯 الطريقة الرئيسية - تشغيل Agent
   // ============================================
@@ -92,7 +89,7 @@ export class AgentClient {
     // إضافة رسالة المستخدم
     this.conversationHistory.push({
       role: 'user',
-      content: userMessage
+      content: userMessage,
     });
 
     let iteration = 0;
@@ -110,7 +107,7 @@ export class AgentClient {
           max_tokens: 4096,
           system: this.getSystemPrompt(projectContext),
           messages: this.conversationHistory,
-          tools: TOOL_DEFINITIONS as any
+          tools: TOOL_DEFINITIONS as any,
         });
 
         // معالجة الرد
@@ -120,14 +117,13 @@ export class AgentClient {
           finalResponse = result.text;
           break;
         }
-
       } catch (error: any) {
         console.error(chalk.red(`\n❌ خطأ: ${error.message}`));
 
         // تسجيل الخطأ في نظام التعلم
         if (this.learningSystem) {
           const errorId = await this.learningSystem.recordError(error.message, {
-            command: userMessage
+            command: userMessage,
           });
 
           // محاولة إيجاد حل من التعلم السابق
@@ -168,13 +164,22 @@ export class AgentClient {
   // ============================================
   private shouldPlan(message: string): boolean {
     const keywords = [
-      'أضف', 'اصنع', 'طور', 'حسّن', 'غير', 'عدل',
-      'add', 'create', 'build', 'develop', 'refactor'
+      'أضف',
+      'اصنع',
+      'طور',
+      'حسّن',
+      'غير',
+      'عدل',
+      'add',
+      'create',
+      'build',
+      'develop',
+      'refactor',
     ];
 
-    return keywords.some(kw => message.toLowerCase().includes(kw.toLowerCase()));
+    return keywords.some((kw) => message.toLowerCase().includes(kw.toLowerCase()));
   }
-  
+
   // ============================================
   // 📝 System Prompt
   // ============================================
@@ -248,7 +253,7 @@ export class AgentClient {
 
     return prompt;
   }
-  
+
   // ============================================
   // ⚙️ معالجة رد Claude
   // ============================================
@@ -259,46 +264,40 @@ export class AgentClient {
     // إضافة رد Assistant للتاريخ
     this.conversationHistory.push({
       role: 'assistant',
-      content: response.content
+      content: response.content,
     });
-    
+
     // التحقق من stop_reason
     if (response.stop_reason === 'end_turn') {
       // انتهى Agent - استخراج النص
-      const textBlocks = response.content.filter(
-        (block: any) => block.type === 'text'
-      );
-      
-      const finalText = textBlocks
-        .map((block: any) => block.text)
-        .join('\n');
-      
+      const textBlocks = response.content.filter((block: any) => block.type === 'text');
+
+      const finalText = textBlocks.map((block: any) => block.text).join('\n');
+
       return {
         done: true,
-        text: finalText
+        text: finalText,
       };
     }
-    
+
     // استخراج tool uses
-    const toolUses = response.content.filter(
-      (block: any) => block.type === 'tool_use'
-    );
-    
+    const toolUses = response.content.filter((block: any) => block.type === 'tool_use');
+
     if (toolUses.length === 0) {
       return {
         done: true,
-        text: 'انتهى العمل بدون استخدام أدوات'
+        text: 'انتهى العمل بدون استخدام أدوات',
       };
     }
-    
+
     // تنفيذ الأدوات
     const toolResults = await Promise.all(
       toolUses.map(async (toolUse: any) => {
         console.log(chalk.yellow(`\n🔧 استخدام أداة: ${toolUse.name}`));
         console.log(chalk.gray(JSON.stringify(toolUse.input, null, 2)));
-        
+
         const result = await executeTool(toolUse.name, toolUse.input);
-        
+
         // عرض نتيجة مختصرة
         try {
           const parsed = JSON.parse(result);
@@ -310,27 +309,27 @@ export class AgentClient {
         } catch (e) {
           console.log(chalk.gray('نتيجة: ' + result.slice(0, 100)));
         }
-        
+
         return {
           type: 'tool_result',
           tool_use_id: toolUse.id,
-          content: result
+          content: result,
         };
       })
     );
-    
+
     // إضافة نتائج الأدوات للتاريخ
     this.conversationHistory.push({
       role: 'user',
-      content: toolResults
+      content: toolResults,
     });
-    
+
     return {
       done: false,
-      text: ''
+      text: '',
     };
   }
-  
+
   // ============================================
   // 💬 وضع المحادثة التفاعلية
   // ============================================
@@ -346,21 +345,21 @@ export class AgentClient {
       await this.client.messages.create({
         model: this.config.model!,
         max_tokens: 1,
-        messages: [{ role: 'user', content: 'test' }]
+        messages: [{ role: 'user', content: 'test' }],
       });
       return true;
     } catch (error) {
       return false;
     }
   }
-  
+
   // ============================================
   // 🔄 إعادة تعيين المحادثة
   // ============================================
   resetConversation(): void {
     this.conversationHistory = [];
   }
-  
+
   // ============================================
   // 📊 إحصائيات
   // ============================================
@@ -370,9 +369,7 @@ export class AgentClient {
   } {
     return {
       messagesCount: this.conversationHistory.length,
-      iterations: this.conversationHistory.filter(
-        msg => msg.role === 'assistant'
-      ).length
+      iterations: this.conversationHistory.filter((msg) => msg.role === 'assistant').length,
     };
   }
 }

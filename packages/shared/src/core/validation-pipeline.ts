@@ -4,7 +4,7 @@
 // ============================================
 // يجمع كل مراحل التحقق في نظام موحد:
 // 1. Syntax Check (P1) - أخطاء الكتابة
-// 2. Type Check (P2) - أخطاء الأنواع  
+// 2. Type Check (P2) - أخطاء الأنواع
 // 3. Security Scan (P1) - ثغرات أمنية
 // 4. Performance Analysis (P3) - مشاكل الأداء
 // 5. Style Check (P3) - نظافة الكود
@@ -93,41 +93,41 @@ const DEFAULT_CONFIG: Required<PipelineConfig> = {
       priority: 'P1',
       autoFix: true,
       stopOnError: true,
-      confirm: false
+      confirm: false,
     },
     types: {
       enabled: true,
       priority: 'P2',
       autoFix: true,
       stopOnError: false,
-      confirm: false
+      confirm: false,
     },
     security: {
       enabled: true,
       priority: 'P1',
       autoFix: false,
       stopOnError: true,
-      confirm: true // يسأل المستخدم للثغرات الأمنية
+      confirm: true, // يسأل المستخدم للثغرات الأمنية
     },
     performance: {
       enabled: true,
       priority: 'P3',
       autoFix: false,
       stopOnError: false,
-      confirm: false
+      confirm: false,
     },
     style: {
       enabled: true,
       priority: 'P3',
       autoFix: true,
       stopOnError: false,
-      confirm: false
-    }
+      confirm: false,
+    },
   },
   cache: {
     enabled: true,
-    ttl: 3600 // 1 hour
-  }
+    ttl: 3600, // 1 hour
+  },
 };
 
 // ============================================
@@ -155,7 +155,7 @@ export class ValidationPipeline {
     }
   ): Promise<ValidationResult> {
     const startTime = Date.now();
-    
+
     // Check cache first
     if (!options?.skipCache && this.config.cache.enabled) {
       const cached = this.getFromCache(code);
@@ -169,7 +169,7 @@ export class ValidationPipeline {
 
     // Execute stages in priority order
     const orderedStages = this.getOrderedStages();
-    
+
     for (const stageName of orderedStages) {
       const stageConfig = this.config.stages[stageName];
       if (!stageConfig || !stageConfig.enabled) continue;
@@ -186,7 +186,7 @@ export class ValidationPipeline {
 
       stages.push(stageResult);
       totalIssues += stageResult.errors.length + stageResult.warnings.length;
-      criticalIssues += stageResult.errors.filter(e => e.severity === 'critical').length;
+      criticalIssues += stageResult.errors.filter((e) => e.severity === 'critical').length;
 
       // Apply auto-fixes
       if (stageResult.autoFixApplied && stageResult.fixedCode) {
@@ -207,7 +207,7 @@ export class ValidationPipeline {
       finalCode: currentCode,
       originalCode: code,
       summary: this.generateSummary(stages, totalIssues, criticalIssues),
-      duration: Date.now() - startTime
+      duration: Date.now() - startTime,
     };
 
     // Cache result
@@ -258,13 +258,8 @@ export class ValidationPipeline {
 
       // Apply auto-fix if enabled
       if (config.autoFix && result.errors.length > 0) {
-        const fixResult = await this.applyAutoFix(
-          stage,
-          code,
-          result.errors,
-          onConfirm
-        );
-        
+        const fixResult = await this.applyAutoFix(stage, code, result.errors, onConfirm);
+
         if (fixResult.fixed) {
           result.autoFixApplied = true;
           result.fixedCode = fixResult.code;
@@ -279,15 +274,17 @@ export class ValidationPipeline {
         priority: config.priority,
         passed: false,
         duration: Date.now() - startTime,
-        errors: [{
-          stage,
-          severity: 'high',
-          type: 'stage_error',
-          message: `Failed to execute ${stage} stage: ${error instanceof Error ? error.message : String(error)}`
-        }],
+        errors: [
+          {
+            stage,
+            severity: 'high',
+            type: 'stage_error',
+            message: `Failed to execute ${stage} stage: ${error instanceof Error ? error.message : String(error)}`,
+          },
+        ],
         warnings: [],
         suggestions: [],
-        autoFixApplied: false
+        autoFixApplied: false,
       };
     }
   }
@@ -301,19 +298,14 @@ export class ValidationPipeline {
 
     try {
       // Try to parse with TypeScript
-      const sourceFile = ts.createSourceFile(
-        filePath,
-        code,
-        ts.ScriptTarget.Latest,
-        true
-      );
+      const sourceFile = ts.createSourceFile(filePath, code, ts.ScriptTarget.Latest, true);
 
       // Check for parsing errors
       const diagnostics = (sourceFile as any).parseDiagnostics || [];
-      
+
       for (const diagnostic of diagnostics) {
         const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
-        const position = diagnostic.start 
+        const position = diagnostic.start
           ? sourceFile.getLineAndCharacterOfPosition(diagnostic.start)
           : { line: 0, character: 0 };
 
@@ -328,8 +320,8 @@ export class ValidationPipeline {
           code: `TS${diagnostic.code}`,
           fix: {
             strategy: 'auto',
-            description: 'TypeScript compiler can auto-fix this'
-          }
+            description: 'TypeScript compiler can auto-fix this',
+          },
         });
       }
     } catch (error) {
@@ -338,7 +330,7 @@ export class ValidationPipeline {
         severity: 'critical',
         type: 'parse_error',
         message: `Failed to parse code: ${error instanceof Error ? error.message : String(error)}`,
-        file: filePath
+        file: filePath,
       });
     }
 
@@ -350,7 +342,7 @@ export class ValidationPipeline {
       errors,
       warnings,
       suggestions: [],
-      autoFixApplied: false
+      autoFixApplied: false,
     };
   }
 
@@ -371,7 +363,7 @@ export class ValidationPipeline {
         errors: [],
         warnings: [],
         suggestions: [],
-        autoFixApplied: false
+        autoFixApplied: false,
       };
     }
 
@@ -381,27 +373,22 @@ export class ValidationPipeline {
         noEmit: true,
         strict: true,
         target: ts.ScriptTarget.ES2020,
-        module: ts.ModuleKind.ESNext
+        module: ts.ModuleKind.ESNext,
       };
 
-      const sourceFile = ts.createSourceFile(
-        filePath,
-        code,
-        ts.ScriptTarget.Latest,
-        true
-      );
+      const sourceFile = ts.createSourceFile(filePath, code, ts.ScriptTarget.Latest, true);
 
       const host: ts.CompilerHost = {
-        getSourceFile: (fileName) => fileName === filePath ? sourceFile : undefined,
+        getSourceFile: (fileName) => (fileName === filePath ? sourceFile : undefined),
         writeFile: () => {},
         getCurrentDirectory: () => '/',
         getDirectories: () => [],
         fileExists: (fileName) => fileName === filePath,
-        readFile: (fileName) => fileName === filePath ? code : undefined,
+        readFile: (fileName) => (fileName === filePath ? code : undefined),
         getCanonicalFileName: (fileName) => fileName,
         useCaseSensitiveFileNames: () => true,
         getNewLine: () => '\n',
-        getDefaultLibFileName: (options) => ts.getDefaultLibFilePath(options)
+        getDefaultLibFileName: (options) => ts.getDefaultLibFilePath(options),
       };
 
       const program = ts.createProgram([filePath], compilerOptions, host);
@@ -413,9 +400,7 @@ export class ValidationPipeline {
           ? sourceFile.getLineAndCharacterOfPosition(diagnostic.start)
           : { line: 0, character: 0 };
 
-        const severity = diagnostic.category === ts.DiagnosticCategory.Error 
-          ? 'high' 
-          : 'medium';
+        const severity = diagnostic.category === ts.DiagnosticCategory.Error ? 'high' : 'medium';
 
         const issue: ValidationIssue = {
           stage: 'types',
@@ -428,8 +413,8 @@ export class ValidationPipeline {
           code: `TS${diagnostic.code}`,
           fix: {
             strategy: 'auto',
-            description: 'TypeScript can infer or add type annotations'
-          }
+            description: 'TypeScript can infer or add type annotations',
+          },
         };
 
         if (severity === 'high') {
@@ -444,7 +429,7 @@ export class ValidationPipeline {
         severity: 'medium',
         type: 'type_check_error',
         message: `Type checking failed: ${error instanceof Error ? error.message : String(error)}`,
-        file: filePath
+        file: filePath,
       });
     }
 
@@ -456,7 +441,7 @@ export class ValidationPipeline {
       errors,
       warnings,
       suggestions: [],
-      autoFixApplied: false
+      autoFixApplied: false,
     };
   }
 
@@ -476,7 +461,7 @@ export class ValidationPipeline {
         type: 'dangerous_function',
         message: 'Use of eval() is extremely dangerous',
         cwe: 'CWE-95',
-        fix: 'Remove eval() and use safer alternatives'
+        fix: 'Remove eval() and use safer alternatives',
       },
       {
         pattern: /innerHTML\s*=/g,
@@ -484,7 +469,7 @@ export class ValidationPipeline {
         type: 'xss_vulnerability',
         message: 'Direct innerHTML assignment can lead to XSS',
         cwe: 'CWE-79',
-        fix: 'Use textContent or sanitize HTML'
+        fix: 'Use textContent or sanitize HTML',
       },
       {
         pattern: /process\.env\./g,
@@ -492,7 +477,7 @@ export class ValidationPipeline {
         type: 'sensitive_data',
         message: 'Direct access to environment variables',
         cwe: 'CWE-200',
-        fix: 'Use a configuration service'
+        fix: 'Use a configuration service',
       },
       {
         pattern: /exec\s*\(/g,
@@ -500,7 +485,7 @@ export class ValidationPipeline {
         type: 'command_injection',
         message: 'exec() can lead to command injection',
         cwe: 'CWE-78',
-        fix: 'Use safer alternatives or sanitize input'
+        fix: 'Use safer alternatives or sanitize input',
       },
       {
         pattern: /SELECT\s+.*\s+FROM\s+.*\s+WHERE\s+.*\+/gi,
@@ -508,7 +493,7 @@ export class ValidationPipeline {
         type: 'sql_injection',
         message: 'Potential SQL injection vulnerability',
         cwe: 'CWE-89',
-        fix: 'Use parameterized queries'
+        fix: 'Use parameterized queries',
       },
       {
         pattern: /Math\.random\(\)/g,
@@ -516,17 +501,17 @@ export class ValidationPipeline {
         type: 'weak_random',
         message: 'Math.random() is not cryptographically secure',
         cwe: 'CWE-330',
-        fix: 'Use crypto.randomBytes() for security-sensitive operations'
-      }
+        fix: 'Use crypto.randomBytes() for security-sensitive operations',
+      },
     ];
 
     const lines = code.split('\n');
-    
+
     for (const check of securityChecks) {
       let match;
       while ((match = check.pattern.exec(code)) !== null) {
         const position = this.getLineAndColumn(code, match.index);
-        
+
         const issue: ValidationIssue = {
           stage: 'security',
           severity: check.severity,
@@ -538,8 +523,8 @@ export class ValidationPipeline {
           cwe: check.cwe,
           fix: {
             strategy: 'confirm',
-            description: check.fix
-          }
+            description: check.fix,
+          },
         };
 
         if (check.severity === 'critical' || check.severity === 'high') {
@@ -560,7 +545,7 @@ export class ValidationPipeline {
       errors,
       warnings,
       suggestions,
-      autoFixApplied: false
+      autoFixApplied: false,
     };
   }
 
@@ -576,33 +561,33 @@ export class ValidationPipeline {
         pattern: /for\s*\([^)]*\)\s*\{[^}]*for\s*\(/g,
         severity: 'medium' as Severity,
         message: 'Nested loops detected (O(n²) complexity)',
-        fix: 'Consider using more efficient algorithms'
+        fix: 'Consider using more efficient algorithms',
       },
       {
         pattern: /\.forEach\([^)]*\)\s*\{[^}]*\.forEach\(/g,
         severity: 'medium' as Severity,
         message: 'Nested forEach detected',
-        fix: 'Consider flattening or using other methods'
+        fix: 'Consider flattening or using other methods',
       },
       {
         pattern: /new\s+Array\(\d{4,}\)/g,
         severity: 'low' as Severity,
         message: 'Large array allocation',
-        fix: 'Consider lazy loading or chunking'
+        fix: 'Consider lazy loading or chunking',
       },
       {
         pattern: /JSON\.parse\(.*JSON\.stringify\(/g,
         severity: 'low' as Severity,
         message: 'Deep cloning using JSON (inefficient)',
-        fix: 'Use structuredClone() or a proper cloning library'
-      }
+        fix: 'Use structuredClone() or a proper cloning library',
+      },
     ];
 
     for (const check of performanceChecks) {
       let match;
       while ((match = check.pattern.exec(code)) !== null) {
         const position = this.getLineAndColumn(code, match.index);
-        
+
         const issue: ValidationIssue = {
           stage: 'performance',
           severity: check.severity,
@@ -613,8 +598,8 @@ export class ValidationPipeline {
           file: filePath,
           fix: {
             strategy: 'suggest',
-            description: check.fix
-          }
+            description: check.fix,
+          },
         };
 
         if (check.severity === 'medium') {
@@ -633,7 +618,7 @@ export class ValidationPipeline {
       errors: [],
       warnings,
       suggestions,
-      autoFixApplied: false
+      autoFixApplied: false,
     };
   }
 
@@ -649,33 +634,33 @@ export class ValidationPipeline {
         pattern: /var\s+/g,
         severity: 'low' as Severity,
         message: 'Use const or let instead of var',
-        fix: 'Replace var with const or let'
+        fix: 'Replace var with const or let',
       },
       {
         pattern: /==(?!=)/g,
         severity: 'low' as Severity,
         message: 'Use === instead of ==',
-        fix: 'Replace == with ==='
+        fix: 'Replace == with ===',
       },
       {
         pattern: /console\.log\(/g,
         severity: 'low' as Severity,
         message: 'console.log() found in code',
-        fix: 'Remove console.log or use proper logging'
+        fix: 'Remove console.log or use proper logging',
       },
       {
         pattern: /\t/g,
         severity: 'info' as Severity,
         message: 'Tabs found, consider using spaces',
-        fix: 'Replace tabs with spaces'
-      }
+        fix: 'Replace tabs with spaces',
+      },
     ];
 
     for (const check of styleChecks) {
       let match;
       while ((match = check.pattern.exec(code)) !== null) {
         const position = this.getLineAndColumn(code, match.index);
-        
+
         const issue: ValidationIssue = {
           stage: 'style',
           severity: check.severity,
@@ -686,8 +671,8 @@ export class ValidationPipeline {
           file: filePath,
           fix: {
             strategy: 'auto',
-            description: check.fix
-          }
+            description: check.fix,
+          },
         };
 
         if (check.severity === 'low') {
@@ -706,7 +691,7 @@ export class ValidationPipeline {
       errors: [],
       warnings,
       suggestions,
-      autoFixApplied: false
+      autoFixApplied: false,
     };
   }
 
@@ -719,7 +704,6 @@ export class ValidationPipeline {
     errors: ValidationIssue[],
     onConfirm?: (issue: ValidationIssue) => Promise<boolean>
   ): Promise<{ fixed: boolean; code: string; remainingErrors: ValidationIssue[] }> {
-    
     let fixedCode = code;
     const remainingErrors: ValidationIssue[] = [];
 
@@ -748,7 +732,7 @@ export class ValidationPipeline {
     return {
       fixed: fixedCode !== code,
       code: fixedCode,
-      remainingErrors
+      remainingErrors,
     };
   }
 
@@ -783,10 +767,12 @@ export class ValidationPipeline {
 
   private getOrderedStages(): ValidationStage[] {
     const stages = Object.entries(this.config.stages) as [ValidationStage, any][];
-    
+
     // Sort by priority
     const priorityOrder: Record<Priority, number> = { P1: 1, P2: 2, P3: 3 };
-    stages.sort((a, b) => priorityOrder[a[1].priority as Priority] - priorityOrder[b[1].priority as Priority]);
+    stages.sort(
+      (a, b) => priorityOrder[a[1].priority as Priority] - priorityOrder[b[1].priority as Priority]
+    );
 
     return stages.map(([name]) => name);
   }
@@ -795,7 +781,7 @@ export class ValidationPipeline {
     const lines = code.substring(0, index).split('\n');
     return {
       line: lines.length,
-      column: lines[lines.length - 1].length + 1
+      column: lines[lines.length - 1].length + 1,
     };
   }
 
@@ -804,14 +790,17 @@ export class ValidationPipeline {
     totalIssues: number,
     criticalIssues: number
   ): string {
-    const passed = stages.filter(s => s.passed).length;
+    const passed = stages.filter((s) => s.passed).length;
     const failed = stages.length - passed;
 
     let summary = `Validation completed: ${passed}/${stages.length} stages passed\n`;
     summary += `Total issues: ${totalIssues} (${criticalIssues} critical)\n`;
-    
+
     if (failed > 0) {
-      summary += `⚠️ Failed stages: ${stages.filter(s => !s.passed).map(s => s.stage).join(', ')}`;
+      summary += `⚠️ Failed stages: ${stages
+        .filter((s) => !s.passed)
+        .map((s) => s.stage)
+        .join(', ')}`;
     }
 
     return summary;
@@ -820,7 +809,7 @@ export class ValidationPipeline {
   private mergeConfig(config: PipelineConfig): Required<PipelineConfig> {
     return {
       stages: { ...DEFAULT_CONFIG.stages, ...config.stages },
-      cache: { ...DEFAULT_CONFIG.cache, ...config.cache }
+      cache: { ...DEFAULT_CONFIG.cache, ...config.cache },
     };
   }
 
@@ -831,18 +820,18 @@ export class ValidationPipeline {
   private getFromCache(code: string): ValidationResult | undefined {
     const key = this.generateCacheKey(code);
     const cached = this.cache.get(key);
-    
+
     if (cached && this.isCacheValid(cached)) {
       return cached;
     }
-    
+
     return undefined;
   }
 
   private setCache(code: string, result: ValidationResult): void {
     const key = this.generateCacheKey(code);
     this.cache.set(key, result);
-    
+
     // Auto-cleanup old cache entries
     if (this.cache.size > 100) {
       const firstKey = this.cache.keys().next().value;
@@ -857,7 +846,7 @@ export class ValidationPipeline {
     let hash = 0;
     for (let i = 0; i < code.length; i++) {
       const char = code.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32bit integer
     }
     return hash.toString(36);
@@ -884,11 +873,11 @@ export class ValidationPipeline {
       enabled: true,
       priority: 'P2' as Priority,
       autoFix: false,
-      stopOnError: false
+      stopOnError: false,
     };
     this.config.stages[stage] = {
       ...existingConfig,
-      ...config
+      ...config,
     } as StageConfig;
   }
 

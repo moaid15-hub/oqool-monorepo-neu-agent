@@ -43,7 +43,10 @@ export class DevOpsAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
     this.aiAdapter = new UnifiedAIAdapter({
@@ -55,10 +58,7 @@ export class DevOpsAgent {
     this.provider = provider;
   }
 
-  async prepare(
-    code: GeneratedCode,
-    targetPlatform?: string
-  ): Promise<DevOpsResults> {
+  async prepare(code: GeneratedCode, targetPlatform?: string): Promise<DevOpsResults> {
     const deploymentConfigs: DeploymentConfig[] = [];
     const cicdPipelines: CICDPipeline[] = [];
     const infrastructureFiles: InfrastructureFile[] = [];
@@ -68,11 +68,7 @@ export class DevOpsAgent {
     const projectInfo = this.detectProjectType(code);
 
     // 2. Generate deployment configurations
-    const deployConfigs = await this.generateDeploymentConfigs(
-      code,
-      projectInfo,
-      targetPlatform
-    );
+    const deployConfigs = await this.generateDeploymentConfigs(code, projectInfo, targetPlatform);
     deploymentConfigs.push(...deployConfigs);
 
     // 3. Generate CI/CD pipeline
@@ -108,7 +104,7 @@ export class DevOpsAgent {
         cicdPipelines,
         infrastructureFiles,
         readiness
-      )
+      ),
     };
   }
 
@@ -122,17 +118,17 @@ export class DevOpsAgent {
     hasDatabase: boolean;
     hasAPI: boolean;
   } {
-    const files = code.files.map(f => f.path);
-    const contents = code.files.map(f => f.content).join('\n');
+    const files = code.files.map((f) => f.path);
+    const contents = code.files.map((f) => f.content).join('\n');
 
     // Detect framework
     let framework: string | undefined;
     let type = 'web';
-    
-    if (files.some(f => f.includes('next.config'))) framework = 'nextjs';
-    else if (files.some(f => f.includes('vite.config'))) framework = 'vite';
-    else if (files.some(f => f.includes('angular.json'))) framework = 'angular';
-    else if (files.some(f => f.includes('vue.config'))) framework = 'vue';
+
+    if (files.some((f) => f.includes('next.config'))) framework = 'nextjs';
+    else if (files.some((f) => f.includes('vite.config'))) framework = 'vite';
+    else if (files.some((f) => f.includes('angular.json'))) framework = 'angular';
+    else if (files.some((f) => f.includes('vue.config'))) framework = 'vue';
     else if (contents.includes('express')) framework = 'express';
     else if (contents.includes('fastapi')) framework = 'fastapi';
 
@@ -159,9 +155,7 @@ export class DevOpsAgent {
     const configs: DeploymentConfig[] = [];
 
     // Suggest best platforms based on project type
-    const platforms = targetPlatform 
-      ? [targetPlatform]
-      : this.suggestPlatforms(projectInfo);
+    const platforms = targetPlatform ? [targetPlatform] : this.suggestPlatforms(projectInfo);
 
     for (const platform of platforms) {
       const config = await this.createPlatformConfig(code, projectInfo, platform);
@@ -212,7 +206,7 @@ Has Database: ${projectInfo.hasDatabase}
 Has API: ${projectInfo.hasAPI}
 
 Files:
-${code.files.map(f => `- ${f.path}`).join('\n')}
+${code.files.map((f) => `- ${f.path}`).join('\n')}
 
 Generate:
 1. Platform-specific configuration
@@ -353,12 +347,12 @@ Output format:
     try {
       const response = await this.callClaude(prompt);
       const content = this.extractCode(response, 'dockerfile');
-      
+
       if (content) {
         return {
           type: 'dockerfile',
           path: 'Dockerfile',
-          content
+          content,
         };
       }
     } catch (error) {
@@ -398,12 +392,12 @@ Output format:
     try {
       const response = await this.callClaude(prompt);
       const content = this.extractCode(response, 'yaml');
-      
+
       if (content) {
         return {
           type: 'docker-compose',
           path: 'docker-compose.yml',
-          content
+          content,
         };
       }
     } catch (error) {
@@ -442,12 +436,12 @@ Output format:
     try {
       const response = await this.callClaude(prompt);
       const content = this.extractCode(response, 'yaml');
-      
+
       if (content) {
         return {
           type: 'kubernetes',
           path: 'k8s/deployment.yml',
-          content
+          content,
         };
       }
     } catch (error) {
@@ -472,7 +466,7 @@ Output format:
       path: '.env.example',
       language: 'shell',
       content: envExampleContent,
-      lines: envExampleContent.split('\n').length
+      lines: envExampleContent.split('\n').length,
     };
     files.push(envExample);
 
@@ -482,7 +476,7 @@ Output format:
       path: '.env.production',
       language: 'shell',
       content: envProdContent,
-      lines: envProdContent.split('\n').length
+      lines: envProdContent.split('\n').length,
     };
     files.push(envProd);
 
@@ -568,14 +562,14 @@ ${projectInfo.hasDatabase ? 'DATABASE_URL=${DATABASE_URL}\n' : ''}${projectInfo.
     }
 
     // Check environment files
-    const hasEnv = code.files.some(f => f.path.includes('.env'));
+    const hasEnv = code.files.some((f) => f.path.includes('.env'));
     if (!hasEnv) {
       issues.push('Missing environment configuration files');
       score -= 20;
     }
 
     // Check build scripts
-    const packageJson = code.files.find(f => f.path.includes('package.json'));
+    const packageJson = code.files.find((f) => f.path.includes('package.json'));
     if (packageJson && !packageJson.content.includes('build')) {
       issues.push('Missing build script in package.json');
       score -= 15;
@@ -584,7 +578,7 @@ ${projectInfo.hasDatabase ? 'DATABASE_URL=${DATABASE_URL}\n' : ''}${projectInfo.
     return {
       score: Math.max(0, score),
       issues,
-      recommendations
+      recommendations,
     };
   }
 
@@ -627,7 +621,7 @@ ${projectInfo.hasDatabase ? 'DATABASE_URL=${DATABASE_URL}\n' : ''}${projectInfo.
       if (!yamlMatch) return null;
 
       const content = yamlMatch[1];
-      
+
       // Extract stages from YAML
       const stages: string[] = [];
       const jobMatches = content.matchAll(/^\s+([a-z-]+):/gm);
@@ -639,7 +633,7 @@ ${projectInfo.hasDatabase ? 'DATABASE_URL=${DATABASE_URL}\n' : ''}${projectInfo.
         provider: 'github-actions',
         stages,
         config: content,
-        path: '.github/workflows/ci-cd.yml'
+        path: '.github/workflows/ci-cd.yml',
       };
     } catch (error) {
       console.error('Failed to parse CI/CD pipeline');
@@ -651,10 +645,10 @@ ${projectInfo.hasDatabase ? 'DATABASE_URL=${DATABASE_URL}\n' : ''}${projectInfo.
   // Extract code from response
   // ============================================
   private extractCode(response: string, type?: string): string | null {
-    const pattern = type 
+    const pattern = type
       ? new RegExp(`\`\`\`${type}\\n([\\s\\S]*?)\`\`\``)
       : /```(?:\w+)?\n([\s\S]*?)```/;
-    
+
     const match = response.match(pattern);
     return match ? match[1].trim() : null;
   }
@@ -677,11 +671,11 @@ ${projectInfo.hasDatabase ? 'DATABASE_URL=${DATABASE_URL}\n' : ''}${projectInfo.
 
 ## Generated Configurations:
 - 📦 Deployment Configs: ${deployConfigs.length}
-  ${deployConfigs.map(c => `  - ${c.platform} (${c.environment})`).join('\n  ')}
+  ${deployConfigs.map((c) => `  - ${c.platform} (${c.environment})`).join('\n  ')}
 - 🔄 CI/CD Pipelines: ${pipelines.length}
-  ${pipelines.map(p => `  - ${p.provider} (${p.stages.length} stages)`).join('\n  ')}
+  ${pipelines.map((p) => `  - ${p.provider} (${p.stages.length} stages)`).join('\n  ')}
 - 🏗️ Infrastructure Files: ${infraFiles.length}
-  ${infraFiles.map(f => `  - ${f.type}`).join('\n  ')}
+  ${infraFiles.map((f) => `  - ${f.type}`).join('\n  ')}
 
 ${readiness.issues.length > 0 ? `\n## ❌ Issues:\n${readiness.issues.map((i: any) => `- ${i}`).join('\n')}` : ''}
 

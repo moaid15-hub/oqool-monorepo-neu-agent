@@ -77,7 +77,7 @@ export class ParallelProcessor {
         } else {
           errors.push({
             file: taskResult.file,
-            error: taskResult.error || 'Unknown error'
+            error: taskResult.error || 'Unknown error',
           });
         }
 
@@ -101,7 +101,7 @@ export class ParallelProcessor {
       errors,
       duration,
       completedCount: results.length,
-      failedCount: errors.length
+      failedCount: errors.length,
     };
   }
 
@@ -121,20 +121,21 @@ export class ParallelProcessor {
         processor(file),
         new Promise<never>((_, reject) =>
           setTimeout(() => reject(new Error('Timeout')), this.timeout)
-        )
+        ),
       ]);
 
       return {
         file,
         success: true,
         result,
-        duration: Date.now() - startTime
+        duration: Date.now() - startTime,
       };
-
     } catch (error: any) {
       // إعادة المحاولة
       if (attempt < this.retries) {
-        console.log(chalk.yellow(`⚠️  إعادة المحاولة ${attempt + 1}/${this.retries} للملف: ${file}`));
+        console.log(
+          chalk.yellow(`⚠️  إعادة المحاولة ${attempt + 1}/${this.retries} للملف: ${file}`)
+        );
         return await this.processWithRetry(file, processor, attempt + 1);
       }
 
@@ -142,7 +143,7 @@ export class ParallelProcessor {
         file,
         success: false,
         error: error.message,
-        duration: Date.now() - startTime
+        duration: Date.now() - startTime,
       };
     }
   }
@@ -168,7 +169,7 @@ export class ParallelProcessor {
       {
         onProgress: (completed, total) => {
           process.stdout.write(`\r📖 تقدم القراءة: ${completed}/${total}`);
-        }
+        },
       }
     );
 
@@ -193,7 +194,7 @@ export class ParallelProcessor {
       {
         onProgress: (completed, total) => {
           process.stdout.write(`\r🧠 تقدم التحليل: ${completed}/${total}`);
-        }
+        },
       }
     );
 
@@ -202,7 +203,9 @@ export class ParallelProcessor {
     if (result.success) {
       console.log(chalk.green(`✅ تم تحليل ${result.completedCount} ملف بنجاح!\n`));
     } else {
-      console.log(chalk.yellow(`⚠️  تم تحليل ${result.completedCount} ملف، فشل ${result.failedCount}\n`));
+      console.log(
+        chalk.yellow(`⚠️  تم تحليل ${result.completedCount} ملف، فشل ${result.failedCount}\n`)
+      );
     }
 
     return result;
@@ -218,15 +221,15 @@ export class ParallelProcessor {
     console.log(chalk.cyan(`✍️  كتابة ${files.length} ملف بالتوازي...\n`));
 
     const result = await this.processFiles(
-      files.map(f => f.path),
+      files.map((f) => f.path),
       async (filePath) => {
-        const file = files.find(f => f.path === filePath)!;
+        const file = files.find((f) => f.path === filePath)!;
         return await fileManager.writeFile(file.path, file.content);
       },
       {
         onProgress: (completed, total) => {
           process.stdout.write(`\r💾 تقدم الكتابة: ${completed}/${total}`);
-        }
+        },
       }
     );
 
@@ -235,7 +238,9 @@ export class ParallelProcessor {
     if (result.success) {
       console.log(chalk.green(`✅ تم كتابة ${result.completedCount} ملف بنجاح!\n`));
     } else {
-      console.log(chalk.yellow(`⚠️  تم كتابة ${result.completedCount} ملف، فشل ${result.failedCount}\n`));
+      console.log(
+        chalk.yellow(`⚠️  تم كتابة ${result.completedCount} ملف، فشل ${result.failedCount}\n`)
+      );
     }
 
     return result;
@@ -269,15 +274,16 @@ export class ParallelProcessor {
         const batchResults = await processor(batch);
         results.push(...batchResults);
 
-        console.log(chalk.green(`✅ دفعة ${i + 1}/${batches.length} - ${batchResults.length} عنصر`));
-
+        console.log(
+          chalk.green(`✅ دفعة ${i + 1}/${batches.length} - ${batchResults.length} عنصر`)
+        );
       } catch (error: any) {
         console.log(chalk.red(`❌ فشلت دفعة ${i + 1}/${batches.length}: ${error.message}`));
 
-        batch.forEach(item => {
+        batch.forEach((item) => {
           errors.push({
             file: item,
-            error: error.message
+            error: error.message,
           });
         });
       }
@@ -291,7 +297,7 @@ export class ParallelProcessor {
       errors,
       duration,
       completedCount: results.length,
-      failedCount: errors.length
+      failedCount: errors.length,
     };
   }
 
@@ -312,7 +318,7 @@ export class ParallelProcessor {
         const percentage = Math.round((completed / total) * 100);
         const progressBar = this.createProgressBar(percentage);
         process.stdout.write(`\r${progressBar} ${completed}/${total} (${percentage}%)`);
-      }
+      },
     });
 
     process.stdout.write('\n\n');
@@ -322,7 +328,11 @@ export class ParallelProcessor {
     if (result.success) {
       console.log(chalk.green(`✅ ${label} مكتمل! (${duration}s)\n`));
     } else {
-      console.log(chalk.yellow(`⚠️  ${label} مكتمل بأخطاء: ${result.failedCount}/${files.length} فشل (${duration}s)\n`));
+      console.log(
+        chalk.yellow(
+          `⚠️  ${label} مكتمل بأخطاء: ${result.failedCount}/${files.length} فشل (${duration}s)\n`
+        )
+      );
     }
 
     return result;
@@ -355,7 +365,7 @@ export class ParallelProcessor {
 
       if (result.errors.length > 0) {
         console.log(chalk.yellow('\n⚠️  الأخطاء:'));
-        result.errors.forEach(error => {
+        result.errors.forEach((error) => {
           console.log(chalk.red(`  • ${error.file}: ${error.error}`));
         });
       }

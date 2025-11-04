@@ -21,14 +21,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.json({
     message: 'مرحباً بك في Oqool Code v2.0! 🎉',
-    features: [
-      'توثيق تلقائي',
-      'تعاون ذكي',
-      'أمان متقدم',
-      'دعم متعدد اللغات',
-      'تحليل أداء'
-    ],
-    timestamp: new Date().toISOString()
+    features: ['توثيق تلقائي', 'تعاون ذكي', 'أمان متقدم', 'دعم متعدد اللغات', 'تحليل أداء'],
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -37,7 +31,7 @@ app.get('/api/health', (req, res) => {
     status: 'healthy',
     uptime: process.uptime(),
     memory: process.memoryUsage(),
-    version: '2.0.0'
+    version: '2.0.0',
   });
 });
 

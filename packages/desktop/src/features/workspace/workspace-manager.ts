@@ -43,7 +43,7 @@ export class WorkspaceManager {
   }
 
   async closeWorkspace(): Promise<void> {
-    if (!this.currentWorkspace) return;
+    if (!this.currentWorkspace) {return;}
 
     await this.saveWorkspaceConfig();
     await this.fileWatcher.unwatch();
@@ -88,7 +88,7 @@ export class WorkspaceManager {
   }
 
   async saveWorkspaceConfig(): Promise<void> {
-    if (!this.currentWorkspace || !this.configPath) return;
+    if (!this.currentWorkspace || !this.configPath) {return;}
 
     try {
       const content = JSON.stringify(this.currentWorkspace, null, 2);
@@ -104,7 +104,7 @@ export class WorkspaceManager {
   }
 
   updateSetting(key: string, value: any): void {
-    if (!this.currentWorkspace) return;
+    if (!this.currentWorkspace) {return;}
 
     this.currentWorkspace.settings[key] = value;
     this.saveWorkspaceConfig();
@@ -115,7 +115,7 @@ export class WorkspaceManager {
   }
 
   addRecentFile(filePath: string): void {
-    if (!this.currentWorkspace) return;
+    if (!this.currentWorkspace) {return;}
 
     const recentFiles = this.currentWorkspace.recentFiles.filter((f) => f !== filePath);
     recentFiles.unshift(filePath);
@@ -130,7 +130,7 @@ export class WorkspaceManager {
   }
 
   setOpenFiles(files: string[]): void {
-    if (!this.currentWorkspace) return;
+    if (!this.currentWorkspace) {return;}
 
     this.currentWorkspace.openFiles = files;
     this.saveWorkspaceConfig();

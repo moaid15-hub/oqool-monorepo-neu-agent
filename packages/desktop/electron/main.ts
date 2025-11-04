@@ -22,8 +22,8 @@ function createWindow() {
     minWidth: 800,
     minHeight: 600,
     backgroundColor: '#1e1e1e',
-    frame: false,                      // ← بدون إطار للسحب
-    titleBarStyle: 'hidden',           // ← إخفاء شريط العنوان
+    frame: false, // ← بدون إطار للسحب
+    titleBarStyle: 'hidden', // ← إخفاء شريط العنوان
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -58,17 +58,17 @@ function createWindow() {
 
 app.whenReady().then(() => {
   logger.info('App ready, creating window');
-  
+
   setupFileSystemHandlers();
   terminalHandlers();
   setupAIHandlers();
   settingsHandlers();
   gitHandlers();
   extensionHandlers();
-  
+
   createWindow();
   setupAutoUpdater();
-  
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();

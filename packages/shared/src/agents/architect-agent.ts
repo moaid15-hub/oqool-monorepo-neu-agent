@@ -4,13 +4,22 @@
 // ============================================
 
 import { UnifiedAIAdapter, type AIProvider } from '../ai-gateway/index.js';
-import type { Architecture, Component, DatabaseDesign, APIDesign, FrontendDesign } from '../core/god-mode.js';
+import type {
+  Architecture,
+  Component,
+  DatabaseDesign,
+  APIDesign,
+  FrontendDesign,
+} from '../core/god-mode.js';
 
 export class ArchitectAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     // 🔄 Smart default: use Claude if available, otherwise DeepSeek
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
@@ -53,7 +62,7 @@ Be specific and detailed.
       database: this.extractDatabase(response),
       api: this.extractAPI(response),
       frontend: this.extractFrontend(response),
-      tags: this.extractTags(task)
+      tags: this.extractTags(task),
     };
   }
 
@@ -88,19 +97,21 @@ Be specific and detailed.
           name: line.trim(),
           type: 'component',
           description: 'Auto-extracted component',
-          dependencies: []
+          dependencies: [],
         });
       }
     }
 
-    return components.length > 0 ? components : [
-      {
-        name: 'Main',
-        type: 'core',
-        description: 'Main application component',
-        dependencies: []
-      }
-    ];
+    return components.length > 0
+      ? components
+      : [
+          {
+            name: 'Main',
+            type: 'core',
+            description: 'Main application component',
+            dependencies: [],
+          },
+        ];
   }
 
   private extractDatabase(response: string): DatabaseDesign | undefined {
@@ -117,7 +128,7 @@ Be specific and detailed.
     if (response.match(/database|sql|nosql|mongodb|postgres/i)) {
       return {
         type: 'PostgreSQL',
-        tables: []
+        tables: [],
       };
     }
 
@@ -138,7 +149,7 @@ Be specific and detailed.
     if (response.match(/api|endpoint|rest|graphql/i)) {
       return {
         endpoints: [],
-        authentication: 'JWT'
+        authentication: 'JWT',
       };
     }
 
@@ -161,7 +172,7 @@ Be specific and detailed.
       if (response.includes(framework)) {
         return {
           framework,
-          components: []
+          components: [],
         };
       }
     }
@@ -172,8 +183,15 @@ Be specific and detailed.
   private extractTags(task: string): string[] {
     const tags: string[] = [];
     const keywords = [
-      'saas', 'platform', 'api', 'web', 'mobile',
-      'dashboard', 'auth', 'payment', 'analytics'
+      'saas',
+      'platform',
+      'api',
+      'web',
+      'mobile',
+      'dashboard',
+      'auth',
+      'payment',
+      'analytics',
     ];
 
     for (const keyword of keywords) {

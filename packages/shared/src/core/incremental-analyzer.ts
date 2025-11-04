@@ -106,7 +106,7 @@ export class IncrementalAnalyzer {
       path: filePath,
       hash,
       size: stats.size,
-      mtime: stats.mtimeMs
+      mtime: stats.mtimeMs,
     };
   }
 
@@ -198,7 +198,6 @@ export class IncrementalAnalyzer {
 
           analyzedCount++;
           process.stdout.write(`\r🔍 تقدم: ${analyzedCount}/${toAnalyze.length}`);
-
         } catch (error) {
           console.error(chalk.red(`\n❌ فشل تحليل ${file}`));
         }
@@ -226,7 +225,7 @@ export class IncrementalAnalyzer {
       removed,
       totalAnalyzed: analyzedCount,
       skippedCount: unchanged.length,
-      duration
+      duration,
     };
   }
 
@@ -273,9 +272,8 @@ export class IncrementalAnalyzer {
     console.log(chalk.gray(`⚡ تم تخطي: ${result.skippedCount} ملف (بدون تغيير)`));
 
     const totalFiles = result.changed.length + result.unchanged.length + result.added.length;
-    const savedPercentage = totalFiles > 0
-      ? Math.round((result.skippedCount / totalFiles) * 100)
-      : 0;
+    const savedPercentage =
+      totalFiles > 0 ? Math.round((result.skippedCount / totalFiles) * 100) : 0;
 
     console.log(chalk.magenta(`🚀 تحسين الأداء: ${savedPercentage}% أسرع`));
 
@@ -283,7 +281,7 @@ export class IncrementalAnalyzer {
 
     if (result.changed.length > 0) {
       console.log(chalk.yellow('📝 ملفات معدلة:'));
-      result.changed.forEach(file => {
+      result.changed.forEach((file) => {
         console.log(chalk.white(`  • ${file}`));
       });
       console.log('');
@@ -291,7 +289,7 @@ export class IncrementalAnalyzer {
 
     if (result.added.length > 0) {
       console.log(chalk.green('➕ ملفات جديدة:'));
-      result.added.forEach(file => {
+      result.added.forEach((file) => {
         console.log(chalk.white(`  • ${file}`));
       });
       console.log('');
@@ -299,7 +297,7 @@ export class IncrementalAnalyzer {
 
     if (result.removed.length > 0) {
       console.log(chalk.red('➖ ملفات محذوفة:'));
-      result.removed.forEach(file => {
+      result.removed.forEach((file) => {
         console.log(chalk.white(`  • ${file}`));
       });
       console.log('');

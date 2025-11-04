@@ -24,10 +24,10 @@ export interface ProjectContext {
 }
 
 export interface PatchOperation {
-  line: number;        // رقم السطر للبدء
-  remove?: number;     // عدد الأسطر للحذف (اختياري)
-  add?: string;        // النص الجديد للإضافة (اختياري)
-  replace?: string;    // النص للاستبدال (اختياري)
+  line: number; // رقم السطر للبدء
+  remove?: number; // عدد الأسطر للحذف (اختياري)
+  add?: string; // النص الجديد للإضافة (اختياري)
+  replace?: string; // النص للاستبدال (اختياري)
 }
 
 export interface FilePatch {
@@ -47,16 +47,27 @@ const DEFAULT_IGNORE_PATTERNS = [
   '.env*',
   'package-lock.json',
   'yarn.lock',
-  'pnpm-lock.yaml'
+  'pnpm-lock.yaml',
 ];
 
 // الامتدادات المدعومة للقراءة
 const SUPPORTED_EXTENSIONS = [
-  '.js', '.jsx', '.ts', '.tsx',
-  '.py', '.java', '.go', '.rs',
-  '.html', '.css', '.scss',
-  '.json', '.yaml', '.yml',
-  '.md', '.txt'
+  '.js',
+  '.jsx',
+  '.ts',
+  '.tsx',
+  '.py',
+  '.java',
+  '.go',
+  '.rs',
+  '.html',
+  '.css',
+  '.scss',
+  '.json',
+  '.yaml',
+  '.yml',
+  '.md',
+  '.txt',
 ];
 
 export class FileManager {
@@ -102,7 +113,7 @@ export class FileManager {
       files,
       structure,
       totalFiles: files.length,
-      totalSize
+      totalSize,
     };
   }
 
@@ -113,13 +124,11 @@ export class FileManager {
       const filePaths = await glob(pattern, {
         cwd: this.workingDir,
         absolute: false,
-        ignore: DEFAULT_IGNORE_PATTERNS
+        ignore: DEFAULT_IGNORE_PATTERNS,
       });
 
       // تصفية بواسطة ignore
-      const filteredPaths = filePaths
-        .filter(p => !this.ig.ignores(p))
-        .slice(0, maxFiles);
+      const filteredPaths = filePaths.filter((p) => !this.ig.ignores(p)).slice(0, maxFiles);
 
       const files: FileInfo[] = [];
 
@@ -128,12 +137,12 @@ export class FileManager {
         try {
           const content = await fs.readFile(fullPath, 'utf-8');
           const stats = await fs.stat(fullPath);
-          
+
           files.push({
             path: relativePath,
             content,
             size: stats.size,
-            extension: path.extname(relativePath)
+            extension: path.extname(relativePath),
           });
         } catch (error) {
           console.warn(chalk.yellow(`⚠️  تعذرت قراءة: ${relativePath}`));
@@ -213,8 +222,8 @@ export class FileManager {
     let result = '';
     const items = await fs.readdir(dir);
     const filteredItems = items
-      .filter(item => !this.ig.ignores(item))
-      .filter(item => !item.startsWith('.'));
+      .filter((item) => !this.ig.ignores(item))
+      .filter((item) => !item.startsWith('.'));
 
     for (let i = 0; i < filteredItems.length; i++) {
       const item = filteredItems[i];
@@ -253,7 +262,7 @@ export class FileManager {
       '.css': '🎨',
       '.json': '📋',
       '.md': '📝',
-      '.txt': '📄'
+      '.txt': '📄',
     };
     return icons[ext] || '📄';
   }
@@ -300,7 +309,9 @@ export class FileManager {
 
       // التحقق من رقم السطر
       if (patch.line < 1 || patch.line > lines.length + 1) {
-        console.error(chalk.red(`❌ رقم سطر غير صحيح: ${patch.line} (الملف يحتوي على ${lines.length} سطر)`));
+        console.error(
+          chalk.red(`❌ رقم سطر غير صحيح: ${patch.line} (الملف يحتوي على ${lines.length} سطر)`)
+        );
         return false;
       }
 
@@ -315,14 +326,18 @@ export class FileManager {
         // حذف أسطر
         if (patch.remove && patch.remove > 0) {
           lines.splice(lineIndex, patch.remove);
-          console.log(chalk.yellow(`🗑️  حذف ${patch.remove} سطر من ${filePath} بدءاً من السطر ${patch.line}`));
+          console.log(
+            chalk.yellow(`🗑️  حذف ${patch.remove} سطر من ${filePath} بدءاً من السطر ${patch.line}`)
+          );
         }
 
         // إضافة أسطر جديدة
         if (patch.add) {
           const newLines = patch.add.split('\n');
           lines.splice(lineIndex, 0, ...newLines);
-          console.log(chalk.green(`➕ إضافة ${newLines.length} سطر إلى ${filePath} في السطر ${patch.line}`));
+          console.log(
+            chalk.green(`➕ إضافة ${newLines.length} سطر إلى ${filePath} في السطر ${patch.line}`)
+          );
         }
       }
 
@@ -335,7 +350,6 @@ export class FileManager {
 
       console.log(chalk.green(`✅ تم تطبيق الـ patch على ${filePath}`));
       return true;
-
     } catch (error) {
       console.error(chalk.red(`❌ فشل تطبيق الـ patch على ${filePath}:`), error);
       return false;
@@ -364,7 +378,6 @@ export class FileManager {
 
       console.log(chalk.green(`✅ تم تطبيق ${patches.length} patch على ${filePath}`));
       return true;
-
     } catch (error) {
       console.error(chalk.red(`❌ فشل تطبيق الـ patches على ${filePath}:`), error);
       return false;
@@ -396,7 +409,8 @@ export class FileManager {
       const patches: PatchOperation[] = [];
 
       // استخراج كل عملية patch
-      const operationPattern = /LINE:\s*(\d+)(?:\s*\nREMOVE:\s*(\d+))?(?:\s*\nREPLACE:\s*\n```[\w]*\n([\s\S]*?)```)?(?:\s*\nADD:\s*\n```[\w]*\n([\s\S]*?)```)?/gi;
+      const operationPattern =
+        /LINE:\s*(\d+)(?:\s*\nREMOVE:\s*(\d+))?(?:\s*\nREPLACE:\s*\n```[\w]*\n([\s\S]*?)```)?(?:\s*\nADD:\s*\n```[\w]*\n([\s\S]*?)```)?/gi;
       let opMatch;
 
       while ((opMatch = operationPattern.exec(patchesBlock)) !== null) {
@@ -409,7 +423,7 @@ export class FileManager {
           line,
           remove,
           replace,
-          add
+          add,
         });
       }
 
@@ -466,7 +480,6 @@ export class FileManager {
       }
 
       console.log(chalk.gray('─'.repeat(60) + '\n'));
-
     } catch (error) {
       console.error(chalk.red('❌ فشل عرض المعاينة:'), error);
     }

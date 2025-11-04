@@ -18,7 +18,7 @@ export class StyleFixer {
     singleQuote: true,
     trailingComma: 'es5',
     maxLineLength: 100,
-    arrowParens: 'always'
+    arrowParens: 'always',
   };
 
   constructor(workingDir: string = process.cwd()) {
@@ -56,7 +56,7 @@ export class StyleFixer {
       // Parse الكود
       const ast = parser.parse(code, {
         sourceType: 'module',
-        plugins: ['typescript', 'jsx', 'decorators-legacy']
+        plugins: ['typescript', 'jsx', 'decorators-legacy'],
       });
 
       // تطبيق الإصلاحات على الـ AST
@@ -68,15 +68,14 @@ export class StyleFixer {
         compact: false,
         concise: false,
         jsescOption: {
-          minimal: true
-        }
+          minimal: true,
+        },
       });
 
       fixedCode = output.code;
 
       // إصلاحات إضافية للنص
       fixedCode = this.applyTextFixes(fixedCode);
-
     } catch (error) {
       // إذا فشل الـ parsing، طبق إصلاحات نصية فقط
       fixedCode = this.applyTextFixes(code);
@@ -94,7 +93,7 @@ export class StyleFixer {
     try {
       const ast = parser.parse(code, {
         sourceType: 'module',
-        plugins: ['typescript', 'jsx']
+        plugins: ['typescript', 'jsx'],
       });
 
       const self = this;
@@ -110,7 +109,7 @@ export class StyleFixer {
               message: `اسم الدالة '${name}' لا يتبع camelCase`,
               line: path.node.loc?.start.line,
               fix: 'rename_to_camel_case',
-              suggestion: `استخدم: ${self.toCamelCase(name)}`
+              suggestion: `استخدم: ${self.toCamelCase(name)}`,
             });
           }
         },
@@ -129,7 +128,7 @@ export class StyleFixer {
                 message: `الثابت '${name}' يجب أن يكون UPPER_CASE`,
                 line: path.node.loc?.start.line,
                 fix: 'rename_to_upper_case',
-                suggestion: `استخدم: ${self.toUpperCase(name)}`
+                suggestion: `استخدم: ${self.toUpperCase(name)}`,
               });
             }
           } else if (!self.isCamelCase(name)) {
@@ -140,7 +139,7 @@ export class StyleFixer {
               message: `اسم المتغير '${name}' لا يتبع camelCase`,
               line: path.node.loc?.start.line,
               fix: 'rename_to_camel_case',
-              suggestion: `استخدم: ${self.toCamelCase(name)}`
+              suggestion: `استخدم: ${self.toCamelCase(name)}`,
             });
           }
         },
@@ -156,10 +155,10 @@ export class StyleFixer {
               message: `اسم الكلاس '${name}' لا يتبع PascalCase`,
               line: path.node.loc?.start.line,
               fix: 'rename_to_pascal_case',
-              suggestion: `استخدم: ${self.toPascalCase(name)}`
+              suggestion: `استخدم: ${self.toPascalCase(name)}`,
             });
           }
-        }
+        },
       });
     } catch (error) {
       // تجاهل أخطاء الـ parsing
@@ -177,7 +176,7 @@ export class StyleFixer {
     try {
       const ast = parser.parse(code, {
         sourceType: 'module',
-        plugins: ['typescript', 'jsx']
+        plugins: ['typescript', 'jsx'],
       });
 
       traverse(ast, {
@@ -192,7 +191,7 @@ export class StyleFixer {
               type: 'FunctionTooLong',
               message: `الدالة طويلة جداً (${lines} سطر)`,
               line: path.node.loc?.start.line,
-              suggestion: 'قسّم الدالة إلى دوال أصغر'
+              suggestion: 'قسّم الدالة إلى دوال أصغر',
             });
           }
 
@@ -205,7 +204,7 @@ export class StyleFixer {
               type: 'TooManyParameters',
               message: `عدد المعاملات كثير (${params})`,
               line: path.node.loc?.start.line,
-              suggestion: 'استخدم object parameter أو قلل المعاملات'
+              suggestion: 'استخدم object parameter أو قلل المعاملات',
             });
           }
         },
@@ -214,7 +213,7 @@ export class StyleFixer {
         BlockStatement(path: any) {
           let depth = 0;
           let current = path.parent;
-          
+
           while (current) {
             if (current.type === 'BlockStatement') depth++;
             current = current.parent;
@@ -227,10 +226,10 @@ export class StyleFixer {
               type: 'DeepNesting',
               message: `تداخل عميق (${depth} مستويات)`,
               line: path.node.loc?.start.line,
-              suggestion: 'استخرج الكود إلى دوال منفصلة'
+              suggestion: 'استخرج الكود إلى دوال منفصلة',
             });
           }
-        }
+        },
       });
     } catch (error) {
       // تجاهل أخطاء الـ parsing
@@ -256,7 +255,7 @@ export class StyleFixer {
           message: `السطر طويل جداً (${line.length} حرف)`,
           line: index + 1,
           fix: 'break_line',
-          suggestion: `الحد الأقصى: ${this.config.maxLineLength} حرف`
+          suggestion: `الحد الأقصى: ${this.config.maxLineLength} حرف`,
         });
       }
 
@@ -268,7 +267,7 @@ export class StyleFixer {
           type: 'TrailingWhitespace',
           message: 'مسافات زائدة في نهاية السطر',
           line: index + 1,
-          fix: 'remove_trailing_whitespace'
+          fix: 'remove_trailing_whitespace',
         });
       }
 
@@ -280,7 +279,7 @@ export class StyleFixer {
           type: 'MultipleSpaces',
           message: 'مسافات متعددة متتالية',
           line: index + 1,
-          fix: 'normalize_spaces'
+          fix: 'normalize_spaces',
         });
       }
 
@@ -292,7 +291,7 @@ export class StyleFixer {
           type: 'UseConstLet',
           message: 'استخدم const أو let بدلاً من var',
           line: index + 1,
-          fix: 'replace_var_with_const'
+          fix: 'replace_var_with_const',
         });
       }
     });
@@ -309,7 +308,7 @@ export class StyleFixer {
     try {
       const ast = parser.parse(code, {
         sourceType: 'module',
-        plugins: ['typescript', 'jsx']
+        plugins: ['typescript', 'jsx'],
       });
 
       traverse(ast, {
@@ -322,7 +321,7 @@ export class StyleFixer {
               type: 'UseStrictEquality',
               message: `استخدم ${path.node.operator === '==' ? '===' : '!=='} للمقارنة الصارمة`,
               line: path.node.loc?.start.line,
-              fix: 'use_strict_equality'
+              fix: 'use_strict_equality',
             });
           }
         },
@@ -341,7 +340,7 @@ export class StyleFixer {
               type: 'ConsoleLog',
               message: 'console.log موجود في الكود',
               line: path.node.loc?.start.line,
-              suggestion: 'احذف console.log من production code'
+              suggestion: 'احذف console.log من production code',
             });
           }
         },
@@ -359,10 +358,10 @@ export class StyleFixer {
               type: 'UseArrowFunction',
               message: 'فكر في استخدام arrow function',
               line: path.node.loc?.start.line,
-              fix: 'convert_to_arrow'
+              fix: 'convert_to_arrow',
             });
           }
-        }
+        },
       });
     } catch (error) {
       // تجاهل أخطاء الـ parsing
@@ -405,7 +404,7 @@ export class StyleFixer {
           // علق على console.log بدلاً من حذفه
           path.addComment('leading', ' TODO: Remove console.log');
         }
-      }
+      },
     });
   }
 

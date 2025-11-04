@@ -224,16 +224,20 @@ oqool-desktop/
 ## 📋 تفصيل المجلدات
 
 ### 1️⃣ electron/ (8 ملفات)
+
 المسؤول عن Electron Main Process
+
 - **main.ts** - نقطة الدخول
 - **preload.ts** - Context Bridge
 - **ipc/** - معالجات IPC (4 ملفات)
 - **utils/** - أدوات مساعدة (2 ملف)
 
 ### 2️⃣ src/ (80+ ملف)
+
 تطبيق React (Renderer Process)
 
 #### src/components/ (25 ملف)
+
 - **AI/** - 4 مكونات للذكاء الاصطناعي
 - **Common/** - 4 مكونات قابلة لإعادة الاستخدام
 - **Editor/** - 4 مكونات للمحرر
@@ -244,6 +248,7 @@ oqool-desktop/
 - **Voice/** - 1 مكون
 
 #### src/features/ (15 ملف)
+
 - **ai/** - 6 ملفات لميزات AI
 - **editor/** - 3 ملفات للمحرر
 - **extensions/** - 2 ملف للإضافات
@@ -251,7 +256,9 @@ oqool-desktop/
 - **terminal/** - 2 ملف للطرفية
 
 #### src/services/ (7 ملفات)
+
 خدمات الأعمال
+
 - ai-service.ts
 - extension-service.ts
 - file-service.ts
@@ -261,21 +268,27 @@ oqool-desktop/
 - voice-interface.ts
 
 #### src/stores/ (4 ملفات)
+
 إدارة الحالة
+
 - ai-store.ts
 - editor-store.ts
 - file-store.ts
 - settings-store.ts
 
 #### src/hooks/ (4 ملفات)
+
 React Hooks مخصصة
+
 - useAI.ts
 - useEditor.ts
 - useFileSystem.ts
 - useTerminal.ts
 
 #### src/styles/ (5 ملفات)
+
 الأنماط
+
 - global.css
 - variables.css
 - themes/dark.css
@@ -283,42 +296,56 @@ React Hooks مخصصة
 - themes/arabic.css
 
 #### src/types/ (3 ملفات)
+
 تعريفات TypeScript
+
 - ai.d.ts
 - editor.d.ts
 - electron.d.ts
 
 ### 3️⃣ shared/ (8 ملفات)
+
 كود مشترك
+
 - **cli/** - 6 ملفات CLI
 - **utils/** - 2 ملف أدوات
 
 ### 4️⃣ extensions/ (6 ملفات)
+
 إضافات مدمجة
+
 - **ai-pair-programmer/** - 2 ملف
 - **arabic-support/** - 2 ملف
 - **git-advanced/** - 2 ملف
 
 ### 5️⃣ assets/ (3 مجلدات فارغة)
+
 الموارد الثابتة
+
 - fonts/
 - icons/
 - images/
 
 ### 6️⃣ tests/ (3 مجلدات)
+
 الاختبارات
+
 - e2e/
 - integration/
 - unit/
 
 ### 7️⃣ scripts/ (3 ملفات)
+
 سكريبتات البناء
+
 - build.js
 - package.js
 - release.js
 
 ### 8️⃣ .github/ (2 ملف)
+
 GitHub Actions
+
 - workflows/build.yml
 - workflows/release.yml
 
@@ -327,6 +354,7 @@ GitHub Actions
 ## 📊 إحصائيات الملفات حسب النوع
 
 ### TypeScript/TSX: 80 ملف
+
 ```
 electron/          : 8 ملفات
 src/components/    : 25 ملف
@@ -341,6 +369,7 @@ scripts/           : 3 ملفات
 ```
 
 ### CSS: 5 ملفات
+
 ```
 src/styles/global.css
 src/styles/variables.css
@@ -350,6 +379,7 @@ src/styles/themes/arabic.css
 ```
 
 ### JSON: 7 ملفات
+
 ```
 package.json
 extensions/ai-pair-programmer/package.json
@@ -361,6 +391,7 @@ tsconfig.node.json
 ```
 
 ### Configuration: 8 ملفات
+
 ```
 electron-builder.yml
 vite.config.ts
@@ -372,6 +403,7 @@ tsconfig.node.json
 ```
 
 ### Documentation: 6 ملفات
+
 ```
 README.md
 PROJECT_STRUCTURE.md
@@ -383,11 +415,13 @@ LICENSE
 ```
 
 ### HTML: 1 ملف
+
 ```
 public/index.html
 ```
 
 ### YAML: 2 ملف
+
 ```
 .github/workflows/build.yml
 .github/workflows/release.yml
@@ -397,35 +431,38 @@ public/index.html
 
 ## 🎯 المجلدات الرئيسية
 
-| المجلد | عدد الملفات | الوصف |
-|--------|-------------|-------|
-| `electron/` | 8 | Electron Main Process |
-| `src/` | 80+ | React Renderer Process |
-| `shared/` | 8 | Shared Code & CLI |
-| `extensions/` | 6 | Built-in Extensions |
-| `assets/` | 0 | Static Assets (فارغة) |
-| `tests/` | 3 | Tests (gitkeep فقط) |
-| `scripts/` | 3 | Build Scripts |
-| `.github/` | 2 | CI/CD Workflows |
-| **الجذر** | 12 | Config & Docs |
+| المجلد        | عدد الملفات | الوصف                  |
+| ------------- | ----------- | ---------------------- |
+| `electron/`   | 8           | Electron Main Process  |
+| `src/`        | 80+         | React Renderer Process |
+| `shared/`     | 8           | Shared Code & CLI      |
+| `extensions/` | 6           | Built-in Extensions    |
+| `assets/`     | 0           | Static Assets (فارغة)  |
+| `tests/`      | 3           | Tests (gitkeep فقط)    |
+| `scripts/`    | 3           | Build Scripts          |
+| `.github/`    | 2           | CI/CD Workflows        |
+| **الجذر**     | 12          | Config & Docs          |
 
 ---
 
 ## 📝 ملاحظات
 
 ### ✅ المكتمل
+
 - ✅ جميع المجلدات منشأة (45 مجلد)
 - ✅ جميع الملفات منشأة (110 ملف)
 - ✅ البنية منظمة ومتوافقة مع Best Practices
 - ✅ التوثيق كامل
 
 ### ⚠️ الفارغ
+
 - ⚠️ assets/fonts/ (فارغ)
 - ⚠️ assets/icons/ (فارغ)
 - ⚠️ assets/images/ (فارغ)
 - ⚠️ tests/ (فيها gitkeep فقط)
 
 ### 📌 الملفات ذات المحتوى البسيط
+
 جميع ملفات `.ts` و `.tsx` تحتوي على تعليقات فقط (كما طلبت - بلا أكواد)
 
 ---
@@ -433,6 +470,7 @@ public/index.html
 ## 🔍 البحث السريع
 
 ### لإيجاد ملف معين:
+
 ```bash
 # البحث عن ملف
 find . -name "اسم_الملف"

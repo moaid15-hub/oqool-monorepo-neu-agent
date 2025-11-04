@@ -3,6 +3,7 @@
 ## 🚀 ما الجديد في الإصدار 2.0
 
 ### 📚 توثيق تلقائي
+
 ```bash
 # البحث في تاريخ التفاعلات
 oqool-code docs search "express"
@@ -15,6 +16,7 @@ oqool-code docs export --format json
 ```
 
 ### 👥 تعاون ذكي
+
 ```bash
 # إنشاء جلسة تعاون
 oqool-code session create "Demo Project" "عرض الميزات الجديدة"
@@ -27,6 +29,7 @@ oqool-code session list
 ```
 
 ### 🔐 أمان متقدم
+
 ```bash
 # فحص الأمان
 oqool-code security scan src/index.js
@@ -42,6 +45,7 @@ oqool-code security report
 ```
 
 ### 📋 قوالب الفريق
+
 ```bash
 # إنشاء قالب
 oqool-code team-template create "Express API" "قالب API بسيط" backend --files src/index.js

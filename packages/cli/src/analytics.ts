@@ -61,7 +61,7 @@ export class Analytics {
       averageDuration: {},
       totalTimeSaved: 0,
       firstUsed: Date.now(),
-      lastUsed: Date.now()
+      lastUsed: Date.now(),
     };
   }
 
@@ -117,15 +117,17 @@ export class Analytics {
       .map(([cmd]) => cmd);
 
     const totalErrors = Object.values(this.data.errorCounts).reduce((sum, count) => sum + count, 0);
-    const errorRate = this.data.totalCommands > 0
-      ? (totalErrors / this.data.totalCommands) * 100
-      : 0;
+    const errorRate =
+      this.data.totalCommands > 0 ? (totalErrors / this.data.totalCommands) * 100 : 0;
 
     const hoursSaved = Math.floor(this.data.totalTimeSaved / 60);
     const minutesSaved = this.data.totalTimeSaved % 60;
 
     // حساب زيادة الإنتاجية
-    const daysUsed = Math.max(1, Math.ceil((Date.now() - this.data.firstUsed) / (1000 * 60 * 60 * 24)));
+    const daysUsed = Math.max(
+      1,
+      Math.ceil((Date.now() - this.data.firstUsed) / (1000 * 60 * 60 * 24))
+    );
     const commandsPerDay = this.data.totalCommands / daysUsed;
     const productivityIncrease = Math.round(commandsPerDay * 15); // افتراضياً كل أمر = زيادة 15% إنتاجية
 
@@ -136,7 +138,10 @@ export class Analytics {
       recommendations.push('معدل الأخطاء مرتفع - راجع الأوامر المستخدمة');
     }
 
-    if (commands.length > 0 && this.data.commandCounts[commands[0]] > this.data.totalCommands * 0.5) {
+    if (
+      commands.length > 0 &&
+      this.data.commandCounts[commands[0]] > this.data.totalCommands * 0.5
+    ) {
       recommendations.push(`تستخدم "${commands[0]}" كثيراً - جرب الأوامر الأخرى`);
     }
 
@@ -153,7 +158,7 @@ export class Analytics {
       mostUsed: commands.slice(0, 5),
       timesSaved: `${hoursSaved} ساعة و ${minutesSaved} دقيقة هذا الشهر`,
       errorRate: Math.round(errorRate * 10) / 10,
-      recommendations
+      recommendations,
     };
   }
 
@@ -165,7 +170,9 @@ export class Analytics {
     console.log(chalk.gray('═'.repeat(60)));
 
     // الإحصائيات الأساسية
-    console.log(chalk.white(`\n📈 إجمالي الأوامر: ${chalk.green(this.data.totalCommands.toString())}`));
+    console.log(
+      chalk.white(`\n📈 إجمالي الأوامر: ${chalk.green(this.data.totalCommands.toString())}`)
+    );
 
     const daysSinceFirst = Math.ceil((Date.now() - this.data.firstUsed) / (1000 * 60 * 60 * 24));
     console.log(chalk.white(`⏱️  الاستخدام منذ: ${chalk.yellow(daysSinceFirst + ' يوم')}`));
@@ -180,8 +187,8 @@ export class Analytics {
       const avg = this.data.averageDuration[cmd] || 0;
       console.log(
         chalk.blue(`  ${i + 1}. ${cmd}`) +
-        chalk.gray(` - ${count} مرة`) +
-        chalk.yellow(` (${Math.round(avg)}ms متوسط)`)
+          chalk.gray(` - ${count} مرة`) +
+          chalk.yellow(` (${Math.round(avg)}ms متوسط)`)
       );
     });
 
@@ -205,7 +212,7 @@ export class Analytics {
     console.log(chalk.yellow(`📊 معدل الأخطاء: ${insights.errorRate}%`));
 
     console.log(chalk.cyan('\n📌 التوصيات:'));
-    insights.recommendations.forEach(rec => {
+    insights.recommendations.forEach((rec) => {
       console.log(chalk.gray(`  • ${rec}`));
     });
 
@@ -223,7 +230,7 @@ export class Analytics {
       averageDuration: {},
       totalTimeSaved: 0,
       firstUsed: Date.now(),
-      lastUsed: Date.now()
+      lastUsed: Date.now(),
     };
 
     await this.saveData();

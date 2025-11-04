@@ -80,7 +80,7 @@ export class TemplateManager {
       variables: [
         { name: 'projectName', description: 'اسم المشروع', required: true },
         { name: 'author', description: 'اسم المطور', defaultValue: 'Your Name' },
-        { name: 'port', description: 'رقم المنفذ', defaultValue: '3000' }
+        { name: 'port', description: 'رقم المنفذ', defaultValue: '3000' },
       ],
       files: [
         {
@@ -112,7 +112,7 @@ app.listen(PORT, () => {
 });
 
 export default app;
-`
+`,
         },
         {
           path: 'package.json',
@@ -131,7 +131,7 @@ export default app;
   "author": "{{author}}",
   "license": "MIT"
 }
-`
+`,
         },
         {
           path: 'tsconfig.json',
@@ -151,7 +151,7 @@ export default app;
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
-`
+`,
         },
         {
           path: '.gitignore',
@@ -160,7 +160,7 @@ dist/
 .env
 *.log
 .DS_Store
-`
+`,
         },
         {
           path: 'README.md',
@@ -190,22 +190,22 @@ npm start
 ## Author
 
 {{author}}
-`
-        }
+`,
+        },
       ],
       dependencies: {
-        'express': '^4.18.2',
-        'cors': '^2.8.5',
-        'helmet': '^7.1.0'
+        express: '^4.18.2',
+        cors: '^2.8.5',
+        helmet: '^7.1.0',
       },
       devDependencies: {
         '@types/express': '^4.17.21',
         '@types/cors': '^2.8.17',
         '@types/node': '^20.10.5',
-        'typescript': '^5.3.3',
-        'tsx': '^4.7.0'
+        typescript: '^5.3.3',
+        tsx: '^4.7.0',
       },
-      tags: ['express', 'api', 'backend', 'typescript']
+      tags: ['express', 'api', 'backend', 'typescript'],
     });
 
     // React Component Template
@@ -216,7 +216,7 @@ npm start
       category: 'frontend',
       variables: [
         { name: 'componentName', description: 'اسم المكون', required: true },
-        { name: 'hasState', description: 'هل يحتاج state؟', defaultValue: 'true' }
+        { name: 'hasState', description: 'هل يحتاج state؟', defaultValue: 'true' },
       ],
       files: [
         {
@@ -240,7 +240,7 @@ const {{componentName}}: React.FC<{{componentName}}Props> = ({ title = 'Hello' }
 };
 
 export default {{componentName}};
-`
+`,
         },
         {
           path: '{{componentName}}.css',
@@ -267,7 +267,7 @@ export default {{componentName}};
 .{{componentName}} button:hover {
   background-color: #0056b3;
 }
-`
+`,
         },
         {
           path: '{{componentName}}.test.tsx',
@@ -280,17 +280,17 @@ describe('{{componentName}}', () => {
     expect(screen.getByText(/{{componentName}}/i)).toBeInTheDocument();
   });
 });
-`
-        }
+`,
+        },
       ],
       dependencies: {
-        'react': '^18.2.0'
+        react: '^18.2.0',
       },
       devDependencies: {
         '@types/react': '^18.2.0',
-        '@testing-library/react': '^14.0.0'
+        '@testing-library/react': '^14.0.0',
       },
-      tags: ['react', 'component', 'frontend', 'typescript']
+      tags: ['react', 'component', 'frontend', 'typescript'],
     });
 
     // Node.js CLI Template
@@ -301,7 +301,7 @@ describe('{{componentName}}', () => {
       category: 'cli',
       variables: [
         { name: 'cliName', description: 'اسم الأداة', required: true },
-        { name: 'author', description: 'اسم المطور', defaultValue: 'Your Name' }
+        { name: 'author', description: 'اسم المطور', defaultValue: 'Your Name' },
       ],
       files: [
         {
@@ -334,7 +334,7 @@ program
   });
 
 program.parse(process.argv);
-`
+`,
         },
         {
           path: 'package.json',
@@ -356,13 +356,13 @@ program.parse(process.argv);
   "author": "{{author}}",
   "license": "MIT"
 }
-`
+`,
         },
         {
           path: 'bin/{{cliName}}.js',
           content: `#!/usr/bin/env node
 import '../dist/cli.js';
-`
+`,
         },
         {
           path: 'tsconfig.json',
@@ -381,7 +381,7 @@ import '../dist/cli.js';
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
-`
+`,
         },
         {
           path: 'README.md',
@@ -407,19 +407,19 @@ npm link
 ## Author
 
 {{author}}
-`
-        }
+`,
+        },
       ],
       dependencies: {
-        'commander': '^11.1.0',
-        'chalk': '^5.3.0'
+        commander: '^11.1.0',
+        chalk: '^5.3.0',
       },
       devDependencies: {
         '@types/node': '^20.10.5',
-        'typescript': '^5.3.3',
-        'tsx': '^4.7.0'
+        typescript: '^5.3.3',
+        tsx: '^4.7.0',
       },
-      tags: ['cli', 'tool', 'nodejs', 'typescript']
+      tags: ['cli', 'tool', 'nodejs', 'typescript'],
     });
 
     // TypeScript Library Template
@@ -430,7 +430,7 @@ npm link
       category: 'library',
       variables: [
         { name: 'libraryName', description: 'اسم المكتبة', required: true },
-        { name: 'author', description: 'اسم المطور', defaultValue: 'Your Name' }
+        { name: 'author', description: 'اسم المطور', defaultValue: 'Your Name' },
       ],
       files: [
         {
@@ -475,7 +475,7 @@ export class {{libraryName}} {
 }
 
 export default {{libraryName}};
-`
+`,
         },
         {
           path: 'package.json',
@@ -498,7 +498,7 @@ export default {{libraryName}};
     "dist"
   ]
 }
-`
+`,
         },
         {
           path: 'tsconfig.json',
@@ -520,7 +520,7 @@ export default {{libraryName}};
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
-`
+`,
         },
         {
           path: 'README.md',
@@ -546,15 +546,15 @@ lib.init();
 ## Author
 
 {{author}}
-`
-        }
+`,
+        },
       ],
       devDependencies: {
         '@types/node': '^20.10.5',
-        'typescript': '^5.3.3',
-        'jest': '^29.7.0'
+        typescript: '^5.3.3',
+        jest: '^29.7.0',
       },
-      tags: ['typescript', 'library', 'npm']
+      tags: ['typescript', 'library', 'npm'],
     });
   }
 
@@ -571,10 +571,14 @@ lib.init();
     }
 
     // معالجة الشروط {{ condition ? 'true' : 'false' }}
-    const conditionalRegex = /\{\{\s*(\w+)\s*===\s*'(\w+)'\s*\?\s*'([^']+)'\s*:\s*'([^']*)'\s*\}\}/g;
-    result = result.replace(conditionalRegex, (match, varName, compareValue, trueValue, falseValue) => {
-      return variables[varName] === compareValue ? trueValue : falseValue;
-    });
+    const conditionalRegex =
+      /\{\{\s*(\w+)\s*===\s*'(\w+)'\s*\?\s*'([^']+)'\s*:\s*'([^']*)'\s*\}\}/g;
+    result = result.replace(
+      conditionalRegex,
+      (match, varName, compareValue, trueValue, falseValue) => {
+        return variables[varName] === compareValue ? trueValue : falseValue;
+      }
+    );
 
     return result;
   }
@@ -602,7 +606,7 @@ lib.init();
       // تحضير المتغيرات
       const variables: Record<string, string> = {
         projectName: options.projectName,
-        ...options.variables
+        ...options.variables,
       };
 
       // ملء المتغيرات المطلوبة
@@ -654,21 +658,21 @@ lib.init();
           if (template.dependencies) {
             packageJson.dependencies = {
               ...packageJson.dependencies,
-              ...template.dependencies
+              ...template.dependencies,
             };
           }
 
           if (template.devDependencies) {
             packageJson.devDependencies = {
               ...packageJson.devDependencies,
-              ...template.devDependencies
+              ...template.devDependencies,
             };
           }
 
           if (template.scripts) {
             packageJson.scripts = {
               ...packageJson.scripts,
-              ...template.scripts
+              ...template.scripts,
             };
           }
 
@@ -693,7 +697,6 @@ lib.init();
       console.log(chalk.cyan(`📁 المشروع جاهز في: ${outputDir}\n`));
 
       return true;
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل إنشاء المشروع: ${error.message}`));
       return false;
@@ -712,7 +715,6 @@ lib.init();
       }
 
       return undefined;
-
     } catch (error) {
       return undefined;
     }
@@ -731,7 +733,6 @@ lib.init();
       console.log(chalk.green(`✅ تم حفظ القالب: ${name}`));
 
       return true;
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل حفظ القالب: ${error.message}`));
       return false;
@@ -787,7 +788,7 @@ lib.init();
 
       for (const file of allFiles) {
         // تحقق من الاستثناءات
-        if (excludeDirs.some(dir => file.includes(dir))) {
+        if (excludeDirs.some((dir) => file.includes(dir))) {
           continue;
         }
 
@@ -796,7 +797,7 @@ lib.init();
 
         files.push({
           path: file,
-          content
+          content,
         });
 
         console.log(chalk.gray(`  • ${file}`));
@@ -810,7 +811,7 @@ lib.init();
         category: options.category || 'other',
         files,
         variables: options.variables || [],
-        tags: []
+        tags: [],
       };
 
       // حفظ القالب
@@ -819,7 +820,6 @@ lib.init();
       console.log(chalk.green(`\n✅ تم إنشاء القالب بنجاح! (${files.length} ملف)\n`));
 
       return true;
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل إنشاء القالب: ${error.message}`));
       return false;
@@ -855,7 +855,7 @@ lib.init();
     try {
       if (await fs.pathExists(this.templatesPath)) {
         const customTemplates = await fs.readdir(this.templatesPath);
-        const jsonTemplates = customTemplates.filter(f => f.endsWith('.json'));
+        const jsonTemplates = customTemplates.filter((f) => f.endsWith('.json'));
 
         if (jsonTemplates.length > 0) {
           console.log(chalk.white('\n🎨 القوالب المخصصة:\n'));
@@ -867,7 +867,9 @@ lib.init();
             if (template) {
               console.log(chalk.cyan(`  • ${name}`));
               console.log(chalk.gray(`    ${template.description}`));
-              console.log(chalk.gray(`    اللغة: ${template.language} | الفئة: ${template.category}`));
+              console.log(
+                chalk.gray(`    اللغة: ${template.language} | الفئة: ${template.category}`)
+              );
               console.log('');
             }
           }
@@ -907,7 +909,9 @@ lib.init();
       console.log(chalk.white('\n🔧 المتغيرات:'));
       for (const variable of template.variables) {
         const required = variable.required ? chalk.red(' (مطلوب)') : '';
-        const defaultVal = variable.defaultValue ? chalk.gray(` [افتراضي: ${variable.defaultValue}]`) : '';
+        const defaultVal = variable.defaultValue
+          ? chalk.gray(` [افتراضي: ${variable.defaultValue}]`)
+          : '';
         console.log(chalk.white(`  • ${variable.name}${required}${defaultVal}`));
         console.log(chalk.gray(`    ${variable.description}`));
       }
@@ -958,7 +962,6 @@ lib.init();
         console.log(chalk.red(`❌ القالب "${name}" غير موجود`));
         return false;
       }
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل حذف القالب: ${error.message}`));
       return false;
@@ -977,7 +980,7 @@ lib.init();
       if (
         template.name.toLowerCase().includes(lowerQuery) ||
         template.description.toLowerCase().includes(lowerQuery) ||
-        template.tags?.some(tag => tag.toLowerCase().includes(lowerQuery))
+        template.tags?.some((tag) => tag.toLowerCase().includes(lowerQuery))
       ) {
         results.push(template);
       }
@@ -988,7 +991,7 @@ lib.init();
       if (await fs.pathExists(this.templatesPath)) {
         const customTemplates = await fs.readdir(this.templatesPath);
 
-        for (const file of customTemplates.filter(f => f.endsWith('.json'))) {
+        for (const file of customTemplates.filter((f) => f.endsWith('.json'))) {
           const name = file.replace('.json', '');
           const template = await this.loadCustomTemplate(name);
 
@@ -996,7 +999,7 @@ lib.init();
             if (
               template.name.toLowerCase().includes(lowerQuery) ||
               template.description.toLowerCase().includes(lowerQuery) ||
-              template.tags?.some(tag => tag.toLowerCase().includes(lowerQuery))
+              template.tags?.some((tag) => tag.toLowerCase().includes(lowerQuery))
             ) {
               results.push(template);
             }

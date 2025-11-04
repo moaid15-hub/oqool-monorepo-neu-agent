@@ -3,13 +3,7 @@ import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { WebLinksAddon } from 'xterm-addon-web-links';
 import 'xterm/css/xterm.css';
-import { 
-  VscAdd, 
-  VscSplitHorizontal, 
-  VscTrash, 
-  VscClose,
-  VscTerminal
-} from 'react-icons/vsc';
+import { VscAdd, VscSplitHorizontal, VscTrash, VscClose, VscTerminal } from 'react-icons/vsc';
 import './Terminal.css';
 
 interface TerminalTab {
@@ -35,7 +29,7 @@ export function XTermTerminal() {
   // Resize terminals when window resizes
   useEffect(() => {
     const handleResize = () => {
-      tabs.forEach(tab => {
+      tabs.forEach((tab) => {
         try {
           tab.fitAddon.fit();
         } catch (e) {
@@ -48,7 +42,10 @@ export function XTermTerminal() {
     return () => window.removeEventListener('resize', handleResize);
   }, [tabs]);
 
-  const createTerminal = (container: HTMLDivElement, id: number): { terminal: Terminal; fitAddon: FitAddon } => {
+  const createTerminal = (
+    container: HTMLDivElement,
+    _id: number
+  ): { terminal: Terminal; fitAddon: FitAddon } => {
     const terminal = new Terminal({
       cursorBlink: true,
       fontSize: 14,
@@ -171,19 +168,19 @@ export function XTermTerminal() {
       fitAddon: null as any,
     };
 
-    setTabs(prev => [...prev, newTab]);
+    setTabs((prev) => [...prev, newTab]);
     setActiveTabId(id);
   };
 
   const closeTab = (id: number) => {
-    if (tabs.length === 1) return; // Keep at least one tab
+    if (tabs.length === 1) {return;} // Keep at least one tab
 
-    const tab = tabs.find(t => t.id === id);
+    const tab = tabs.find((t) => t.id === id);
     if (tab && tab.terminal) {
       tab.terminal.dispose();
     }
 
-    const newTabs = tabs.filter(t => t.id !== id);
+    const newTabs = tabs.filter((t) => t.id !== id);
     setTabs(newTabs);
 
     if (activeTabId === id && newTabs.length > 0) {
@@ -198,7 +195,7 @@ export function XTermTerminal() {
   };
 
   const clearTerminal = () => {
-    const tab = tabs.find(t => t.id === activeTabId);
+    const tab = tabs.find((t) => t.id === activeTabId);
     if (tab && tab.terminal) {
       tab.terminal.clear();
     }
@@ -206,7 +203,7 @@ export function XTermTerminal() {
 
   // Setup terminal when container is ready
   useEffect(() => {
-    tabs.forEach(tab => {
+    tabs.forEach((tab) => {
       if (!tab.terminal && terminalRefs.current.has(tab.id)) {
         const container = terminalRefs.current.get(tab.id);
         if (container && container.children.length === 0) {
@@ -261,17 +258,24 @@ export function XTermTerminal() {
           <button className="terminal-btn" onClick={clearTerminal} title="Clear">
             <VscTrash size={16} />
           </button>
-          <button className="terminal-btn" onClick={() => closeTab(activeTabId)} title="Kill Terminal">
+          <button
+            className="terminal-btn"
+            onClick={() => closeTab(activeTabId)}
+            title="Kill Terminal"
+          >
             <VscClose size={16} />
           </button>
         </div>
       </div>
-      <div className="terminal-content" style={{ padding: 0, position: 'relative', height: 'calc(100% - 35px)' }}>
-        {tabs.map(tab => (
+      <div
+        className="terminal-content"
+        style={{ padding: 0, position: 'relative', height: 'calc(100% - 35px)' }}
+      >
+        {tabs.map((tab) => (
           <div
             key={tab.id}
             ref={(el) => {
-              if (el) terminalRefs.current.set(tab.id, el);
+              if (el) {terminalRefs.current.set(tab.id, el);}
             }}
             style={{
               display: activeTabId === tab.id ? 'block' : 'none',

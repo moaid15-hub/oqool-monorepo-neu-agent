@@ -6,12 +6,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-export const Input: React.FC<InputProps> = ({
-  label,
-  error,
-  className = '',
-  ...props
-}) => {
+export const Input: React.FC<InputProps> = ({ label, error, className = '', ...props }) => {
   return (
     <div className={`oqool-input-wrapper ${className}`}>
       {label && <label className="input-label">{label}</label>}

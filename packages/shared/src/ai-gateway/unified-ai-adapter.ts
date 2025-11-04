@@ -48,7 +48,7 @@ export interface UnifiedAIAdapterConfig {
 export class UnifiedAIAdapter {
   private providers: Map<AIProvider, any> = new Map();
   private defaultProvider: AIProvider = 'deepseek';
-  
+
   constructor(config: UnifiedAIAdapterConfig) {
     // تهيئة المزودين المتاحين (فقط لو الـ key صالح)
 
@@ -65,7 +65,10 @@ export class UnifiedAIAdapter {
       this.providers.set('claude', new ClaudeService(config.claude));
     }
 
-    if (config.openai && (config.openai.startsWith('sk-proj-') || config.openai.startsWith('sk-'))) {
+    if (
+      config.openai &&
+      (config.openai.startsWith('sk-proj-') || config.openai.startsWith('sk-'))
+    ) {
       this.providers.set('openai', new OpenAIService(config.openai));
     }
 
@@ -102,28 +105,26 @@ export class UnifiedAIAdapter {
   ): Promise<AIResponse> {
     // اختيار المزود المناسب
     const selectedProvider = this.selectProvider(provider, personality, prompt);
-    
+
     if (!this.providers.has(selectedProvider)) {
       throw new Error(`Provider ${selectedProvider} not available`);
     }
 
     const aiService = this.providers.get(selectedProvider);
     const systemMessage = this.getPersonalitySystemMessage(personality);
-    
+
     // بناء الرسائل
-    const messages: Message[] = [
-      { role: 'system', content: systemMessage }
-    ];
+    const messages: Message[] = [{ role: 'system', content: systemMessage }];
 
     if (context) {
       messages.push({
         role: 'user',
-        content: `السياق:\n${context}\n\nالمهمة:\n${prompt}`
+        content: `السياق:\n${context}\n\nالمهمة:\n${prompt}`,
       });
     } else {
       messages.push({
         role: 'user',
-        content: prompt
+        content: prompt,
       });
     }
 
@@ -135,7 +136,7 @@ export class UnifiedAIAdapter {
       const endTime = Date.now();
 
       // تقدير التكلفة (تقريبي)
-      const estimatedInputTokens = this.estimateTokens(messages.map(m => m.content).join(' '));
+      const estimatedInputTokens = this.estimateTokens(messages.map((m) => m.content).join(' '));
       const estimatedOutputTokens = this.estimateTokens(response);
       const cost = aiService.calculateCost(estimatedInputTokens, estimatedOutputTokens);
 
@@ -176,20 +177,20 @@ export class UnifiedAIAdapter {
     provider: AIProvider = 'auto'
   ): AsyncGenerator<string, void, unknown> {
     const selectedProvider = this.selectProvider(provider, personality, prompt);
-    
+
     if (!this.providers.has(selectedProvider)) {
       throw new Error(`Provider ${selectedProvider} not available`);
     }
 
     const aiService = this.providers.get(selectedProvider);
     const systemMessage = this.getPersonalitySystemMessage(personality);
-    
+
     const messages: Message[] = [
       { role: 'system', content: systemMessage },
-      { 
-        role: 'user', 
-        content: context ? `السياق:\n${context}\n\nالمهمة:\n${prompt}` : prompt 
-      }
+      {
+        role: 'user',
+        content: context ? `السياق:\n${context}\n\nالمهمة:\n${prompt}` : prompt,
+      },
     ];
 
     try {
@@ -207,11 +208,7 @@ export class UnifiedAIAdapter {
   /**
    * اختيار أفضل مزود تلقائياً
    */
-  private selectProvider(
-    requested: AIProvider,
-    personality: AIRole,
-    prompt: string
-  ): AIProvider {
+  private selectProvider(requested: AIProvider, personality: AIRole, prompt: string): AIProvider {
     // إذا المستخدم حدد مزود معين
     if (requested !== 'auto' && this.providers.has(requested)) {
       return requested;
@@ -219,14 +216,14 @@ export class UnifiedAIAdapter {
 
     // استراتيجية الاختيار الذكي
     const providerStrategies: Record<AIRole, AIProvider[]> = {
-      architect: ['claude', 'openai', 'gemini', 'deepseek'],    // يحتاج تفكير عميق
-      coder: ['gemini', 'deepseek', 'claude', 'openai'],        // Gemini سريع ممتاز في الكود
-      reviewer: ['claude', 'openai', 'gemini', 'deepseek'],     // Claude ممتاز في المراجعة
-      tester: ['gemini', 'deepseek', 'openai', 'claude'],       // مهمة روتينية - Gemini أسرع
-      debugger: ['gemini', 'deepseek', 'claude', 'openai'],     // تحليل سريع
-      optimizer: ['gemini', 'deepseek', 'openai', 'claude'],    // تحسينات بسيطة
-      security: ['claude', 'openai', 'gemini', 'deepseek'],     // يحتاج دقة عالية
-      devops: ['gemini', 'deepseek', 'openai', 'claude'],       // مهام عملية
+      architect: ['claude', 'openai', 'gemini', 'deepseek'], // يحتاج تفكير عميق
+      coder: ['gemini', 'deepseek', 'claude', 'openai'], // Gemini سريع ممتاز في الكود
+      reviewer: ['claude', 'openai', 'gemini', 'deepseek'], // Claude ممتاز في المراجعة
+      tester: ['gemini', 'deepseek', 'openai', 'claude'], // مهمة روتينية - Gemini أسرع
+      debugger: ['gemini', 'deepseek', 'claude', 'openai'], // تحليل سريع
+      optimizer: ['gemini', 'deepseek', 'openai', 'claude'], // تحسينات بسيطة
+      security: ['claude', 'openai', 'gemini', 'deepseek'], // يحتاج دقة عالية
+      devops: ['gemini', 'deepseek', 'openai', 'claude'], // مهام عملية
     };
 
     // اختيار حسب تعقيد السؤال
@@ -244,7 +241,12 @@ export class UnifiedAIAdapter {
     }
 
     // حسب الشخصية
-    const preferredProviders = providerStrategies[personality] || ['gemini', 'deepseek', 'openai', 'claude'];
+    const preferredProviders = providerStrategies[personality] || [
+      'gemini',
+      'deepseek',
+      'openai',
+      'claude',
+    ];
 
     for (const provider of preferredProviders) {
       if (this.providers.has(provider)) {
@@ -291,8 +293,8 @@ export class UnifiedAIAdapter {
     // إذا فشلت كل المحاولات
     throw new Error(
       `❌ All AI providers failed. Last error from ${failedProvider}: ${error.message}\n` +
-      `Available providers: ${Array.from(this.providers.keys()).join(', ')}\n` +
-      `Please check your API keys and balance.`
+        `Available providers: ${Array.from(this.providers.keys()).join(', ')}\n` +
+        `Please check your API keys and balance.`
     );
   }
 
@@ -302,11 +304,11 @@ export class UnifiedAIAdapter {
   private getFallbackChain(failedProvider: AIProvider): AIProvider[] {
     // Gemini دائماً الخيار الأول (الأسرع والأرخص)
     const fallbackStrategies: Record<AIProvider, AIProvider[]> = {
-      'claude': ['gemini', 'deepseek', 'openai'],      // Claude فشل → Gemini → DeepSeek → OpenAI
-      'openai': ['gemini', 'deepseek', 'claude'],      // OpenAI فشل → Gemini → DeepSeek → Claude
-      'deepseek': ['gemini', 'openai', 'claude'],      // DeepSeek فشل → Gemini → OpenAI → Claude
-      'gemini': ['deepseek', 'openai', 'claude'],      // Gemini فشل → DeepSeek → OpenAI → Claude
-      'auto': ['gemini', 'deepseek', 'openai', 'claude'], // Auto → Gemini أولاً
+      claude: ['gemini', 'deepseek', 'openai'], // Claude فشل → Gemini → DeepSeek → OpenAI
+      openai: ['gemini', 'deepseek', 'claude'], // OpenAI فشل → Gemini → DeepSeek → Claude
+      deepseek: ['gemini', 'openai', 'claude'], // DeepSeek فشل → Gemini → OpenAI → Claude
+      gemini: ['deepseek', 'openai', 'claude'], // Gemini فشل → DeepSeek → OpenAI → Claude
+      auto: ['gemini', 'deepseek', 'openai', 'claude'], // Auto → Gemini أولاً
     };
 
     return fallbackStrategies[failedProvider] || ['gemini', 'deepseek'];
@@ -318,7 +320,11 @@ export class UnifiedAIAdapter {
   private categorizeError(error: any): string {
     const errorMsg = error.message?.toLowerCase() || '';
 
-    if (errorMsg.includes('401') || errorMsg.includes('authentication') || errorMsg.includes('invalid x-api-key')) {
+    if (
+      errorMsg.includes('401') ||
+      errorMsg.includes('authentication') ||
+      errorMsg.includes('invalid x-api-key')
+    ) {
       return 'Invalid API Key';
     }
     if (errorMsg.includes('403') || errorMsg.includes('forbidden')) {
@@ -345,17 +351,27 @@ export class UnifiedAIAdapter {
    */
   private estimateComplexity(prompt: string): 'low' | 'medium' | 'high' {
     const keywords = {
-      high: ['architecture', 'design pattern', 'optimize', 'security', 'review', 'معماري', 'تصميم', 'أمان', 'مراجعة'],
+      high: [
+        'architecture',
+        'design pattern',
+        'optimize',
+        'security',
+        'review',
+        'معماري',
+        'تصميم',
+        'أمان',
+        'مراجعة',
+      ],
       low: ['simple', 'basic', 'quick', 'بسيط', 'سريع', 'صغير'],
     };
 
     const lowerPrompt = prompt.toLowerCase();
-    
-    if (keywords.high.some(k => lowerPrompt.includes(k))) {
+
+    if (keywords.high.some((k) => lowerPrompt.includes(k))) {
       return 'high';
     }
-    
-    if (keywords.low.some(k => lowerPrompt.includes(k))) {
+
+    if (keywords.low.some((k) => lowerPrompt.includes(k))) {
       return 'low';
     }
 
@@ -418,7 +434,11 @@ export class UnifiedAIAdapter {
   /**
    * وظائف مساعدة سريعة
    */
-  async quickCodeHelp(prompt: string, codeContext?: string, provider?: AIProvider): Promise<string> {
+  async quickCodeHelp(
+    prompt: string,
+    codeContext?: string,
+    provider?: AIProvider
+  ): Promise<string> {
     const result = await this.processWithPersonality('coder', prompt, codeContext, provider);
     return result.response;
   }
@@ -429,13 +449,23 @@ export class UnifiedAIAdapter {
   }
 
   async quickOptimize(code: string, provider?: AIProvider): Promise<string> {
-    const result = await this.processWithPersonality('optimizer', 'حسن أداء هذا الكود', code, provider);
+    const result = await this.processWithPersonality(
+      'optimizer',
+      'حسن أداء هذا الكود',
+      code,
+      provider
+    );
     return result.response;
   }
 
   async quickDebug(error: string, code?: string, provider?: AIProvider): Promise<string> {
     const context = code ? `الكود:\n${code}\n\nالخطأ:\n${error}` : error;
-    const result = await this.processWithPersonality('debugger', 'حلل وأصلح هذا الخطأ', context, provider);
+    const result = await this.processWithPersonality(
+      'debugger',
+      'حلل وأصلح هذا الخطأ',
+      context,
+      provider
+    );
     return result.response;
   }
 
@@ -469,7 +499,7 @@ export class UnifiedAIAdapter {
     const costs: Array<{ provider: string; inputCost: number; outputCost: number }> = [];
 
     if (this.providers.has('gemini')) {
-      costs.push({ provider: 'Gemini 2.0 Flash', inputCost: 0.10, outputCost: 0.40 });
+      costs.push({ provider: 'Gemini 2.0 Flash', inputCost: 0.1, outputCost: 0.4 });
     }
 
     if (this.providers.has('deepseek')) {

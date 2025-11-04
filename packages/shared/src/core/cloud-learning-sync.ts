@@ -46,7 +46,8 @@ export class CloudLearningSync {
   private shareMyLearning: boolean;
 
   constructor(options: SyncOptions = {}) {
-    this.apiUrl = options.apiUrl || 'https://aliai-pvm4jazns-al-mohammeds-projects.vercel.app/api/learning';
+    this.apiUrl =
+      options.apiUrl || 'https://aliai-pvm4jazns-al-mohammeds-projects.vercel.app/api/learning';
     this.userId = options.userId;
     this.autoSync = options.autoSync ?? true;
     this.shareMyLearning = options.shareMyLearning ?? true;
@@ -64,7 +65,7 @@ export class CloudLearningSync {
       await axios.post(`${this.apiUrl}/patterns`, {
         ...pattern,
         userId: this.userId,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       });
 
       console.log(`   ☁️  Pattern uploaded to cloud`);
@@ -81,8 +82,8 @@ export class CloudLearningSync {
       const response = await axios.get(`${this.apiUrl}/patterns/search`, {
         params: {
           query: task,
-          limit: 10
-        }
+          limit: 10,
+        },
       });
 
       return response.data.patterns || [];
@@ -104,7 +105,7 @@ export class CloudLearningSync {
       return {
         totalUsers: 0,
         totalProjects: 0,
-        lastUpdate: Date.now()
+        lastUpdate: Date.now(),
       };
     }
   }
@@ -117,8 +118,8 @@ export class CloudLearningSync {
       const response = await axios.get(`${this.apiUrl}/patterns/top`, {
         params: {
           category,
-          limit
-        }
+          limit,
+        },
       });
 
       return response.data.patterns || [];
@@ -134,7 +135,7 @@ export class CloudLearningSync {
   async upvotePattern(patternId: string): Promise<void> {
     try {
       await axios.post(`${this.apiUrl}/patterns/${patternId}/upvote`, {
-        userId: this.userId
+        userId: this.userId,
       });
 
       console.log('   👍 Pattern upvoted');
@@ -155,7 +156,7 @@ export class CloudLearningSync {
       await axios.post(`${this.apiUrl}/errors`, {
         ...error,
         userId: this.userId,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       });
 
       console.log('   ☁️  Error reported to community');
@@ -171,7 +172,7 @@ export class CloudLearningSync {
     try {
       const [patterns, stats] = await Promise.all([
         this.downloadCommunityKnowledge(task),
-        this.getGlobalStats()
+        this.getGlobalStats(),
       ]);
 
       const recommendations: string[] = [];
@@ -248,7 +249,7 @@ export class CloudLearningSync {
     return {
       shareMyLearning: this.shareMyLearning,
       autoSync: this.autoSync,
-      userId: this.userId
+      userId: this.userId,
     };
   }
 }

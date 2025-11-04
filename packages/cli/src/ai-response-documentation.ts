@@ -41,7 +41,7 @@ export class AIResponseDocumentation {
       includeCode: true,
       includeMetadata: true,
       autoGenerate: true,
-      ...config
+      ...config,
     };
 
     this.documentationPath = path.join(process.cwd(), this.config.outputDir);
@@ -61,7 +61,7 @@ export class AIResponseDocumentation {
 
       // إنشاء ملف index
       const indexPath = path.join(this.documentationPath, 'README.md');
-      if (!await fs.pathExists(indexPath)) {
+      if (!(await fs.pathExists(indexPath))) {
         await this.createIndexFile();
       }
     } catch (error) {
@@ -160,7 +160,7 @@ oqool-code docs export --format json
         provider: metadata.provider,
         executionTime: metadata.executionTime,
         tags: metadata.tags || [],
-        rating: undefined
+        rating: undefined,
       };
 
       // إنشاء اسم ملف فريد
@@ -182,7 +182,6 @@ oqool-code docs export --format json
       }
 
       console.log(chalk.gray(`📚 تم حفظ التوثيق: ${fileName}`));
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في حفظ التوثيق:'), error);
     }
@@ -209,7 +208,6 @@ oqool-code docs export --format json
       }
 
       await fs.writeJson(indexPath, index, { spaces: 2 });
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في تحديث الفهرس:'), error);
     }
@@ -235,9 +233,7 @@ oqool-code docs export --format json
       }
 
       // فلترة توثيقات اليوم
-      const todayDocs = allDocs.filter(doc =>
-        doc.timestamp.startsWith(today)
-      );
+      const todayDocs = allDocs.filter((doc) => doc.timestamp.startsWith(today));
 
       if (todayDocs.length === 0) return;
 
@@ -306,7 +302,6 @@ oqool-code docs export --format json
 
       await fs.ensureDir(sessionsPath);
       await fs.writeFile(sessionFile, sessionContent);
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في إنشاء ملخص الجلسة:'), error);
     }
@@ -319,7 +314,7 @@ oqool-code docs export --format json
     try {
       const indexPath = path.join(this.documentationPath, 'index.json');
 
-      if (!await fs.pathExists(indexPath)) {
+      if (!(await fs.pathExists(indexPath))) {
         return [];
       }
 
@@ -327,14 +322,14 @@ oqool-code docs export --format json
 
       const searchTerm = query.toLowerCase();
 
-      return allDocs.filter(doc =>
-        doc.prompt.toLowerCase().includes(searchTerm) ||
-        doc.response.toLowerCase().includes(searchTerm) ||
-        doc.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
-        (doc.language && doc.language.toLowerCase().includes(searchTerm)) ||
-        (doc.provider && doc.provider.toLowerCase().includes(searchTerm))
+      return allDocs.filter(
+        (doc) =>
+          doc.prompt.toLowerCase().includes(searchTerm) ||
+          doc.response.toLowerCase().includes(searchTerm) ||
+          doc.tags.some((tag) => tag.toLowerCase().includes(searchTerm)) ||
+          (doc.language && doc.language.toLowerCase().includes(searchTerm)) ||
+          (doc.provider && doc.provider.toLowerCase().includes(searchTerm))
       );
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في البحث:'), error);
       return [];
@@ -354,13 +349,13 @@ oqool-code docs export --format json
     try {
       const indexPath = path.join(this.documentationPath, 'index.json');
 
-      if (!await fs.pathExists(indexPath)) {
+      if (!(await fs.pathExists(indexPath))) {
         return {
           totalInteractions: 0,
           languagesUsed: new Map(),
           providersUsed: new Map(),
           averageExecutionTime: 0,
-          mostCommonTags: []
+          mostCommonTags: [],
         };
       }
 
@@ -400,9 +395,8 @@ oqool-code docs export --format json
         languagesUsed,
         providersUsed,
         averageExecutionTime: executionCount > 0 ? totalExecutionTime / executionCount : 0,
-        mostCommonTags
+        mostCommonTags,
       };
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في الحصول على الإحصائيات:'), error);
       return {
@@ -410,7 +404,7 @@ oqool-code docs export --format json
         languagesUsed: new Map(),
         providersUsed: new Map(),
         averageExecutionTime: 0,
-        mostCommonTags: []
+        mostCommonTags: [],
       };
     }
   }
@@ -422,7 +416,7 @@ oqool-code docs export --format json
     try {
       const indexPath = path.join(this.documentationPath, 'index.json');
 
-      if (!await fs.pathExists(indexPath)) {
+      if (!(await fs.pathExists(indexPath))) {
         throw new Error('لا يوجد توثيق للتصدير');
       }
 
@@ -446,7 +440,6 @@ oqool-code docs export --format json
       }
 
       return `${exportPath}.${format}`;
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في التصدير:'), error);
       throw error;
@@ -457,7 +450,16 @@ oqool-code docs export --format json
    * تصدير كـ CSV
    */
   private async exportAsCSV(docs: AIDocumentation[], filePath: string): Promise<void> {
-    const headers = ['timestamp', 'prompt', 'language', 'provider', 'executionTime', 'filesGenerated', 'filesModified', 'tags'];
+    const headers = [
+      'timestamp',
+      'prompt',
+      'language',
+      'provider',
+      'executionTime',
+      'filesGenerated',
+      'filesModified',
+      'tags',
+    ];
     let csv = headers.join(',') + '\n';
 
     for (const doc of docs) {
@@ -469,7 +471,7 @@ oqool-code docs export --format json
         doc.executionTime || '',
         doc.filesGenerated.join(';'),
         doc.filesModified.join(';'),
-        doc.tags.join(';')
+        doc.tags.join(';'),
       ];
       csv += row.join(',') + '\n';
     }
@@ -539,6 +541,8 @@ oqool-code docs export --format json
 }
 
 // مصنع لإنشاء instance
-export function createAIDocumentation(config?: Partial<DocumentationConfig>): AIResponseDocumentation {
+export function createAIDocumentation(
+  config?: Partial<DocumentationConfig>
+): AIResponseDocumentation {
   return new AIResponseDocumentation(config);
 }

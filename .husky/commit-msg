@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Validate commit message format
+# Format: type(scope): message
+# Example: feat(cli): add new command
+
+commit_msg=$(cat "$1")
+
+# Check if commit message follows conventional commits format
+if ! echo "$commit_msg" | grep -qE '^(feat|fix|docs|style|refactor|perf|test|chore|ci)(\(.+\))?: .{3,}'; then
+  echo "❌ Invalid commit message format!"
+  echo ""
+  echo "Commit message must follow the pattern: type(scope): message"
+  echo ""
+  echo "Types: feat, fix, docs, style, refactor, perf, test, chore, ci"
+  echo "Example: feat(cli): add new command for code generation"
+  echo ""
+  exit 1
+fi

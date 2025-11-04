@@ -111,7 +111,7 @@ export class CollaborativeFeatures {
         files: [],
         status: 'active',
         lastActivity: new Date().toISOString(),
-        sharedCode: new Map()
+        sharedCode: new Map(),
       };
 
       // حفظ الجلسة محلياً
@@ -127,7 +127,6 @@ export class CollaborativeFeatures {
       console.log(chalk.gray(`   معرف الجلسة: ${session.id}\n`));
 
       return session;
-
     } catch (error) {
       spinner.fail('فشل في إنشاء الجلسة');
       throw error;
@@ -137,7 +136,11 @@ export class CollaborativeFeatures {
   /**
    * دعوة عضو للجلسة
    */
-  async inviteMember(sessionId: string, email: string, role: TeamMember['role'] = 'member'): Promise<void> {
+  async inviteMember(
+    sessionId: string,
+    email: string,
+    role: TeamMember['role'] = 'member'
+  ): Promise<void> {
     const spinner = ora('إرسال الدعوة...').start();
 
     try {
@@ -160,7 +163,6 @@ export class CollaborativeFeatures {
       console.log(chalk.green(`\n📧 دعوة مرسلة إلى: ${email}`));
       console.log(chalk.cyan(`   الدور: ${this.getRoleName(role)}`));
       console.log(chalk.gray(`   رابط الانضمام: https://oqool.net/session/${sessionId}\n`));
-
     } catch (error) {
       spinner.fail('فشل في إرسال الدعوة');
       throw error;
@@ -196,7 +198,6 @@ export class CollaborativeFeatures {
       spinner.succeed('تم مشاركة الكود بنجاح!');
       console.log(chalk.green(`\n📤 تم مشاركة ${files.length} ملف`));
       console.log(chalk.cyan(`   في الجلسة: ${session.name}\n`));
-
     } catch (error) {
       spinner.fail('فشل في مشاركة الكود');
       throw error;
@@ -224,7 +225,7 @@ export class CollaborativeFeatures {
         reviewee: 'current_user',
         status: 'pending',
         comments: [],
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
       // حفظ المراجعة
@@ -240,7 +241,6 @@ export class CollaborativeFeatures {
       console.log(chalk.gray(`   المراجع: ${reviewer}\n`));
 
       return review;
-
     } catch (error) {
       spinner.fail('فشل في إنشاء المراجعة');
       throw error;
@@ -273,7 +273,7 @@ export class CollaborativeFeatures {
         content,
         author: 'current_user',
         timestamp: new Date().toISOString(),
-        resolved: false
+        resolved: false,
       };
 
       review.comments.push(comment);
@@ -284,7 +284,6 @@ export class CollaborativeFeatures {
       spinner.succeed('تم إضافة التعليق!');
       const typeEmoji = type === 'issue' ? '❌' : type === 'suggestion' ? '💡' : '✅';
       console.log(chalk.green(`\n${typeEmoji} ${file}:${line} - ${content}\n`));
-
     } catch (error) {
       spinner.fail('فشل في إضافة التعليق');
       throw error;
@@ -315,7 +314,7 @@ export class CollaborativeFeatures {
           templateFiles.push({
             path: file,
             content,
-            variables
+            variables,
           });
         }
       }
@@ -329,7 +328,7 @@ export class CollaborativeFeatures {
         createdBy: 'current_user',
         tags,
         usageCount: 0,
-        rating: 0
+        rating: 0,
       };
 
       // حفظ القالب
@@ -345,7 +344,6 @@ export class CollaborativeFeatures {
       console.log(chalk.gray(`   الفئة: ${category}\n`));
 
       return template;
-
     } catch (error) {
       spinner.fail('فشل في إنشاء القالب');
       throw error;
@@ -359,7 +357,7 @@ export class CollaborativeFeatures {
     try {
       const templatesPath = path.join(this.workingDir, '.oqool', 'team-templates');
 
-      if (!await fs.pathExists(templatesPath)) {
+      if (!(await fs.pathExists(templatesPath))) {
         return [];
       }
 
@@ -374,7 +372,7 @@ export class CollaborativeFeatures {
           if (
             template.name.toLowerCase().includes(query.toLowerCase()) ||
             template.description.toLowerCase().includes(query.toLowerCase()) ||
-            template.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase())) ||
+            template.tags.some((tag) => tag.toLowerCase().includes(query.toLowerCase())) ||
             template.category.toLowerCase().includes(query.toLowerCase())
           ) {
             templates.push(template);
@@ -383,7 +381,6 @@ export class CollaborativeFeatures {
       }
 
       return templates.sort((a, b) => b.usageCount - a.usageCount);
-
     } catch (error) {
       console.error(chalk.red('❌ فشل في البحث في القوالب:'), error);
       return [];
@@ -451,7 +448,7 @@ export class CollaborativeFeatures {
         report += `- ابدأ بإنشاء جلسة تعاون لتنسيق العمل\n`;
       }
 
-      if (reviews.filter(r => r.status === 'pending').length > 0) {
+      if (reviews.filter((r) => r.status === 'pending').length > 0) {
         report += `- راجع المراجعات المعلقة\n`;
       }
 
@@ -467,7 +464,6 @@ export class CollaborativeFeatures {
 
       spinner.succeed('تم إنشاء تقرير التعاون!');
       console.log(chalk.green(`\n📄 التقرير محفوظ في: ${reportPath}\n`));
-
     } catch (error) {
       spinner.fail('فشل في إنشاء التقرير');
       throw error;
@@ -528,7 +524,7 @@ export class CollaborativeFeatures {
   private async getAllSessions(): Promise<ProjectSession[]> {
     const sessionsPath = path.join(this.workingDir, '.oqool', 'sessions');
 
-    if (!await fs.pathExists(sessionsPath)) {
+    if (!(await fs.pathExists(sessionsPath))) {
       return [];
     }
 
@@ -543,7 +539,9 @@ export class CollaborativeFeatures {
       }
     }
 
-    return sessions.sort((a, b) => new Date(b.lastActivity).getTime() - new Date(a.lastActivity).getTime());
+    return sessions.sort(
+      (a, b) => new Date(b.lastActivity).getTime() - new Date(a.lastActivity).getTime()
+    );
   }
 
   /**
@@ -552,7 +550,7 @@ export class CollaborativeFeatures {
   private async getAllReviews(): Promise<CodeReview[]> {
     const reviewsPath = path.join(this.workingDir, '.oqool', 'reviews');
 
-    if (!await fs.pathExists(reviewsPath)) {
+    if (!(await fs.pathExists(reviewsPath))) {
       return [];
     }
 
@@ -567,7 +565,9 @@ export class CollaborativeFeatures {
       }
     }
 
-    return reviews.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return reviews.sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
   }
 
   /**
@@ -576,7 +576,7 @@ export class CollaborativeFeatures {
   private async getAllTemplates(): Promise<TeamTemplate[]> {
     const templatesPath = path.join(this.workingDir, '.oqool', 'team-templates');
 
-    if (!await fs.pathExists(templatesPath)) {
+    if (!(await fs.pathExists(templatesPath))) {
       return [];
     }
 
@@ -626,7 +626,7 @@ export class CollaborativeFeatures {
       owner: 'مالك',
       admin: 'مدير',
       member: 'عضو',
-      viewer: 'مراقب'
+      viewer: 'مراقب',
     };
     return roleNames[role];
   }
@@ -636,17 +636,20 @@ export class CollaborativeFeatures {
    */
   private getStatusName(status: string): string {
     const statusNames = {
-      'pending': 'معلقة',
+      pending: 'معلقة',
       'in-progress': 'قيد التنفيذ',
-      'approved': 'معتمدة',
-      'rejected': 'مرفوضة',
-      'changes-requested': 'تغييرات مطلوبة'
+      approved: 'معتمدة',
+      rejected: 'مرفوضة',
+      'changes-requested': 'تغييرات مطلوبة',
     };
     return statusNames[status as keyof typeof statusNames] || status;
   }
 }
 
 // مصنع لإنشاء instance
-export function createCollaborativeFeatures(apiClient: OqoolAPIClient, workingDir?: string): CollaborativeFeatures {
+export function createCollaborativeFeatures(
+  apiClient: OqoolAPIClient,
+  workingDir?: string
+): CollaborativeFeatures {
   return new CollaborativeFeatures(apiClient, workingDir);
 }

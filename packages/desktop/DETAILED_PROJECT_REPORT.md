@@ -22,6 +22,7 @@
 ## 🎯 نظرة عامة
 
 **Oqool Desktop IDE** هو بيئة تطوير متكاملة (IDE) مدعومة بالذكاء الاصطناعي، مبنية باستخدام:
+
 - **Electron** - للتطبيق المكتبي
 - **React 18** - للواجهة الأمامية
 - **TypeScript** - للنوع الآمن
@@ -34,15 +35,17 @@
 ## 📊 الإحصائيات الشاملة
 
 ### إجمالي الملفات
-| النوع | العدد | الحالة |
-|------|------|---------|
-| ملفات TypeScript/TSX | **132** | ✅ مكتمل |
-| ملفات CSS | **34** | ✅ مكتمل |
-| ملفات JSON | **8** | ✅ مكتمل |
-| ملفات Markdown | **5** | ✅ مكتمل |
-| **المجموع الكلي** | **179+** | ✅ |
+
+| النوع                | العدد    | الحالة   |
+| -------------------- | -------- | -------- |
+| ملفات TypeScript/TSX | **132**  | ✅ مكتمل |
+| ملفات CSS            | **34**   | ✅ مكتمل |
+| ملفات JSON           | **8**    | ✅ مكتمل |
+| ملفات Markdown       | **5**    | ✅ مكتمل |
+| **المجموع الكلي**    | **179+** | ✅       |
 
 ### توزيع الملفات حسب الفئة
+
 ```
 📂 Electron Backend          : 12 ملف
 📂 React Components          : 65 ملف
@@ -56,6 +59,7 @@
 ```
 
 ### حالة الاكتمال العامة
+
 ```
 ✅ المكتملة 100%     : 95%
 🔄 قيد التطوير       : 5%
@@ -336,44 +340,43 @@ oqool-desktop/
 ### 1. 🔧 Electron Backend (12/12) - ✅ 100%
 
 #### Main Process
+
 - ✅ `electron/main.ts` - نقطة دخول Electron الرئيسية
 - ✅ `electron/preload.ts` - جسر الأمان بين Renderer و Main
 - ✅ `electron/menu.ts` - قوائم التطبيق
 
 #### IPC Handlers (6/6)
+
 - ✅ `electron/ipc/file-system.ts` - **48 وظيفة** لعمليات الملفات
   - قراءة/كتابة الملفات
   - إنشاء/حذف المجلدات
   - مراقبة التغييرات
   - البحث والاستبدال
   - فتح ملفات في المحرر الخارجي
-  
 - ✅ `electron/ipc/terminal.ts` - إدارة Terminal
   - إنشاء جلسات PTY
   - إرسال الأوامر
   - معالجة المخرجات
-  
 - ✅ `electron/ipc/ai.ts` - تكامل AI
   - استدعاء نماذج AI
   - إدارة السياق
   - معالجة الردود
-  
 - ✅ `electron/ipc/git.ts` - عمليات Git
   - Status, Commit, Push, Pull
   - Branch Management
   - Diff Viewer
-  
 - ✅ `electron/ipc/extensions.ts` - إدارة الإضافات
   - تثبيت/إزالة الإضافات
   - تفعيل/تعطيل
-  
 - ✅ `electron/ipc/settings.ts` - إعدادات التطبيق
 
 #### Services (2/2)
+
 - ✅ `electron/services/logger.ts` - نظام السجلات
 - ✅ `electron/services/updater.ts` - تحديثات تلقائية
 
 #### Utilities (2/2)
+
 - ✅ `electron/utils/security.ts` - أمان IPC
 - ✅ `electron/utils/updater.ts` - أدوات التحديث
 
@@ -382,6 +385,7 @@ oqool-desktop/
 ### 2. ⚛️ React Components (65/65) - ✅ 100%
 
 #### Layout Components (12/12)
+
 - ✅ `MainLayout.tsx` + CSS - التخطيط الرئيسي للتطبيق
 - ✅ `Titlebar.tsx` + CSS - شريط العنوان مع أزرار التحكم
 - ✅ `MenuBar.tsx` + CSS - قوائم التطبيق (ملف، تحرير، عرض...)
@@ -390,6 +394,7 @@ oqool-desktop/
 - ✅ `PanelContainer.tsx` + CSS - حاوية اللوحات
 
 #### Editor Components (16/16)
+
 - ✅ `Editor.tsx` + CSS - محرر Monaco الرئيسي
 - ✅ `EditorTabs.tsx` + CSS - تبويبات الملفات المفتوحة
 - ✅ `DiffEditor.tsx` + CSS - محرر المقارنة (Git Diff)
@@ -399,6 +404,7 @@ oqool-desktop/
 - ✅ `Minimap.tsx` - الخريطة المصغرة
 
 #### Terminal Components (8/8)
+
 - ✅ `Terminal.tsx` + CSS - مكون Terminal الرئيسي
 - ✅ `TerminalPanel.tsx` + CSS - لوحة Terminal
 - ✅ `XTerm.tsx` - تكامل XTerm.js
@@ -407,29 +413,34 @@ oqool-desktop/
 #### Sidebar Components (18/18)
 
 **FileExplorer (9 ملفات)**
+
 - ✅ `FileExplorer.tsx` + CSS - مستكشف الملفات الرئيسي
 - ✅ `FileTree.tsx` + CSS - شجرة الملفات والمجلدات
 - ✅ `FileItem.tsx` + CSS - عنصر ملف/مجلد واحد
 - ✅ `ContextMenu.tsx` + CSS - قائمة السياق (Right-click)
 
 **Git Panel (3 ملفات)**
+
 - ✅ `Git/GitPanel.tsx` + CSS - لوحة Git كاملة
   - عرض Staged/Modified/Untracked
   - Commit UI
   - Stage/Unstage
 
 **Search Panel (3 ملفات)**
+
 - ✅ `Search/SearchPanel.tsx` + CSS - بحث في المشروع
   - بحث نصي شامل
   - معاينة النتائج
   - موقع الكود
 
 **Legacy Panels (3 ملفات)**
+
 - ✅ `GitPanel.tsx` - لوحة Git (نسخة قديمة)
 - ✅ `SearchPanel.tsx` - لوحة البحث (نسخة قديمة)
 - ✅ `ExtensionsPanel.tsx` - لوحة الإضافات
 
 #### AI Components (12/12)
+
 - ✅ `AIPanel.tsx` + CSS - لوحة AI الرئيسية
 - ✅ `ChatPanel.tsx` + CSS - محادثة AI تفاعلية
 - ✅ `AIChatMessage.tsx` + CSS - رسالة محادثة واحدة
@@ -439,6 +450,7 @@ oqool-desktop/
 - ✅ `GodModePanel.tsx` - وضع God Mode
 
 #### Common Components (10/10)
+
 - ✅ `Button.tsx` + CSS - زر قابل لإعادة الاستخدام (4 أنماط)
 - ✅ `Input.tsx` + CSS - حقل إدخال مع تحقق
 - ✅ `Tooltip.tsx` + CSS - تلميحات أدوات
@@ -447,10 +459,12 @@ oqool-desktop/
 - ✅ `Icon.tsx` - مكون أيقونة
 
 #### Modals (5/5)
+
 - ✅ `Modal.tsx` + CSS - نافذة منبثقة أساسية
 - ✅ `ConfirmDialog.tsx` + CSS - نافذة تأكيد
 
 #### Other Components (7/7)
+
 - ✅ `StatusBar/StatusBar.tsx` - شريط حالة
 - ✅ `StatusBar/AIStatus.tsx` - حالة AI في StatusBar
 - ✅ `StatusBar/GitStatus.tsx` - حالة Git في StatusBar
@@ -462,6 +476,7 @@ oqool-desktop/
 ### 3. 🎯 Features & Business Logic (28/28) - ✅ 100%
 
 #### AI Features (7/7)
+
 - ✅ `features/ai/api-client.ts` - عميل API للذكاء الاصطناعي
 - ✅ `features/ai/personalities.ts` - 5 شخصيات AI
 - ✅ `features/ai/inline-suggestions.ts` - اقتراحات أثناء الكتابة
@@ -470,21 +485,25 @@ oqool-desktop/
 - ✅ `features/ai/collective-intelligence.ts` - ذكاء جماعي
 
 #### Editor Features (3/3)
+
 - ✅ `features/editor/monaco-config.ts` - إعدادات Monaco
 - ✅ `features/editor/themes.ts` - سمات المحرر
 - ✅ `features/editor/keybindings.ts` - اختصارات لوحة المفاتيح
 
 #### Git Features (3/3)
+
 - ✅ `features/git/git-client.ts` - عميل Git كامل
 - ✅ `features/git/commit-panel.ts` - واجهة Commit
 - ✅ `features/git/diff-viewer.ts` - عرض الفروقات
 
 #### Terminal Features (3/3)
+
 - ✅ `features/terminal/pty-manager.ts` - إدارة PTY
 - ✅ `features/terminal/command-runner.ts` - تشغيل الأوامر
 - ✅ `features/terminal/shell-integration.ts` - تكامل Shell
 
 #### Extension System (5/5)
+
 - ✅ `features/extensions/extension-manager.ts` - مدير الإضافات
 - ✅ `features/extensions/extension-api.ts` - واجهة برمجية للإضافات
 - ✅ `features/extensions/extension-host.ts` - بيئة تشغيل الإضافات
@@ -511,17 +530,14 @@ oqool-desktop/
   - الملفات المفتوحة
   - الملف النشط
   - إعدادات المحرر
-  
 - ✅ `stores/file-store.ts` - حالة نظام الملفات
   - شجرة الملفات
   - الملفات المحددة
   - التحديثات
-  
 - ✅ `stores/ai-store.ts` - حالة AI
   - الشخصية المختارة
   - تاريخ المحادثات
   - الإعدادات
-  
 - ✅ `stores/settings-store.ts` - حالة الإعدادات
   - تفضيلات المستخدم
   - السمات
@@ -547,7 +563,6 @@ oqool-desktop/
   - مسار المساحة
   - الملفات المفتوحة
   - الملف النشط
-  
 - ✅ `contexts/ThemeContext.tsx` - سياق السمات
   - السمة الحالية (dark/light)
   - تبديل السمات
@@ -579,12 +594,10 @@ oqool-desktop/
   - RTL Layout
   - خطوط عربية
   - تدقيق إملائي
-  
 - ✅ **Git Advanced** - أدوات Git متقدمة
   - Git History
   - Interactive Rebase
   - Cherry Pick
-  
 - ✅ **AI Pair Programmer** - مبرمج مساعد AI
   - Code Suggestions
   - Bug Detection
@@ -606,6 +619,7 @@ oqool-desktop/
 ### 12. 📚 Shared Utilities (8/8) - ✅ 100%
 
 #### CLI Tools (6/6)
+
 - ✅ `shared/cli/god-mode.ts`
 - ✅ `shared/cli/voice-interface.ts`
 - ✅ `shared/cli/version-guardian.ts`
@@ -614,6 +628,7 @@ oqool-desktop/
 - ✅ `shared/cli/collective-intelligence.ts`
 
 #### Utils (2/2)
+
 - ✅ `shared/utils/helpers.ts` - وظائف مساعدة
 - ✅ `shared/utils/api.ts` - أدوات API
 
@@ -634,34 +649,43 @@ oqool-desktop/
 ### 🟡 ملفات تحتاج إلى تنفيذ (TODO)
 
 #### 1. AI Integration
+
 **الملف:** `src/components/AI/ChatPanel.tsx`  
 **السطر:** 28  
 **TODO:**
+
 ```typescript
 // TODO: Implement actual AI call
 ```
+
 **الوصف:** يحتاج إلى ربط فعلي بـ API الذكاء الاصطناعي (Anthropic Claude)
 
 ---
 
 #### 2. Git Integration
+
 **الملف:** `src/components/Sidebar/Git/GitPanel.tsx`  
 **السطر:** 8  
 **TODO:**
+
 ```typescript
 const [workspacePath] = useState('/path/to/workspace'); // TODO: Get from context
 ```
+
 **الوصف:** يحتاج إلى جلب مسار المساحة من WorkspaceContext
 
 ---
 
 #### 3. Search Functionality
+
 **الملف:** `src/components/Sidebar/Search/SearchPanel.tsx`  
 **السطر:** 21  
 **TODO:**
+
 ```typescript
 // TODO: Implement actual search functionality
 ```
+
 **الوصف:** يحتاج إلى تنفيذ البحث الفعلي في الملفات
 
 ---
@@ -669,30 +693,35 @@ const [workspacePath] = useState('/path/to/workspace'); // TODO: Get from contex
 ### 📝 قائمة TODO الكاملة
 
 #### Backend/Electron
+
 - [ ] إكمال تكامل Git الفعلي مع simple-git
 - [ ] تنفيذ نظام التحديثات التلقائية
 - [ ] إضافة نظام Logging متقدم
 - [ ] تحسين أمان IPC
 
 #### Frontend/React
+
 - [ ] ربط AIPanel بـ API الفعلي
 - [ ] تنفيذ البحث الشامل في الملفات
 - [ ] إضافة نظام الإشعارات
 - [ ] تحسين الأداء (Lazy Loading)
 
 #### Features
+
 - [ ] تكامل Voice Interface الكامل
 - [ ] تطوير God Mode بالكامل
 - [ ] نظام Version Guardian
 - [ ] Collective Intelligence
 
 #### Testing
+
 - [ ] Unit Tests للمكونات
 - [ ] Integration Tests للـ IPC
 - [ ] E2E Tests للتطبيق
 - [ ] Performance Tests
 
 #### Documentation
+
 - [ ] API Documentation
 - [ ] User Guide
 - [ ] Developer Guide
@@ -706,18 +735,18 @@ const [workspacePath] = useState('/path/to/workspace'); // TODO: Get from contex
 
 ```json
 {
-  "@anthropic-ai/sdk": "^0.24.0",      // Claude AI
-  "chokidar": "^3.5.3",                // File Watcher
-  "electron-updater": "^6.1.8",        // Auto Updates
-  "fs-extra": "^11.2.0",               // File System Utils
-  "monaco-editor": "^0.44.0",          // Code Editor
-  "node-pty": "^1.0.0",                // PTY for Terminal
-  "react": "^18.2.0",                  // React Framework
-  "react-dom": "^18.2.0",              // React DOM
-  "simple-git": "^3.22.0",             // Git Client
-  "xterm": "^5.3.0",                   // Terminal Emulator
-  "xterm-addon-fit": "^0.8.0",         // XTerm Fit Addon
-  "zustand": "^4.5.0"                  // State Management
+  "@anthropic-ai/sdk": "^0.24.0", // Claude AI
+  "chokidar": "^3.5.3", // File Watcher
+  "electron-updater": "^6.1.8", // Auto Updates
+  "fs-extra": "^11.2.0", // File System Utils
+  "monaco-editor": "^0.44.0", // Code Editor
+  "node-pty": "^1.0.0", // PTY for Terminal
+  "react": "^18.2.0", // React Framework
+  "react-dom": "^18.2.0", // React DOM
+  "simple-git": "^3.22.0", // Git Client
+  "xterm": "^5.3.0", // Terminal Emulator
+  "xterm-addon-fit": "^0.8.0", // XTerm Fit Addon
+  "zustand": "^4.5.0" // State Management
 }
 ```
 
@@ -739,6 +768,7 @@ const [workspacePath] = useState('/path/to/workspace'); // TODO: Get from contex
 ```
 
 ### إجمالي الحزم المثبتة
+
 **416 حزمة** (بما في ذلك التبعيات الفرعية)
 
 ---
@@ -756,6 +786,7 @@ const [workspacePath] = useState('/path/to/workspace'); // TODO: Get from contex
 ### إعدادات TypeScript
 
 **tsconfig.json:**
+
 ```json
 {
   "compilerOptions": {
@@ -783,30 +814,35 @@ const [workspacePath] = useState('/path/to/workspace'); // TODO: Get from contex
 ## 🎯 الخطوات التالية
 
 ### المرحلة 1: الربط والتكامل (أسبوع 1-2)
+
 - [ ] ربط AI Panel بـ Anthropic Claude API
 - [ ] تفعيل Git Operations مع simple-git
 - [ ] تنفيذ البحث الفعلي في الملفات
 - [ ] ربط جميع IPC Handlers بالـ UI
 
 ### المرحلة 2: التحسينات والأداء (أسبوع 3)
+
 - [ ] Lazy Loading للمكونات الثقيلة
 - [ ] تحسين أداء Monaco Editor
 - [ ] تحسين File Tree للمشاريع الكبيرة
 - [ ] إضافة Caching للملفات
 
 ### المرحلة 3: الميزات المتقدمة (أسبوع 4-5)
+
 - [ ] تفعيل Voice Interface الكامل
 - [ ] تطوير God Mode بالكامل
 - [ ] نظام Version Guardian
 - [ ] Collective Intelligence
 
 ### المرحلة 4: الاختبار (أسبوع 6)
+
 - [ ] كتابة Unit Tests
 - [ ] Integration Tests
 - [ ] E2E Tests
 - [ ] Performance Benchmarking
 
 ### المرحلة 5: التوثيق والنشر (أسبوع 7-8)
+
 - [ ] كتابة التوثيق الكامل
 - [ ] إنشاء دليل المستخدم
 - [ ] تجهيز Build للإنتاج
@@ -817,11 +853,13 @@ const [workspacePath] = useState('/path/to/workspace'); // TODO: Get from contex
 ## 📊 مقاييس الكود
 
 ### إحصائيات الملفات
+
 - **إجمالي ملفات TypeScript/TSX:** 132
 - **إجمالي ملفات CSS:** 34
 - **إجمالي الأسطر المتوقعة:** ~15,000+ سطر
 
 ### توزيع الكود
+
 ```
 Backend (Electron)     : 25%
 Frontend (React)       : 45%
@@ -830,6 +868,7 @@ Styles & Assets        : 10%
 ```
 
 ### جودة الكود
+
 - ✅ TypeScript Strict Mode
 - ✅ ESLint Configuration
 - ✅ Consistent Code Style
@@ -841,6 +880,7 @@ Styles & Assets        : 10%
 ## 🎨 معايير التصميم
 
 ### نظام الألوان
+
 ```css
 /* Dark Theme (Default) */
 --bg-primary: #1e1e1e;
@@ -856,6 +896,7 @@ Styles & Assets        : 10%
 ```
 
 ### Typography
+
 ```css
 --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto';
 --font-mono: 'Fira Code', 'Consolas', 'Monaco', monospace;
@@ -863,6 +904,7 @@ Styles & Assets        : 10%
 ```
 
 ### Spacing
+
 ```css
 --spacing-xs: 0.25rem;
 --spacing-sm: 0.5rem;
@@ -876,6 +918,7 @@ Styles & Assets        : 10%
 ## 🔒 الأمان
 
 ### إجراءات الأمان المطبقة
+
 - ✅ Context Isolation في Electron
 - ✅ IPC Security Validation
 - ✅ Content Security Policy
@@ -883,6 +926,7 @@ Styles & Assets        : 10%
 - ✅ Extension Sandboxing
 
 ### نقاط تحتاج مراجعة
+
 - ⚠️ File System Access Permissions
 - ⚠️ External API Key Storage
 - ⚠️ Extension Security Audit
@@ -892,10 +936,12 @@ Styles & Assets        : 10%
 ## 🌍 الترجمة ودعم RTL
 
 ### اللغات المدعومة
+
 - ✅ العربية (RTL)
 - ✅ الإنجليزية (LTR)
 
 ### ميزات RTL
+
 - ✅ RTL Layout في جميع المكونات
 - ✅ دعم الخطوط العربية
 - ✅ قوائم عربية
@@ -906,23 +952,27 @@ Styles & Assets        : 10%
 ## 📈 خارطة الطريق
 
 ### الإصدار 1.0.0 (الحالي)
+
 - ✅ الهيكل الأساسي الكامل
 - ✅ جميع المكونات الرئيسية
 - 🔄 التكامل الأساسي
 
 ### الإصدار 1.1.0 (Q1 2026)
+
 - [ ] AI Voice Interface كامل
 - [ ] God Mode متقدم
 - [ ] Extension Marketplace
 - [ ] Cloud Sync
 
 ### الإصدار 1.2.0 (Q2 2026)
+
 - [ ] Collaborative Coding
 - [ ] Live Share
 - [ ] AI Team Assistant
 - [ ] Code Review AI
 
 ### الإصدار 2.0.0 (Q3 2026)
+
 - [ ] Distributed Development
 - [ ] Blockchain Integration
 - [ ] Advanced AI Features
@@ -933,6 +983,7 @@ Styles & Assets        : 10%
 ## 🏆 الإنجازات
 
 ### ✅ ما تم إنجازه
+
 1. ✅ **هيكل مشروع كامل** - 179+ ملف منظم
 2. ✅ **Electron Backend كامل** - 12 ملف مع IPC Handlers
 3. ✅ **React UI كامل** - 65 مكون
@@ -943,6 +994,7 @@ Styles & Assets        : 10%
 8. ✅ **RTL Support** - دعم عربي كامل
 
 ### 🎯 المعالم الرئيسية
+
 - 📅 **بداية المشروع:** [التاريخ]
 - 📅 **اكتمال الهيكل:** 31 أكتوبر 2025
 - 📅 **0 TypeScript Errors:** 31 أكتوبر 2025
@@ -953,6 +1005,7 @@ Styles & Assets        : 10%
 ## 🤝 المساهمة
 
 ### كيفية المساهمة
+
 1. Fork المشروع
 2. إنشاء Branch جديد (`git checkout -b feature/amazing-feature`)
 3. Commit التغييرات (`git commit -m 'Add amazing feature'`)
@@ -960,6 +1013,7 @@ Styles & Assets        : 10%
 5. فتح Pull Request
 
 ### معايير المساهمة
+
 - ✅ اتباع TypeScript Strict Mode
 - ✅ كتابة Tests للكود الجديد
 - ✅ توثيق الوظائف والمكونات
@@ -970,6 +1024,7 @@ Styles & Assets        : 10%
 ## 📞 الاتصال والدعم
 
 ### المصادر
+
 - 📧 Email: support@oqool.dev
 - 🌐 Website: https://oqool.dev
 - 📚 Documentation: https://docs.oqool.dev
@@ -986,6 +1041,7 @@ Styles & Assets        : 10%
 ## 🙏 شكر وتقدير
 
 شكر خاص لجميع المساهمين والمكتبات مفتوحة المصدر:
+
 - **Electron Team** - للإطار الرائع
 - **Microsoft** - لـ Monaco Editor
 - **React Team** - للمكتبة القوية
@@ -996,19 +1052,23 @@ Styles & Assets        : 10%
 ## 📝 ملاحظات ختامية
 
 ### الحالة الحالية
+
 المشروع في حالة **ممتازة** مع:
+
 - ✅ هيكل كامل ومنظم
 - ✅ 0 أخطاء TypeScript
 - ✅ جميع المكونات الأساسية جاهزة
 - 🔄 بعض التكاملات تحتاج إلى إكمال
 
 ### التوصيات
+
 1. **الأولوية القصوى:** ربط AI API و Git Operations
 2. **الأولوية العالية:** تنفيذ البحث وتحسين الأداء
 3. **الأولوية المتوسطة:** الميزات المتقدمة والتوثيق
 4. **الأولوية المنخفضة:** الميزات التجريبية
 
 ### الخلاصة
+
 **Oqool Desktop IDE** هو مشروع طموح ومميز جاهز لمرحلة التطوير التالية. الأساس قوي، والبنية ممتازة، والفريق مستعد للمضي قدمًا! 🚀
 
 ---

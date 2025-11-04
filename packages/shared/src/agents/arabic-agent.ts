@@ -45,10 +45,10 @@ export type TaskComplexity = 'simple' | 'medium' | 'complex' | 'expert';
  * Provider Selection Strategy - استراتيجية اختيار المزود
  */
 interface ProviderStrategy {
-  simple: 'deepseek' | 'openai';    // مهام بسيطة - تكلفة منخفضة
-  medium: 'openai' | 'deepseek';    // مهام متوسطة - توازن
-  complex: 'anthropic' | 'openai';  // مهام معقدة - جودة عالية
-  expert: 'anthropic';               // مهام خبيرة - أفضل جودة
+  simple: 'deepseek' | 'openai'; // مهام بسيطة - تكلفة منخفضة
+  medium: 'openai' | 'deepseek'; // مهام متوسطة - توازن
+  complex: 'anthropic' | 'openai'; // مهام معقدة - جودة عالية
+  expert: 'anthropic'; // مهام خبيرة - أفضل جودة
 }
 
 /**
@@ -105,10 +105,10 @@ class UnifiedAIAdapter {
 
   // استراتيجية اختيار المزود بناءً على التعقيد
   private providerStrategy: ProviderStrategy = {
-    simple: 'deepseek',    // أرخص مزود للمهام البسيطة
-    medium: 'openai',      // متوسط التكلفة والجودة
-    complex: 'anthropic',  // أفضل جودة للمهام المعقدة
-    expert: 'anthropic'    // Claude لأعلى مستوى من التعقيد
+    simple: 'deepseek', // أرخص مزود للمهام البسيطة
+    medium: 'openai', // متوسط التكلفة والجودة
+    complex: 'anthropic', // أفضل جودة للمهام المعقدة
+    expert: 'anthropic', // Claude لأعلى مستوى من التعقيد
   };
 
   constructor(config: MultiProviderConfig) {
@@ -117,7 +117,7 @@ class UnifiedAIAdapter {
       costOptimization: true,
       retryAttempts: 3,
       timeout: 30000,
-      ...config
+      ...config,
     };
 
     this.metrics = {
@@ -128,7 +128,7 @@ class UnifiedAIAdapter {
       totalTokens: 0,
       averageLatency: 0,
       cacheHits: 0,
-      cacheMisses: 0
+      cacheMisses: 0,
     };
 
     this.logger = (message: string, level: 'info' | 'warn' | 'error') => {
@@ -143,29 +143,38 @@ class UnifiedAIAdapter {
    * تهيئة جميع مزودي AI
    */
   private initializeProviders(): void {
-    this.config.providers.forEach(provider => {
+    this.config.providers.forEach((provider) => {
       try {
         switch (provider.name) {
           case 'anthropic':
-            this.providers.set('anthropic', new Anthropic({ 
-              apiKey: provider.apiKey 
-            }));
+            this.providers.set(
+              'anthropic',
+              new Anthropic({
+                apiKey: provider.apiKey,
+              })
+            );
             this.logger(`Initialized Anthropic Claude`, 'info');
             break;
 
           case 'openai':
-            this.providers.set('openai', new OpenAI({ 
-              apiKey: provider.apiKey,
-              baseURL: provider.baseURL 
-            }));
+            this.providers.set(
+              'openai',
+              new OpenAI({
+                apiKey: provider.apiKey,
+                baseURL: provider.baseURL,
+              })
+            );
             this.logger(`Initialized OpenAI`, 'info');
             break;
 
           case 'deepseek':
-            this.providers.set('deepseek', new OpenAI({ 
-              apiKey: provider.apiKey,
-              baseURL: provider.baseURL || 'https://api.deepseek.com/v1'
-            }));
+            this.providers.set(
+              'deepseek',
+              new OpenAI({
+                apiKey: provider.apiKey,
+                baseURL: provider.baseURL || 'https://api.deepseek.com/v1',
+              })
+            );
             this.logger(`Initialized DeepSeek`, 'info');
             break;
 
@@ -194,7 +203,7 @@ class UnifiedAIAdapter {
 
     // اختيار ذكي بناءً على التعقيد
     const selectedProvider = this.providerStrategy[complexity];
-    
+
     if (this.providers.has(selectedProvider)) {
       return selectedProvider;
     }
@@ -208,10 +217,10 @@ class UnifiedAIAdapter {
    */
   private calculateCost(provider: string, tokens: number): number {
     const costPer1kTokens: Record<string, number> = {
-      'deepseek': 0.001,    // $0.001 per 1K tokens (الأرخص)
-      'openai': 0.006,      // $0.006 per 1K tokens (GPT-4o)
-      'anthropic': 0.015,   // $0.015 per 1K tokens (Claude Sonnet)
-      'google': 0.005       // $0.005 per 1K tokens (تقديري)
+      deepseek: 0.001, // $0.001 per 1K tokens (الأرخص)
+      openai: 0.006, // $0.006 per 1K tokens (GPT-4o)
+      anthropic: 0.015, // $0.015 per 1K tokens (Claude Sonnet)
+      google: 0.005, // $0.005 per 1K tokens (تقديري)
     };
 
     return (tokens / 1000) * (costPer1kTokens[provider] || 0.01);
@@ -237,14 +246,19 @@ class UnifiedAIAdapter {
   /**
    * حفظ في الكاش
    */
-  private setCachedResponse(prompt: string, response: string, provider: string, ttl: number = 3600000): void {
+  private setCachedResponse(
+    prompt: string,
+    response: string,
+    provider: string,
+    ttl: number = 3600000
+  ): void {
     const cacheKey = this.generateCacheKey(prompt);
     this.cache.set(cacheKey, {
       prompt,
       response,
       timestamp: Date.now(),
       provider,
-      ttl
+      ttl,
     });
 
     // تنظيف الكاش إذا تجاوز 1000 إدخال
@@ -262,7 +276,7 @@ class UnifiedAIAdapter {
     let hash = 0;
     for (let i = 0; i < prompt.length; i++) {
       const char = prompt.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash;
     }
     return `cache_${Math.abs(hash)}`;
@@ -271,10 +285,7 @@ class UnifiedAIAdapter {
   /**
    * استدعاء AI مع Retry Logic و Error Handling
    */
-  async chat(
-    prompt: string,
-    options: RequestOptions = {}
-  ): Promise<string> {
+  async chat(prompt: string, options: RequestOptions = {}): Promise<string> {
     const startTime = Date.now();
     this.metrics.totalRequests++;
 
@@ -301,17 +312,13 @@ class UnifiedAIAdapter {
           'info'
         );
 
-        const response = await this.callProvider(
-          selectedProvider,
-          prompt,
-          options
-        );
+        const response = await this.callProvider(selectedProvider, prompt, options);
 
         // تحديث المقاييس
         const latency = Date.now() - startTime;
         this.metrics.successfulRequests++;
-        this.metrics.averageLatency = 
-          (this.metrics.averageLatency * (this.metrics.successfulRequests - 1) + latency) / 
+        this.metrics.averageLatency =
+          (this.metrics.averageLatency * (this.metrics.successfulRequests - 1) + latency) /
           this.metrics.successfulRequests;
 
         // حفظ في الكاش
@@ -319,32 +326,25 @@ class UnifiedAIAdapter {
           this.setCachedResponse(prompt, response, selectedProvider);
         }
 
-        this.logger(
-          `Success in ${latency}ms using ${selectedProvider}`,
-          'info'
-        );
+        this.logger(`Success in ${latency}ms using ${selectedProvider}`, 'info');
 
         return response;
-
       } catch (error) {
         lastError = error as Error;
-        this.logger(
-          `Attempt ${attempt} failed: ${lastError.message}`,
-          'warn'
-        );
+        this.logger(`Attempt ${attempt} failed: ${lastError.message}`, 'warn');
 
         // إذا فشل، جرب مزود آخر (Fallback)
         if (attempt < maxRetries && this.config.fallbackEnabled) {
           const providers = Array.from(this.providers.keys());
           const currentIndex = providers.indexOf(selectedProvider);
           const nextProvider = providers[(currentIndex + 1) % providers.length];
-          
+
           if (nextProvider !== selectedProvider) {
             this.logger(`Falling back to ${nextProvider}`, 'info');
-            return this.chat(prompt, { 
-              ...options, 
+            return this.chat(prompt, {
+              ...options,
               preferredProvider: nextProvider as any,
-              maxRetries: 1 
+              maxRetries: 1,
             });
           }
         }
@@ -358,9 +358,7 @@ class UnifiedAIAdapter {
 
     // فشل جميع المحاولات
     this.metrics.failedRequests++;
-    throw new Error(
-      `فشل الطلب بعد ${maxRetries} محاولات. آخر خطأ: ${lastError?.message}`
-    );
+    throw new Error(`فشل الطلب بعد ${maxRetries} محاولات. آخر خطأ: ${lastError?.message}`);
   }
 
   /**
@@ -386,47 +384,48 @@ class UnifiedAIAdapter {
           model: 'claude-sonnet-4-20250514',
           max_tokens: maxTokens,
           temperature: temperature,
-          messages: [{
-            role: 'user',
-            content: prompt
-          }]
+          messages: [
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
         });
 
         const content = response.content[0];
         const text = content.type === 'text' ? content.text : '';
-        
+
         // تحديث مقاييس التكلفة
         const tokens = response.usage?.input_tokens + response.usage?.output_tokens || 0;
         this.metrics.totalTokens += tokens;
         this.metrics.totalCost += this.calculateCost(providerName, tokens);
 
         return text;
-
       } else if (providerName === 'openai' || providerName === 'deepseek') {
         // استدعاء OpenAI أو DeepSeek
         const response = await provider.chat.completions.create({
           model: providerName === 'deepseek' ? 'deepseek-coder' : 'gpt-4o',
           max_tokens: maxTokens,
           temperature: temperature,
-          messages: [{
-            role: 'user',
-            content: prompt
-          }]
+          messages: [
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
         });
 
         const text = response.choices[0]?.message?.content || '';
-        
+
         // تحديث مقاييس التكلفة
         const tokens = response.usage?.total_tokens || 0;
         this.metrics.totalTokens += tokens;
         this.metrics.totalCost += this.calculateCost(providerName, tokens);
 
         return text;
-
       } else {
         throw new Error(`المزود ${providerName} غير مدعوم حالياً`);
       }
-
     } catch (error: any) {
       // معالجة الأخطاء الشائعة
       if (error.status === 429) {
@@ -445,7 +444,7 @@ class UnifiedAIAdapter {
    * انتظار لفترة محددة
    */
   private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   /**
@@ -467,7 +466,7 @@ class UnifiedAIAdapter {
       totalTokens: 0,
       averageLatency: 0,
       cacheHits: 0,
-      cacheMisses: 0
+      cacheMisses: 0,
     };
   }
 
@@ -489,7 +488,9 @@ class UnifiedAIAdapter {
     console.log(`📊 إجمالي الطلبات: ${this.metrics.totalRequests}`);
     console.log(`✅ نجح: ${this.metrics.successfulRequests}`);
     console.log(`❌ فشل: ${this.metrics.failedRequests}`);
-    console.log(`💾 Cache Hits: ${this.metrics.cacheHits} (${((this.metrics.cacheHits / (this.metrics.cacheHits + this.metrics.cacheMisses)) * 100).toFixed(1)}%)`);
+    console.log(
+      `💾 Cache Hits: ${this.metrics.cacheHits} (${((this.metrics.cacheHits / (this.metrics.cacheHits + this.metrics.cacheMisses)) * 100).toFixed(1)}%)`
+    );
     console.log(`💵 التكلفة الفعلية: $${this.metrics.totalCost.toFixed(4)}`);
     console.log(`💰 التوفير المقدر: $${savings.toFixed(4)} (75%)`);
     console.log(`⚡ متوسط زمن الاستجابة: ${this.metrics.averageLatency.toFixed(0)}ms`);
@@ -504,10 +505,10 @@ class UnifiedAIAdapter {
 
 /**
  * ArabicAgent: Advanced Arabic Language Understanding for Programming
- * 
+ *
  * @description متخصص في فهم اللغة العربية وتحويل الأفكار إلى كود برمجي احترافي
  * مع دعم Multi-Provider وتوفير 70-80% من التكاليف
- * 
+ *
  * @key_features
  * - ✅ Multi-Provider Support (Anthropic, OpenAI, DeepSeek, Google)
  * - ✅ Intelligent Provider Routing بناءً على التعقيد
@@ -530,13 +531,13 @@ export class ArabicAgent {
   constructor(config: MultiProviderConfig) {
     this.aiAdapter = new UnifiedAIAdapter(config);
     this.programmingTerms = this.initializeProgrammingTerms();
-    
+
     this.logger = (message: string, type: 'success' | 'error' | 'info' | 'warn') => {
       const emoji = {
         success: '✅',
         error: '❌',
         info: 'ℹ️',
-        warn: '⚠️'
+        warn: '⚠️',
       };
       console.log(`${emoji[type]} [ArabicAgent] ${message}`);
     };
@@ -646,18 +647,17 @@ ${arabicRequirement}
 
     try {
       this.logger('فهم المتطلب العربي...', 'info');
-      
+
       const response = await this.aiAdapter.chat(prompt, {
-        complexity: 'complex',    // مهمة معقدة - نستخدم مزود قوي
+        complexity: 'complex', // مهمة معقدة - نستخدم مزود قوي
         useCache: useCache,
-        maxTokens: 6000
+        maxTokens: 6000,
       });
 
       const architecture = this.parseArchitecture(response);
       this.logger('تم تحليل المتطلب بنجاح', 'success');
-      
-      return architecture;
 
+      return architecture;
     } catch (error: any) {
       this.logger(`فشل فهم المتطلب: ${error.message}`, 'error');
       throw error;
@@ -713,19 +713,18 @@ ${arabicIdea}
 
     try {
       this.logger('تحويل الفكرة إلى كود...', 'info');
-      
+
       const response = await this.aiAdapter.chat(prompt, {
         complexity: complexity,
         useCache: true,
         maxTokens: 6000,
-        temperature: 0.7
+        temperature: 0.7,
       });
 
       const codeFile = this.parseCodeFile(response, targetLanguage);
       this.logger(`تم توليد الكود بنجاح: ${codeFile.path}`, 'success');
-      
-      return codeFile;
 
+      return codeFile;
     } catch (error: any) {
       this.logger(`فشل توليد الكود: ${error.message}`, 'error');
       throw error;
@@ -750,7 +749,7 @@ ${arabicIdea}
     const levelArabic = {
       beginner: 'مبتدئ',
       intermediate: 'متوسط',
-      advanced: 'متقدم'
+      advanced: 'متقدم',
     };
 
     const prompt = `
@@ -802,16 +801,15 @@ ${codeFile.content}
 
     try {
       this.logger('شرح الكود بالعربية...', 'info');
-      
+
       const response = await this.aiAdapter.chat(prompt, {
-        complexity: 'simple',     // الشرح أبسط من التوليد
+        complexity: 'simple', // الشرح أبسط من التوليد
         useCache: true,
-        maxTokens: 4000
+        maxTokens: 4000,
       });
 
       this.logger('تم شرح الكود بنجاح', 'success');
       return response;
-
     } catch (error: any) {
       this.logger(`فشل شرح الكود: ${error.message}`, 'error');
       throw error;
@@ -865,23 +863,22 @@ ${codeFile.content}
       const response = await this.aiAdapter.chat(prompt, {
         complexity: 'simple',
         useCache: true,
-        maxTokens: 500
+        maxTokens: 500,
       });
 
       const parsed = this.parseJSON(response);
-      
+
       return {
         intent: parsed.intent || 'unknown',
         entities: parsed.entities || [],
-        confidence: parsed.confidence || 0.5
+        confidence: parsed.confidence || 0.5,
       };
-
     } catch (error: any) {
       this.logger(`فشل استخراج النية: ${error.message}`, 'warn');
       return {
         intent: 'unknown',
         entities: [],
-        confidence: 0
+        confidence: 0,
       };
     }
   }
@@ -947,7 +944,7 @@ ${codeFile.content}
       web: 'تطبيق ويب',
       mobile: 'تطبيق موبايل',
       backend: 'خادم Backend',
-      database: 'قاعدة بيانات'
+      database: 'قاعدة بيانات',
     };
 
     const prompt = `
@@ -981,11 +978,11 @@ EXPLANATION:
 
     try {
       this.logger(`توليد مثال عن: ${concept}`, 'info');
-      
+
       const response = await this.aiAdapter.chat(prompt, {
         complexity: 'medium',
         useCache: true,
-        maxTokens: 3000
+        maxTokens: 3000,
       });
 
       // تحليل الرد
@@ -1001,9 +998,8 @@ EXPLANATION:
 
       return {
         code: code,
-        explanation: explanation
+        explanation: explanation,
       };
-
     } catch (error: any) {
       this.logger(`فشل توليد المثال: ${error.message}`, 'error');
       throw error;
@@ -1022,11 +1018,7 @@ EXPLANATION:
    * @param language - لغة البرمجة
    * @returns شرح الخطأ والحل
    */
-  async explainError(
-    errorMessage: string,
-    code: string,
-    language: string
-  ): Promise<string> {
+  async explainError(errorMessage: string, code: string, language: string): Promise<string> {
     const prompt = `
 أنت خبير في تشخيص وحل الأخطاء البرمجية. قم بتحليل هذا الخطأ وتقديم شرح مفصل بالعربية.
 
@@ -1070,16 +1062,15 @@ ${code}
 
     try {
       this.logger('تحليل الخطأ...', 'info');
-      
+
       const response = await this.aiAdapter.chat(prompt, {
         complexity: 'medium',
         useCache: true,
-        maxTokens: 3000
+        maxTokens: 3000,
       });
 
       this.logger('تم تحليل الخطأ بنجاح', 'success');
       return response;
-
     } catch (error: any) {
       this.logger(`فشل تحليل الخطأ: ${error.message}`, 'error');
       throw error;
@@ -1097,10 +1088,7 @@ ${code}
    * @param resetHistory - إعادة تعيين سجل المحادثة
    * @returns رد المساعد
    */
-  async chat(
-    message: string,
-    resetHistory: boolean = false
-  ): Promise<string> {
+  async chat(message: string, resetHistory: boolean = false): Promise<string> {
     if (resetHistory) {
       this.conversationHistory = [];
       this.logger('تم إعادة تعيين سجل المحادثة', 'info');
@@ -1109,7 +1097,7 @@ ${code}
     // إضافة رسالة المستخدم للسجل
     this.conversationHistory.push({
       role: 'user',
-      content: message
+      content: message,
     });
 
     // بناء السياق من آخر 5 رسائل
@@ -1118,7 +1106,7 @@ ${code}
 أنت مساعد برمجي ذكي متخصص في مساعدة المطورين العرب. تجيب باللغة العربية بأسلوب احترافي وودي.
 
 سجل المحادثة الأخيرة:
-${recentHistory.map(msg => `${msg.role === 'user' ? 'المستخدم' : 'المساعد'}: ${msg.content}`).join('\n\n')}
+${recentHistory.map((msg) => `${msg.role === 'user' ? 'المستخدم' : 'المساعد'}: ${msg.content}`).join('\n\n')}
 
 قدم إجابة:
 - واضحة ومباشرة
@@ -1133,15 +1121,15 @@ ${recentHistory.map(msg => `${msg.role === 'user' ? 'المستخدم' : 'الم
     try {
       const response = await this.aiAdapter.chat(contextPrompt, {
         complexity: 'medium',
-        useCache: false,  // لا نستخدم كاش في المحادثات
+        useCache: false, // لا نستخدم كاش في المحادثات
         maxTokens: 2000,
-        temperature: 0.8  // أكثر إبداعاً في المحادثات
+        temperature: 0.8, // أكثر إبداعاً في المحادثات
       });
 
       // إضافة رد المساعد للسجل
       this.conversationHistory.push({
         role: 'assistant',
-        content: response
+        content: response,
       });
 
       // الاحتفاظ بآخر 20 رسالة فقط
@@ -1150,7 +1138,6 @@ ${recentHistory.map(msg => `${msg.role === 'user' ? 'المستخدم' : 'الم
       }
 
       return response;
-
     } catch (error: any) {
       this.logger(`فشلت المحادثة: ${error.message}`, 'error');
       throw error;
@@ -1310,24 +1297,24 @@ ${recentHistory.map(msg => `${msg.role === 'user' ? 'المستخدم' : 'الم
   private parseArchitecture(text: string): Architecture {
     try {
       const parsed = this.parseJSON(text);
-      
-      return { tags: [],
+
+      return {
+        tags: [],
         components: parsed.components || [],
         api: parsed.api || { endpoints: [], authentication: 'none' },
         database: parsed.database || { type: 'none', tables: [] },
         frontend: parsed.frontend || { framework: 'none', components: [] },
         // technologies: parsed.technologies || {}
       };
-
     } catch (error) {
       this.logger('فشل تحليل المعمارية، استخدام قيم افتراضية', 'warn');
-      
+
       return {
         components: [],
         api: { endpoints: [], authentication: 'none' },
         database: { type: 'none', tables: [] },
         frontend: { framework: 'none', components: [] },
-        tags: []
+        tags: [],
       };
     }
   }
@@ -1348,7 +1335,7 @@ ${recentHistory.map(msg => `${msg.role === 'user' ? 'المستخدم' : 'الم
         path: filePath.replace(/^filename:/, '').trim(),
         content: content,
         language: language,
-        lines: lines
+        lines: lines,
       };
     }
 
@@ -1357,7 +1344,7 @@ ${recentHistory.map(msg => `${msg.role === 'user' ? 'المستخدم' : 'الم
       path: `generated-code.${this.getFileExtension(language)}`,
       content: text.trim(),
       language: language,
-      lines: text.split('\n').length
+      lines: text.split('\n').length,
     };
   }
 
@@ -1366,20 +1353,20 @@ ${recentHistory.map(msg => `${msg.role === 'user' ? 'المستخدم' : 'الم
    */
   private getFileExtension(language: string): string {
     const extMap: Record<string, string> = {
-      'javascript': 'js',
-      'typescript': 'ts',
-      'python': 'py',
-      'java': 'java',
-      'go': 'go',
-      'rust': 'rs',
-      'ruby': 'rb',
-      'php': 'php',
-      'c': 'c',
-      'cpp': 'cpp',
-      'csharp': 'cs',
-      'swift': 'swift',
-      'kotlin': 'kt',
-      'dart': 'dart'
+      javascript: 'js',
+      typescript: 'ts',
+      python: 'py',
+      java: 'java',
+      go: 'go',
+      rust: 'rs',
+      ruby: 'rb',
+      php: 'php',
+      c: 'c',
+      cpp: 'cpp',
+      csharp: 'cs',
+      swift: 'swift',
+      kotlin: 'kt',
+      dart: 'dart',
     };
     return extMap[language.toLowerCase()] || 'txt';
   }
@@ -1391,7 +1378,7 @@ ${recentHistory.map(msg => `${msg.role === 'user' ? 'المستخدم' : 'الم
     try {
       // محاولة استخراج JSON من code block
       const jsonMatch = text.match(/```json\n([\s\S]*?)```/) || text.match(/\{[\s\S]*\}/);
-      
+
       if (jsonMatch) {
         const jsonText = jsonMatch[1] || jsonMatch[0];
         return JSON.parse(jsonText);
@@ -1399,7 +1386,6 @@ ${recentHistory.map(msg => `${msg.role === 'user' ? 'المستخدم' : 'الم
 
       // محاولة تحليل النص مباشرة
       return JSON.parse(text);
-
     } catch (error) {
       throw new Error('فشل تحليل JSON من الرد');
     }
@@ -1410,8 +1396,4 @@ ${recentHistory.map(msg => `${msg.role === 'user' ? 'المستخدم' : 'الم
 // 📦 Export Types
 // ============================================
 
-export type {
-  RequestOptions,
-  PerformanceMetrics,
-  CacheEntry
-};
+export type { RequestOptions, PerformanceMetrics, CacheEntry };

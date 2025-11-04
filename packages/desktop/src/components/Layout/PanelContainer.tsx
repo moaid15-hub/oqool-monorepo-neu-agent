@@ -6,9 +6,6 @@ interface PanelContainerProps {
   className?: string;
 }
 
-export const PanelContainer: React.FC<PanelContainerProps> = ({
-  children,
-  className = '',
-}) => {
+export const PanelContainer: React.FC<PanelContainerProps> = ({ children, className = '' }) => {
   return <div className={`panel-container ${className}`}>{children}</div>;
 };

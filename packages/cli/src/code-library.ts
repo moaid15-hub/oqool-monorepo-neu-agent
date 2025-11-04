@@ -32,7 +32,7 @@ export class CodeLibrary {
     this.config = {
       enableSharing: true,
       enableStats: true,
-      ...config
+      ...config,
     };
 
     this.snippetsPath = path.join(this.config.libraryPath, '.oqool', 'snippets');
@@ -53,7 +53,12 @@ export class CodeLibrary {
   // ============================================
   // 💾 حفظ Snippet
   // ============================================
-  async saveSnippet(name: string, code: string, tags: string[], description?: string): Promise<void> {
+  async saveSnippet(
+    name: string,
+    code: string,
+    tags: string[],
+    description?: string
+  ): Promise<void> {
     try {
       // اكتشاف اللغة من الكود
       const language = this.detectLanguage(code);
@@ -66,7 +71,7 @@ export class CodeLibrary {
         description,
         author: 'Oqool User',
         createdAt: new Date().toISOString(),
-        usageCount: 0
+        usageCount: 0,
       };
 
       const snippetPath = path.join(this.snippetsPath, `${name}.json`);
@@ -95,7 +100,9 @@ export class CodeLibrary {
         // البحث في الاسم، الوصف، أو التاجات
         const matchesName = snippet.name.toLowerCase().includes(query.toLowerCase());
         const matchesDesc = snippet.description?.toLowerCase().includes(query.toLowerCase());
-        const matchesTags = snippet.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()));
+        const matchesTags = snippet.tags.some((tag) =>
+          tag.toLowerCase().includes(query.toLowerCase())
+        );
 
         if (matchesName || matchesDesc || matchesTags) {
           snippets.push(snippet);
@@ -134,7 +141,7 @@ export class CodeLibrary {
 
       const snippetPath = path.join(this.snippetsPath, `${name}.json`);
 
-      if (!await fs.pathExists(snippetPath)) {
+      if (!(await fs.pathExists(snippetPath))) {
         console.log(chalk.red(`❌ الـ snippet "${name}" غير موجود`));
         return null;
       }
@@ -165,7 +172,7 @@ export class CodeLibrary {
     try {
       const snippetPath = path.join(this.snippetsPath, `${name}.json`);
 
-      if (!await fs.pathExists(snippetPath)) {
+      if (!(await fs.pathExists(snippetPath))) {
         console.log(chalk.yellow(`⚠️ الـ snippet "${name}" غير موجود`));
         return null;
       }
@@ -209,8 +216,8 @@ export class CodeLibrary {
       snippets.forEach((s, i) => {
         console.log(
           chalk.blue(`${i + 1}. ${s.name}`) +
-          chalk.gray(` [${s.language}]`) +
-          chalk.yellow(` 📊 ${s.usageCount} استخدام`)
+            chalk.gray(` [${s.language}]`) +
+            chalk.yellow(` 📊 ${s.usageCount} استخدام`)
         );
         if (s.description) {
           console.log(chalk.gray(`   ${s.description}`));
@@ -231,7 +238,7 @@ export class CodeLibrary {
     try {
       const snippetPath = path.join(this.snippetsPath, `${name}.json`);
 
-      if (!await fs.pathExists(snippetPath)) {
+      if (!(await fs.pathExists(snippetPath))) {
         console.log(chalk.yellow(`⚠️ الـ snippet "${name}" غير موجود`));
         return false;
       }
@@ -294,7 +301,7 @@ export class CodeLibrary {
         totalSnippets: snippets.length,
         mostUsed,
         byLanguage,
-        totalUsage
+        totalUsage,
       };
     } catch (error: any) {
       console.error(chalk.red(`❌ فشل جلب الإحصائيات: ${error.message}`));
@@ -302,7 +309,7 @@ export class CodeLibrary {
         totalSnippets: 0,
         mostUsed: [],
         byLanguage: {},
-        totalUsage: 0
+        totalUsage: 0,
       };
     }
   }

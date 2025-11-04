@@ -5,7 +5,7 @@
  * @returns ناتج الجمع
  */
 export function add(a: number, b: number): number {
-    return a + b;
+  return a + b;
 }
 
 /**
@@ -14,5 +14,5 @@ export function add(a: number, b: number): number {
  * @returns مربع الرقم
  */
 export function square(x: number): number {
-    return x * x;
+  return x * x;
 }

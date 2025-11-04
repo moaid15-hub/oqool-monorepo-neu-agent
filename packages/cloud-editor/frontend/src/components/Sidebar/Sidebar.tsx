@@ -1,7 +1,5 @@
 import React from 'react';
 
-export default function Sidebar(){
-  return (
-    <div className="sidebar-region">Sidebar</div>
-  );
+export default function Sidebar() {
+  return <div className="sidebar-region">Sidebar</div>;
 }

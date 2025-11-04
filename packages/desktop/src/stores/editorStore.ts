@@ -64,22 +64,20 @@ export default Welcome;
 export const useEditorStore = create<EditorStore>((set) => ({
   files: [welcomeFile],
   activeFile: welcomeFile,
-  openFile: (file) => set((state) => ({
-    files: state.files.find(f => f.path === file.path)
-      ? state.files
-      : [...state.files, file],
-    activeFile: file,
-  })),
-  updateContent: (path, content) => set((state) => ({
-    files: state.files.map(f =>
-      f.path === path ? { ...f, content } : f
-    ),
-    activeFile: state.activeFile?.path === path
-      ? { ...state.activeFile, content }
-      : state.activeFile,
-  })),
-  closeFile: (path) => set((state) => ({
-    files: state.files.filter(f => f.path !== path),
-    activeFile: state.activeFile?.path === path ? null : state.activeFile,
-  })),
+  openFile: (file) =>
+    set((state) => ({
+      files: state.files.find((f) => f.path === file.path) ? state.files : [...state.files, file],
+      activeFile: file,
+    })),
+  updateContent: (path, content) =>
+    set((state) => ({
+      files: state.files.map((f) => (f.path === path ? { ...f, content } : f)),
+      activeFile:
+        state.activeFile?.path === path ? { ...state.activeFile, content } : state.activeFile,
+    })),
+  closeFile: (path) =>
+    set((state) => ({
+      files: state.files.filter((f) => f.path !== path),
+      activeFile: state.activeFile?.path === path ? null : state.activeFile,
+    })),
 }));

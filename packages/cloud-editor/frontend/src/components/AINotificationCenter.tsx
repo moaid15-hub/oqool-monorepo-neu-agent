@@ -21,10 +21,10 @@ export const AINotificationCenter: React.FC<AINotificationCenterProps> = ({ clas
           </button>
         )}
       </div>
-      
+
       <div className="notifications-list">
         {notifications.map((notification) => (
-          <div 
+          <div
             key={notification.id}
             className={`notification-item ${notification.type}`}
             onClick={() => removeNotification(notification.id)}
@@ -34,13 +34,13 @@ export const AINotificationCenter: React.FC<AINotificationCenterProps> = ({ clas
               {notification.type === 'error' && '❌'}
               {notification.type === 'info' && 'ℹ️'}
             </div>
-            
+
             <div className="notification-content">
               <p>{notification.message}</p>
               <small>انقر للإغلاق</small>
             </div>
-            
-            <button 
+
+            <button
               className="close-btn"
               onClick={(e) => {
                 e.stopPropagation();

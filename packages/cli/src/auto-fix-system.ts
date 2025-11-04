@@ -72,7 +72,7 @@ export class AutoFixSystem {
   private workingDir: string;
   private fileManager: any;
   private stages: Map<string, FixStage>;
-  
+
   private syntaxFixer: SyntaxFixer;
   private typeFixer: TypeFixer;
   private securityFixer: SecurityFixer;
@@ -83,10 +83,10 @@ export class AutoFixSystem {
     this.workingDir = workingDir;
     this.fileManager = createFileManager(workingDir);
     this.stages = new Map();
-    
+
     // تهيئة المراحل
     this.initializeStages();
-    
+
     // تهيئة الأدوات
     this.syntaxFixer = new SyntaxFixer(workingDir);
     this.typeFixer = new TypeFixer(workingDir);
@@ -104,14 +104,14 @@ export class AutoFixSystem {
       name: 'Syntax Fixing',
       priority: 'P1',
       action: 'auto',
-      description: 'إصلاح أخطاء البناء اللغوي تلقائياً'
+      description: 'إصلاح أخطاء البناء اللغوي تلقائياً',
     });
 
     this.stages.set('security', {
       name: 'Security Fixing',
       priority: 'P1',
       action: 'ask',
-      description: 'إصلاح الثغرات الأمنية (يسأل المستخدم)'
+      description: 'إصلاح الثغرات الأمنية (يسأل المستخدم)',
     });
 
     // ✅ المرحلة 2 (P2): Types - إصلاح تلقائي
@@ -119,7 +119,7 @@ export class AutoFixSystem {
       name: 'Type Fixing',
       priority: 'P2',
       action: 'auto',
-      description: 'إصلاح أخطاء الأنواع تلقائياً'
+      description: 'إصلاح أخطاء الأنواع تلقائياً',
     });
 
     // ✅ المرحلة 3 (P3): Performance + Style - اقتراحات
@@ -127,14 +127,14 @@ export class AutoFixSystem {
       name: 'Performance Optimization',
       priority: 'P3',
       action: 'suggest',
-      description: 'اقتراحات لتحسين الأداء'
+      description: 'اقتراحات لتحسين الأداء',
     });
 
     this.stages.set('style', {
       name: 'Style Fixing',
       priority: 'P3',
       action: 'auto',
-      description: 'إصلاح أسلوب الكود تلقائياً'
+      description: 'إصلاح أسلوب الكود تلقائياً',
     });
   }
 
@@ -142,7 +142,13 @@ export class AutoFixSystem {
    * تشغيل نظام الإصلاح التلقائي
    */
   async fix(options: AutoFixOptions): Promise<FixResult> {
-    const { file, autoApply = false, skipStages = [], onlyStages = [], interactive = true } = options;
+    const {
+      file,
+      autoApply = false,
+      skipStages = [],
+      onlyStages = [],
+      interactive = true,
+    } = options;
 
     console.log(chalk.cyan('\n🔧 ════════════════════════════════════════════════'));
     console.log(chalk.cyan('   نظام الإصلاح التلقائي المتقدم'));
@@ -161,7 +167,7 @@ export class AutoFixSystem {
       fixedIssues: 0,
       suggestedIssues: 0,
       skippedIssues: 0,
-      stages: {}
+      stages: {},
     };
 
     // تحديد المراحل المطلوبة
@@ -169,12 +175,12 @@ export class AutoFixSystem {
     if (onlyStages.length > 0) {
       stagesToRun = onlyStages;
     } else {
-      stagesToRun = Array.from(this.stages.keys()).filter(s => !skipStages.includes(s));
+      stagesToRun = Array.from(this.stages.keys()).filter((s) => !skipStages.includes(s));
     }
 
     // ترتيب المراحل حسب الأولوية
     stagesToRun.sort((a, b) => {
-      const priorityOrder = { 'P1': 1, 'P2': 2, 'P3': 3 };
+      const priorityOrder = { P1: 1, P2: 2, P3: 3 };
       const stageA = this.stages.get(a)!;
       const stageB = this.stages.get(b)!;
       return priorityOrder[stageA.priority] - priorityOrder[stageB.priority];
@@ -183,21 +189,24 @@ export class AutoFixSystem {
     console.log(chalk.yellow('📋 المراحل المحددة:\n'));
     stagesToRun.forEach((stageName, index) => {
       const stage = this.stages.get(stageName)!;
-      const priorityColor = stage.priority === 'P1' ? chalk.red : 
-                            stage.priority === 'P2' ? chalk.yellow : 
-                            chalk.blue;
-      const actionEmoji = stage.action === 'auto' ? '⚡' : 
-                         stage.action === 'ask' ? '❓' : 
-                         '💡';
-      console.log(`   ${index + 1}. ${actionEmoji} ${stage.name} ${priorityColor(`[${stage.priority}]`)} - ${stage.description}`);
+      const priorityColor =
+        stage.priority === 'P1' ? chalk.red : stage.priority === 'P2' ? chalk.yellow : chalk.blue;
+      const actionEmoji = stage.action === 'auto' ? '⚡' : stage.action === 'ask' ? '❓' : '💡';
+      console.log(
+        `   ${index + 1}. ${actionEmoji} ${stage.name} ${priorityColor(`[${stage.priority}]`)} - ${stage.description}`
+      );
     });
     console.log('');
 
     // تشغيل المراحل
     for (const stageName of stagesToRun) {
       const stage = this.stages.get(stageName)!;
-      
-      console.log(chalk.cyan(`\n▶️  المرحلة ${stagesToRun.indexOf(stageName) + 1}/${stagesToRun.length}: ${stage.name}`));
+
+      console.log(
+        chalk.cyan(
+          `\n▶️  المرحلة ${stagesToRun.indexOf(stageName) + 1}/${stagesToRun.length}: ${stage.name}`
+        )
+      );
       console.log(chalk.gray('─'.repeat(50)));
 
       try {
@@ -219,7 +228,7 @@ export class AutoFixSystem {
           issues: stageResult.issuesFound,
           fixed: stageResult.issuesFixed,
           suggested: stageResult.issuesSuggested,
-          skipped: stageResult.issuesSkipped
+          skipped: stageResult.issuesSkipped,
         };
 
         // تحديث الكود
@@ -229,7 +238,6 @@ export class AutoFixSystem {
 
         // عرض النتائج
         this.displayStageResults(stage, stageResult);
-
       } catch (error: any) {
         console.log(chalk.red(`❌ خطأ في المرحلة ${stage.name}: ${error.message}`));
       }
@@ -237,7 +245,7 @@ export class AutoFixSystem {
 
     // النتيجة النهائية
     result.finalCode = currentCode;
-    
+
     console.log(chalk.cyan('\n════════════════════════════════════════════════'));
     console.log(chalk.cyan('   📊 ملخص النتائج'));
     console.log(chalk.cyan('════════════════════════════════════════════════\n'));
@@ -246,7 +254,7 @@ export class AutoFixSystem {
 
     // حفظ التعديلات
     if (result.fixedIssues > 0) {
-      if (autoApply || await this.confirmSave(result)) {
+      if (autoApply || (await this.confirmSave(result))) {
         await this.fileManager.writeFile(file, currentCode);
         console.log(chalk.green(`\n✅ تم حفظ التعديلات في: ${file}`));
       } else {
@@ -333,7 +341,7 @@ export class AutoFixSystem {
       } else if (action === 'suggest') {
         issuesSuggested = issuesFound;
       } else if (action === 'ask') {
-        issuesFixed = issues.filter(i => i.fix).length;
+        issuesFixed = issues.filter((i) => i.fix).length;
         issuesSkipped = issuesFound - issuesFixed;
       }
 
@@ -342,9 +350,8 @@ export class AutoFixSystem {
         issuesFixed,
         issuesSuggested,
         issuesSkipped,
-        modifiedCode: modifiedCode !== code ? modifiedCode : undefined
+        modifiedCode: modifiedCode !== code ? modifiedCode : undefined,
       };
-
     } catch (error: any) {
       spinner.fail(`فشل الفحص: ${error.message}`);
       throw error;
@@ -354,10 +361,7 @@ export class AutoFixSystem {
   /**
    * معالجة إصلاحات الأمان التفاعلية
    */
-  private async handleInteractiveSecurityFixes(
-    code: string,
-    issues: FixIssue[]
-  ): Promise<string> {
+  private async handleInteractiveSecurityFixes(code: string, issues: FixIssue[]): Promise<string> {
     console.log(chalk.yellow('\n⚠️  تم اكتشاف مشاكل أمنية:\n'));
 
     for (const issue of issues) {
@@ -376,8 +380,8 @@ export class AutoFixSystem {
         type: 'confirm',
         name: 'shouldFix',
         message: 'هل تريد إصلاح هذه المشاكل الأمنية؟',
-        default: true
-      }
+        default: true,
+      },
     ]);
 
     if (shouldFix) {
@@ -442,8 +446,8 @@ export class AutoFixSystem {
         type: 'confirm',
         name: 'confirm',
         message: `هل تريد حفظ التعديلات؟ (${result.fixedIssues} إصلاح)`,
-        default: true
-      }
+        default: true,
+      },
     ]);
 
     return confirm;

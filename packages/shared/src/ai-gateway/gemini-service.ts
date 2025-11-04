@@ -31,10 +31,7 @@ export class GeminiService {
   /**
    * إرسال رسالة للـ AI
    */
-  async chatCompletion(
-    messages: Message[],
-    options: ChatCompletionOptions = {}
-  ): Promise<string> {
+  async chatCompletion(messages: Message[], options: ChatCompletionOptions = {}): Promise<string> {
     const {
       model = 'gemini-2.0-flash-exp', // الأسرع: $0.10/$0.40 per 1M tokens
       maxTokens = 8192,
@@ -53,7 +50,7 @@ export class GeminiService {
       });
 
       // تحويل الرسائل لصيغة Gemini
-      const history = messages.slice(0, -1).map(msg => ({
+      const history = messages.slice(0, -1).map((msg) => ({
         role: msg.role === 'assistant' ? 'model' : 'user',
         parts: [{ text: msg.content }],
       }));
@@ -61,9 +58,7 @@ export class GeminiService {
       const lastMessage = messages[messages.length - 1].content;
 
       // إضافة system prompt إذا موجود
-      const prompt = systemPrompt
-        ? `${systemPrompt}\n\n${lastMessage}`
-        : lastMessage;
+      const prompt = systemPrompt ? `${systemPrompt}\n\n${lastMessage}` : lastMessage;
 
       // Start chat with history
       const chat = genAI.startChat({
@@ -106,15 +101,13 @@ export class GeminiService {
         },
       });
 
-      const history = messages.slice(0, -1).map(msg => ({
+      const history = messages.slice(0, -1).map((msg) => ({
         role: msg.role === 'assistant' ? 'model' : 'user',
         parts: [{ text: msg.content }],
       }));
 
       const lastMessage = messages[messages.length - 1].content;
-      const prompt = systemPrompt
-        ? `${systemPrompt}\n\n${lastMessage}`
-        : lastMessage;
+      const prompt = systemPrompt ? `${systemPrompt}\n\n${lastMessage}` : lastMessage;
 
       const chat = genAI.startChat({ history });
       const result = await chat.sendMessageStream(prompt);
@@ -134,24 +127,28 @@ export class GeminiService {
   /**
    * حساب التكلفة التقريبية
    */
-  calculateCost(inputTokens: number, outputTokens: number, model: string = 'gemini-2.0-flash-exp'): number {
+  calculateCost(
+    inputTokens: number,
+    outputTokens: number,
+    model: string = 'gemini-2.0-flash-exp'
+  ): number {
     // Gemini pricing
     const pricing: Record<string, { input: number; output: number }> = {
       'gemini-2.0-flash-exp': {
-        input: 0.10,  // $0.10 per 1M tokens - الأسرع والأرخص! 💰⚡
-        output: 0.40, // $0.40 per 1M tokens
+        input: 0.1, // $0.10 per 1M tokens - الأسرع والأرخص! 💰⚡
+        output: 0.4, // $0.40 per 1M tokens
       },
       'gemini-1.5-flash': {
-        input: 0.075,  // $0.075 per 1M tokens
-        output: 0.30,  // $0.30 per 1M tokens
+        input: 0.075, // $0.075 per 1M tokens
+        output: 0.3, // $0.30 per 1M tokens
       },
       'gemini-1.5-pro': {
-        input: 1.25,  // $1.25 per 1M tokens
-        output: 5.00, // $5.00 per 1M tokens
+        input: 1.25, // $1.25 per 1M tokens
+        output: 5.0, // $5.00 per 1M tokens
       },
       'gemini-1.0-pro': {
-        input: 0.50,  // $0.50 per 1M tokens
-        output: 1.50, // $1.50 per 1M tokens
+        input: 0.5, // $0.50 per 1M tokens
+        output: 1.5, // $1.50 per 1M tokens
       },
     };
 
@@ -167,9 +164,7 @@ export class GeminiService {
    */
   async validateApiKey(): Promise<boolean> {
     try {
-      await this.chatCompletion([
-        { role: 'user', content: 'Hello' }
-      ], { maxTokens: 10 });
+      await this.chatCompletion([{ role: 'user', content: 'Hello' }], { maxTokens: 10 });
       return true;
     } catch (error) {
       return false;
@@ -186,28 +181,28 @@ export class GeminiService {
         name: 'Gemini 2.0 Flash',
         description: '⚡💰 الأسرع والأرخص - موصى به!',
         maxTokens: 1000000,
-        cost: { input: 0.10, output: 0.40 },
+        cost: { input: 0.1, output: 0.4 },
       },
       {
         id: 'gemini-1.5-flash',
         name: 'Gemini 1.5 Flash',
         description: 'سريع ورخيص - ممتاز للمهام المتوسطة',
         maxTokens: 1000000,
-        cost: { input: 0.075, output: 0.30 },
+        cost: { input: 0.075, output: 0.3 },
       },
       {
         id: 'gemini-1.5-pro',
         name: 'Gemini 1.5 Pro',
         description: 'قوي للمهام المعقدة',
         maxTokens: 2000000,
-        cost: { input: 1.25, output: 5.00 },
+        cost: { input: 1.25, output: 5.0 },
       },
       {
         id: 'gemini-1.0-pro',
         name: 'Gemini 1.0 Pro',
         description: 'متوازن بين السعر والجودة',
         maxTokens: 30720,
-        cost: { input: 0.50, output: 1.50 },
+        cost: { input: 0.5, output: 1.5 },
       },
     ];
   }
@@ -255,8 +250,8 @@ export class GeminiService {
       model: 'gemini-2.0-flash-exp',
       maxTokens: 1000000,
       costPer1MTokens: {
-        input: 0.10,
-        output: 0.40,
+        input: 0.1,
+        output: 0.4,
       },
       description: '⚡💰 الأسرع والأرخص - ممتاز للبرمجة',
       strengths: ['سريع جداً', 'رخيص جداً', 'ممتاز في البرمجة', 'context كبير (1M tokens)'],

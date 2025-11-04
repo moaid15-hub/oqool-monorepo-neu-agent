@@ -86,10 +86,11 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     },
   ];
 
-  const filteredCommands = commands.filter((cmd) =>
-    cmd.label.toLowerCase().includes(search.toLowerCase()) ||
-    cmd.description.toLowerCase().includes(search.toLowerCase()) ||
-    cmd.category.toLowerCase().includes(search.toLowerCase())
+  const filteredCommands = commands.filter(
+    (cmd) =>
+      cmd.label.toLowerCase().includes(search.toLowerCase()) ||
+      cmd.description.toLowerCase().includes(search.toLowerCase()) ||
+      cmd.category.toLowerCase().includes(search.toLowerCase())
   );
 
   useEffect(() => {
@@ -120,7 +121,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen) {return null;}
 
   return (
     <div className="command-palette-overlay" onClick={onClose}>
@@ -164,9 +165,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                 </div>
                 <div className="command-meta">
                   <span className="command-category">{cmd.category}</span>
-                  {cmd.shortcut && (
-                    <span className="command-shortcut">{cmd.shortcut}</span>
-                  )}
+                  {cmd.shortcut && <span className="command-shortcut">{cmd.shortcut}</span>}
                 </div>
               </div>
             ))

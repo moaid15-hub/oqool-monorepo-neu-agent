@@ -1,4 +1,5 @@
 # 🔧 نظام الإصلاح التلقائي المتقدم
+
 ## Oqool Auto-Fix System with Stages & Priorities
 
 نظام إصلاح تلقائي متقدم بالمراحل والأولويات (P1, P2, P3) لتحليل وإصلاح الكود بذكاء.
@@ -8,6 +9,7 @@
 ## 🎯 المميزات الرئيسية
 
 ### ✅ نظام المراحل الذكي
+
 - **المرحلة 1 (P1)**: أخطاء حرجة - **إصلاح فوري**
   - ✅ Syntax Errors - إصلاح تلقائي
   - 🔒 Security Issues - يسأل المستخدم
@@ -24,12 +26,14 @@
 ## 🚀 التثبيت والاستخدام
 
 ### التثبيت
+
 ```bash
 # النظام جزء من oqool-code
 npm install -g oqool-code
 ```
 
 ### الاستخدام السريع
+
 ```bash
 # إصلاح ملف واحد
 oqool-code auto-fix src/app.ts
@@ -48,9 +52,11 @@ oqool-code auto-fix --show-stages
 ### 🔴 P1 - أخطاء حرجة (إصلاح فوري)
 
 #### 1️⃣ Syntax Fixing
+
 **الهدف**: إصلاح أخطاء البناء اللغوي التي تمنع تشغيل الكود
 
 **يكشف**:
+
 - أخطاء Syntax
 - فواصل منقوطة مفقودة
 - أقواس غير متطابقة
@@ -59,14 +65,17 @@ oqool-code auto-fix --show-stages
 **الإصلاح**: ⚡ تلقائي
 
 **مثال**:
+
 ```bash
 oqool-code auto-fix src/app.ts --only syntax --auto-apply
 ```
 
 #### 2️⃣ Security Fixing
+
 **الهدف**: اكتشاف وإصلاح الثغرات الأمنية
 
 **يكشف**:
+
 - استخدام `eval()` الخطير
 - SQL Injection
 - XSS vulnerabilities
@@ -78,6 +87,7 @@ oqool-code auto-fix src/app.ts --only syntax --auto-apply
 **الإصلاح**: ❓ يسأل المستخدم (للأمان)
 
 **مثال**:
+
 ```typescript
 // قبل
 eval(userInput); // خطر!
@@ -93,9 +103,11 @@ element.textContent = data; // آمن
 ### 🟡 P2 - أخطاء الأنواع (إصلاح تلقائي)
 
 #### 3️⃣ Type Fixing
+
 **الهدف**: إصلاح أخطاء TypeScript والأنواع
 
 **يكشف**:
+
 - متغيرات بدون نوع
 - دوال بدون نوع إرجاع
 - معاملات بدون أنواع
@@ -105,6 +117,7 @@ element.textContent = data; // آمن
 **الإصلاح**: ⚡ تلقائي
 
 **مثال**:
+
 ```typescript
 // قبل
 function calculateTotal(items) {
@@ -112,7 +125,7 @@ function calculateTotal(items) {
 }
 
 // بعد
-function calculateTotal(items: Array<{price: number}>): number {
+function calculateTotal(items: Array<{ price: number }>): number {
   return items.reduce((sum, item) => sum + item.price, 0);
 }
 ```
@@ -122,9 +135,11 @@ function calculateTotal(items: Array<{price: number}>): number {
 ### 🔵 P3 - التحسينات (اقتراحات + إصلاح)
 
 #### 4️⃣ Performance Optimization
+
 **الهدف**: اكتشاف مشاكل الأداء واقتراح حلول
 
 **يكشف**:
+
 - حلقات متداخلة (O(n²), O(n³))
 - عمليات مكلفة في الحلقات
 - عمليات DOM متكررة
@@ -135,15 +150,18 @@ function calculateTotal(items: Array<{price: number}>): number {
 **الإصلاح**: 💡 اقتراحات فقط
 
 **مثال**:
+
 ```bash
 # يعرض تقرير الأداء
 oqool-code auto-fix src/app.ts --only performance
 ```
 
 #### 5️⃣ Style Fixing
+
 **الهدف**: تحسين أسلوب الكود وجعله متسقاً
 
 **يكشف**:
+
 - اصطلاحات التسمية (camelCase, PascalCase)
 - استخدام `var` بدلاً من `const/let`
 - استخدام `==` بدلاً من `===`
@@ -155,18 +173,19 @@ oqool-code auto-fix src/app.ts --only performance
 **الإصلاح**: ⚡ تلقائي
 
 **مثال**:
+
 ```typescript
 // قبل
-var user_name = "Ahmed";
+var user_name = 'Ahmed';
 if (age == 18) {
-  console.log("Adult");
+  console.log('Adult');
 }
 
 // بعد
-const userName = "Ahmed";
+const userName = 'Ahmed';
 if (age === 18) {
   // TODO: Remove console.log
-  console.log("Adult");
+  console.log('Adult');
 }
 ```
 
@@ -175,6 +194,7 @@ if (age === 18) {
 ## 🎮 أمثلة الاستخدام
 
 ### 1. إصلاح شامل
+
 ```bash
 # كل المراحل + تفاعلي
 oqool-code auto-fix src/app.ts
@@ -184,6 +204,7 @@ oqool-code auto-fix src/app.ts --auto-apply
 ```
 
 ### 2. إصلاح مراحل محددة
+
 ```bash
 # P1 فقط (Syntax + Security)
 oqool-code auto-fix src/app.ts --only syntax,security
@@ -196,6 +217,7 @@ oqool-code auto-fix src/app.ts --only performance,style
 ```
 
 ### 3. تخطي مراحل
+
 ```bash
 # كل شيء ماعدا Performance
 oqool-code auto-fix src/app.ts --skip performance
@@ -208,6 +230,7 @@ oqool-code auto-fix src/app.ts --no-performance --no-style
 ```
 
 ### 4. Pipeline متدرج
+
 ```bash
 # خطوة 1: P1
 oqool-code auto-fix src/app.ts --only syntax,security --auto-apply
@@ -220,6 +243,7 @@ oqool-code auto-fix src/app.ts --only performance,style --auto-apply
 ```
 
 ### 5. ملفات متعددة
+
 ```bash
 # استخدام shell loop
 for file in src/**/*.ts; do
@@ -232,6 +256,7 @@ done
 ## 💻 الاستخدام البرمجي
 
 ### مثال أساسي
+
 ```typescript
 import { createAutoFixSystem } from './auto-fix-system';
 
@@ -239,13 +264,14 @@ const autoFix = createAutoFixSystem();
 
 const result = await autoFix.fix({
   file: 'src/app.ts',
-  autoApply: true
+  autoApply: true,
 });
 
 console.log(`تم إصلاح ${result.fixedIssues} مشكلة`);
 ```
 
 ### مثال متقدم
+
 ```typescript
 import { createAutoFixSystem } from './auto-fix-system';
 
@@ -260,7 +286,7 @@ const result = await autoFix.fix({
   file: 'src/app.ts',
   onlyStages: ['syntax', 'security'],
   autoApply: true,
-  interactive: false
+  interactive: false,
 });
 
 // 3. فحص النتائج
@@ -269,7 +295,7 @@ if (result.success) {
   console.log(`المشاكل: ${result.totalIssues}`);
   console.log(`المصلحة: ${result.fixedIssues}`);
   console.log(`الاقتراحات: ${result.suggestedIssues}`);
-  
+
   // 4. تفاصيل كل مرحلة
   for (const [stage, details] of Object.entries(result.stages)) {
     console.log(`${stage}: ${details.fixed} إصلاح`);
@@ -278,29 +304,30 @@ if (result.success) {
 ```
 
 ### Pipeline كامل
+
 ```typescript
 async function fullPipeline(file: string) {
   const autoFix = createAutoFixSystem();
-  
+
   // مرحلة 1: P1
   await autoFix.fix({
     file,
     onlyStages: ['syntax', 'security'],
-    autoApply: true
+    autoApply: true,
   });
-  
+
   // مرحلة 2: P2
   await autoFix.fix({
     file,
     onlyStages: ['types'],
-    autoApply: true
+    autoApply: true,
   });
-  
+
   // مرحلة 3: P3
   await autoFix.fix({
     file,
     onlyStages: ['performance', 'style'],
-    autoApply: true
+    autoApply: true,
   });
 }
 ```
@@ -310,6 +337,7 @@ async function fullPipeline(file: string) {
 ## 📊 تقارير ومخرجات
 
 ### تقرير الإصلاح
+
 ```
 🔧 ════════════════════════════════════════════════
    نظام الإصلاح التلقائي المتقدم
@@ -329,7 +357,7 @@ async function fullPipeline(file: string) {
 ▶️  المرحلة 2/3: Security Fixing
 ──────────────────────────────────────────────────
 ✅ تم الفحص - وجد 2 مشاكل
-   
+
 ⚠️  تم اكتشاف مشاكل أمنية:
 
    🔴 استخدام eval() خطير جداً
@@ -365,6 +393,7 @@ Security Fixing:
 ## ⚙️ الإعدادات
 
 ### ملف التكوين `.oqoolrc.json`
+
 ```json
 {
   "autoFix": {
@@ -409,24 +438,28 @@ auto-fix-system/
 ## 🎯 أفضل الممارسات
 
 ### 1. ابدأ بـ P1
+
 ```bash
 # تأكد أن الكود يعمل أولاً
 oqool-code auto-fix src/ --only syntax,security --auto-apply
 ```
 
 ### 2. ثم P2
+
 ```bash
 # أضف الأنواع
 oqool-code auto-fix src/ --only types --auto-apply
 ```
 
 ### 3. أخيراً P3
+
 ```bash
 # حسّن الأداء والأسلوب
 oqool-code auto-fix src/ --only performance,style
 ```
 
 ### 4. استخدم Git
+
 ```bash
 git add .
 git commit -m "Before auto-fix"
@@ -439,6 +472,7 @@ git diff # راجع التغييرات
 ## 🤝 المساهمة
 
 نرحب بالمساهمات! يمكنك:
+
 - إضافة مراحل جديدة
 - تحسين الكاشفات
 - إضافة إصلاحات جديدة

@@ -143,17 +143,11 @@ export class DatabaseIntegration {
 
       // توليد ملف الإعدادات
       const configFile = await this.generateDatabaseConfig(dbType, ormType);
-      await fs.writeFile(
-        path.join(this.projectRoot, 'database.config.ts'),
-        configFile
-      );
+      await fs.writeFile(path.join(this.projectRoot, 'database.config.ts'), configFile);
 
       // توليد ملف الاتصال
       const connectionFile = await this.generateConnectionFile(dbType, ormType);
-      await fs.writeFile(
-        path.join(this.projectRoot, 'database.ts'),
-        connectionFile
-      );
+      await fs.writeFile(path.join(this.projectRoot, 'database.ts'), connectionFile);
 
       // توليد .env template
       const envTemplate = this.generateEnvTemplate(dbType);
@@ -172,8 +166,9 @@ export class DatabaseIntegration {
       console.log(chalk.cyan('\n💡 الخطوات التالية:'));
       console.log(chalk.white('   1. انسخ .env.example إلى .env'));
       console.log(chalk.white('   2. املأ بيانات الاتصال'));
-      console.log(chalk.white(`   3. نفذ: npm install ${this.getDependencies(dbType, ormType).join(' ')}`));
-
+      console.log(
+        chalk.white(`   3. نفذ: npm install ${this.getDependencies(dbType, ormType).join(' ')}`)
+      );
     } catch (error: any) {
       console.log(chalk.red(`\n❌ خطأ: ${error.message}`));
       throw error;
@@ -196,7 +191,7 @@ export class DatabaseIntegration {
       includeSoftDelete = false,
       useUUID = true,
       generateRelations = true,
-      ormType = 'none'
+      ormType = 'none',
     } = options;
 
     const prompt = `
@@ -242,9 +237,7 @@ ${ormType !== 'none' ? `- اجعل الـ schema متوافق مع ${ormType}` :
 أعط schema كامل ومنظم مع جميع العلاقات.
 `;
 
-    const response = await this.client.sendChatMessage([
-      { role: 'user', content: prompt }
-    ]);
+    const response = await this.client.sendChatMessage([{ role: 'user', content: prompt }]);
 
     if (!response.success) {
       throw new Error(response.error || 'فشل توليد Schema');
@@ -263,10 +256,7 @@ ${ormType !== 'none' ? `- اجعل الـ schema متوافق مع ${ormType}` :
   /**
    * توليد ملفات Schema حسب ORM
    */
-  async generateSchemaFiles(
-    tables: Table[],
-    ormType: string = 'none'
-  ): Promise<void> {
+  async generateSchemaFiles(tables: Table[], ormType: string = 'none'): Promise<void> {
     console.log(chalk.cyan(`\n📝 توليد ملفات Schema (${ormType})...\n`));
 
     for (const table of tables) {
@@ -349,7 +339,7 @@ export async function down(db: any): Promise<void> {
     console.log(chalk.cyan('\n🔄 تنفيذ Migrations...\n'));
 
     const migrations = await this.getMigrations();
-    const pending = migrations.filter(m => !m.executed);
+    const pending = migrations.filter((m) => !m.executed);
 
     if (pending.length === 0) {
       console.log(chalk.yellow('⚠️  لا توجد migrations معلقة'));
@@ -380,7 +370,7 @@ export async function down(db: any): Promise<void> {
     console.log(chalk.cyan('\n↩️  التراجع عن Migration...\n'));
 
     const migrations = await this.getMigrations();
-    const executed = migrations.filter(m => m.executed);
+    const executed = migrations.filter((m) => m.executed);
 
     if (executed.length === 0) {
       console.log(chalk.yellow('⚠️  لا توجد migrations للتراجع عنها'));
@@ -427,9 +417,7 @@ ${description}
 أعط Query واحد فقط، محسّن ومنظم.
 `;
 
-    const response = await this.client.sendChatMessage([
-      { role: 'user', content: prompt }
-    ]);
+    const response = await this.client.sendChatMessage([{ role: 'user', content: prompt }]);
 
     if (!response.success) {
       throw new Error(response.error || 'فشل توليد Query');
@@ -475,23 +463,24 @@ IMPROVEMENTS:
 - [تحسين 3]
 `;
 
-    const response = await this.client.sendChatMessage([
-      { role: 'user', content: prompt }
-    ]);
+    const response = await this.client.sendChatMessage([{ role: 'user', content: prompt }]);
 
     if (!response.success) {
       throw new Error(response.error || 'فشل تحسين Query');
     }
 
     // استخراج النتائج
-    const optimizedMatch = response.message.match(/OPTIMIZED_QUERY:[\s\S]*?```sql\n([\s\S]*?)\n```/);
+    const optimizedMatch = response.message.match(
+      /OPTIMIZED_QUERY:[\s\S]*?```sql\n([\s\S]*?)\n```/
+    );
     const improvementsMatch = response.message.match(/IMPROVEMENTS:([\s\S]*?)(?=\n\n|$)/);
 
     const optimized = optimizedMatch?.[1]?.trim() || query;
-    const improvements = improvementsMatch?.[1]
-      ?.split('\n')
-      .filter(line => line.trim().startsWith('-'))
-      .map(line => line.trim().substring(1).trim()) || [];
+    const improvements =
+      improvementsMatch?.[1]
+        ?.split('\n')
+        .filter((line) => line.trim().startsWith('-'))
+        .map((line) => line.trim().substring(1).trim()) || [];
 
     return { optimized, improvements };
   }
@@ -515,9 +504,7 @@ ${query}
 5. الأداء المتوقع
 `;
 
-    const response = await this.client.sendChatMessage([
-      { role: 'user', content: prompt }
-    ]);
+    const response = await this.client.sendChatMessage([{ role: 'user', content: prompt }]);
 
     if (!response.success) {
       throw new Error(response.error || 'فشل شرح Query');
@@ -544,7 +531,7 @@ ${query}
 أنشئ ${rowsPerTable} سجلات تجريبية واقعية لجدول "${table.name}".
 
 الأعمدة:
-${table.columns.map(c => `- ${c.name} (${c.type})${c.nullable ? ' nullable' : ''}`).join('\n')}
+${table.columns.map((c) => `- ${c.name} (${c.type})${c.nullable ? ' nullable' : ''}`).join('\n')}
 
 التنسيق (JSON Array):
 [
@@ -558,9 +545,7 @@ ${table.columns.map(c => `- ${c.name} (${c.type})${c.nullable ? ' nullable' : ''
 - صالحة للأنواع المحددة
 `;
 
-      const response = await this.client.sendChatMessage([
-        { role: 'user', content: prompt }
-      ]);
+      const response = await this.client.sendChatMessage([{ role: 'user', content: prompt }]);
 
       if (response.success) {
         const jsonMatch = response.message.match(/\[[\s\S]*?\]/);
@@ -576,10 +561,7 @@ ${table.columns.map(c => `- ${c.name} (${c.type})${c.nullable ? ' nullable' : ''
   /**
    * إنشاء ملف seed
    */
-  async createSeedFile(
-    tableName: string,
-    data: any[]
-  ): Promise<string> {
+  async createSeedFile(tableName: string, data: any[]): Promise<string> {
     const fileName = `seed_${tableName}.ts`;
     const filePath = path.join(this.projectRoot, 'seeds', fileName);
 
@@ -615,10 +597,7 @@ export async function seed(db: any): Promise<void> {
   /**
    * توليد ملف إعدادات قاعدة البيانات
    */
-  private async generateDatabaseConfig(
-    dbType: DatabaseType,
-    ormType?: string
-  ): Promise<string> {
+  private async generateDatabaseConfig(dbType: DatabaseType, ormType?: string): Promise<string> {
     const prompt = `
 أنشئ ملف TypeScript configuration لـ ${dbType}${ormType ? ` مع ${ormType}` : ''}.
 
@@ -631,9 +610,7 @@ export async function seed(db: any): Promise<void> {
 كود كامل وجاهز للاستخدام.
 `;
 
-    const response = await this.client.sendChatMessage([
-      { role: 'user', content: prompt }
-    ]);
+    const response = await this.client.sendChatMessage([{ role: 'user', content: prompt }]);
 
     const codeMatch = response.message.match(/```typescript\n([\s\S]*?)\n```/);
     return codeMatch?.[1] || '// TODO: Add database config';
@@ -642,10 +619,7 @@ export async function seed(db: any): Promise<void> {
   /**
    * توليد ملف الاتصال بقاعدة البيانات
    */
-  private async generateConnectionFile(
-    dbType: DatabaseType,
-    ormType?: string
-  ): Promise<string> {
+  private async generateConnectionFile(dbType: DatabaseType, ormType?: string): Promise<string> {
     const templates: Record<string, string> = {
       postgresql: `
 import { Pool } from 'pg';
@@ -730,7 +704,7 @@ export async function getCollection(name: string) {
 }
 
 export default { connect, getCollection };
-`
+`,
     };
 
     return templates[dbType] || '// TODO: Add database connection';
@@ -762,7 +736,7 @@ DB_PASSWORD=your_password
 # MongoDB Database
 MONGODB_URI=mongodb://localhost:27017
 DB_NAME=your_database
-`
+`,
     };
 
     return templates[dbType] || '';
@@ -779,14 +753,14 @@ DB_NAME=your_database
       sqlite: ['sqlite3', '@types/sqlite3'],
       redis: ['redis'],
       mariadb: ['mariadb'],
-      mssql: ['mssql']
+      mssql: ['mssql'],
     };
 
     const ormDeps: Record<string, string[]> = {
       prisma: ['prisma', '@prisma/client'],
       typeorm: ['typeorm', 'reflect-metadata'],
       sequelize: ['sequelize'],
-      mongoose: ['mongoose', '@types/mongoose']
+      mongoose: ['mongoose', '@types/mongoose'],
     };
 
     const deps = baseDeps[dbType] || [];
@@ -830,21 +804,23 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('${table.name}')
 export class ${this.toPascalCase(table.name)} {
-${table.columns.map(col => {
-  const decorators = [];
-  if (table.primaryKey?.includes(col.name)) {
-    decorators.push('  @PrimaryGeneratedColumn()');
-  } else {
-    const colOptions: string[] = [];
-    if (col.nullable) colOptions.push('nullable: true');
-    if (col.unique) colOptions.push('unique: true');
-    if (col.default !== undefined) colOptions.push(`default: ${JSON.stringify(col.default)}`);
+${table.columns
+  .map((col) => {
+    const decorators = [];
+    if (table.primaryKey?.includes(col.name)) {
+      decorators.push('  @PrimaryGeneratedColumn()');
+    } else {
+      const colOptions: string[] = [];
+      if (col.nullable) colOptions.push('nullable: true');
+      if (col.unique) colOptions.push('unique: true');
+      if (col.default !== undefined) colOptions.push(`default: ${JSON.stringify(col.default)}`);
 
-    decorators.push(`  @Column(${colOptions.length > 0 ? `{ ${colOptions.join(', ')} }` : ''})`);
-  }
+      decorators.push(`  @Column(${colOptions.length > 0 ? `{ ${colOptions.join(', ')} }` : ''})`);
+    }
 
-  return `${decorators.join('\n')}\n  ${col.name}: ${this.mapToTypeScriptType(col.type)};`;
-}).join('\n\n')}
+    return `${decorators.join('\n')}\n  ${col.name}: ${this.mapToTypeScriptType(col.type)};`;
+  })
+  .join('\n\n')}
 }
 `;
   }
@@ -860,14 +836,18 @@ import sequelize from './database';
 export class ${this.toPascalCase(table.name)} extends Model {}
 
 ${this.toPascalCase(table.name)}.init({
-${table.columns.map(col => `  ${col.name}: {
+${table.columns
+  .map(
+    (col) => `  ${col.name}: {
     type: DataTypes.${this.mapToSequelizeType(col.type)},
     allowNull: ${col.nullable},
     ${col.unique ? 'unique: true,' : ''}
     ${col.autoIncrement ? 'autoIncrement: true,' : ''}
     ${col.default !== undefined ? `defaultValue: ${JSON.stringify(col.default)},` : ''}
     ${table.primaryKey?.includes(col.name) ? 'primaryKey: true,' : ''}
-  }`).join(',\n')}
+  }`
+  )
+  .join(',\n')}
 }, {
   sequelize,
   tableName: '${table.name}',
@@ -884,16 +864,20 @@ ${table.columns.map(col => `  ${col.name}: {
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface I${this.toPascalCase(table.name)} extends Document {
-${table.columns.map(col => `  ${col.name}: ${this.mapToTypeScriptType(col.type)};`).join('\n')}
+${table.columns.map((col) => `  ${col.name}: ${this.mapToTypeScriptType(col.type)};`).join('\n')}
 }
 
 const ${table.name}Schema = new Schema({
-${table.columns.map(col => `  ${col.name}: {
+${table.columns
+  .map(
+    (col) => `  ${col.name}: {
     type: ${this.mapToMongooseType(col.type)},
     required: ${!col.nullable},
     ${col.unique ? 'unique: true,' : ''}
     ${col.default !== undefined ? `default: ${JSON.stringify(col.default)},` : ''}
-  }`).join(',\n')}
+  }`
+  )
+  .join(',\n')}
 }, {
   timestamps: true
 });
@@ -916,7 +900,7 @@ export default mongoose.model<I${this.toPascalCase(table.name)}>('${this.toPasca
     let sql = `CREATE TABLE ${table.name} (\n`;
 
     // الأعمدة
-    const columnDefs = table.columns.map(col => {
+    const columnDefs = table.columns.map((col) => {
       let def = `  ${col.name} ${col.type}`;
       if (col.length) def += `(${col.length})`;
       if (!col.nullable) def += ' NOT NULL';
@@ -972,7 +956,7 @@ export default mongoose.model<I${this.toPascalCase(table.name)}>('${this.toPasca
               timestamp: parseInt(match[1]),
               up: '',
               down: '',
-              executed: false // يجب فحص من قاعدة البيانات
+              executed: false, // يجب فحص من قاعدة البيانات
             });
           }
         }
@@ -987,60 +971,60 @@ export default mongoose.model<I${this.toPascalCase(table.name)}>('${this.toPasca
   // Type Mapping Helpers
   private mapToPrismaType(sqlType: string): string {
     const map: Record<string, string> = {
-      'VARCHAR': 'String',
-      'TEXT': 'String',
-      'INTEGER': 'Int',
-      'BIGINT': 'BigInt',
-      'BOOLEAN': 'Boolean',
-      'TIMESTAMP': 'DateTime',
-      'DATE': 'DateTime',
-      'DECIMAL': 'Decimal',
-      'JSON': 'Json'
+      VARCHAR: 'String',
+      TEXT: 'String',
+      INTEGER: 'Int',
+      BIGINT: 'BigInt',
+      BOOLEAN: 'Boolean',
+      TIMESTAMP: 'DateTime',
+      DATE: 'DateTime',
+      DECIMAL: 'Decimal',
+      JSON: 'Json',
     };
     return map[sqlType.toUpperCase()] || 'String';
   }
 
   private mapToTypeScriptType(sqlType: string): string {
     const map: Record<string, string> = {
-      'VARCHAR': 'string',
-      'TEXT': 'string',
-      'INTEGER': 'number',
-      'BIGINT': 'number',
-      'BOOLEAN': 'boolean',
-      'TIMESTAMP': 'Date',
-      'DATE': 'Date',
-      'DECIMAL': 'number',
-      'JSON': 'any'
+      VARCHAR: 'string',
+      TEXT: 'string',
+      INTEGER: 'number',
+      BIGINT: 'number',
+      BOOLEAN: 'boolean',
+      TIMESTAMP: 'Date',
+      DATE: 'Date',
+      DECIMAL: 'number',
+      JSON: 'any',
     };
     return map[sqlType.toUpperCase()] || 'any';
   }
 
   private mapToSequelizeType(sqlType: string): string {
     const map: Record<string, string> = {
-      'VARCHAR': 'STRING',
-      'TEXT': 'TEXT',
-      'INTEGER': 'INTEGER',
-      'BIGINT': 'BIGINT',
-      'BOOLEAN': 'BOOLEAN',
-      'TIMESTAMP': 'DATE',
-      'DATE': 'DATEONLY',
-      'DECIMAL': 'DECIMAL',
-      'JSON': 'JSON'
+      VARCHAR: 'STRING',
+      TEXT: 'TEXT',
+      INTEGER: 'INTEGER',
+      BIGINT: 'BIGINT',
+      BOOLEAN: 'BOOLEAN',
+      TIMESTAMP: 'DATE',
+      DATE: 'DATEONLY',
+      DECIMAL: 'DECIMAL',
+      JSON: 'JSON',
     };
     return map[sqlType.toUpperCase()] || 'STRING';
   }
 
   private mapToMongooseType(sqlType: string): string {
     const map: Record<string, string> = {
-      'VARCHAR': 'String',
-      'TEXT': 'String',
-      'INTEGER': 'Number',
-      'BIGINT': 'Number',
-      'BOOLEAN': 'Boolean',
-      'TIMESTAMP': 'Date',
-      'DATE': 'Date',
-      'DECIMAL': 'Number',
-      'JSON': 'Schema.Types.Mixed'
+      VARCHAR: 'String',
+      TEXT: 'String',
+      INTEGER: 'Number',
+      BIGINT: 'Number',
+      BOOLEAN: 'Boolean',
+      TIMESTAMP: 'Date',
+      DATE: 'Date',
+      DECIMAL: 'Number',
+      JSON: 'Schema.Types.Mixed',
     };
     return map[sqlType.toUpperCase()] || 'String';
   }
@@ -1048,7 +1032,7 @@ export default mongoose.model<I${this.toPascalCase(table.name)}>('${this.toPasca
   private toPascalCase(str: string): string {
     return str
       .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join('');
   }
 }

@@ -19,7 +19,7 @@ async function chatMode(client) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    prompt: '\x1b[33m👤 أنت:\x1b[0m '
+    prompt: '\x1b[33m👤 أنت:\x1b[0m ',
   });
 
   rl.prompt();
@@ -58,85 +58,108 @@ async function chatMode(client) {
 }
 
 // استيراد الوحدات المبنية
-import('./dist/agent-client.js').then(async (claudeModule) => {
-  const { createAgentClient } = claudeModule;
+import('./dist/agent-client.js')
+  .then(async (claudeModule) => {
+    const { createAgentClient } = claudeModule;
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.ANTHROPIC_API_KEY;
 
-  if (!apiKey || apiKey === 'your-api-key-here') {
-    console.log('\x1b[33m⚠️  ANTHROPIC_API_KEY غير موجود أو غير صحيح\x1b[0m');
-    console.log('\x1b[36mأضف المفتاح في ملف .env:\x1b[0m');
-    console.log('\x1b[90mANTHROPIC_API_KEY=sk-ant-...\x1b[0m\n');
-    process.exit(1);
-  }
+    if (!apiKey || apiKey === 'your-api-key-here') {
+      console.log('\x1b[33m⚠️  ANTHROPIC_API_KEY غير موجود أو غير صحيح\x1b[0m');
+      console.log('\x1b[36mأضف المفتاح في ملف .env:\x1b[0m');
+      console.log('\x1b[90mANTHROPIC_API_KEY=sk-ant-...\x1b[0m\n');
+      process.exit(1);
+    }
 
-  const client = createAgentClient({
-    apiKey: apiKey,
-    workingDirectory: process.cwd()
-  });
+    const client = createAgentClient({
+      apiKey: apiKey,
+      workingDirectory: process.cwd(),
+    });
 
-  // عرض Banner جميل
-  console.log('\x1b[36m╔══════════════════════════════════════════════════════════╗\x1b[0m');
-  console.log('\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m');
-  console.log('\x1b[36m║\x1b[0m     \x1b[1m\x1b[35m🧠  oqool - مولّد الأكواد الذكي  🚀\x1b[0m        \x1b[36m║\x1b[0m');
-  console.log('\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m');
-  console.log('\x1b[36m║\x1b[0m     \x1b[33mأداة ذكية لكتابة الأكواد بواسطة Dr. Muayad\x1b[0m     \x1b[36m║\x1b[0m');
-  console.log('\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m');
-  console.log('\x1b[36m╚══════════════════════════════════════════════════════════╝\x1b[0m');
-  console.log('');
-
-  // التحقق من الاتصال
-  console.log('\x1b[36m🔍 التحقق من الاتصال...\x1b[0m');
-  const isValid = await client.verifyApiKey();
-
-  if (!isValid) {
-    console.log('\x1b[31m❌ فشل في الاتصال\x1b[0m');
-    console.log('\x1b[33mتحقق من صحة API Key في ملف .env\x1b[0m\n');
-    process.exit(1);
-  }
-
-  console.log('\x1b[32m✅ جاهز للعمل!\x1b[0m\n');
-
-  // الحصول على الأمر
-  const args = process.argv.slice(2);
-
-  if (args.length === 0) {
+    // عرض Banner جميل
     console.log('\x1b[36m╔══════════════════════════════════════════════════════════╗\x1b[0m');
-    console.log('\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m');
-    console.log('\x1b[36m║\x1b[0m         \x1b[1m\x1b[35m💬 وضع المحادثة التفاعلي 💬\x1b[0m                \x1b[36m║\x1b[0m');
-    console.log('\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m');
-    console.log('\x1b[36m║\x1b[0m     \x1b[90mاكتب طلبك البرمجي واضغط Enter\x1b[0m                  \x1b[36m║\x1b[0m');
-    console.log('\x1b[36m║\x1b[0m     \x1b[90mللخروج: اكتب "exit" أو "خروج"\x1b[0m                  \x1b[36m║\x1b[0m');
-    console.log('\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m');
+    console.log(
+      '\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m'
+    );
+    console.log(
+      '\x1b[36m║\x1b[0m     \x1b[1m\x1b[35m🧠  oqool - مولّد الأكواد الذكي  🚀\x1b[0m        \x1b[36m║\x1b[0m'
+    );
+    console.log(
+      '\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m'
+    );
+    console.log(
+      '\x1b[36m║\x1b[0m     \x1b[33mأداة ذكية لكتابة الأكواد بواسطة Dr. Muayad\x1b[0m     \x1b[36m║\x1b[0m'
+    );
+    console.log(
+      '\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m'
+    );
     console.log('\x1b[36m╚══════════════════════════════════════════════════════════╝\x1b[0m');
     console.log('');
 
-    // الدخول في وضع المحادثة التفاعلي
-    await chatMode(client);
-    return;
-  }
+    // التحقق من الاتصال
+    console.log('\x1b[36m🔍 التحقق من الاتصال...\x1b[0m');
+    const isValid = await client.verifyApiKey();
 
-  const prompt = args.join(' ');
+    if (!isValid) {
+      console.log('\x1b[31m❌ فشل في الاتصال\x1b[0m');
+      console.log('\x1b[33mتحقق من صحة API Key في ملف .env\x1b[0m\n');
+      process.exit(1);
+    }
 
-  console.log(`\x1b[36m📝 الطلب: ${prompt}\x1b[0m\n`);
+    console.log('\x1b[32m✅ جاهز للعمل!\x1b[0m\n');
 
-  // إرسال الطلب مع Agent
-  try {
-    const response = await client.run(prompt);
+    // الحصول على الأمر
+    const args = process.argv.slice(2);
 
-    // عرض الرد
-    const hasCode = response.includes('```');
-    const label = hasCode ? '✨ الكود المُولّد:' : '💬 الرد:';
-    console.log(`\x1b[32m${label}\x1b[0m\n`);
-    console.log('\x1b[37m' + response + '\x1b[0m\n');
+    if (args.length === 0) {
+      console.log('\x1b[36m╔══════════════════════════════════════════════════════════╗\x1b[0m');
+      console.log(
+        '\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m'
+      );
+      console.log(
+        '\x1b[36m║\x1b[0m         \x1b[1m\x1b[35m💬 وضع المحادثة التفاعلي 💬\x1b[0m                \x1b[36m║\x1b[0m'
+      );
+      console.log(
+        '\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m'
+      );
+      console.log(
+        '\x1b[36m║\x1b[0m     \x1b[90mاكتب طلبك البرمجي واضغط Enter\x1b[0m                  \x1b[36m║\x1b[0m'
+      );
+      console.log(
+        '\x1b[36m║\x1b[0m     \x1b[90mللخروج: اكتب "exit" أو "خروج"\x1b[0m                  \x1b[36m║\x1b[0m'
+      );
+      console.log(
+        '\x1b[36m║\x1b[0m                                                          \x1b[36m║\x1b[0m'
+      );
+      console.log('\x1b[36m╚══════════════════════════════════════════════════════════╝\x1b[0m');
+      console.log('');
 
-    console.log('\x1b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\x1b[0m\n');
-  } catch (error) {
-    console.log(`\x1b[31m❌ خطأ: ${error.message}\x1b[0m\n`);
+      // الدخول في وضع المحادثة التفاعلي
+      await chatMode(client);
+      return;
+    }
+
+    const prompt = args.join(' ');
+
+    console.log(`\x1b[36m📝 الطلب: ${prompt}\x1b[0m\n`);
+
+    // إرسال الطلب مع Agent
+    try {
+      const response = await client.run(prompt);
+
+      // عرض الرد
+      const hasCode = response.includes('```');
+      const label = hasCode ? '✨ الكود المُولّد:' : '💬 الرد:';
+      console.log(`\x1b[32m${label}\x1b[0m\n`);
+      console.log('\x1b[37m' + response + '\x1b[0m\n');
+
+      console.log('\x1b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\x1b[0m\n');
+    } catch (error) {
+      console.log(`\x1b[31m❌ خطأ: ${error.message}\x1b[0m\n`);
+      process.exit(1);
+    }
+  })
+  .catch((error) => {
+    console.error('\x1b[31m❌ خطأ في التحميل:\x1b[0m', error.message);
     process.exit(1);
-  }
-
-}).catch((error) => {
-  console.error('\x1b[31m❌ خطأ في التحميل:\x1b[0m', error.message);
-  process.exit(1);
-});
+  });

@@ -44,7 +44,7 @@ export interface ArabicDocumentation {
   apiReference?: {
     name: string;
     description: string;
-    parameters: {name: string, type: string, description: string}[];
+    parameters: { name: string; type: string; description: string }[];
     returns: string;
     examples: string[];
   }[];
@@ -72,7 +72,10 @@ export class ArabicLearningAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
     this.aiAdapter = new UnifiedAIAdapter({
       deepseek: config.deepseek,
@@ -211,7 +214,7 @@ ${context ? `السياق: ${context}` : ''}
 الوصف: ${description}
 
 الكود:
-${codeFiles.map(f => `\n=== ${f.path} ===\n${f.content}`).join('\n')}
+${codeFiles.map((f) => `\n=== ${f.path} ===\n${f.content}`).join('\n')}
 
 قم بإنشاء وثائق تقنية شاملة باللغة العربية تتضمن:
 
@@ -489,7 +492,12 @@ ${conversationHistory.length > 0 ? `\nسجل المحادثة السابقة:\n$
     return result.response;
   }
 
-  private parseLesson(text: string, concept: string, level: string, language: string): ArabicLesson {
+  private parseLesson(
+    text: string,
+    concept: string,
+    level: string,
+    language: string
+  ): ArabicLesson {
     // محاولة استخراج JSON
     try {
       const jsonMatch = text.match(/\{[\s\S]*\}/);
@@ -503,7 +511,7 @@ ${conversationHistory.length > 0 ? `\nسجل المحادثة السابقة:\n$
           content: parsed.content || text,
           examples: this.parseCodeFiles(text),
           exercises: parsed.exercises || [],
-          summary: parsed.summary || ''
+          summary: parsed.summary || '',
         };
       }
     } catch (error) {
@@ -518,7 +526,7 @@ ${conversationHistory.length > 0 ? `\nسجل المحادثة السابقة:\n$
       content: text,
       examples: this.parseCodeFiles(text),
       exercises: [],
-      summary: ''
+      summary: '',
     };
   }
 
@@ -526,10 +534,12 @@ ${conversationHistory.length > 0 ? `\nسجل المحادثة السابقة:\n$
     return {
       title: projectName,
       description: '',
-      sections: [{
-        title: 'الوثائق',
-        content: text
-      }]
+      sections: [
+        {
+          title: 'الوثائق',
+          content: text,
+        },
+      ],
     };
   }
 
@@ -547,7 +557,7 @@ ${conversationHistory.length > 0 ? `\nسجل المحادثة السابقة:\n$
           path: filePath,
           content: content,
           language: this.detectLanguage(filePath),
-          lines: content.split('\n').length
+          lines: content.split('\n').length,
         });
       }
     }
@@ -570,24 +580,24 @@ ${conversationHistory.length > 0 ? `\nسجل المحادثة السابقة:\n$
   private detectLanguage(filePath: string): string {
     const ext = filePath.split('.').pop()?.toLowerCase();
     const langMap: Record<string, string> = {
-      'js': 'javascript',
-      'ts': 'typescript',
-      'py': 'python',
-      'java': 'java',
-      'go': 'go',
-      'rs': 'rust'
+      js: 'javascript',
+      ts: 'typescript',
+      py: 'python',
+      java: 'java',
+      go: 'go',
+      rs: 'rust',
     };
     return langMap[ext || ''] || 'text';
   }
 
   private getExtension(language: string): string {
     const extMap: Record<string, string> = {
-      'javascript': 'js',
-      'typescript': 'ts',
-      'python': 'py',
-      'java': 'java',
-      'go': 'go',
-      'rust': 'rs'
+      javascript: 'js',
+      typescript: 'ts',
+      python: 'py',
+      java: 'java',
+      go: 'go',
+      rust: 'rs',
     };
     return extMap[language.toLowerCase()] || 'txt';
   }

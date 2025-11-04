@@ -8,12 +8,12 @@ import type { GeneratedCode, CodeFile } from '../core/god-mode.js';
 
 export interface SecurityVulnerability {
   severity: 'critical' | 'high' | 'medium' | 'low' | 'info';
-  category: 
-    | 'injection' 
-    | 'xss' 
-    | 'auth' 
-    | 'crypto' 
-    | 'sensitive-data' 
+  category:
+    | 'injection'
+    | 'xss'
+    | 'auth'
+    | 'crypto'
+    | 'sensitive-data'
     | 'access-control'
     | 'csrf'
     | 'dos'
@@ -43,7 +43,10 @@ export class SecurityAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
     this.aiAdapter = new UnifiedAIAdapter({
@@ -74,15 +77,15 @@ export class SecurityAgent {
     vulnerabilities.push(...depsVulns);
 
     // 4. Fix critical and high vulnerabilities
-    const criticalVulns = vulnerabilities.filter(v => 
-      v.severity === 'critical' || v.severity === 'high'
+    const criticalVulns = vulnerabilities.filter(
+      (v) => v.severity === 'critical' || v.severity === 'high'
     );
 
     for (const vuln of criticalVulns) {
       const secured = await this.fixVulnerability(vuln, code);
       if (secured) {
         vuln.fixed = true;
-        const fileIndex = securedFiles.findIndex(f => f.path === secured.path);
+        const fileIndex = securedFiles.findIndex((f) => f.path === secured.path);
         if (fileIndex >= 0) {
           securedFiles[fileIndex] = secured;
         } else {
@@ -91,7 +94,7 @@ export class SecurityAgent {
       }
     }
 
-    const fixed = vulnerabilities.filter(v => v.fixed).length;
+    const fixed = vulnerabilities.filter((v) => v.fixed).length;
     const score = this.calculateSecurityScore(vulnerabilities, fixed);
 
     return {
@@ -101,7 +104,7 @@ export class SecurityAgent {
       vulnerabilities,
       securedFiles,
       summary: this.generateSummary(vulnerabilities, fixed, score),
-      complianceReport: this.generateComplianceReport(vulnerabilities)
+      complianceReport: this.generateComplianceReport(vulnerabilities),
     };
   }
 
@@ -208,7 +211,7 @@ Use OWASP Top 10 and CWE standards.
 Perform project-level security audit:
 
 Files:
-${code.files.map(f => `- ${f.path}`).join('\n')}
+${code.files.map((f) => `- ${f.path}`).join('\n')}
 
 Check for:
 1. 🏗️ Architecture security
@@ -250,10 +253,11 @@ Output format (JSON):
   // Check dependencies
   // ============================================
   private async checkDependencies(code: GeneratedCode): Promise<SecurityVulnerability[]> {
-    const packageFile = code.files.find(f => 
-      f.path.includes('package.json') || 
-      f.path.includes('requirements.txt') ||
-      f.path.includes('Cargo.toml')
+    const packageFile = code.files.find(
+      (f) =>
+        f.path.includes('package.json') ||
+        f.path.includes('requirements.txt') ||
+        f.path.includes('Cargo.toml')
     );
 
     if (!packageFile) return [];
@@ -305,7 +309,7 @@ Output format (JSON):
     vuln: SecurityVulnerability,
     code: GeneratedCode
   ): Promise<CodeFile | null> {
-    const file = code.files.find(f => f.path === vuln.file);
+    const file = code.files.find((f) => f.path === vuln.file);
     if (!file) return null;
 
     const prompt = `
@@ -341,11 +345,11 @@ Output format:
     try {
       const response = await this.callClaude(prompt);
       const securedContent = this.extractCode(response);
-      
+
       if (securedContent) {
         return {
           ...file,
-          content: securedContent
+          content: securedContent,
         };
       }
     } catch (error) {
@@ -378,7 +382,7 @@ Output format:
       if (!jsonMatch) return [];
 
       const data = JSON.parse(jsonMatch[1]);
-      
+
       return (data.vulnerabilities || []).map((v: any) => ({
         severity: v.severity || 'medium',
         category: v.category || 'config',
@@ -389,7 +393,7 @@ Output format:
         exploit: v.exploit || '',
         remediation: v.remediation || '',
         references: v.references || [],
-        fixed: false
+        fixed: false,
       }));
     } catch (error) {
       console.error('Failed to parse vulnerabilities');
@@ -408,21 +412,18 @@ Output format:
   // ============================================
   // Calculate security score
   // ============================================
-  private calculateSecurityScore(
-    vulnerabilities: SecurityVulnerability[],
-    fixed: number
-  ): number {
+  private calculateSecurityScore(vulnerabilities: SecurityVulnerability[], fixed: number): number {
     if (vulnerabilities.length === 0) return 100;
 
     let score = 100;
-    
+
     // Deduct points based on severity
     const severityPoints = {
       critical: 25,
       high: 15,
       medium: 8,
       low: 3,
-      info: 1
+      info: 1,
     };
 
     for (const vuln of vulnerabilities) {
@@ -447,17 +448,20 @@ Output format:
     score: number
   ): string {
     const bySeverity = {
-      critical: vulnerabilities.filter(v => v.severity === 'critical').length,
-      high: vulnerabilities.filter(v => v.severity === 'high').length,
-      medium: vulnerabilities.filter(v => v.severity === 'medium').length,
-      low: vulnerabilities.filter(v => v.severity === 'low').length,
-      info: vulnerabilities.filter(v => v.severity === 'info').length
+      critical: vulnerabilities.filter((v) => v.severity === 'critical').length,
+      high: vulnerabilities.filter((v) => v.severity === 'high').length,
+      medium: vulnerabilities.filter((v) => v.severity === 'medium').length,
+      low: vulnerabilities.filter((v) => v.severity === 'low').length,
+      info: vulnerabilities.filter((v) => v.severity === 'info').length,
     };
 
-    const byCategory = vulnerabilities.reduce((acc, v) => {
-      acc[v.category] = (acc[v.category] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    const byCategory = vulnerabilities.reduce(
+      (acc, v) => {
+        acc[v.category] = (acc[v.category] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
 
     const scoreEmoji = score >= 90 ? '✅' : score >= 70 ? '⚠️' : '🔴';
 
@@ -485,11 +489,13 @@ ${Object.entries(byCategory)
 
 ## Critical Issues:
 ${vulnerabilities
-  .filter(v => v.severity === 'critical' || v.severity === 'high')
+  .filter((v) => v.severity === 'critical' || v.severity === 'high')
   .slice(0, 5)
-  .map((v, i) => 
-    `${i + 1}. [${v.severity.toUpperCase()}] ${v.description}\n   ${v.cwe ? `${v.cwe}: ` : ''}${v.exploit}\n   🔧 ${v.remediation}`
-  ).join('\n\n')}
+  .map(
+    (v, i) =>
+      `${i + 1}. [${v.severity.toUpperCase()}] ${v.description}\n   ${v.cwe ? `${v.cwe}: ` : ''}${v.exploit}\n   🔧 ${v.remediation}`
+  )
+  .join('\n\n')}
 
 ${fixed > 0 ? '\n✅ Critical vulnerabilities have been fixed!' : ''}
 ${vulnerabilities.length - fixed > 0 ? '\n⚠️ Some vulnerabilities require manual review.' : ''}
@@ -502,20 +508,20 @@ ${score < 70 ? '\n🔴 Security score is below acceptable threshold!' : ''}
   // ============================================
   private generateComplianceReport(vulnerabilities: SecurityVulnerability[]): string {
     const owaspTop10 = {
-      'A01:2021-Broken Access Control': ['access-control', 'auth'].some(c => 
-        vulnerabilities.some(v => v.category === c)
+      'A01:2021-Broken Access Control': ['access-control', 'auth'].some((c) =>
+        vulnerabilities.some((v) => v.category === c)
       ),
-      'A02:2021-Cryptographic Failures': vulnerabilities.some(v => 
-        v.category === 'crypto' || v.category === 'sensitive-data'
+      'A02:2021-Cryptographic Failures': vulnerabilities.some(
+        (v) => v.category === 'crypto' || v.category === 'sensitive-data'
       ),
-      'A03:2021-Injection': vulnerabilities.some(v => v.category === 'injection'),
-      'A04:2021-Insecure Design': vulnerabilities.some(v => v.category === 'config'),
-      'A05:2021-Security Misconfiguration': vulnerabilities.some(v => v.category === 'config'),
-      'A06:2021-Vulnerable Components': vulnerabilities.some(v => v.category === 'dependency'),
-      'A07:2021-Authentication Failures': vulnerabilities.some(v => v.category === 'auth'),
+      'A03:2021-Injection': vulnerabilities.some((v) => v.category === 'injection'),
+      'A04:2021-Insecure Design': vulnerabilities.some((v) => v.category === 'config'),
+      'A05:2021-Security Misconfiguration': vulnerabilities.some((v) => v.category === 'config'),
+      'A06:2021-Vulnerable Components': vulnerabilities.some((v) => v.category === 'dependency'),
+      'A07:2021-Authentication Failures': vulnerabilities.some((v) => v.category === 'auth'),
       'A08:2021-Software Integrity Failures': false,
       'A09:2021-Logging Failures': false,
-      'A10:2021-SSRF': false
+      'A10:2021-SSRF': false,
     };
 
     return `

@@ -51,7 +51,7 @@ class Logger {
   }
 
   private writeLog(level: LogLevel, ...args: any[]): void {
-    if (!this.shouldLog(level)) return;
+    if (!this.shouldLog(level)) {return;}
 
     const message = this.formatMessage(level, ...args);
     console.log(message.trim());

@@ -11,14 +11,14 @@
    - معالجة النتائج والإحصائيات
 
 2. **fix-stages/** (5 ملفات)
-   
+
    **P1 - أولوية عالية:**
    - ✅ `syntax-fixer.ts` (8.1 KB) - إصلاح تلقائي
    - 🔒 `security-fixer.ts` (14 KB) - يسأل المستخدم
-   
+
    **P2 - أولوية متوسطة:**
    - 🏷️ `type-fixer.ts` (9.3 KB) - إصلاح تلقائي
-   
+
    **P3 - تحسينات:**
    - ⚡ `performance-optimizer.ts` (16 KB) - اقتراحات فقط
    - 🎨 `style-fixer.ts` (15 KB) - إصلاح تلقائي
@@ -107,7 +107,7 @@ const autoFix = createAutoFixSystem();
 const result = await autoFix.fix({
   file: 'src/app.ts',
   autoApply: true,
-  onlyStages: ['syntax', 'security']
+  onlyStages: ['syntax', 'security'],
 });
 
 console.log(`تم إصلاح ${result.fixedIssues} مشكلة`);
@@ -149,6 +149,7 @@ console.log(`تم إصلاح ${result.fixedIssues} مشكلة`);
 ## 🔗 كيفية التكامل مع المشروع
 
 ### 1. نسخ الملفات:
+
 ```bash
 # انسخ جميع الملفات من outputs إلى مجلد المشروع
 cp -r /mnt/user-data/outputs/* /path/to/oqool-monorepo/packages/cli/src/
@@ -157,6 +158,7 @@ cp -r /mnt/user-data/outputs/* /path/to/oqool-monorepo/packages/cli/src/
 ### 2. إضافة الأمر للـ CLI:
 
 في ملف `cli.ts`:
+
 ```typescript
 import { addAutoFixCommand } from './cli-auto-fix-command';
 
@@ -169,6 +171,7 @@ addAutoFixCommand(program);
 ### 3. إضافة Dependencies:
 
 في `package.json`:
+
 ```json
 {
   "dependencies": {
@@ -182,6 +185,7 @@ addAutoFixCommand(program);
 ```
 
 ### 4. التثبيت:
+
 ```bash
 npm install
 npm run build
@@ -273,12 +277,14 @@ npm run build
 ## 🎯 الخطوات التالية
 
 ### للتطوير:
+
 1. ✅ اختبر النظام على ملفات حقيقية
 2. ✅ أضف المزيد من الكاشفات
 3. ✅ حسّن دقة الإصلاحات
 4. ✅ أضف دعم للمزيد من اللغات
 
 ### للإنتاج:
+
 1. ✅ اكتب اختبارات شاملة
 2. ✅ حسّن الأداء
 3. ✅ أضف logging
@@ -297,6 +303,7 @@ npm run build
 ## 🏆 الإنجاز
 
 تم إنشاء نظام إصلاح تلقائي متقدم بالمراحل والأولويات **كامل ومتكامل** مع:
+
 - ✅ 5 مراحل ذكية (P1, P2, P3)
 - ✅ 3 أنواع من الإصلاح (تلقائي، سؤال، اقتراح)
 - ✅ تكامل CLI كامل

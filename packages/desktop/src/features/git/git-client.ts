@@ -71,7 +71,12 @@ export const gitClient = {
   },
 
   async createBranch(workspacePath: string, branchName: string, checkout?: boolean): Promise<void> {
-    const result = await ipcRenderer.invoke('git:create-branch', workspacePath, branchName, checkout);
+    const result = await ipcRenderer.invoke(
+      'git:create-branch',
+      workspacePath,
+      branchName,
+      checkout
+    );
     if (!result.success) {
       throw new Error(result.error);
     }

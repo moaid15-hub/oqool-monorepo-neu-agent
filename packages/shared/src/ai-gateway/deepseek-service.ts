@@ -18,7 +18,7 @@ export interface ChatCompletionOptions {
 export class DeepSeekService {
   private apiKey: string;
   private baseURL: string = 'https://api.deepseek.com/v1';
-  
+
   constructor(apiKey: string) {
     if (!apiKey) {
       throw new Error('DeepSeek API key is required');
@@ -29,10 +29,7 @@ export class DeepSeekService {
   /**
    * إرسال رسالة للـ AI
    */
-  async chatCompletion(
-    messages: Message[],
-    options: ChatCompletionOptions = {}
-  ): Promise<string> {
+  async chatCompletion(messages: Message[], options: ChatCompletionOptions = {}): Promise<string> {
     const {
       model = 'deepseek-chat',
       maxTokens = 4096,
@@ -45,7 +42,7 @@ export class DeepSeekService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`,
+          Authorization: `Bearer ${this.apiKey}`,
         },
         body: JSON.stringify({
           model,
@@ -81,18 +78,14 @@ export class DeepSeekService {
     messages: Message[],
     options: ChatCompletionOptions = {}
   ): AsyncGenerator<string, void, unknown> {
-    const {
-      model = 'deepseek-chat',
-      maxTokens = 4096,
-      temperature = 0.7,
-    } = options;
+    const { model = 'deepseek-chat', maxTokens = 4096, temperature = 0.7 } = options;
 
     try {
       const response = await fetch(`${this.baseURL}/chat/completions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.apiKey}`,
+          Authorization: `Bearer ${this.apiKey}`,
         },
         body: JSON.stringify({
           model,
@@ -113,13 +106,13 @@ export class DeepSeekService {
       }
 
       const decoder = new TextDecoder();
-      
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
         const chunk = decoder.decode(value);
-        const lines = chunk.split('\n').filter(line => line.trim() !== '');
+        const lines = chunk.split('\n').filter((line) => line.trim() !== '');
 
         for (const line of lines) {
           if (line.startsWith('data: ')) {
@@ -159,9 +152,7 @@ export class DeepSeekService {
    */
   async validateApiKey(): Promise<boolean> {
     try {
-      await this.chatCompletion([
-        { role: 'user', content: 'Hello' }
-      ], { maxTokens: 10 });
+      await this.chatCompletion([{ role: 'user', content: 'Hello' }], { maxTokens: 10 });
       return true;
     } catch (error) {
       return false;

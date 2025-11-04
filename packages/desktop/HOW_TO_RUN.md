@@ -9,6 +9,7 @@
 ## 📦 ما تم إنجازه:
 
 ### 1. البنية الكاملة ✅
+
 - ✅ Electron Main Process
 - ✅ Electron Preload (Context Bridge)
 - ✅ React Application
@@ -19,6 +20,7 @@
 - ✅ Layout System كامل
 
 ### 2. Dependencies المثبتة ✅
+
 - ✅ Electron 27
 - ✅ React 18
 - ✅ TypeScript
@@ -29,6 +31,7 @@
 - ✅ جميع المكتبات الضرورية
 
 ### 3. التكويدات ✅
+
 - ✅ TypeScript configurations
 - ✅ Vite config
 - ✅ Electron config
@@ -39,12 +42,14 @@
 ## 🎮 كيفية التشغيل:
 
 ### الطريقة 1: التشغيل العادي
+
 ```bash
 cd "/home/amir/Oqool Desktop/oqool-monorepo/packages/desktop"
 npm run dev
 ```
 
 ### الطريقة 2: إذا كانت هناك مشاكل
+
 ```bash
 # تشغيل Vite فقط (للتطوير على الواجهة)
 npm run dev:vite
@@ -61,6 +66,7 @@ npm run build:electron
 ## 🌐 الوصول للواجهة:
 
 إذا واجهت مشاكل مع Electron، يمكنك:
+
 1. تشغيل Vite فقط: `npm run dev:vite`
 2. فتح المتصفح على: http://localhost:5173
 3. ستحصل على نفس الواجهة (بدون Electron features)
@@ -70,7 +76,9 @@ npm run build:electron
 ## 🛠️ استكشاف الأخطاء:
 
 ### مشكلة: Electron لا يعمل
+
 **الحل:**
+
 ```bash
 # 1. تحديث الأذونات
 chmod +x node_modules/electron/dist/electron
@@ -80,7 +88,9 @@ npm run dev
 ```
 
 ### مشكلة: Port 5173 مستخدم
+
 **الحل:**
+
 ```bash
 # إيقاف العملية القديمة
 lsof -ti:5173 | xargs kill -9
@@ -116,6 +126,7 @@ packages/desktop/
 ## 🎨 الميزات المتوفرة:
 
 ### محرر الأكواد (Monaco Editor)
+
 - ✅ Syntax highlighting
 - ✅ IntelliSense
 - ✅ Multiple tabs
@@ -123,18 +134,21 @@ packages/desktop/
 - ✅ Minimap
 
 ### الطرفية (XTerm Terminal)
+
 - ✅ Full terminal emulation
 - ✅ Command history
 - ✅ Resizable
 - ✅ Multiple terminals
 
 ### مستعرض الملفات
+
 - ✅ Tree view
 - ✅ File operations
 - ✅ Context menu
 - ✅ Icons
 
 ### AI Panel
+
 - ✅ Chat interface
 - ✅ AI personalities
 - ✅ Collapsible sidebar
@@ -144,16 +158,19 @@ packages/desktop/
 ## 🔧 التخصيص:
 
 ### تغيير الثيم
+
 ```typescript
 // src/features/editor/themes.ts
 ```
 
 ### إضافة لغة برمجة جديدة
+
 ```typescript
 // src/features/editor/monaco-config.ts
 ```
 
 ### تخصيص Terminal
+
 ```typescript
 // src/components/Terminal/Terminal.tsx
 ```
@@ -163,16 +180,19 @@ packages/desktop/
 ## 📦 البناء والتوزيع:
 
 ### Build للتطوير
+
 ```bash
 npm run build
 ```
 
 ### Create Installer
+
 ```bash
 npm run build    # Build الكود أولاً
 ```
 
 سيتم إنشاء ملف installer في مجلد `dist/`:
+
 - Windows: `.exe`
 - macOS: `.dmg`
 - Linux: `.AppImage` و `.deb`
@@ -202,6 +222,7 @@ npm run build    # Build الكود أولاً
 ## 📞 دعم:
 
 إذا واجهت أي مشاكل:
+
 1. تحقق من هذا الملف أولاً
 2. راجع `README.md`
 3. راجع `TODO.md` لقائمة المهام

@@ -9,9 +9,14 @@
     "dev": "npm run build:electron && concurrently -k \"npm run dev:vite\" \"npm run dev:electron\" -n \"VITE,ELECTRON\" -c \"bgBlue.bold,bgMagenta.bold\"",
     "dev:vite": "vite",
     "dev:electron": "wait-on http://localhost:5173 && electron . --no-sandbox",
-    "build": "tsc && vite build && electron-builder",
+    "build": "tsc && vite build",
+    "build:dist": "tsc && vite build && electron-builder",
     "build:electron": "tsc -p electron/tsconfig.json",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint src electron --ext .ts,.tsx",
+    "lint:fix": "eslint src electron --ext .ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\" \"electron/**/*.ts\"",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.24.3",
@@ -28,6 +33,7 @@
     "simple-git": "^3.22.0",
     "xterm": "^5.3.0",
     "xterm-addon-fit": "^0.8.0",
+    "xterm-addon-search": "^0.13.0",
     "xterm-addon-web-links": "^0.9.0",
     "zustand": "^4.5.0"
   },

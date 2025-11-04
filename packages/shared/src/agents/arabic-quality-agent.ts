@@ -16,7 +16,7 @@ export interface ArabicCodeReview {
   suggestions: ReviewSuggestion[];
   securityIssues: SecurityIssue[];
   performanceIssues: PerformanceIssue[];
-  codeSmells: CodeSmell[];
+  codeSmells: ArabicCodeSmell[];
   summary: string;
 }
 
@@ -58,7 +58,7 @@ export interface PerformanceIssue {
 /**
  * Code Smell - رائحة كود
  */
-export interface CodeSmell {
+export interface ArabicCodeSmell {
   type: string;
   description: string;
   location: string;
@@ -107,7 +107,10 @@ export class ArabicQualityAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
     this.aiAdapter = new UnifiedAIAdapter({
       deepseek: config.deepseek,
@@ -389,7 +392,7 @@ ${codeFile.content}
 ترجمة أسماء المتغيرات: ${translateVariables ? 'نعم' : 'لا'}
 
 الملفات:
-${files.map(f => `\n=== ${f.path} ===\n${f.content}`).join('\n')}
+${files.map((f) => `\n=== ${f.path} ===\n${f.content}`).join('\n')}
 
 المطلوب:
 1. ترجمة ${translateComments ? 'التعليقات' : ''} ${translateVariables ? 'وأسماء المتغيرات' : ''}
@@ -465,7 +468,7 @@ ${codeFile.content}
       return {
         complexity: 0,
         analysis: 'فشل التحليل',
-        suggestions: []
+        suggestions: [],
       };
     }
   }
@@ -480,11 +483,13 @@ ${codeFile.content}
    * @param {CodeFile} codeFile - ملف الكود
    * @returns {Promise<{original: string, refactored: string, explanation: string}[]>}
    */
-  async suggestRefactoring(codeFile: CodeFile): Promise<{
-    original: string;
-    refactored: string;
-    explanation: string;
-  }[]> {
+  async suggestRefactoring(codeFile: CodeFile): Promise<
+    {
+      original: string;
+      refactored: string;
+      explanation: string;
+    }[]
+  > {
     const prompt = `
 اقترح إعادة هيكلة لهذا الكود:
 
@@ -552,7 +557,7 @@ ${codeFile.content}
           securityIssues: parsed.securityIssues || [],
           performanceIssues: parsed.performanceIssues || [],
           codeSmells: parsed.codeSmells || [],
-          summary: parsed.summary || text
+          summary: parsed.summary || text,
         };
       }
     } catch (error) {
@@ -567,7 +572,7 @@ ${codeFile.content}
       securityIssues: [],
       performanceIssues: [],
       codeSmells: [],
-      summary: text
+      summary: text,
     };
   }
 
@@ -606,7 +611,7 @@ ${codeFile.content}
       testFiles: files,
       coverage: coverageMatch ? parseInt(coverageMatch[1]) : 80,
       totalTests: testsMatch ? parseInt(testsMatch[1]) : files.length * 5,
-      description: 'مجموعة اختبارات شاملة'
+      description: 'مجموعة اختبارات شاملة',
     };
   }
 
@@ -624,7 +629,7 @@ ${codeFile.content}
           path: filePath,
           content: content,
           language: this.detectLanguage(filePath),
-          lines: content.split('\n').length
+          lines: content.split('\n').length,
         });
       }
     }
@@ -653,20 +658,20 @@ ${codeFile.content}
       originalFiles,
       translatedFiles,
       glossary,
-      notes
+      notes,
     };
   }
 
   private detectLanguage(filePath: string): string {
     const ext = filePath.split('.').pop()?.toLowerCase();
     const langMap: Record<string, string> = {
-      'js': 'javascript',
-      'ts': 'typescript',
-      'py': 'python',
+      js: 'javascript',
+      ts: 'typescript',
+      py: 'python',
       'test.js': 'javascript',
       'test.ts': 'typescript',
       'spec.js': 'javascript',
-      'spec.ts': 'typescript'
+      'spec.ts': 'typescript',
     };
     return langMap[ext || ''] || 'text';
   }

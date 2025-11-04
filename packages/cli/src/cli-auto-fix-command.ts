@@ -80,8 +80,8 @@ async function handleAutoFix(file: string, options: any) {
           type: 'confirm',
           name: 'confirm',
           message: `هل تريد بدء الإصلاح التلقائي لـ ${file}؟`,
-          default: true
-        }
+          default: true,
+        },
       ]);
 
       if (!confirm) {
@@ -97,7 +97,7 @@ async function handleAutoFix(file: string, options: any) {
       autoApply: options.autoApply,
       skipStages,
       onlyStages,
-      interactive: options.interactive
+      interactive: options.interactive,
     });
 
     // عرض النتيجة النهائية
@@ -107,7 +107,6 @@ async function handleAutoFix(file: string, options: any) {
     if (result.suggestedIssues > 0) {
       displaySuggestions();
     }
-
   } catch (error: any) {
     console.error(chalk.red('\n❌ خطأ:'), error.message);
     if (error.stack && process.env.DEBUG) {
@@ -145,9 +144,12 @@ function displayStages(autoFix: any) {
   // P1
   console.log(chalk.red.bold('🔴 المرحلة الأولى (P1) - أولوية عالية جداً\n'));
   p1Stages.forEach((stage: any) => {
-    const actionEmoji = stage.action === 'auto' ? '⚡ إصلاح تلقائي' : 
-                       stage.action === 'ask' ? '❓ يسأل المستخدم' : 
-                       '💡 اقتراحات';
+    const actionEmoji =
+      stage.action === 'auto'
+        ? '⚡ إصلاح تلقائي'
+        : stage.action === 'ask'
+          ? '❓ يسأل المستخدم'
+          : '💡 اقتراحات';
     console.log(chalk.white(`   • ${stage.name}`));
     console.log(chalk.gray(`     ${actionEmoji}`));
     console.log(chalk.gray(`     ${stage.description}\n`));
@@ -156,9 +158,12 @@ function displayStages(autoFix: any) {
   // P2
   console.log(chalk.yellow.bold('🟡 المرحلة الثانية (P2) - أولوية متوسطة\n'));
   p2Stages.forEach((stage: any) => {
-    const actionEmoji = stage.action === 'auto' ? '⚡ إصلاح تلقائي' : 
-                       stage.action === 'ask' ? '❓ يسأل المستخدم' : 
-                       '💡 اقتراحات';
+    const actionEmoji =
+      stage.action === 'auto'
+        ? '⚡ إصلاح تلقائي'
+        : stage.action === 'ask'
+          ? '❓ يسأل المستخدم'
+          : '💡 اقتراحات';
     console.log(chalk.white(`   • ${stage.name}`));
     console.log(chalk.gray(`     ${actionEmoji}`));
     console.log(chalk.gray(`     ${stage.description}\n`));
@@ -167,9 +172,12 @@ function displayStages(autoFix: any) {
   // P3
   console.log(chalk.blue.bold('🔵 المرحلة الثالثة (P3) - تحسينات\n'));
   p3Stages.forEach((stage: any) => {
-    const actionEmoji = stage.action === 'auto' ? '⚡ إصلاح تلقائي' : 
-                       stage.action === 'ask' ? '❓ يسأل المستخدم' : 
-                       '💡 اقتراحات';
+    const actionEmoji =
+      stage.action === 'auto'
+        ? '⚡ إصلاح تلقائي'
+        : stage.action === 'ask'
+          ? '❓ يسأل المستخدم'
+          : '💡 اقتراحات';
     console.log(chalk.white(`   • ${stage.name}`));
     console.log(chalk.gray(`     ${actionEmoji}`));
     console.log(chalk.gray(`     ${stage.description}\n`));
@@ -181,16 +189,16 @@ function displayStages(autoFix: any) {
   console.log(chalk.yellow('📚 أمثلة الاستخدام:\n'));
   console.log(chalk.white('   # إصلاح شامل بدون سؤال'));
   console.log(chalk.gray('   $ oqool-code auto-fix src/app.ts --auto-apply\n'));
-  
+
   console.log(chalk.white('   # إصلاح P1 فقط (Syntax + Security)'));
   console.log(chalk.gray('   $ oqool-code auto-fix src/app.ts --only syntax,security\n'));
-  
+
   console.log(chalk.white('   # إصلاح كل شيء ماعدا Performance'));
   console.log(chalk.gray('   $ oqool-code auto-fix src/app.ts --skip performance\n'));
-  
+
   console.log(chalk.white('   # وضع تفاعلي (يسأل عن كل شيء)'));
   console.log(chalk.gray('   $ oqool-code auto-fix src/app.ts --interactive\n'));
-  
+
   console.log(chalk.white('   # تخطي مراحل معينة'));
   console.log(chalk.gray('   $ oqool-code auto-fix src/app.ts --no-performance --no-style\n'));
 }
@@ -211,14 +219,14 @@ function displayFinalSummary(result: any) {
 
   // الإحصائيات
   const successRate = ((result.fixedIssues / result.totalIssues) * 100).toFixed(1);
-  
+
   console.log(chalk.white(`📊 المشاكل المكتشفة: ${result.totalIssues}`));
   console.log(chalk.green(`✅ تم الإصلاح: ${result.fixedIssues} (${successRate}%)`));
-  
+
   if (result.suggestedIssues > 0) {
     console.log(chalk.cyan(`💡 اقتراحات: ${result.suggestedIssues}`));
   }
-  
+
   if (result.skippedIssues > 0) {
     console.log(chalk.yellow(`⏭️  متخطى: ${result.skippedIssues}`));
   }
@@ -235,7 +243,11 @@ function displayFinalSummary(result: any) {
       if (stageResult.issues > 0) {
         const emoji = getStageEmoji(stageName);
         console.log(chalk.white(`${emoji} ${formatStageName(stageName)}`));
-        console.log(chalk.gray(`   المشاكل: ${stageResult.issues} | المصلحة: ${stageResult.fixed} | الاقتراحات: ${stageResult.suggested}`));
+        console.log(
+          chalk.gray(
+            `   المشاكل: ${stageResult.issues} | المصلحة: ${stageResult.fixed} | الاقتراحات: ${stageResult.suggested}`
+          )
+        );
       }
     }
   }
@@ -265,7 +277,7 @@ function createProgressBar(current: number, total: number): string {
   const percentage = Math.round((current / total) * 100);
   const filled = Math.round((current / total) * 30);
   const empty = 30 - filled;
-  
+
   const bar = chalk.green('█'.repeat(filled)) + chalk.gray('░'.repeat(empty));
   return `${bar} ${percentage}%`;
 }
@@ -275,11 +287,11 @@ function createProgressBar(current: number, total: number): string {
  */
 function getStageEmoji(stageName: string): string {
   const emojis: { [key: string]: string } = {
-    'syntax': '🔤',
-    'security': '🔒',
-    'types': '🏷️',
-    'performance': '⚡',
-    'style': '🎨'
+    syntax: '🔤',
+    security: '🔒',
+    types: '🏷️',
+    performance: '⚡',
+    style: '🎨',
   };
   return emojis[stageName] || '📝';
 }
@@ -289,11 +301,11 @@ function getStageEmoji(stageName: string): string {
  */
 function formatStageName(stageName: string): string {
   const names: { [key: string]: string } = {
-    'syntax': 'Syntax Fixing',
-    'security': 'Security Fixing',
-    'types': 'Type Fixing',
-    'performance': 'Performance Optimization',
-    'style': 'Style Fixing'
+    syntax: 'Syntax Fixing',
+    security: 'Security Fixing',
+    types: 'Type Fixing',
+    performance: 'Performance Optimization',
+    style: 'Style Fixing',
   };
   return names[stageName] || stageName;
 }

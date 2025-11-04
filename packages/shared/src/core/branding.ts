@@ -101,7 +101,7 @@ export function createSpinner(message: string) {
       clearInterval(interval);
       process.stdout.write('\r\x1b[K');
       if (errorMessage) showError(errorMessage);
-    }
+    },
   };
 }
 

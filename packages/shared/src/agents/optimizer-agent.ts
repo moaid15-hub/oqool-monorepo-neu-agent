@@ -30,7 +30,10 @@ export class OptimizerAgent {
   private aiAdapter: UnifiedAIAdapter;
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
     this.aiAdapter = new UnifiedAIAdapter({
@@ -57,15 +60,15 @@ export class OptimizerAgent {
     suggestions.push(...projectSuggestions);
 
     // 3. Apply high-priority optimizations
-    const highPriority = suggestions.filter(s => 
-      s.priority === 'critical' || s.priority === 'high'
+    const highPriority = suggestions.filter(
+      (s) => s.priority === 'critical' || s.priority === 'high'
     );
 
     for (const suggestion of highPriority) {
       const optimized = await this.applyOptimization(suggestion, code);
       if (optimized) {
         suggestion.applied = true;
-        const fileIndex = optimizedFiles.findIndex(f => f.path === optimized.path);
+        const fileIndex = optimizedFiles.findIndex((f) => f.path === optimized.path);
         if (fileIndex >= 0) {
           optimizedFiles[fileIndex] = optimized;
         } else {
@@ -74,7 +77,7 @@ export class OptimizerAgent {
       }
     }
 
-    const appliedCount = suggestions.filter(s => s.applied).length;
+    const appliedCount = suggestions.filter((s) => s.applied).length;
 
     return {
       suggestionsCount: suggestions.length,
@@ -82,7 +85,7 @@ export class OptimizerAgent {
       suggestions,
       optimizedFiles,
       performanceGain: this.estimateGain(suggestions, appliedCount),
-      summary: this.generateSummary(suggestions, appliedCount)
+      summary: this.generateSummary(suggestions, appliedCount),
     };
   }
 
@@ -169,7 +172,7 @@ Output format (JSON):
 Analyze this project for architecture-level optimizations:
 
 Files:
-${code.files.map(f => `- ${f.path} (${f.language})`).join('\n')}
+${code.files.map((f) => `- ${f.path} (${f.language})`).join('\n')}
 
 Project Structure:
 ${this.getProjectStructure(code)}
@@ -217,7 +220,7 @@ Output format (JSON):
     suggestion: OptimizationSuggestion,
     code: GeneratedCode
   ): Promise<CodeFile | null> {
-    const file = code.files.find(f => f.path === suggestion.file);
+    const file = code.files.find((f) => f.path === suggestion.file);
     if (!file) return null;
 
     const prompt = `
@@ -246,11 +249,11 @@ Output format:
     try {
       const response = await this.callClaude(prompt);
       const optimizedContent = this.extractCode(response);
-      
+
       if (optimizedContent) {
         return {
           ...file,
-          content: optimizedContent
+          content: optimizedContent,
         };
       }
     } catch (error) {
@@ -283,7 +286,7 @@ Output format:
       if (!jsonMatch) return [];
 
       const data = JSON.parse(jsonMatch[1]);
-      
+
       return (data.suggestions || []).map((s: any) => ({
         type: s.type || 'performance',
         priority: s.priority || 'medium',
@@ -292,7 +295,7 @@ Output format:
         impact: s.impact || '',
         solution: s.solution || '',
         estimatedGain: s.estimatedGain || 'Unknown',
-        applied: false
+        applied: false,
       }));
     } catch (error) {
       console.error('Failed to parse suggestions');
@@ -313,7 +316,7 @@ Output format:
   // ============================================
   private getProjectStructure(code: GeneratedCode): string {
     const structure: Record<string, string[]> = {};
-    
+
     for (const file of code.files) {
       const dir = file.path.split('/').slice(0, -1).join('/') || 'root';
       if (!structure[dir]) structure[dir] = [];
@@ -331,12 +334,12 @@ Output format:
   private estimateGain(suggestions: OptimizationSuggestion[], applied: number): string {
     if (applied === 0) return '0%';
 
-    const critical = suggestions.filter(s => s.applied && s.priority === 'critical').length;
-    const high = suggestions.filter(s => s.applied && s.priority === 'high').length;
+    const critical = suggestions.filter((s) => s.applied && s.priority === 'critical').length;
+    const high = suggestions.filter((s) => s.applied && s.priority === 'high').length;
 
     let gain = 0;
     gain += critical * 25; // 25% per critical
-    gain += high * 15;     // 15% per high
+    gain += high * 15; // 15% per high
 
     return `~${Math.min(gain, 85)}% improvement`;
   }
@@ -346,19 +349,19 @@ Output format:
   // ============================================
   private generateSummary(suggestions: OptimizationSuggestion[], applied: number): string {
     const byType = {
-      performance: suggestions.filter(s => s.type === 'performance').length,
-      memory: suggestions.filter(s => s.type === 'memory').length,
-      'bundle-size': suggestions.filter(s => s.type === 'bundle-size').length,
-      algorithm: suggestions.filter(s => s.type === 'algorithm').length,
-      database: suggestions.filter(s => s.type === 'database').length,
-      network: suggestions.filter(s => s.type === 'network').length
+      performance: suggestions.filter((s) => s.type === 'performance').length,
+      memory: suggestions.filter((s) => s.type === 'memory').length,
+      'bundle-size': suggestions.filter((s) => s.type === 'bundle-size').length,
+      algorithm: suggestions.filter((s) => s.type === 'algorithm').length,
+      database: suggestions.filter((s) => s.type === 'database').length,
+      network: suggestions.filter((s) => s.type === 'network').length,
     };
 
     const byPriority = {
-      critical: suggestions.filter(s => s.priority === 'critical').length,
-      high: suggestions.filter(s => s.priority === 'high').length,
-      medium: suggestions.filter(s => s.priority === 'medium').length,
-      low: suggestions.filter(s => s.priority === 'low').length
+      critical: suggestions.filter((s) => s.priority === 'critical').length,
+      high: suggestions.filter((s) => s.priority === 'high').length,
+      medium: suggestions.filter((s) => s.priority === 'medium').length,
+      low: suggestions.filter((s) => s.priority === 'low').length,
     };
 
     return `
@@ -383,9 +386,13 @@ Output format:
 ## Applied: ${applied} optimizations
 
 ## Top Improvements:
-${suggestions.slice(0, 5).map((s, i) => 
-  `${i + 1}. [${s.priority.toUpperCase()}] ${s.issue}\n   💡 ${s.solution}\n   📈 ${s.estimatedGain}`
-).join('\n\n')}
+${suggestions
+  .slice(0, 5)
+  .map(
+    (s, i) =>
+      `${i + 1}. [${s.priority.toUpperCase()}] ${s.issue}\n   💡 ${s.solution}\n   📈 ${s.estimatedGain}`
+  )
+  .join('\n\n')}
 
 ${applied > 0 ? '\n✅ High-priority optimizations have been applied!' : ''}
 ${suggestions.length - applied > 0 ? '\n💡 Additional optimizations available for review.' : ''}

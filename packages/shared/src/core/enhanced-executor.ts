@@ -16,7 +16,14 @@ const execAsync = promisify(exec);
 // 📊 واجهات البيانات
 // ============================================
 
-export type SupportedLanguage = 'javascript' | 'typescript' | 'python' | 'go' | 'rust' | 'ruby' | 'php';
+export type SupportedLanguage =
+  | 'javascript'
+  | 'typescript'
+  | 'python'
+  | 'go'
+  | 'rust'
+  | 'ruby'
+  | 'php';
 
 export interface LanguageConfig {
   name: string;
@@ -87,7 +94,7 @@ export class EnhancedExecutor {
       executor: 'node',
       formatCommand: 'prettier --write',
       lintCommand: 'eslint --fix',
-      testCommand: 'npm test'
+      testCommand: 'npm test',
     });
 
     // TypeScript
@@ -98,7 +105,7 @@ export class EnhancedExecutor {
       buildCommand: 'tsc',
       formatCommand: 'prettier --write',
       lintCommand: 'eslint --fix',
-      testCommand: 'npm test'
+      testCommand: 'npm test',
     });
 
     // Python
@@ -108,7 +115,7 @@ export class EnhancedExecutor {
       executor: 'python3',
       formatCommand: 'black',
       lintCommand: 'pylint --output-format=json',
-      testCommand: 'pytest'
+      testCommand: 'pytest',
     });
 
     // Go
@@ -119,7 +126,7 @@ export class EnhancedExecutor {
       buildCommand: 'go build',
       formatCommand: 'gofmt -w',
       lintCommand: 'golangci-lint run --fix',
-      testCommand: 'go test ./...'
+      testCommand: 'go test ./...',
     });
 
     // Rust
@@ -130,7 +137,7 @@ export class EnhancedExecutor {
       buildCommand: 'cargo build',
       formatCommand: 'rustfmt',
       lintCommand: 'cargo clippy --fix --allow-dirty',
-      testCommand: 'cargo test'
+      testCommand: 'cargo test',
     });
 
     // Ruby
@@ -140,7 +147,7 @@ export class EnhancedExecutor {
       executor: 'ruby',
       formatCommand: 'rubocop --auto-correct-all',
       lintCommand: 'rubocop',
-      testCommand: 'rspec'
+      testCommand: 'rspec',
     });
 
     // PHP
@@ -150,7 +157,7 @@ export class EnhancedExecutor {
       executor: 'php',
       formatCommand: 'php-cs-fixer fix',
       lintCommand: 'phpcs',
-      testCommand: 'phpunit'
+      testCommand: 'phpunit',
     });
   }
 
@@ -184,7 +191,7 @@ export class EnhancedExecutor {
           output: '',
           error: `Unsupported file type: ${path.extname(filePath)}`,
           exitCode: 1,
-          duration: Date.now() - startTime
+          duration: Date.now() - startTime,
         };
       }
 
@@ -192,13 +199,13 @@ export class EnhancedExecutor {
       const fullPath = path.join(this.workingDir, filePath);
 
       // التحقق من وجود الملف
-      if (!await fs.pathExists(fullPath)) {
+      if (!(await fs.pathExists(fullPath))) {
         return {
           success: false,
           output: '',
           error: `File not found: ${filePath}`,
           exitCode: 1,
-          duration: Date.now() - startTime
+          duration: Date.now() - startTime,
         };
       }
 
@@ -213,7 +220,7 @@ export class EnhancedExecutor {
       // تنفيذ الأمر
       const { stdout, stderr } = await execAsync(command, {
         cwd: this.workingDir,
-        timeout: 60000 // 60 seconds
+        timeout: 60000, // 60 seconds
       });
 
       const duration = Date.now() - startTime;
@@ -233,9 +240,8 @@ export class EnhancedExecutor {
         output: stdout,
         error: stderr,
         exitCode: 0,
-        duration
+        duration,
       };
-
     } catch (error: any) {
       const duration = Date.now() - startTime;
 
@@ -246,7 +252,7 @@ export class EnhancedExecutor {
         output: error.stdout || '',
         error: error.stderr || error.message,
         exitCode: error.code || 1,
-        duration
+        duration,
       };
     }
   }
@@ -269,7 +275,7 @@ export class EnhancedExecutor {
           output: '',
           error: 'Could not detect project language',
           exitCode: 1,
-          duration: Date.now() - startTime
+          duration: Date.now() - startTime,
         };
       }
 
@@ -281,7 +287,7 @@ export class EnhancedExecutor {
           output: '',
           error: `Build command not configured for ${config.name}`,
           exitCode: 1,
-          duration: Date.now() - startTime
+          duration: Date.now() - startTime,
         };
       }
 
@@ -289,7 +295,7 @@ export class EnhancedExecutor {
 
       const { stdout, stderr } = await execAsync(config.buildCommand, {
         cwd: this.workingDir,
-        timeout: 300000 // 5 minutes
+        timeout: 300000, // 5 minutes
       });
 
       const duration = Date.now() - startTime;
@@ -305,9 +311,8 @@ export class EnhancedExecutor {
         output: stdout,
         error: stderr,
         exitCode: 0,
-        duration
+        duration,
       };
-
     } catch (error: any) {
       const duration = Date.now() - startTime;
 
@@ -318,7 +323,7 @@ export class EnhancedExecutor {
         output: error.stdout || '',
         error: error.stderr || error.message,
         exitCode: error.code || 1,
-        duration
+        duration,
       };
     }
   }
@@ -334,7 +339,7 @@ export class EnhancedExecutor {
         return {
           success: false,
           formatted: false,
-          error: `Unsupported file type: ${path.extname(filePath)}`
+          error: `Unsupported file type: ${path.extname(filePath)}`,
         };
       }
 
@@ -344,7 +349,7 @@ export class EnhancedExecutor {
         return {
           success: false,
           formatted: false,
-          error: `Format command not configured for ${config.name}`
+          error: `Format command not configured for ${config.name}`,
         };
       }
 
@@ -375,9 +380,10 @@ export class EnhancedExecutor {
         return {
           success: true,
           formatted,
-          changes: formatted ? `Before: ${before.length} chars, After: ${after.length} chars` : undefined
+          changes: formatted
+            ? `Before: ${before.length} chars, After: ${after.length} chars`
+            : undefined,
         };
-
       } catch (error: any) {
         // بعض أدوات التنسيق ترجع exit code غير صفر حتى عند النجاح
         console.log(chalk.yellow(`⚠️  ${error.message}\n`));
@@ -385,17 +391,16 @@ export class EnhancedExecutor {
         return {
           success: true,
           formatted: false,
-          error: error.message
+          error: error.message,
         };
       }
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل التنسيق: ${error.message}\n`));
 
       return {
         success: false,
         formatted: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -412,7 +417,7 @@ export class EnhancedExecutor {
           success: false,
           issues: [],
           fixedCount: 0,
-          error: `Unsupported file type: ${path.extname(filePath)}`
+          error: `Unsupported file type: ${path.extname(filePath)}`,
         };
       }
 
@@ -423,7 +428,7 @@ export class EnhancedExecutor {
           success: false,
           issues: [],
           fixedCount: 0,
-          error: `Lint command not configured for ${config.name}`
+          error: `Lint command not configured for ${config.name}`,
         };
       }
 
@@ -440,7 +445,7 @@ export class EnhancedExecutor {
 
       try {
         const { stdout, stderr } = await execAsync(command, {
-          cwd: this.workingDir
+          cwd: this.workingDir,
         });
 
         // محاولة تحليل JSON للنتائج
@@ -456,7 +461,7 @@ export class EnhancedExecutor {
               column: issue.column,
               severity: issue.type === 'error' ? 'error' : 'warning',
               message: issue.message,
-              rule: issue.symbol
+              rule: issue.symbol,
             }));
           } catch {
             // تجاهل أخطاء التحليل
@@ -471,7 +476,9 @@ export class EnhancedExecutor {
           // عرض المشاكل
           for (const issue of issues) {
             const severity = issue.severity === 'error' ? chalk.red('❌') : chalk.yellow('⚠️');
-            console.log(`${severity} ${issue.file}:${issue.line}${issue.column ? `:${issue.column}` : ''}`);
+            console.log(
+              `${severity} ${issue.file}:${issue.line}${issue.column ? `:${issue.column}` : ''}`
+            );
             console.log(chalk.gray(`   ${issue.message}`));
             if (issue.rule) {
               console.log(chalk.gray(`   Rule: ${issue.rule}`));
@@ -483,9 +490,8 @@ export class EnhancedExecutor {
         return {
           success: true,
           issues,
-          fixedCount: autoFix ? issues.length : 0
+          fixedCount: autoFix ? issues.length : 0,
         };
-
       } catch (error: any) {
         // بعض linters ترجع exit code غير صفر عند وجود مشاكل
         console.log(chalk.yellow(`⚠️  ${error.message}\n`));
@@ -494,10 +500,9 @@ export class EnhancedExecutor {
           success: true,
           issues: [],
           fixedCount: 0,
-          error: error.message
+          error: error.message,
         };
       }
-
     } catch (error: any) {
       console.log(chalk.red(`❌ فشل الفحص: ${error.message}\n`));
 
@@ -505,7 +510,7 @@ export class EnhancedExecutor {
         success: false,
         issues: [],
         fixedCount: 0,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -513,7 +518,10 @@ export class EnhancedExecutor {
   /**
    * تنسيق وفحص ملفات متعددة
    */
-  async formatAndLintFiles(files: string[], autoFix: boolean = false): Promise<{
+  async formatAndLintFiles(
+    files: string[],
+    autoFix: boolean = false
+  ): Promise<{
     formatted: number;
     linted: number;
     issues: LintIssue[];
@@ -547,7 +555,7 @@ export class EnhancedExecutor {
     return {
       formatted,
       linted,
-      issues: allIssues
+      issues: allIssues,
     };
   }
 
@@ -569,7 +577,7 @@ export class EnhancedExecutor {
           output: '',
           error: 'Could not detect project language',
           exitCode: 1,
-          duration: Date.now() - startTime
+          duration: Date.now() - startTime,
         };
       }
 
@@ -581,7 +589,7 @@ export class EnhancedExecutor {
           output: '',
           error: `Test command not configured for ${config.name}`,
           exitCode: 1,
-          duration: Date.now() - startTime
+          duration: Date.now() - startTime,
         };
       }
 
@@ -589,7 +597,7 @@ export class EnhancedExecutor {
 
       const { stdout, stderr } = await execAsync(config.testCommand, {
         cwd: this.workingDir,
-        timeout: 300000 // 5 minutes
+        timeout: 300000, // 5 minutes
       });
 
       const duration = Date.now() - startTime;
@@ -605,9 +613,8 @@ export class EnhancedExecutor {
         output: stdout,
         error: stderr,
         exitCode: 0,
-        duration
+        duration,
       };
-
     } catch (error: any) {
       const duration = Date.now() - startTime;
 
@@ -618,7 +625,7 @@ export class EnhancedExecutor {
         output: error.stdout || '',
         error: error.stderr || error.message,
         exitCode: error.code || 1,
-        duration
+        duration,
       };
     }
   }
@@ -633,8 +640,8 @@ export class EnhancedExecutor {
       'requirements.txt': 'python' as SupportedLanguage,
       'go.mod': 'go' as SupportedLanguage,
       'Cargo.toml': 'rust' as SupportedLanguage,
-      'Gemfile': 'ruby' as SupportedLanguage,
-      'composer.json': 'php' as SupportedLanguage
+      Gemfile: 'ruby' as SupportedLanguage,
+      'composer.json': 'php' as SupportedLanguage,
     };
 
     for (const [file, lang] of Object.entries(configFiles)) {
@@ -694,7 +701,7 @@ export class EnhancedExecutor {
         executor: false,
         formatter: false,
         linter: false,
-        tester: false
+        tester: false,
       };
     }
 
@@ -711,7 +718,7 @@ export class EnhancedExecutor {
       executor: await checkCommand(config.executor),
       formatter: config.formatCommand ? await checkCommand(config.formatCommand) : false,
       linter: config.lintCommand ? await checkCommand(config.lintCommand) : false,
-      tester: config.testCommand ? await checkCommand(config.testCommand) : false
+      tester: config.testCommand ? await checkCommand(config.testCommand) : false,
     };
   }
 }

@@ -79,7 +79,7 @@ export function validateApiKey(apiKey: string): boolean {
 // عرض معلومات الحساب
 export async function displayAccountInfo(): Promise<void> {
   const config = await loadConfig();
-  
+
   if (!config) {
     console.log(chalk.yellow('⚠️  لم تسجل دخول بعد'));
     console.log(chalk.cyan('استخدم: oqool-code login <API_KEY>'));
@@ -90,20 +90,20 @@ export async function displayAccountInfo(): Promise<void> {
   console.log(chalk.gray('─'.repeat(50)));
   console.log(chalk.white('API Key:'), chalk.green(maskApiKey(config.apiKey)));
   console.log(chalk.white('API URL:'), chalk.cyan(config.apiUrl));
-  
+
   if (config.email) {
     console.log(chalk.white('البريد:'), chalk.yellow(config.email));
   }
-  
+
   if (config.plan) {
     const planEmoji = getPlanEmoji(config.plan);
     console.log(chalk.white('الباقة:'), planEmoji, chalk.magenta(config.plan));
   }
-  
+
   if (config.lastSync) {
     console.log(chalk.white('آخر مزامنة:'), chalk.gray(config.lastSync));
   }
-  
+
   console.log(chalk.gray('─'.repeat(50)));
 }
 

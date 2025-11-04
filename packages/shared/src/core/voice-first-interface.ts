@@ -134,7 +134,7 @@ export class VoiceFirstInterface {
       volume: 0.8,
       engine: 'local',
       apiKey: undefined,
-      region: 'auto'
+      region: 'auto',
     };
   }
 
@@ -151,7 +151,9 @@ export class VoiceFirstInterface {
    */
   async startVoiceSession(): Promise<VoiceSession | null> {
     if (!this.config.enabled) {
-      console.log(chalk.yellow('⚠️  النظام الصوتي معطل. فعله أولاً: oqool-code voice config --enable'));
+      console.log(
+        chalk.yellow('⚠️  النظام الصوتي معطل. فعله أولاً: oqool-code voice config --enable')
+      );
       return null;
     }
 
@@ -176,15 +178,15 @@ export class VoiceFirstInterface {
           successfulCommands: 0,
           averageResponseTime: 0,
           accuracy: 0,
-          userSatisfaction: 0
+          userSatisfaction: 0,
         },
         preferences: {
           voiceCommands: await this.loadVoiceCommands(),
           shortcuts: new Map(),
           contextAwareness: true,
           autoComplete: true,
-          errorTolerance: 0.7
-        }
+          errorTolerance: 0.7,
+        },
       };
 
       await this.saveSession(session);
@@ -199,7 +201,6 @@ export class VoiceFirstInterface {
       await this.startListening(session);
 
       return session;
-
     } catch (error) {
       spinner.fail('فشل في بدء الجلسة الصوتية');
       throw error;
@@ -225,8 +226,8 @@ export class VoiceFirstInterface {
                 return true;
               }
               return input.trim().length > 0 || 'لا يمكن أن يكون الأمر فارغاً';
-            }
-          }
+            },
+          },
         ]);
 
         if (command.toLowerCase() === 'خروج' || command.toLowerCase() === 'exit') {
@@ -238,7 +239,6 @@ export class VoiceFirstInterface {
 
         await this.processVoiceCommand(command, session);
       }
-
     } catch (error) {
       console.error(chalk.red('❌ خطأ في الاستماع:'), error);
     }
@@ -264,7 +264,7 @@ export class VoiceFirstInterface {
         confidence: 0.9, // محاكاة الثقة
         entities,
         timestamp: new Date().toISOString(),
-        processed: false
+        processed: false,
       };
 
       session.commands.push(voiceCommand);
@@ -281,7 +281,8 @@ export class VoiceFirstInterface {
       // تحديث أداء الجلسة
       session.performance.totalCommands++;
       session.performance.successfulCommands++;
-      session.performance.averageResponseTime = (session.performance.averageResponseTime + responseTime) / 2;
+      session.performance.averageResponseTime =
+        (session.performance.averageResponseTime + responseTime) / 2;
 
       await this.saveSession(session);
 
@@ -291,7 +292,6 @@ export class VoiceFirstInterface {
       await this.speakResponse(response);
 
       console.log(chalk.white(`🤖 الرد: ${response}\n`));
-
     } catch (error) {
       spinner.fail('فشل في معالجة الأمر');
 
@@ -317,7 +317,7 @@ export class VoiceFirstInterface {
       search: ['ابحث', 'جد', 'اعثر', 'search', 'find', 'locate'],
       navigate: ['انتقل', 'اذهب', 'navigate', 'go', 'cd'],
       configure: ['اضبط', 'كون', 'configure', 'setup', 'config'],
-      help: ['مساعدة', 'ساعدني', 'help', 'what', 'how', '?']
+      help: ['مساعدة', 'ساعدني', 'help', 'what', 'how', '?'],
     };
 
     // تحديد النية الرئيسية
@@ -325,7 +325,7 @@ export class VoiceFirstInterface {
     let maxMatches = 0;
 
     for (const [intent, patterns] of Object.entries(intentPatterns)) {
-      const matches = patterns.filter(pattern => lowerText.includes(pattern)).length;
+      const matches = patterns.filter((pattern) => lowerText.includes(pattern)).length;
       if (matches > maxMatches) {
         maxMatches = matches;
         detectedIntent = intent as VoiceIntent['type'];
@@ -349,7 +349,7 @@ export class VoiceFirstInterface {
       action,
       parameters,
       urgency,
-      context
+      context,
     };
   }
 
@@ -365,7 +365,7 @@ export class VoiceFirstInterface {
       search: ['file', 'function', 'pattern', 'error', 'documentation'],
       navigate: ['directory', 'file', 'project'],
       configure: ['voice', 'ai', 'project', 'git'],
-      help: ['commands', 'features', 'examples', 'tutorial']
+      help: ['commands', 'features', 'examples', 'tutorial'],
     };
 
     const lowerText = text.toLowerCase();
@@ -388,9 +388,14 @@ export class VoiceFirstInterface {
     const lowerText = text.toLowerCase();
 
     // استخراج أسماء الملفات
-    const fileMatches = text.match(/['"]?([^'"\s]+\.(js|ts|py|go|rs|rb|php|html|css|json|md))['"]?/gi);
+    const fileMatches = text.match(
+      /['"]?([^'"\s]+\.(js|ts|py|go|rs|rb|php|html|css|json|md))['"]?/gi
+    );
     if (fileMatches) {
-      parameters.set('files', fileMatches.map(f => f.replace(/['"]/g, '')));
+      parameters.set(
+        'files',
+        fileMatches.map((f) => f.replace(/['"]/g, ''))
+      );
     }
 
     // استخراج اللغات
@@ -405,13 +410,19 @@ export class VoiceFirstInterface {
     // استخراج الأرقام
     const numberMatches = text.match(/\d+/g);
     if (numberMatches) {
-      parameters.set('numbers', numberMatches.map(n => parseInt(n)));
+      parameters.set(
+        'numbers',
+        numberMatches.map((n) => parseInt(n))
+      );
     }
 
     // استخراج المسارات
     const pathMatches = text.match(/['"]?([^'"\s]*\/[^'"\s]*)['"]?/g);
     if (pathMatches) {
-      parameters.set('paths', pathMatches.map(p => p.replace(/['"]/g, '')));
+      parameters.set(
+        'paths',
+        pathMatches.map((p) => p.replace(/['"]/g, ''))
+      );
     }
 
     return parameters;
@@ -423,7 +434,12 @@ export class VoiceFirstInterface {
   private assessUrgency(text: string): VoiceIntent['urgency'] {
     const lowerText = text.toLowerCase();
 
-    if (lowerText.includes('عاجل') || lowerText.includes('فوري') || lowerText.includes('urgent') || lowerText.includes('now')) {
+    if (
+      lowerText.includes('عاجل') ||
+      lowerText.includes('فوري') ||
+      lowerText.includes('urgent') ||
+      lowerText.includes('now')
+    ) {
       return 'high';
     } else if (lowerText.includes('مهم') || lowerText.includes('important')) {
       return 'normal';
@@ -468,7 +484,7 @@ export class VoiceFirstInterface {
         value: match[1],
         confidence: 0.95,
         start: match.index,
-        end: match.index + match[0].length
+        end: match.index + match[0].length,
       });
     }
 
@@ -480,7 +496,7 @@ export class VoiceFirstInterface {
         value: match[1],
         confidence: 0.8,
         start: match.index,
-        end: match.index + match[0].length
+        end: match.index + match[0].length,
       });
     }
 
@@ -492,7 +508,7 @@ export class VoiceFirstInterface {
         value: match[1],
         confidence: 0.9,
         start: match.index,
-        end: match.index + match[0].length
+        end: match.index + match[0].length,
       });
     }
 
@@ -504,7 +520,7 @@ export class VoiceFirstInterface {
         value: match[1],
         confidence: 0.85,
         start: match.index,
-        end: match.index + match[0].length
+        end: match.index + match[0].length,
       });
     }
 
@@ -581,7 +597,10 @@ export class VoiceFirstInterface {
   /**
    * معالجة أمر التحليل
    */
-  private async handleAnalyzeCommand(command: VoiceCommand, session: VoiceSession): Promise<string> {
+  private async handleAnalyzeCommand(
+    command: VoiceCommand,
+    session: VoiceSession
+  ): Promise<string> {
     const { action, parameters } = command.intent;
 
     switch (action) {
@@ -607,7 +626,10 @@ export class VoiceFirstInterface {
   /**
    * معالجة أمر التنفيذ
    */
-  private async handleExecuteCommand(command: VoiceCommand, session: VoiceSession): Promise<string> {
+  private async handleExecuteCommand(
+    command: VoiceCommand,
+    session: VoiceSession
+  ): Promise<string> {
     const { action, parameters } = command.intent;
 
     if (parameters.get('files')?.length > 0) {
@@ -634,7 +656,10 @@ export class VoiceFirstInterface {
   /**
    * معالجة أمر التنقل
    */
-  private async handleNavigateCommand(command: VoiceCommand, session: VoiceSession): Promise<string> {
+  private async handleNavigateCommand(
+    command: VoiceCommand,
+    session: VoiceSession
+  ): Promise<string> {
     const { parameters } = command.intent;
 
     if (parameters.get('paths')?.length > 0) {
@@ -648,7 +673,10 @@ export class VoiceFirstInterface {
   /**
    * معالجة أمر التكوين
    */
-  private async handleConfigureCommand(command: VoiceCommand, session: VoiceSession): Promise<string> {
+  private async handleConfigureCommand(
+    command: VoiceCommand,
+    session: VoiceSession
+  ): Promise<string> {
     const { action } = command.intent;
 
     switch (action) {
@@ -694,7 +722,6 @@ export class VoiceFirstInterface {
       // في التطبيق الحقيقي، سيتم استخدام TTS API
       // const tts = await this.textToSpeech(response);
       // await this.playAudio(tts);
-
     } catch (error) {
       console.log(chalk.gray('ℹ️  TTS غير متوفر'));
     }
@@ -706,20 +733,23 @@ export class VoiceFirstInterface {
   private async checkVoiceTools(): Promise<{ recognition: boolean; synthesis: boolean }> {
     try {
       // التحقق من أدوات التعرف على الصوت
-      const recognitionAvailable = await this.checkCommand('python3 -c "import speech_recognition; print(\\"OK\\")"');
+      const recognitionAvailable = await this.checkCommand(
+        'python3 -c "import speech_recognition; print(\\"OK\\")"'
+      );
 
       // التحقق من أدوات تحويل النص إلى كلام
-      const synthesisAvailable = await this.checkCommand('python3 -c "import pyttsx3; print(\\"OK\\")"');
+      const synthesisAvailable = await this.checkCommand(
+        'python3 -c "import pyttsx3; print(\\"OK\\")"'
+      );
 
       return {
         recognition: recognitionAvailable,
-        synthesis: false // محاكاة
+        synthesis: false, // محاكاة
       };
-
     } catch {
       return {
         recognition: false,
-        synthesis: false
+        synthesis: false,
       };
     }
   }
@@ -752,8 +782,18 @@ export class VoiceFirstInterface {
 
     // الأوامر الافتراضية
     return [
-      'مساعدة', 'خروج', 'إنشاء', 'تعديل', 'تحليل', 'تنفيذ',
-      'بحث', 'تنقل', 'تكوين', 'حالة', 'إحصائيات', 'تقرير'
+      'مساعدة',
+      'خروج',
+      'إنشاء',
+      'تعديل',
+      'تحليل',
+      'تنفيذ',
+      'بحث',
+      'تنقل',
+      'تكوين',
+      'حالة',
+      'إحصائيات',
+      'تقرير',
     ];
   }
 
@@ -819,15 +859,19 @@ export class VoiceFirstInterface {
     sessions.sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime());
 
     for (const session of sessions) {
-      const duration = session.endTime ?
-        (new Date(session.endTime).getTime() - new Date(session.startTime).getTime()) / 1000 :
-        (new Date().getTime() - new Date(session.startTime).getTime()) / 1000;
+      const duration = session.endTime
+        ? (new Date(session.endTime).getTime() - new Date(session.startTime).getTime()) / 1000
+        : (new Date().getTime() - new Date(session.startTime).getTime()) / 1000;
 
       const minutes = Math.floor(duration / 60);
       const seconds = Math.floor(duration % 60);
 
       console.log(chalk.cyan(`🎧 ${session.id}`));
-      console.log(chalk.white(`   الأوامر: ${session.commands.length} | المدة: ${minutes}:${seconds.toString().padStart(2, '0')}`));
+      console.log(
+        chalk.white(
+          `   الأوامر: ${session.commands.length} | المدة: ${minutes}:${seconds.toString().padStart(2, '0')}`
+        )
+      );
       console.log(chalk.gray(`   البدء: ${new Date(session.startTime).toLocaleString('ar')}`));
       console.log(chalk.gray(`   الدقة: ${(session.performance.accuracy * 100).toFixed(1)}%`));
       console.log('');
@@ -857,7 +901,6 @@ export class VoiceFirstInterface {
       console.log(chalk.white('   - استخراج الكيانات'));
       console.log(chalk.white('   - دقة التعرف'));
       console.log(chalk.white('   - فهم السياق'));
-
     } catch (error) {
       spinner.fail('فشل في تدريب النظام');
       throw error;
@@ -867,24 +910,44 @@ export class VoiceFirstInterface {
   /**
    * جمع عينات التدريب
    */
-  private async collectTrainingSamples(): Promise<Array<{ text: string; intent: VoiceIntent['type']; entities: VoiceEntity[] }>> {
+  private async collectTrainingSamples(): Promise<
+    Array<{ text: string; intent: VoiceIntent['type']; entities: VoiceEntity[] }>
+  > {
     // عينات تدريب بالعربية والإنجليزية
     return [
       { text: 'أنشئ API جديد', intent: 'create', entities: [] },
-      { text: 'عدل ملف index.js', intent: 'modify', entities: [{ type: 'file', value: 'index.js', confidence: 1, start: 9, end: 17 }] },
-      { text: 'حلل الكود في src/', intent: 'analyze', entities: [{ type: 'path', value: 'src/', confidence: 0.9, start: 14, end: 18 }] },
+      {
+        text: 'عدل ملف index.js',
+        intent: 'modify',
+        entities: [{ type: 'file', value: 'index.js', confidence: 1, start: 9, end: 17 }],
+      },
+      {
+        text: 'حلل الكود في src/',
+        intent: 'analyze',
+        entities: [{ type: 'path', value: 'src/', confidence: 0.9, start: 14, end: 18 }],
+      },
       { text: 'شغل الاختبارات', intent: 'execute', entities: [] },
-      { text: 'ابحث عن دالة login', intent: 'search', entities: [{ type: 'function', value: 'login', confidence: 0.8, start: 13, end: 18 }] },
-      { text: 'انتقل لمجلد components', intent: 'navigate', entities: [{ type: 'path', value: 'components', confidence: 0.9, start: 13, end: 23 }] },
+      {
+        text: 'ابحث عن دالة login',
+        intent: 'search',
+        entities: [{ type: 'function', value: 'login', confidence: 0.8, start: 13, end: 18 }],
+      },
+      {
+        text: 'انتقل لمجلد components',
+        intent: 'navigate',
+        entities: [{ type: 'path', value: 'components', confidence: 0.9, start: 13, end: 23 }],
+      },
       { text: 'اضبط إعدادات الصوت', intent: 'configure', entities: [] },
-      { text: 'كيف أنشئ مكون React', intent: 'help', entities: [] }
+      { text: 'كيف أنشئ مكون React', intent: 'help', entities: [] },
     ];
   }
 
   /**
    * تحسين نماذج النية
    */
-  private async improveIntentModels(samples: Array<{ text: string; intent: VoiceIntent['type']; entities: VoiceEntity[] }>): Promise<void> {
+  private async improveIntentModels(
+    samples: Array<{ text: string; intent: VoiceIntent['type']; entities: VoiceEntity[] }>
+  ): Promise<void> {
     // حفظ عينات التدريب
     const trainingPath = path.join(this.commandsPath, 'training-samples.json');
     await fs.writeJson(trainingPath, samples, { spaces: 2 });
@@ -895,7 +958,9 @@ export class VoiceFirstInterface {
   /**
    * تحسين استخراج الكيانات
    */
-  private async improveEntityExtraction(samples: Array<{ text: string; intent: VoiceIntent['type']; entities: VoiceEntity[] }>): Promise<void> {
+  private async improveEntityExtraction(
+    samples: Array<{ text: string; intent: VoiceIntent['type']; entities: VoiceEntity[] }>
+  ): Promise<void> {
     // تحليل العينات لتحسين الأنماط
     const entityPatterns = this.analyzeEntityPatterns(samples);
 
@@ -908,7 +973,9 @@ export class VoiceFirstInterface {
   /**
    * تحليل أنماط الكيانات
    */
-  private analyzeEntityPatterns(samples: Array<{ text: string; intent: VoiceIntent['type']; entities: VoiceEntity[] }>): any {
+  private analyzeEntityPatterns(
+    samples: Array<{ text: string; intent: VoiceIntent['type']; entities: VoiceEntity[] }>
+  ): any {
     const patterns: any = {};
 
     for (const sample of samples) {
@@ -920,7 +987,7 @@ export class VoiceFirstInterface {
         patterns[entity.type].push({
           value: entity.value,
           context: sample.text.substring(Math.max(0, entity.start - 5), entity.end + 5),
-          confidence: entity.confidence
+          confidence: entity.confidence,
         });
       }
     }
@@ -951,13 +1018,14 @@ export class VoiceFirstInterface {
     const totalSessions = sessions.length;
     const totalCommands = sessions.reduce((sum, s) => sum + s.commands.length, 0);
     const totalDuration = sessions.reduce((sum, s) => {
-      const duration = s.endTime ?
-        (new Date(s.endTime).getTime() - new Date(s.startTime).getTime()) :
-        (new Date().getTime() - new Date(s.startTime).getTime());
+      const duration = s.endTime
+        ? new Date(s.endTime).getTime() - new Date(s.startTime).getTime()
+        : new Date().getTime() - new Date(s.startTime).getTime();
       return sum + duration;
     }, 0);
 
-    const averageAccuracy = sessions.reduce((sum, s) => sum + s.performance.accuracy, 0) / totalSessions;
+    const averageAccuracy =
+      sessions.reduce((sum, s) => sum + s.performance.accuracy, 0) / totalSessions;
     const averageCommands = totalCommands / totalSessions;
     const averageDuration = totalDuration / totalSessions;
 
@@ -971,7 +1039,9 @@ export class VoiceFirstInterface {
     const hours = Math.floor(totalDuration / (1000 * 60 * 60));
     const minutes = Math.floor((totalDuration % (1000 * 60 * 60)) / (1000 * 60));
 
-    console.log(chalk.cyan(`\n⏰ إجمالي وقت الاستخدام: ${hours}:${minutes.toString().padStart(2, '0')}`));
+    console.log(
+      chalk.cyan(`\n⏰ إجمالي وقت الاستخدام: ${hours}:${minutes.toString().padStart(2, '0')}`)
+    );
 
     // أكثر الأوامر استخداماً
     const commandCounts = new Map<string, number>();
@@ -991,6 +1061,9 @@ export class VoiceFirstInterface {
 }
 
 // مصنع لإنشاء instance
-export function createVoiceFirstInterface(apiClient: OqoolAPIClient, workingDir?: string): VoiceFirstInterface {
+export function createVoiceFirstInterface(
+  apiClient: OqoolAPIClient,
+  workingDir?: string
+): VoiceFirstInterface {
   return new VoiceFirstInterface(apiClient, workingDir);
 }

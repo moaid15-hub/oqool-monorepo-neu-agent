@@ -9,9 +9,7 @@ interface TerminalTab {
 }
 
 export const TerminalPanel: React.FC = () => {
-  const [terminals, setTerminals] = useState<TerminalTab[]>([
-    { id: '1', name: 'Terminal 1' },
-  ]);
+  const [terminals, setTerminals] = useState<TerminalTab[]>([{ id: '1', name: 'Terminal 1' }]);
   const [activeTerminal, setActiveTerminal] = useState('1');
 
   const addTerminal = () => {

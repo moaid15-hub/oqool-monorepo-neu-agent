@@ -56,7 +56,7 @@ export class NotificationSystem {
     this.configPath = path.join(workingDir, '.oqool-guardian', 'notifications.json');
     this.config = {
       enabled: true,
-      channels: ['console']
+      channels: ['console'],
     };
     this.loadConfig();
   }
@@ -91,7 +91,7 @@ export class NotificationSystem {
 
     const fullNotification: Notification = {
       ...notification,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     // تصفية الإشعارات
@@ -101,7 +101,7 @@ export class NotificationSystem {
     this.history.push(fullNotification);
 
     // إرسال عبر القنوات المفعلة
-    const promises = this.config.channels.map(channel => {
+    const promises = this.config.channels.map((channel) => {
       switch (channel) {
         case 'console':
           return this.sendToConsole(fullNotification);
@@ -183,11 +183,11 @@ export class NotificationSystem {
               ? Object.entries(notification.metadata).map(([key, value]) => ({
                   title: key,
                   value: String(value),
-                  short: true
+                  short: true,
                 }))
-              : []
-          }
-        ]
+              : [],
+          },
+        ],
       };
 
       await axios.post(this.config.slack.webhookUrl, payload);
@@ -217,17 +217,17 @@ export class NotificationSystem {
             color,
             timestamp: notification.timestamp,
             footer: {
-              text: 'Oqool AI'
+              text: 'Oqool AI',
             },
             fields: notification.metadata
               ? Object.entries(notification.metadata).map(([key, value]) => ({
                   name: key,
                   value: String(value),
-                  inline: true
+                  inline: true,
                 }))
-              : []
-          }
-        ]
+              : [],
+          },
+        ],
       };
 
       await axios.post(this.config.discord.webhookUrl, payload);
@@ -246,11 +246,9 @@ export class NotificationSystem {
     }
 
     try {
-      await axios.post(
-        this.config.webhook.url,
-        notification,
-        { headers: this.config.webhook.headers }
-      );
+      await axios.post(this.config.webhook.url, notification, {
+        headers: this.config.webhook.headers,
+      });
     } catch (error) {
       console.error(chalk.red('❌ فشل إرسال الإشعار لـ Webhook:', error));
     }
@@ -272,7 +270,7 @@ export class NotificationSystem {
       info: '🔔',
       success: '✅',
       warning: '⚠️',
-      error: '❌'
+      error: '❌',
     };
     return icons[type];
   }
@@ -285,7 +283,7 @@ export class NotificationSystem {
       info: chalk.cyan,
       success: chalk.green,
       warning: chalk.yellow,
-      error: chalk.red
+      error: chalk.red,
     };
     return colors[type];
   }
@@ -295,10 +293,10 @@ export class NotificationSystem {
    */
   private getSlackColor(type: NotificationType): string {
     const colors = {
-      info: '#36a64f',    // أخضر
+      info: '#36a64f', // أخضر
       success: '#2eb886', // أخضر فاتح
       warning: '#ff9900', // برتقالي
-      error: '#ff0000'    // أحمر
+      error: '#ff0000', // أحمر
     };
     return colors[type];
   }
@@ -308,10 +306,10 @@ export class NotificationSystem {
    */
   private getDiscordColor(type: NotificationType): number {
     const colors = {
-      info: 3447003,    // أزرق
+      info: 3447003, // أزرق
       success: 3066993, // أخضر
       warning: 16776960, // أصفر
-      error: 15158332   // أحمر
+      error: 15158332, // أحمر
     };
     return colors[type];
   }
@@ -341,8 +339,8 @@ export class NotificationSystem {
       metadata: {
         snapshotId,
         fileCount,
-        timestamp: new Date().toISOString()
-      }
+        timestamp: new Date().toISOString(),
+      },
     });
   }
 
@@ -353,8 +351,8 @@ export class NotificationSystem {
       message: `تم النسخ الاحتياطي: ${backupName}`,
       metadata: {
         backupName,
-        size
-      }
+        size,
+      },
     });
   }
 
@@ -364,8 +362,8 @@ export class NotificationSystem {
       title: '⏰ حان وقت النسخ الاحتياطي',
       message: `لم تقم بنسخ احتياطي منذ ${daysSinceLastBackup} يوم`,
       metadata: {
-        daysSinceLastBackup
-      }
+        daysSinceLastBackup,
+      },
     });
   }
 
@@ -375,8 +373,8 @@ export class NotificationSystem {
       title: '📌 لديك لقطات كثيرة',
       message: `لديك ${count} لقطة - يُنصح بالتنظيف`,
       metadata: {
-        snapshotCount: count
-      }
+        snapshotCount: count,
+      },
     });
   }
 
@@ -387,8 +385,8 @@ export class NotificationSystem {
       message: error,
       metadata: {
         operation,
-        error
-      }
+        error,
+      },
     });
   }
 
@@ -399,8 +397,8 @@ export class NotificationSystem {
       message: `المشروع نما بنسبة ${growthPercentage}% - الحجم الحالي: ${currentSize}`,
       metadata: {
         growthPercentage,
-        currentSize
-      }
+        currentSize,
+      },
     });
   }
 
@@ -411,8 +409,8 @@ export class NotificationSystem {
       message: `الملف ${file} تغير ${changeCount} مرة`,
       metadata: {
         file,
-        changeCount
-      }
+        changeCount,
+      },
     });
   }
 }

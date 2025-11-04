@@ -3,11 +3,11 @@
 // 📚 أمثلة استخدام Validation Pipeline
 // ============================================
 
-import { 
-  ValidationPipeline, 
+import {
+  ValidationPipeline,
   getValidationPipeline,
   ValidationResult,
-  ValidationIssue 
+  ValidationIssue,
 } from './validation-pipeline';
 
 // ============================================
@@ -39,12 +39,14 @@ function login(username, password) {
   console.log(`⏱️  الوقت: ${result.duration}ms`);
 
   console.log('\n🔍 المراحل:');
-  result.stages.forEach(stage => {
+  result.stages.forEach((stage) => {
     const icon = stage.passed ? '✅' : '❌';
-    console.log(`${icon} ${stage.stage}: ${stage.errors.length} errors, ${stage.warnings.length} warnings`);
-    
+    console.log(
+      `${icon} ${stage.stage}: ${stage.errors.length} errors, ${stage.warnings.length} warnings`
+    );
+
     if (stage.errors.length > 0) {
-      stage.errors.forEach(err => {
+      stage.errors.forEach((err) => {
         console.log(`   🔴 [${err.severity}] ${err.message}`);
         if (err.line) console.log(`      📍 Line ${err.line}:${err.column}`);
         if (err.cwe) console.log(`      🔖 ${err.cwe}`);
@@ -72,9 +74,9 @@ async function example2_withAutoFix() {
         priority: 'P3',
         autoFix: true,
         stopOnError: false,
-        confirm: false
-      }
-    }
+        confirm: false,
+      },
+    },
   });
 
   const dirtyCode = `
@@ -95,7 +97,7 @@ if (name == "John") {
   console.log(result.finalCode);
 
   console.log('\n📊 التغييرات:');
-  result.stages.forEach(stage => {
+  result.stages.forEach((stage) => {
     if (stage.autoFixApplied) {
       console.log(`✅ ${stage.stage}: تم تطبيق ${stage.errors.length} إصلاح تلقائي`);
     }
@@ -118,9 +120,9 @@ async function example3_withConfirmation() {
         priority: 'P1',
         autoFix: true,
         stopOnError: false,
-        confirm: true
-      }
-    }
+        confirm: true,
+      },
+    },
   });
 
   const unsafeCode = `
@@ -138,11 +140,11 @@ function processData(input) {
       console.log(`   المشكلة: ${issue.message}`);
       console.log(`   الشدة: ${issue.severity}`);
       console.log(`   الإصلاح: ${issue.fix?.description}`);
-      
+
       // في الحقيقة، يجب أن تسأل المستخدم
       // هنا سنوافق تلقائياً للعرض
       return true;
-    }
+    },
   });
 
   console.log(`\n✅ تم التأكيد على ${confirmCount} إصلاح`);
@@ -170,9 +172,10 @@ function calculate(x, y) {
   await pipeline.validate(code, 'math.js', {
     onProgress: (stage, progress) => {
       const percentage = Math.round(progress * 100);
-      const bar = '█'.repeat(Math.floor(percentage / 5)) + '░'.repeat(20 - Math.floor(percentage / 5));
+      const bar =
+        '█'.repeat(Math.floor(percentage / 5)) + '░'.repeat(20 - Math.floor(percentage / 5));
       console.log(`${stage.padEnd(15)} [${bar}] ${percentage}%`);
-    }
+    },
   });
 
   console.log('\n✅ اكتمل!');
@@ -194,25 +197,25 @@ async function example5_customConfig() {
         priority: 'P1',
         autoFix: false,
         stopOnError: true,
-        confirm: false
+        confirm: false,
       },
       performance: {
         enabled: false, // تعطيل فحص الأداء
         priority: 'P3',
         autoFix: false,
-        stopOnError: false
+        stopOnError: false,
       },
       style: {
         enabled: true,
         priority: 'P3',
         autoFix: true,
-        stopOnError: false
-      }
+        stopOnError: false,
+      },
     },
     cache: {
       enabled: true,
-      ttl: 1800 // 30 دقيقة
-    }
+      ttl: 1800, // 30 دقيقة
+    },
   });
 
   console.log('📋 الإعدادات:');
@@ -243,8 +246,8 @@ async function example6_cachePerformance() {
   const pipeline = new ValidationPipeline({
     cache: {
       enabled: true,
-      ttl: 3600
-    }
+      ttl: 3600,
+    },
   });
 
   const code = `
@@ -299,14 +302,14 @@ const result = getUser("123"); // خطأ في النوع!
   const result = await pipeline.validate(tsCode, 'user.ts');
 
   console.log('📊 نتائج فحص TypeScript:');
-  const typeStage = result.stages.find(s => s.stage === 'types');
-  
+  const typeStage = result.stages.find((s) => s.stage === 'types');
+
   if (typeStage) {
     console.log(`\n${typeStage.passed ? '✅' : '❌'} Type Check:`);
     console.log(`   أخطاء: ${typeStage.errors.length}`);
     console.log(`   تحذيرات: ${typeStage.warnings.length}`);
-    
-    typeStage.errors.forEach(err => {
+
+    typeStage.errors.forEach((err) => {
       console.log(`\n   🔴 ${err.message}`);
       console.log(`      📍 السطر ${err.line}`);
       console.log(`      🔧 ${err.fix?.description}`);
@@ -330,15 +333,15 @@ async function example8_securityFirst() {
         priority: 'P1',
         autoFix: false,
         stopOnError: true, // توقف عند أول مشكلة أمنية
-        confirm: true
+        confirm: true,
       },
       syntax: {
         enabled: true,
         priority: 'P2',
         autoFix: true,
-        stopOnError: false
-      }
-    }
+        stopOnError: false,
+      },
+    },
   });
 
   const vulnerableCode = `
@@ -357,7 +360,7 @@ function login(username, password) {
   `;
 
   console.log('🔍 فحص الكود...');
-  
+
   const result = await pipeline.validate(vulnerableCode, 'auth.js', {
     onConfirm: async (issue) => {
       console.log(`\n⚠️  ثغرة أمنية مكتشفة!`);
@@ -365,17 +368,23 @@ function login(username, password) {
       console.log(`   ${issue.cwe}`);
       console.log(`   الرسالة: ${issue.message}`);
       return false; // لا توافق على الإصلاح
-    }
+    },
   });
 
   console.log('\n📊 التقرير الأمني:');
-  const securityStage = result.stages.find(s => s.stage === 'security');
-  
+  const securityStage = result.stages.find((s) => s.stage === 'security');
+
   if (securityStage) {
-    console.log(`🔴 ثغرات حرجة: ${securityStage.errors.filter(e => e.severity === 'critical').length}`);
-    console.log(`🟠 ثغرات عالية: ${securityStage.errors.filter(e => e.severity === 'high').length}`);
-    console.log(`🟡 ثغرات متوسطة: ${securityStage.warnings.filter(w => w.severity === 'medium').length}`);
-    
+    console.log(
+      `🔴 ثغرات حرجة: ${securityStage.errors.filter((e) => e.severity === 'critical').length}`
+    );
+    console.log(
+      `🟠 ثغرات عالية: ${securityStage.errors.filter((e) => e.severity === 'high').length}`
+    );
+    console.log(
+      `🟡 ثغرات متوسطة: ${securityStage.warnings.filter((w) => w.severity === 'medium').length}`
+    );
+
     console.log('\n🔍 تفاصيل الثغرات:');
     securityStage.errors.forEach((err, i) => {
       console.log(`\n${i + 1}. [${err.severity.toUpperCase()}] ${err.type}`);
@@ -402,9 +411,9 @@ async function example9_performanceAnalysis() {
         enabled: true,
         priority: 'P2',
         autoFix: false,
-        stopOnError: false
-      }
-    }
+        stopOnError: false,
+      },
+    },
   });
 
   const inefficientCode = `
@@ -431,13 +440,13 @@ function findUser(id) {
   const result = await pipeline.validate(inefficientCode, 'search.js');
 
   console.log('📊 تحليل الأداء:');
-  const perfStage = result.stages.find(s => s.stage === 'performance');
-  
+  const perfStage = result.stages.find((s) => s.stage === 'performance');
+
   if (perfStage) {
     console.log(`\n⚠️  تحذيرات: ${perfStage.warnings.length}`);
     console.log(`💡 اقتراحات: ${perfStage.suggestions.length}`);
-    
-    perfStage.warnings.forEach(warn => {
+
+    perfStage.warnings.forEach((warn) => {
       console.log(`\n🟡 ${warn.message}`);
       console.log(`   السطر: ${warn.line}`);
       console.log(`   💡 ${warn.fix?.description}`);
@@ -459,29 +468,29 @@ async function example10_batchValidation() {
   const files = [
     { path: 'auth.js', code: 'function login() { eval("test"); }' },
     { path: 'user.js', code: 'var x = 1; console.log(x);' },
-    { path: 'api.js', code: 'function api() { return 42; }' }
+    { path: 'api.js', code: 'function api() { return 42; }' },
   ];
 
   console.log(`🔍 فحص ${files.length} ملفات...\n`);
 
-  const results = await Promise.all(
-    files.map(file => pipeline.validate(file.code, file.path))
-  );
+  const results = await Promise.all(files.map((file) => pipeline.validate(file.code, file.path)));
 
   console.log('📊 النتائج:');
   results.forEach((result, i) => {
     const file = files[i];
     const icon = result.success ? '✅' : '❌';
-    console.log(`${icon} ${file.path}: ${result.totalIssues} issues (${result.criticalIssues} critical)`);
+    console.log(
+      `${icon} ${file.path}: ${result.totalIssues} issues (${result.criticalIssues} critical)`
+    );
   });
 
   const totalIssues = results.reduce((sum, r) => sum + r.totalIssues, 0);
   const totalCritical = results.reduce((sum, r) => sum + r.criticalIssues, 0);
-  
+
   console.log(`\n📊 الإجمالي:`);
   console.log(`   مشاكل: ${totalIssues}`);
   console.log(`   حرجة: ${totalCritical}`);
-  console.log(`   نجح: ${results.filter(r => r.success).length}/${results.length}`);
+  console.log(`   نجح: ${results.filter((r) => r.success).length}/${results.length}`);
 }
 
 // ============================================
@@ -492,7 +501,7 @@ async function runAllExamples() {
   console.log('\n');
   console.log('🎯 Validation Pipeline - أمثلة الاستخدام');
   console.log('='.repeat(50));
-  
+
   try {
     await example1_basicUsage();
     await example2_withAutoFix();
@@ -504,7 +513,7 @@ async function runAllExamples() {
     await example8_securityFirst();
     await example9_performanceAnalysis();
     await example10_batchValidation();
-    
+
     console.log('\n' + '='.repeat(50));
     console.log('✅ جميع الأمثلة اكتملت بنجاح!');
     console.log('='.repeat(50));
@@ -530,5 +539,5 @@ export {
   example8_securityFirst,
   example9_performanceAnalysis,
   example10_batchValidation,
-  runAllExamples
+  runAllExamples,
 };

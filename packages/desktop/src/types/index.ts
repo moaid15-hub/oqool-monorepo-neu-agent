@@ -41,7 +41,15 @@ export interface GitCommit {
   refs: string;
 }
 
-export type AIPersonality = 'alex' | 'sarah' | 'mike' | 'guardian' | 'olivia' | 'tom' | 'emma' | 'max';
+export type AIPersonality =
+  | 'alex'
+  | 'sarah'
+  | 'mike'
+  | 'guardian'
+  | 'olivia'
+  | 'tom'
+  | 'emma'
+  | 'max';
 
 export interface AIMessage {
   role: 'user' | 'assistant';

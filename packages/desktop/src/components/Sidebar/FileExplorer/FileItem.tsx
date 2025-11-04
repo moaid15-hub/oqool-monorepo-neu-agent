@@ -11,12 +11,7 @@ interface FileItemProps {
   onContextMenu?: (node: FileNode, e: React.MouseEvent) => void;
 }
 
-export const FileItem: React.FC<FileItemProps> = ({
-  node,
-  level,
-  onClick,
-  onContextMenu,
-}) => {
+export const FileItem: React.FC<FileItemProps> = ({ node, level, onClick, onContextMenu }) => {
   const [expanded, setExpanded] = useState(node.expanded || false);
 
   const handleClick = () => {
@@ -41,15 +36,9 @@ export const FileItem: React.FC<FileItemProps> = ({
         onClick={handleClick}
         onContextMenu={handleContextMenu}
       >
-        {node.type === 'directory' && (
-          <span className="folder-arrow">{expanded ? '▼' : '▶'}</span>
-        )}
+        {node.type === 'directory' && <span className="folder-arrow">{expanded ? '▼' : '▶'}</span>}
         <span className="file-icon">
-          {node.type === 'directory'
-            ? expanded
-              ? '📂'
-              : '📁'
-            : getFileIcon(node.name)}
+          {node.type === 'directory' ? (expanded ? '📂' : '📁') : getFileIcon(node.name)}
         </span>
         <span className="file-name">{node.name}</span>
       </div>

@@ -23,10 +23,13 @@ const SplitLayout: React.FC = () => {
   const { notifications, removeNotification, showSuccess, showInfo } = useNotifications();
   const cursorListenerRef = useRef<any>(null);
 
-  useEffect(() => () => {
-    cursorListenerRef.current?.dispose?.();
-    cursorListenerRef.current = null;
-  }, []);
+  useEffect(
+    () => () => {
+      cursorListenerRef.current?.dispose?.();
+      cursorListenerRef.current = null;
+    },
+    []
+  );
 
   const handleFileSelect = (file: FileItem) => {
     setCurrentFile(file);
@@ -68,7 +71,7 @@ const SplitLayout: React.FC = () => {
     cursorListenerRef.current = editor.onDidChangeCursorPosition?.((event: any) => {
       setCursorPosition({
         line: event.position.lineNumber,
-        column: event.position.column
+        column: event.position.column,
       });
     });
 
@@ -86,7 +89,13 @@ const SplitLayout: React.FC = () => {
     <div className="vscode-layout" onClick={closeMenus}>
       <div className="top-bar">
         <div className="menu-bar">
-          <div className={`menu-item ${openMenuId === 'file' ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); toggleMenu('file'); }}>
+          <div
+            className={`menu-item ${openMenuId === 'file' ? 'active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleMenu('file');
+            }}
+          >
             <span>File</span>
             <div className={`dropdown ${openMenuId === 'file' ? 'show' : ''}`}>
               <div className="dropdown-item">
@@ -122,7 +131,13 @@ const SplitLayout: React.FC = () => {
             </div>
           </div>
 
-          <div className={`menu-item ${openMenuId === 'edit' ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); toggleMenu('edit'); }}>
+          <div
+            className={`menu-item ${openMenuId === 'edit' ? 'active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleMenu('edit');
+            }}
+          >
             <span>Edit</span>
             <div className={`dropdown ${openMenuId === 'edit' ? 'show' : ''}`}>
               <div className="dropdown-item">
@@ -158,7 +173,13 @@ const SplitLayout: React.FC = () => {
             </div>
           </div>
 
-          <div className={`menu-item ${openMenuId === 'view' ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); toggleMenu('view'); }}>
+          <div
+            className={`menu-item ${openMenuId === 'view' ? 'active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleMenu('view');
+            }}
+          >
             <span>View</span>
             <div className={`dropdown ${openMenuId === 'view' ? 'show' : ''}`}>
               <div className="dropdown-item">
@@ -186,7 +207,13 @@ const SplitLayout: React.FC = () => {
             </div>
           </div>
 
-          <div className={`menu-item ${openMenuId === 'go' ? 'active' : ''}`} onClick={(e) => { e.stopPropagation(); toggleMenu('go'); }}>
+          <div
+            className={`menu-item ${openMenuId === 'go' ? 'active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleMenu('go');
+            }}
+          >
             <span>Go</span>
             <div className={`dropdown ${openMenuId === 'go' ? 'show' : ''}`}>
               <div className="dropdown-item">
@@ -224,7 +251,7 @@ const SplitLayout: React.FC = () => {
       </div>
 
       <div className="notifications-container">
-        {notifications.map(notification => (
+        {notifications.map((notification) => (
           <Notification
             key={notification.id}
             id={notification.id}
@@ -285,9 +312,9 @@ const SplitLayout: React.FC = () => {
             <div className="chat-subtitle">AI responses may be inaccurate.</div>
           </div>
           <div className="chat-input-area">
-            <textarea 
-              className="chat-input" 
-              placeholder="Add context (#), attachments (@), commands" 
+            <textarea
+              className="chat-input"
+              placeholder="Add context (#), attachments (@), commands"
               rows={3}
             ></textarea>
             <div className="chat-buttons">
@@ -341,7 +368,7 @@ const getLanguageFromFile = (fileName?: string): string => {
     html: 'HTML',
     css: 'CSS',
     json: 'JSON',
-    md: 'Markdown'
+    md: 'Markdown',
   };
 
   return languageMap[extension || ''] || 'Plain Text';

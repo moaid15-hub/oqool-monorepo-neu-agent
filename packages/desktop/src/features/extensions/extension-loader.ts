@@ -2,7 +2,10 @@ import { ExtensionManifest } from './extension-api';
 import fs from 'fs-extra';
 import path from 'path';
 
-export async function loadExtension(extensionPath: string, manifest: ExtensionManifest): Promise<string> {
+export async function loadExtension(
+  extensionPath: string,
+  manifest: ExtensionManifest
+): Promise<string> {
   // Read the main entry point
   const mainFile = path.join(extensionPath, manifest.main);
 

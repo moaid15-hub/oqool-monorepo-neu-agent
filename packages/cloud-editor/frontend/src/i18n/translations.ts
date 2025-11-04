@@ -35,11 +35,11 @@ export interface TranslationKeys {
   'menu.go.forward': string;
   'menu.go.goToFile': string;
   'menu.go.goToLine': string;
-  
+
   // Search & UI
   'search.placeholder': string;
   'explorer.title': string;
-  
+
   // Chat translations
   'chat.tab': string;
   'chat.title': string;
@@ -48,12 +48,12 @@ export interface TranslationKeys {
   'chat.onboard': string;
   'chat.placeholder': string;
   'chat.agent': string;
-  
+
   // Shortcuts
   'shortcuts.commands': string;
   'shortcuts.file': string;
   'shortcuts.chat': string;
-  
+
   // Status bar
   'status.branch': string;
   'status.errors': string;
@@ -118,7 +118,7 @@ export const translations: Record<string, TranslationKeys> = {
     'status.encoding': 'Encoding',
     'status.lineEnding': 'Line Ending',
     'status.language': 'Language',
-    'status.position': 'Position'
+    'status.position': 'Position',
   },
   ar: {
     'menu.file': 'ملف',
@@ -173,7 +173,7 @@ export const translations: Record<string, TranslationKeys> = {
     'status.encoding': 'الترميز',
     'status.lineEnding': 'نهاية السطر',
     'status.language': 'اللغة',
-    'status.position': 'الموضع'
+    'status.position': 'الموضع',
   },
   de: {
     'menu.file': 'Datei',
@@ -228,6 +228,6 @@ export const translations: Record<string, TranslationKeys> = {
     'status.encoding': 'Kodierung',
     'status.lineEnding': 'Zeilenende',
     'status.language': 'Sprache',
-    'status.position': 'Position'
-  }
+    'status.position': 'Position',
+  },
 };

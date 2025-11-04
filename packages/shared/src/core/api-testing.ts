@@ -36,7 +36,7 @@ export interface AuthConfig {
   apiKeyHeader?: string;
 }
 
-export interface TestCase {
+export interface APITestCase {
   id: string;
   name: string;
   endpoint: APIEndpoint;
@@ -58,7 +58,7 @@ export interface Assertion {
   message?: string;
 }
 
-export interface TestResult {
+export interface APITestResult {
   testCase: string;
   success: boolean;
   status: number;
@@ -78,7 +78,7 @@ export interface TestSuite {
   baseURL?: string;
   globalHeaders?: Record<string, string>;
   globalAuth?: AuthConfig;
-  testCases: TestCase[];
+  testCases: APITestCase[];
   hooks?: {
     beforeAll?: () => Promise<void>;
     afterAll?: () => Promise<void>;
@@ -94,7 +94,7 @@ export interface TestSuiteResult {
   failed: number;
   skipped: number;
   duration: number;
-  results: TestResult[];
+  results: APITestResult[];
   coverage?: number;
 }
 
@@ -148,17 +148,13 @@ export class APITesting {
   /**
    * إنشاء test suite جديد
    */
-  async createTestSuite(
-    name: string,
-    description?: string,
-    baseURL?: string
-  ): Promise<TestSuite> {
+  async createTestSuite(name: string, description?: string, baseURL?: string): Promise<TestSuite> {
     const suite: TestSuite = {
       id: `suite-${Date.now()}`,
       name,
       description,
       baseURL,
-      testCases: []
+      testCases: [],
     };
 
     this.testSuites.set(suite.id, suite);
@@ -170,18 +166,15 @@ export class APITesting {
   /**
    * إضافة test case للـ suite
    */
-  async addTestCase(
-    suiteId: string,
-    testCase: Omit<TestCase, 'id'>
-  ): Promise<void> {
+  async addTestCase(suiteId: string, testCase: Omit<APITestCase, 'id'>): Promise<void> {
     const suite = this.testSuites.get(suiteId);
     if (!suite) {
       throw new Error(`Suite not found: ${suiteId}`);
     }
 
-    const fullTestCase: TestCase = {
+    const fullTestCase: APITestCase = {
       ...testCase,
-      id: `test-${Date.now()}`
+      id: `test-${Date.now()}`,
     };
 
     suite.testCases.push(fullTestCase);
@@ -211,10 +204,8 @@ export class APITesting {
   /**
    * توليد test cases لـ endpoint معين
    */
-  async generateTestCasesForEndpoint(
-    endpoint: APIEndpoint
-  ): Promise<Omit<TestCase, 'id'>[]> {
-    const testCases: Omit<TestCase, 'id'>[] = [];
+  async generateTestCasesForEndpoint(endpoint: APIEndpoint): Promise<Omit<APITestCase, 'id'>[]> {
+    const testCases: Omit<APITestCase, 'id'>[] = [];
 
     // Test Case 1: Success scenario
     testCases.push({
@@ -225,15 +216,15 @@ export class APITesting {
         {
           type: 'status',
           operator: 'equals',
-          expected: 200
+          expected: 200,
         },
         {
           type: 'performance',
           operator: 'lt',
           expected: 1000,
-          field: 'responseTime'
-        }
-      ]
+          field: 'responseTime',
+        },
+      ],
     });
 
     // Test Case 2: Invalid input (for POST/PUT/PATCH)
@@ -242,16 +233,16 @@ export class APITesting {
         name: `${endpoint.name} - Invalid Input`,
         endpoint: {
           ...endpoint,
-          body: {} // Empty body
+          body: {}, // Empty body
         },
         expectedStatus: 400,
         assertions: [
           {
             type: 'status',
             operator: 'equals',
-            expected: 400
-          }
-        ]
+            expected: 400,
+          },
+        ],
       });
     }
 
@@ -261,16 +252,16 @@ export class APITesting {
         name: `${endpoint.name} - Unauthorized`,
         endpoint: {
           ...endpoint,
-          auth: { type: 'none' }
+          auth: { type: 'none' },
         },
         expectedStatus: 401,
         assertions: [
           {
             type: 'status',
             operator: 'equals',
-            expected: 401
-          }
-        ]
+            expected: 401,
+          },
+        ],
       });
     }
 
@@ -280,16 +271,16 @@ export class APITesting {
         name: `${endpoint.name} - Not Found`,
         endpoint: {
           ...endpoint,
-          url: endpoint.url.replace(/\/\d+$/, '/99999999')
+          url: endpoint.url.replace(/\/\d+$/, '/99999999'),
         },
         expectedStatus: 404,
         assertions: [
           {
             type: 'status',
             operator: 'equals',
-            expected: 404
-          }
-        ]
+            expected: 404,
+          },
+        ],
       });
     }
 
@@ -312,7 +303,7 @@ export class APITesting {
     console.log(chalk.cyan(`\n🧪 Running Test Suite: ${suite.name}\n`));
 
     const startTime = Date.now();
-    const results: TestResult[] = [];
+    const results: APITestResult[] = [];
 
     // beforeAll hook
     if (suite.hooks?.beforeAll) {
@@ -344,8 +335,8 @@ export class APITesting {
     }
 
     const duration = Date.now() - startTime;
-    const passed = results.filter(r => r.success).length;
-    const failed = results.filter(r => !r.success).length;
+    const passed = results.filter((r) => r.success).length;
+    const failed = results.filter((r) => !r.success).length;
 
     const suiteResult: TestSuiteResult = {
       suite: suite.name,
@@ -354,7 +345,7 @@ export class APITesting {
       failed,
       skipped: 0,
       duration,
-      results
+      results,
     };
 
     // Print summary
@@ -369,10 +360,7 @@ export class APITesting {
   /**
    * تشغيل test case واحد
    */
-  async runTestCase(
-    testCase: TestCase,
-    baseURL?: string
-  ): Promise<TestResult> {
+  async runTestCase(testCase: APITestCase, baseURL?: string): Promise<APITestResult> {
     const startTime = Date.now();
 
     try {
@@ -382,13 +370,11 @@ export class APITesting {
       }
 
       // Prepare request
-      const url = baseURL
-        ? `${baseURL}${testCase.endpoint.url}`
-        : testCase.endpoint.url;
+      const url = baseURL ? `${baseURL}${testCase.endpoint.url}` : testCase.endpoint.url;
 
       const headers = {
         'Content-Type': 'application/json',
-        ...testCase.endpoint.headers
+        ...testCase.endpoint.headers,
       };
 
       // Add auth header
@@ -397,16 +383,12 @@ export class APITesting {
       }
 
       // Make request
-      const response = await this.makeRequest(
-        testCase.endpoint.method,
-        url,
-        {
-          headers,
-          body: testCase.endpoint.body,
-          queryParams: testCase.endpoint.queryParams,
-          timeout: testCase.endpoint.timeout
-        }
-      );
+      const response = await this.makeRequest(testCase.endpoint.method, url, {
+        headers,
+        body: testCase.endpoint.body,
+        queryParams: testCase.endpoint.queryParams,
+        timeout: testCase.endpoint.timeout,
+      });
 
       const responseTime = Date.now() - startTime;
 
@@ -421,7 +403,7 @@ export class APITesting {
         await testCase.teardown();
       }
 
-      const allPassed = assertions.every(a => a.passed);
+      const allPassed = assertions.every((a) => a.passed);
 
       return {
         testCase: testCase.name,
@@ -432,9 +414,8 @@ export class APITesting {
         body: response.body,
         responseTime,
         assertions,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
-
     } catch (error: any) {
       return {
         testCase: testCase.name,
@@ -446,7 +427,7 @@ export class APITesting {
         responseTime: Date.now() - startTime,
         assertions: [],
         error: error.message,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
     }
   }
@@ -454,11 +435,7 @@ export class APITesting {
   /**
    * تنفيذ assertion
    */
-  private runAssertion(
-    assertion: Assertion,
-    response: any,
-    responseTime: number
-  ): void {
+  private runAssertion(assertion: Assertion, response: any, responseTime: number): void {
     let actual: any;
     let passed = false;
 
@@ -549,7 +526,7 @@ export class APITesting {
     console.log(chalk.white(`Endpoint: ${config.endpoint.method} ${config.endpoint.url}\n`));
 
     const startTime = Date.now();
-    const endTime = startTime + (config.duration * 1000);
+    const endTime = startTime + config.duration * 1000;
     const responseTimes: number[] = [];
     const errors: Record<string, number> = {};
 
@@ -563,20 +540,15 @@ export class APITesting {
         const reqStart = Date.now();
 
         try {
-          await this.makeRequest(
-            config.endpoint.method,
-            config.endpoint.url,
-            {
-              headers: config.endpoint.headers,
-              body: config.endpoint.body,
-              timeout: config.endpoint.timeout
-            }
-          );
+          await this.makeRequest(config.endpoint.method, config.endpoint.url, {
+            headers: config.endpoint.headers,
+            body: config.endpoint.body,
+            timeout: config.endpoint.timeout,
+          });
 
           const reqTime = Date.now() - reqStart;
           responseTimes.push(reqTime);
           successfulRequests++;
-
         } catch (error: any) {
           failedRequests++;
           const errorKey = error.message || 'Unknown error';
@@ -622,9 +594,9 @@ export class APITesting {
         p50: this.percentile(responseTimes, 50),
         p90: this.percentile(responseTimes, 90),
         p95: this.percentile(responseTimes, 95),
-        p99: this.percentile(responseTimes, 99)
+        p99: this.percentile(responseTimes, 99),
       },
-      errors
+      errors,
     };
 
     this.printLoadTestResult(result);
@@ -639,10 +611,7 @@ export class APITesting {
   /**
    * توليد test suite تلقائياً من OpenAPI/Swagger spec
    */
-  async generateTestSuiteFromOpenAPI(
-    specPath: string,
-    suiteName: string
-  ): Promise<TestSuite> {
+  async generateTestSuiteFromOpenAPI(specPath: string, suiteName: string): Promise<TestSuite> {
     const spec = JSON.parse(await fs.readFile(specPath, 'utf-8'));
     const endpoints: APIEndpoint[] = [];
 
@@ -654,7 +623,7 @@ export class APITesting {
             name: (details as any).summary || `${method.toUpperCase()} ${path}`,
             method: method.toUpperCase() as HTTPMethod,
             url: path,
-            description: (details as any).description
+            description: (details as any).description,
           });
         }
       }
@@ -666,10 +635,7 @@ export class APITesting {
   /**
    * توليد assertions ذكية باستخدام AI
    */
-  async generateSmartAssertions(
-    endpoint: APIEndpoint,
-    sampleResponse?: any
-  ): Promise<Assertion[]> {
+  async generateSmartAssertions(endpoint: APIEndpoint, sampleResponse?: any): Promise<Assertion[]> {
     const prompt = `
 أنشئ assertions ذكية لاختبار API endpoint:
 
@@ -699,9 +665,7 @@ ${sampleResponse ? `Sample Response:\n${JSON.stringify(sampleResponse, null, 2)}
 ]
 `;
 
-    const response = await this.client.sendChatMessage([
-      { role: 'user', content: prompt }
-    ]);
+    const response = await this.client.sendChatMessage([{ role: 'user', content: prompt }]);
 
     if (!response.success) {
       return [];
@@ -718,10 +682,8 @@ ${sampleResponse ? `Sample Response:\n${JSON.stringify(sampleResponse, null, 2)}
   /**
    * اقتراح تحسينات للـ tests
    */
-  async suggestTestImprovements(
-    suiteResult: TestSuiteResult
-  ): Promise<string[]> {
-    const failedTests = suiteResult.results.filter(r => !r.success);
+  async suggestTestImprovements(suiteResult: TestSuiteResult): Promise<string[]> {
+    const failedTests = suiteResult.results.filter((r) => !r.success);
 
     const prompt = `
 حلل نتائج الاختبارات التالية واقترح تحسينات:
@@ -732,7 +694,7 @@ Failed: ${suiteResult.failed}
 Duration: ${suiteResult.duration}ms
 
 Failed Tests:
-${failedTests.map(t => `- ${t.testCase}: ${t.error || 'Assertions failed'}`).join('\n')}
+${failedTests.map((t) => `- ${t.testCase}: ${t.error || 'Assertions failed'}`).join('\n')}
 
 اقترح:
 1. تحسينات للـ tests الفاشلة
@@ -744,9 +706,7 @@ ${failedTests.map(t => `- ${t.testCase}: ${t.error || 'Assertions failed'}`).joi
 أعط 5-10 اقتراحات عملية.
 `;
 
-    const response = await this.client.sendChatMessage([
-      { role: 'user', content: prompt }
-    ]);
+    const response = await this.client.sendChatMessage([{ role: 'user', content: prompt }]);
 
     if (!response.success) {
       return [];
@@ -754,8 +714,8 @@ ${failedTests.map(t => `- ${t.testCase}: ${t.error || 'Assertions failed'}`).joi
 
     return response.message
       .split('\n')
-      .filter(line => line.trim().match(/^\d+\.|^-/))
-      .map(line => line.replace(/^\d+\.\s*|-\s*/, '').trim());
+      .filter((line) => line.trim().match(/^\d+\.|^-/))
+      .map((line) => line.replace(/^\d+\.\s*|-\s*/, '').trim());
   }
 
   // ============================================
@@ -784,7 +744,7 @@ ${failedTests.map(t => `- ${t.testCase}: ${t.error || 'Assertions failed'}`).joi
       status: 200,
       statusText: 'OK',
       headers: {},
-      body: {}
+      body: {},
     };
   }
 
@@ -842,9 +802,7 @@ ${failedTests.map(t => `- ${t.testCase}: ${t.error || 'Assertions failed'}`).joi
    * حساب المتوسط
    */
   private average(numbers: number[]): number {
-    return numbers.length > 0
-      ? numbers.reduce((a, b) => a + b, 0) / numbers.length
-      : 0;
+    return numbers.length > 0 ? numbers.reduce((a, b) => a + b, 0) / numbers.length : 0;
   }
 
   /**
@@ -860,22 +818,24 @@ ${failedTests.map(t => `- ${t.testCase}: ${t.error || 'Assertions failed'}`).joi
    * Sleep helper
    */
   private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   /**
    * طباعة نتيجة test
    */
-  private printTestResult(result: TestResult): void {
+  private printTestResult(result: APITestResult): void {
     const icon = result.success ? chalk.green('✓') : chalk.red('✗');
     const time = chalk.gray(`(${result.responseTime}ms)`);
 
     console.log(`${icon} ${result.testCase} ${time}`);
 
     if (!result.success && result.assertions) {
-      result.assertions.filter(a => !a.passed).forEach(a => {
-        console.log(chalk.red(`   ${a.message}`));
-      });
+      result.assertions
+        .filter((a) => !a.passed)
+        .forEach((a) => {
+          console.log(chalk.red(`   ${a.message}`));
+        });
     }
   }
 
@@ -988,14 +948,18 @@ ${failedTests.map(t => `- ${t.testCase}: ${t.error || 'Assertions failed'}`).joi
       </tr>
     </thead>
     <tbody>
-      ${result.results.map(r => `
+      ${result.results
+        .map(
+          (r) => `
         <tr>
           <td>${r.testCase}</td>
           <td class="${r.success ? 'passed' : 'failed'}">${r.success ? 'PASS' : 'FAIL'}</td>
           <td>${r.responseTime}ms</td>
           <td>${r.status}</td>
         </tr>
-      `).join('')}
+      `
+        )
+        .join('')}
     </tbody>
   </table>
 </body>
@@ -1011,9 +975,6 @@ ${failedTests.map(t => `- ${t.testCase}: ${t.error || 'Assertions failed'}`).joi
 // Factory Function
 // ============================================
 
-export function createAPITesting(
-  projectRoot: string,
-  client: OqoolAPIClient
-): APITesting {
+export function createAPITesting(projectRoot: string, client: OqoolAPIClient): APITesting {
   return new APITesting(projectRoot, client);
 }

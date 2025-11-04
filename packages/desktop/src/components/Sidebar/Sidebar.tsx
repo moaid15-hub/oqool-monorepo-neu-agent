@@ -7,16 +7,9 @@ import {
   VscChevronRight,
   VscChevronDown,
   VscFolder,
-  VscFolderOpened
+  VscFolderOpened,
 } from 'react-icons/vsc';
-import {
-  SiTypescript,
-  SiJavascript,
-  SiCss3,
-  SiJson,
-  SiMarkdown,
-  SiHtml5
-} from 'react-icons/si';
+import { SiTypescript, SiJavascript, SiCss3, SiJson, SiMarkdown, SiHtml5 } from 'react-icons/si';
 import { VscFile } from 'react-icons/vsc';
 import './Sidebar.css';
 
@@ -83,9 +76,7 @@ export function Sidebar({ openedFolderPath, onFileSelect }: SidebarProps) {
 
   const toggleFolder = (folderName: string) => {
     setExpandedFolders((prev) =>
-      prev.includes(folderName)
-        ? prev.filter((name) => name !== folderName)
-        : [...prev, folderName]
+      prev.includes(folderName) ? prev.filter((name) => name !== folderName) : [...prev, folderName]
     );
   };
 
@@ -147,15 +138,16 @@ export function Sidebar({ openedFolderPath, onFileSelect }: SidebarProps) {
             const isExpanded = expandedFolders.includes(item.name);
             return (
               <div key={item.name}>
-                <div
-                  className="folder-item"
-                  onClick={() => toggleFolder(item.name)}
-                >
+                <div className="folder-item" onClick={() => toggleFolder(item.name)}>
                   <span className="folder-icon">
                     {isExpanded ? <VscChevronDown size={14} /> : <VscChevronRight size={14} />}
                   </span>
                   <span className="folder-emoji">
-                    {isExpanded ? <VscFolderOpened color="#dcb67a" size={16} /> : <VscFolder color="#dcb67a" size={16} />}
+                    {isExpanded ? (
+                      <VscFolderOpened color="#dcb67a" size={16} />
+                    ) : (
+                      <VscFolder color="#dcb67a" size={16} />
+                    )}
                   </span>
                   <span className="folder-name">{item.name}</span>
                 </div>
@@ -163,9 +155,7 @@ export function Sidebar({ openedFolderPath, onFileSelect }: SidebarProps) {
                   item.children.map((child) => (
                     <div
                       key={child.path}
-                      className={`file-item ${
-                        activeFile?.path === child.path ? 'active' : ''
-                      }`}
+                      className={`file-item ${activeFile?.path === child.path ? 'active' : ''}`}
                       onClick={() => handleFileClick(child)}
                     >
                       <span className="file-icon">{getFileIcon(child.name)}</span>
@@ -178,9 +168,7 @@ export function Sidebar({ openedFolderPath, onFileSelect }: SidebarProps) {
             return (
               <div
                 key={item.path}
-                className={`file-item root-file ${
-                  activeFile?.path === item.path ? 'active' : ''
-                }`}
+                className={`file-item root-file ${activeFile?.path === item.path ? 'active' : ''}`}
                 onClick={() => handleFileClick(item)}
               >
                 <span className="file-icon">{getFileIcon(item.name)}</span>

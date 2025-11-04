@@ -38,9 +38,10 @@ class ArchitectAgent {
     const response = await this.client.messages.create({
       model: this.model,
       max_tokens: 4096,
-      messages: [{
-        role: 'user',
-        content: `أنت Architect Agent متخصص في تصميم البنية.
+      messages: [
+        {
+          role: 'user',
+          content: `أنت Architect Agent متخصص في تصميم البنية.
 
 مهمتك: ${task}
 
@@ -50,8 +51,9 @@ class ArchitectAgent {
 3. **التقنيات والمكتبات**
 4. **Flow Diagram** للعمل
 
-كن واضحاً ومنظماً في التصميم.`
-      }]
+كن واضحاً ومنظماً في التصميم.`,
+        },
+      ],
     });
 
     const design = response.content[0].type === 'text' ? response.content[0].text : '';
@@ -78,9 +80,10 @@ class CoderAgent {
     const response = await this.client.messages.create({
       model: this.model,
       max_tokens: 8192,
-      messages: [{
-        role: 'user',
-        content: `أنت Coder Agent متخصص في كتابة الأكواد.
+      messages: [
+        {
+          role: 'user',
+          content: `أنت Coder Agent متخصص في كتابة الأكواد.
 
 التصميم المعطى:
 ${design}
@@ -91,8 +94,9 @@ ${design}
 - أضف تعليقات توضيحية
 - استخدم أفضل الممارسات
 
-ابدأ الآن بكتابة الكود:`
-      }]
+ابدأ الآن بكتابة الكود:`,
+        },
+      ],
     });
 
     const code = response.content[0].type === 'text' ? response.content[0].text : '';
@@ -119,9 +123,10 @@ class TesterAgent {
     const response = await this.client.messages.create({
       model: this.model,
       max_tokens: 4096,
-      messages: [{
-        role: 'user',
-        content: `أنت Tester Agent متخصص في كتابة الاختبارات.
+      messages: [
+        {
+          role: 'user',
+          content: `أنت Tester Agent متخصص في كتابة الاختبارات.
 
 الكود المعطى:
 ${code}
@@ -132,8 +137,9 @@ ${code}
 3. **Edge Cases**
 4. سيناريوهات اختبار مختلفة
 
-استخدم Jest أو Mocha أو أي framework مناسب.`
-      }]
+استخدم Jest أو Mocha أو أي framework مناسب.`,
+        },
+      ],
     });
 
     const tests = response.content[0].type === 'text' ? response.content[0].text : '';
@@ -160,9 +166,10 @@ class ReviewerAgent {
     const response = await this.client.messages.create({
       model: this.model,
       max_tokens: 4096,
-      messages: [{
-        role: 'user',
-        content: `أنت Reviewer Agent متخصص في مراجعة الأكواد.
+      messages: [
+        {
+          role: 'user',
+          content: `أنت Reviewer Agent متخصص في مراجعة الأكواد.
 
 الكود المعطى:
 ${code}
@@ -174,8 +181,9 @@ ${code}
 4. **Best Practices**
 5. **اقتراحات للتحسين**
 
-قدم مراجعة شاملة ومفصلة.`
-      }]
+قدم مراجعة شاملة ومفصلة.`,
+        },
+      ],
     });
 
     const review = response.content[0].type === 'text' ? response.content[0].text : '';
@@ -189,16 +197,18 @@ ${code}
     const response = await this.client.messages.create({
       model: this.model,
       max_tokens: 8192,
-      messages: [{
-        role: 'user',
-        content: `الكود الأصلي:
+      messages: [
+        {
+          role: 'user',
+          content: `الكود الأصلي:
 ${code}
 
 المراجعة:
 ${review}
 
-حسّن الكود بناءً على المراجعة وأعد كتابته محسناً.`
-      }]
+حسّن الكود بناءً على المراجعة وأعد كتابته محسناً.`,
+        },
+      ],
     });
 
     const improved = response.content[0].type === 'text' ? response.content[0].text : '';
@@ -223,7 +233,7 @@ export class AgentTeam {
     this.config = {
       model: 'claude-3-5-haiku-20241022',
       verbose: true,
-      ...config
+      ...config,
     };
 
     // تهيئة جميع الـ Agents
@@ -231,7 +241,7 @@ export class AgentTeam {
       architect: new ArchitectAgent(this.config.apiKey, this.config.model!),
       coder: new CoderAgent(this.config.apiKey, this.config.model!),
       tester: new TesterAgent(this.config.apiKey, this.config.model!),
-      reviewer: new ReviewerAgent(this.config.apiKey, this.config.model!)
+      reviewer: new ReviewerAgent(this.config.apiKey, this.config.model!),
     };
   }
 
@@ -288,9 +298,8 @@ export class AgentTeam {
         code,
         tests,
         review,
-        finalCode
+        finalCode,
       };
-
     } catch (error: any) {
       console.error(chalk.red(`\n❌ خطأ في التعاون: ${error.message}\n`));
       throw error;
@@ -332,30 +341,15 @@ export class AgentTeam {
     // حفظ كل جزء في ملف منفصل
     await fs.ensureDir(outputPath);
 
-    await fs.writeFile(
-      path.join(outputPath, 'design.md'),
-      result.design
-    );
+    await fs.writeFile(path.join(outputPath, 'design.md'), result.design);
 
-    await fs.writeFile(
-      path.join(outputPath, 'code.js'),
-      result.code
-    );
+    await fs.writeFile(path.join(outputPath, 'code.js'), result.code);
 
-    await fs.writeFile(
-      path.join(outputPath, 'tests.js'),
-      result.tests
-    );
+    await fs.writeFile(path.join(outputPath, 'tests.js'), result.tests);
 
-    await fs.writeFile(
-      path.join(outputPath, 'review.md'),
-      result.review
-    );
+    await fs.writeFile(path.join(outputPath, 'review.md'), result.review);
 
-    await fs.writeFile(
-      path.join(outputPath, 'final-code.js'),
-      result.finalCode
-    );
+    await fs.writeFile(path.join(outputPath, 'final-code.js'), result.finalCode);
 
     console.log(chalk.green(`\n✅ تم حفظ النتيجة في: ${outputPath}\n`));
   }

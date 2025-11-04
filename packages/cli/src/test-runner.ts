@@ -33,7 +33,7 @@ export class TestRunner {
     try {
       const packageJsonPath = join(this.workingDirectory, 'package.json');
 
-      if (!await fs.pathExists(packageJsonPath)) {
+      if (!(await fs.pathExists(packageJsonPath))) {
         return null;
       }
 
@@ -75,7 +75,7 @@ export class TestRunner {
         failed_count: 0,
         duration: 0,
         output: '',
-        errors: ['لم يتم العثور على test framework']
+        errors: ['لم يتم العثور على test framework'],
       };
     }
 
@@ -105,7 +105,7 @@ export class TestRunner {
         failed_count: 0,
         duration: Date.now() - startTime,
         output: '',
-        errors: [error.message]
+        errors: [error.message],
       };
     }
   }
@@ -153,7 +153,7 @@ export class TestRunner {
 
       const child = spawn(command, args, {
         cwd: this.workingDirectory,
-        shell: true
+        shell: true,
       });
 
       let output = '';
@@ -177,7 +177,7 @@ export class TestRunner {
         clearTimeout(timeout);
         resolve({
           output: output + errorOutput,
-          exitCode: code || 0
+          exitCode: code || 0,
         });
       });
 
@@ -199,7 +199,7 @@ export class TestRunner {
       failed_count: 0,
       duration: 0,
       output: output,
-      errors: []
+      errors: [],
     };
 
     // Jest
@@ -217,7 +217,7 @@ export class TestRunner {
       // استخراج الأخطاء
       const errorMatches = output.match(/● .+?\n\n/g);
       if (errorMatches) {
-        result.errors = errorMatches.map(e => e.trim());
+        result.errors = errorMatches.map((e) => e.trim());
       }
     }
 

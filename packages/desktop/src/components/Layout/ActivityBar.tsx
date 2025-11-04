@@ -8,10 +8,7 @@ interface ActivityBarProps {
   onActivityChange: (activity: ActivityType) => void;
 }
 
-export const ActivityBar: React.FC<ActivityBarProps> = ({
-  active,
-  onActivityChange,
-}) => {
+export const ActivityBar: React.FC<ActivityBarProps> = ({ active, onActivityChange }) => {
   const activities: Array<{ id: ActivityType; icon: string; title: string }> = [
     { id: 'explorer', icon: '📁', title: 'المستكشف' },
     { id: 'search', icon: '🔍', title: 'البحث' },

@@ -132,17 +132,14 @@ export class DocsGenerator {
   /**
    * توليد توثيق للملفات
    */
-  async generateDocs(
-    files: string[],
-    options: DocsOptions = {}
-  ): Promise<DocsResult> {
+  async generateDocs(files: string[], options: DocsOptions = {}): Promise<DocsResult> {
     const {
       format = 'markdown',
       useAI = false,
       includeExamples = true,
       level = 'detailed',
       outputDir = path.join(this.workingDir, 'docs'),
-      language = 'ar'
+      language = 'ar',
     } = options;
 
     const result: DocsResult = {
@@ -152,9 +149,9 @@ export class DocsGenerator {
         filesProcessed: 0,
         functionsDocumented: 0,
         classesDocumented: 0,
-        linesGenerated: 0
+        linesGenerated: 0,
       },
-      errors: []
+      errors: [],
     };
 
     try {
@@ -164,10 +161,12 @@ export class DocsGenerator {
       // معالجة كل ملف
       for (const file of files) {
         try {
-          const fileDoc = await this.generateFileDoc(
-            file,
-            { useAI, includeExamples, level, language }
-          );
+          const fileDoc = await this.generateFileDoc(file, {
+            useAI,
+            includeExamples,
+            level,
+            language,
+          });
           result.files.push(fileDoc);
           result.stats.filesProcessed++;
           result.stats.functionsDocumented += fileDoc.functions.length;
@@ -192,7 +191,6 @@ export class DocsGenerator {
       }
 
       result.success = (result.errors?.length || 0) === 0;
-
     } catch (error) {
       result.success = false;
       result.errors?.push(`Fatal error: ${error}`);
@@ -218,9 +216,10 @@ export class DocsGenerator {
       classes: [],
       exports: this.extractExports(content),
       imports: this.extractImports(content),
-      overview: options.level === 'comprehensive'
-        ? await this.generateOverview(filePath, analysis, options)
-        : undefined
+      overview:
+        options.level === 'comprehensive'
+          ? await this.generateOverview(filePath, analysis, options)
+          : undefined,
     };
 
     // توثيق الدوال
@@ -256,9 +255,10 @@ export class DocsGenerator {
 
     if (options.useAI && this.apiClient) {
       // استخدام AI لتوليد وصف ذكي
-      const prompt = options.language === 'ar'
-        ? `اكتب وصفاً مختصراً لملف ${fileName} بناءً على محتواه:\n${content.slice(0, 1000)}`
-        : `Write a brief description for file ${fileName} based on its content:\n${content.slice(0, 1000)}`;
+      const prompt =
+        options.language === 'ar'
+          ? `اكتب وصفاً مختصراً لملف ${fileName} بناءً على محتواه:\n${content.slice(0, 1000)}`
+          : `Write a brief description for file ${fileName} based on its content:\n${content.slice(0, 1000)}`;
 
       try {
         // استخدام التحليل الثابت بدلاً من AI
@@ -274,10 +274,15 @@ export class DocsGenerator {
   /**
    * توليد وصف ثابت للملف
    */
-  private generateStaticFileDescription(fileName: string, content: string, language: 'ar' | 'en'): string {
+  private generateStaticFileDescription(
+    fileName: string,
+    content: string,
+    language: 'ar' | 'en'
+  ): string {
     const hasExports = content.includes('export');
     const hasClasses = content.includes('class ');
-    const hasFunctions = content.includes('function ') || content.includes('const ') && content.includes('=>');
+    const hasFunctions =
+      content.includes('function ') || (content.includes('const ') && content.includes('=>'));
 
     if (language === 'ar') {
       if (hasClasses && hasFunctions) {
@@ -308,8 +313,8 @@ export class DocsGenerator {
     if (match) {
       return match[1]
         .split('\n')
-        .map(line => line.trim().replace(/^\*\s?/, ''))
-        .filter(line => line.length > 0)
+        .map((line) => line.trim().replace(/^\*\s?/, ''))
+        .filter((line) => line.length > 0)
         .join(' ');
     }
     return null;
@@ -337,7 +342,8 @@ ${options.language === 'ar' ? 'الإحصائيات' : 'Statistics'}:
    */
   private extractExports(content: string): string[] {
     const exports: string[] = [];
-    const exportRegex = /export\s+(?:default\s+)?(?:class|function|const|let|var|interface|type)\s+(\w+)/g;
+    const exportRegex =
+      /export\s+(?:default\s+)?(?:class|function|const|let|var|interface|type)\s+(\w+)/g;
     let match;
     while ((match = exportRegex.exec(content)) !== null) {
       exports.push(match[1]);
@@ -371,7 +377,7 @@ ${options.language === 'ar' ? 'الإحصائيات' : 'Statistics'}:
       description: await this.generateFunctionDescription(func, content, options),
       params: this.generateParams(func, options),
       returns: this.generateReturns(func, options),
-      examples: options.includeExamples ? this.generateExamples(func, options) : []
+      examples: options.includeExamples ? this.generateExamples(func, options) : [],
     };
 
     if (options.level === 'comprehensive') {
@@ -449,9 +455,9 @@ ${options.language === 'ar' ? 'الإحصائيات' : 'Statistics'}:
     if (match) {
       return match[1]
         .split('\n')
-        .map(line => line.trim().replace(/^\*\s?/, ''))
-        .filter(line => !line.startsWith('@'))
-        .filter(line => line.length > 0)
+        .map((line) => line.trim().replace(/^\*\s?/, ''))
+        .filter((line) => !line.startsWith('@'))
+        .filter((line) => line.length > 0)
         .join(' ');
     }
     return null;
@@ -460,46 +466,37 @@ ${options.language === 'ar' ? 'الإحصائيات' : 'Statistics'}:
   /**
    * توليد معلومات المعاملات
    */
-  private generateParams(
-    func: FunctionInfo,
-    options: Pick<DocsOptions, 'language'>
-  ): ParamDoc[] {
-    return func.params.map(paramName => ({
+  private generateParams(func: FunctionInfo, options: Pick<DocsOptions, 'language'>): ParamDoc[] {
+    return func.params.map((paramName) => ({
       name: paramName,
       type: 'any',
-      description: options.language === 'ar'
-        ? `معامل ${paramName}`
-        : `Parameter ${paramName}`,
-      optional: false
+      description: options.language === 'ar' ? `معامل ${paramName}` : `Parameter ${paramName}`,
+      optional: false,
     }));
   }
 
   /**
    * توليد معلومات القيمة المرجعة
    */
-  private generateReturns(
-    func: FunctionInfo,
-    options: Pick<DocsOptions, 'language'>
-  ): ReturnDoc {
+  private generateReturns(func: FunctionInfo, options: Pick<DocsOptions, 'language'>): ReturnDoc {
     const returnType = func.async ? 'Promise<any>' : 'any';
     return {
       type: returnType,
-      description: options.language === 'ar'
-        ? `يرجع قيمة من نوع ${returnType}`
-        : `Returns a value of type ${returnType}`
+      description:
+        options.language === 'ar'
+          ? `يرجع قيمة من نوع ${returnType}`
+          : `Returns a value of type ${returnType}`,
     };
   }
 
   /**
    * توليد أمثلة
    */
-  private generateExamples(
-    func: FunctionInfo,
-    options: Pick<DocsOptions, 'language'>
-  ): string[] {
-    const example = options.language === 'ar'
-      ? `// مثال استخدام\nconst result = ${func.name}(${func.params.join(', ')});`
-      : `// Usage example\nconst result = ${func.name}(${func.params.join(', ')});`;
+  private generateExamples(func: FunctionInfo, options: Pick<DocsOptions, 'language'>): string[] {
+    const example =
+      options.language === 'ar'
+        ? `// مثال استخدام\nconst result = ${func.name}(${func.params.join(', ')});`
+        : `// Usage example\nconst result = ${func.name}(${func.params.join(', ')});`;
 
     return [example];
   }
@@ -534,7 +531,7 @@ ${options.language === 'ar' ? 'الإحصائيات' : 'Statistics'}:
       description: await this.generateClassDescription(cls, content, options),
       properties: this.generateProperties(cls, options),
       methods: [],
-      examples: options.includeExamples ? this.generateClassExamples(cls, options) : []
+      examples: options.includeExamples ? this.generateClassExamples(cls, options) : [],
     };
 
     // توثيق الميثودز (as simple function docs)
@@ -544,7 +541,7 @@ ${options.language === 'ar' ? 'الإحصائيات' : 'Statistics'}:
         description: options.language === 'ar' ? `ميثود ${methodName}` : `Method ${methodName}`,
         params: [],
         returns: { type: 'any', description: 'Return value' },
-        examples: []
+        examples: [],
       };
       doc.methods.push(methodDoc);
     }
@@ -605,26 +602,22 @@ ${options.language === 'ar' ? 'الإحصائيات' : 'Statistics'}:
     cls: ClassInfo,
     options: Pick<DocsOptions, 'language'>
   ): PropertyDoc[] {
-    return cls.properties.map(propName => ({
+    return cls.properties.map((propName) => ({
       name: propName,
       type: 'any',
-      description: options.language === 'ar'
-        ? `خاصية ${propName}`
-        : `Property ${propName}`,
-      access: 'public' as 'public' | 'private' | 'protected'
+      description: options.language === 'ar' ? `خاصية ${propName}` : `Property ${propName}`,
+      access: 'public' as 'public' | 'private' | 'protected',
     }));
   }
 
   /**
    * توليد أمثلة للكلاس
    */
-  private generateClassExamples(
-    cls: ClassInfo,
-    options: Pick<DocsOptions, 'language'>
-  ): string[] {
-    const example = options.language === 'ar'
-      ? `// إنشاء كائن من ${cls.name}\nconst instance = new ${cls.name}();\n// استخدام الكائن\nawait instance.someMethod();`
-      : `// Create instance of ${cls.name}\nconst instance = new ${cls.name}();\n// Use the instance\nawait instance.someMethod();`;
+  private generateClassExamples(cls: ClassInfo, options: Pick<DocsOptions, 'language'>): string[] {
+    const example =
+      options.language === 'ar'
+        ? `// إنشاء كائن من ${cls.name}\nconst instance = new ${cls.name}();\n// استخدام الكائن\nawait instance.someMethod();`
+        : `// Create instance of ${cls.name}\nconst instance = new ${cls.name}();\n// Use the instance\nawait instance.someMethod();`;
 
     return [example];
   }
@@ -632,10 +625,7 @@ ${options.language === 'ar' ? 'الإحصائيات' : 'Statistics'}:
   /**
    * توليد مثال استخدام
    */
-  private generateUsageExample(
-    cls: ClassInfo,
-    options: Pick<DocsOptions, 'language'>
-  ): string {
+  private generateUsageExample(cls: ClassInfo, options: Pick<DocsOptions, 'language'>): string {
     const firstMethod = cls.methods[0];
     if (options.language === 'ar') {
       return `
@@ -658,13 +648,12 @@ ${firstMethod ? `const result = await ${cls.name.toLowerCase()}.${firstMethod}()
     outputDir: string,
     language: 'ar' | 'en'
   ): Promise<string> {
-    let markdown = language === 'ar'
-      ? '# توثيق المشروع\n\n'
-      : '# Project Documentation\n\n';
+    let markdown = language === 'ar' ? '# توثيق المشروع\n\n' : '# Project Documentation\n\n';
 
-    markdown += language === 'ar'
-      ? `تم التوليد تلقائياً في: ${new Date().toLocaleString('ar')}\n\n`
-      : `Generated automatically on: ${new Date().toLocaleString('en')}\n\n`;
+    markdown +=
+      language === 'ar'
+        ? `تم التوليد تلقائياً في: ${new Date().toLocaleString('ar')}\n\n`
+        : `Generated automatically on: ${new Date().toLocaleString('en')}\n\n`;
 
     // جدول المحتويات
     markdown += language === 'ar' ? '## جدول المحتويات\n\n' : '## Table of Contents\n\n';
@@ -854,10 +843,7 @@ ${firstMethod ? `const result = await ${cls.name.toLowerCase()}.${firstMethod}()
   /**
    * توليد توثيق JSON
    */
-  private async generateJSONDocs(
-    files: FileDoc[],
-    outputDir: string
-  ): Promise<string> {
+  private async generateJSONDocs(files: FileDoc[], outputDir: string): Promise<string> {
     const outputPath = path.join(outputDir, 'docs.json');
     await fs.writeFile(outputPath, JSON.stringify(files, null, 2), 'utf-8');
     return outputPath;
@@ -881,7 +867,7 @@ ${firstMethod ? `const result = await ${cls.name.toLowerCase()}.${firstMethod}()
     const result = {
       success: true,
       filesModified: 0,
-      errors: [] as string[]
+      errors: [] as string[],
     };
 
     for (const file of files) {
@@ -915,10 +901,7 @@ ${firstMethod ? `const result = await ${cls.name.toLowerCase()}.${firstMethod}()
   /**
    * توليد تعليق JSDoc
    */
-  private generateJSDocComment(
-    func: FunctionInfo,
-    options: Pick<DocsOptions, 'language'>
-  ): string {
+  private generateJSDocComment(func: FunctionInfo, options: Pick<DocsOptions, 'language'>): string {
     const lang = options.language || 'ar';
     let jsdoc = '/**\n';
     jsdoc += ` * ${this.inferPurpose(func.name, lang)}\n`;
@@ -938,10 +921,7 @@ ${firstMethod ? `const result = await ${cls.name.toLowerCase()}.${firstMethod}()
   /**
    * توليد JSDoc للكلاس
    */
-  private generateClassJSDoc(
-    cls: ClassInfo,
-    options: Pick<DocsOptions, 'language'>
-  ): string {
+  private generateClassJSDoc(cls: ClassInfo, options: Pick<DocsOptions, 'language'>): string {
     const lang = options.language || 'ar';
     let jsdoc = '/**\n';
     jsdoc += ` * ${this.inferClassPurpose(cls.name, lang)}\n`;
@@ -958,12 +938,15 @@ ${firstMethod ? `const result = await ${cls.name.toLowerCase()}.${firstMethod}()
     jsdoc: string,
     type: 'function' | 'class' = 'function'
   ): string {
-    const pattern = type === 'function'
-      ? new RegExp(`(\\n|^)(export\\s+)?(async\\s+)?function\\s+${name}`, 'g')
-      : new RegExp(`(\\n|^)(export\\s+)?class\\s+${name}`, 'g');
+    const pattern =
+      type === 'function'
+        ? new RegExp(`(\\n|^)(export\\s+)?(async\\s+)?function\\s+${name}`, 'g')
+        : new RegExp(`(\\n|^)(export\\s+)?class\\s+${name}`, 'g');
 
     // تحقق إذا كان JSDoc موجود بالفعل
-    const beforePattern = new RegExp(`\\/\\*\\*[\\s\\S]*?\\*\\/\\s*\\n(export\\s+)?(async\\s+)?(function|class)\\s+${name}`);
+    const beforePattern = new RegExp(
+      `\\/\\*\\*[\\s\\S]*?\\*\\/\\s*\\n(export\\s+)?(async\\s+)?(function|class)\\s+${name}`
+    );
     if (beforePattern.test(content)) {
       return content; // JSDoc موجود بالفعل
     }

@@ -13,7 +13,15 @@ import { OqoolAPIClient } from './api-client.js';
 export interface AIPersonality {
   id: string;
   name: string;
-  role: 'architect' | 'developer' | 'reviewer' | 'tester' | 'optimizer' | 'security' | 'documenter' | 'mentor';
+  role:
+    | 'architect'
+    | 'developer'
+    | 'reviewer'
+    | 'tester'
+    | 'optimizer'
+    | 'security'
+    | 'documenter'
+    | 'mentor';
   personality: string;
   expertise: string[];
   strengths: string[];
@@ -106,7 +114,7 @@ export class MultiPersonalityAITeam {
     await fs.ensureDir(this.teamsPath);
 
     // إنشاء الشخصيات الافتراضية إذا لم تكن موجودة
-    if (!await this.hasDefaultPersonalities()) {
+    if (!(await this.hasDefaultPersonalities())) {
       await this.createDefaultPersonalities();
     }
   }
@@ -139,8 +147,8 @@ export class MultiPersonalityAITeam {
           tasksCompleted: 0,
           successRate: 0,
           averageRating: 0,
-          lastActive: new Date().toISOString()
-        }
+          lastActive: new Date().toISOString(),
+        },
       },
       {
         id: 'developer-sarah',
@@ -157,8 +165,8 @@ export class MultiPersonalityAITeam {
           tasksCompleted: 0,
           successRate: 0,
           averageRating: 0,
-          lastActive: new Date().toISOString()
-        }
+          lastActive: new Date().toISOString(),
+        },
       },
       {
         id: 'reviewer-mike',
@@ -175,8 +183,8 @@ export class MultiPersonalityAITeam {
           tasksCompleted: 0,
           successRate: 0,
           averageRating: 0,
-          lastActive: new Date().toISOString()
-        }
+          lastActive: new Date().toISOString(),
+        },
       },
       {
         id: 'security-guardian',
@@ -193,8 +201,8 @@ export class MultiPersonalityAITeam {
           tasksCompleted: 0,
           successRate: 0,
           averageRating: 0,
-          lastActive: new Date().toISOString()
-        }
+          lastActive: new Date().toISOString(),
+        },
       },
       {
         id: 'tester-olivia',
@@ -211,9 +219,9 @@ export class MultiPersonalityAITeam {
           tasksCompleted: 0,
           successRate: 0,
           averageRating: 0,
-          lastActive: new Date().toISOString()
-        }
-      }
+          lastActive: new Date().toISOString(),
+        },
+      },
     ];
 
     for (const personality of defaultPersonalities) {
@@ -248,13 +256,13 @@ export class MultiPersonalityAITeam {
           type: 'checkbox',
           name: 'selectedPersonalities',
           message: 'اختر الشخصيات للفريق:',
-          choices: availablePersonalities.map(p => ({
+          choices: availablePersonalities.map((p) => ({
             name: `${p.name} (${p.role}) - ${p.bio}`,
             value: p.id,
-            checked: p.active
+            checked: p.active,
           })),
-          validate: (input) => input.length >= 2 || 'يجب اختيار شخصيتين على الأقل'
-        }
+          validate: (input) => input.length >= 2 || 'يجب اختيار شخصيتين على الأقل',
+        },
       ]);
 
       // اختيار القائد
@@ -264,13 +272,13 @@ export class MultiPersonalityAITeam {
           name: 'leader',
           message: 'اختر قائد الفريق:',
           choices: selectedPersonalities.map((id: string) => {
-            const personality = availablePersonalities.find(p => p.id === id);
+            const personality = availablePersonalities.find((p) => p.id === id);
             return {
               name: `${personality?.name} (${personality?.role})`,
-              value: id
+              value: id,
             };
-          })
-        }
+          }),
+        },
       ]);
 
       // إنشاء الفريق
@@ -278,7 +286,7 @@ export class MultiPersonalityAITeam {
         id: this.generateId(),
         name,
         description,
-        members: availablePersonalities.filter(p => selectedPersonalities.includes(p.id)),
+        members: availablePersonalities.filter((p) => selectedPersonalities.includes(p.id)),
         leader,
         projectType,
         complexity,
@@ -291,15 +299,15 @@ export class MultiPersonalityAITeam {
           creativity: 0,
           reliability: 0,
           tasksCompleted: 0,
-          averageTime: 0
+          averageTime: 0,
         },
         preferences: {
           communication: 'hybrid',
           decisionMaking: 'leader',
           codeStyle: 'adaptive',
           testingStrategy: 'balanced',
-          documentationLevel: 'standard'
-        }
+          documentationLevel: 'standard',
+        },
       };
 
       await this.saveTeam(team);
@@ -307,11 +315,10 @@ export class MultiPersonalityAITeam {
       spinner.succeed('تم إنشاء فريق AI بنجاح!');
       console.log(chalk.green(`\n🎭 فريق: ${name}`));
       console.log(chalk.cyan(`   الأعضاء: ${team.members.length} شخصية`));
-      console.log(chalk.cyan(`   القائد: ${team.members.find(m => m.id === leader)?.name}`));
+      console.log(chalk.cyan(`   القائد: ${team.members.find((m) => m.id === leader)?.name}`));
       console.log(chalk.gray(`   المعرف: ${team.id}\n`));
 
       return team;
-
     } catch (error) {
       spinner.fail('فشل في إنشاء الفريق');
       throw error;
@@ -340,7 +347,7 @@ export class MultiPersonalityAITeam {
         topic,
         messages: [],
         status: 'active',
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
       // إضافة الرسالة الأولى من المستخدم
@@ -352,12 +359,17 @@ export class MultiPersonalityAITeam {
         timestamp: new Date().toISOString(),
         type: 'proposal',
         confidence: 1.0,
-        influence: 1.0
+        influence: 1.0,
       });
 
       // بدء النقاش مع كل شخصية
       for (const personality of team.members) {
-        const response = await this.getPersonalityResponse(personality, initialPrompt, team, discussion);
+        const response = await this.getPersonalityResponse(
+          personality,
+          initialPrompt,
+          team,
+          discussion
+        );
 
         discussion.messages.push({
           id: this.generateId(),
@@ -367,7 +379,7 @@ export class MultiPersonalityAITeam {
           timestamp: new Date().toISOString(),
           type: response.type,
           confidence: response.confidence,
-          influence: this.calculateInfluence(personality, team)
+          influence: this.calculateInfluence(personality, team),
         });
 
         // انتظار قصير للمحادثة الطبيعية
@@ -387,7 +399,6 @@ export class MultiPersonalityAITeam {
       this.displayDiscussionSummary(discussion);
 
       return discussion;
-
     } catch (error) {
       spinner.fail('فشل في بدء النقاش');
       throw error;
@@ -403,7 +414,6 @@ export class MultiPersonalityAITeam {
     team: AITeam,
     discussion: TeamDiscussion
   ): Promise<{ message: string; type: TeamMessage['type']; confidence: number }> {
-
     // بناء السياق للشخصية
     const context = this.buildPersonalityContext(personality, team, discussion);
 
@@ -420,12 +430,12 @@ ${personality.personality}
 
 ${context}
 
-رد بطريقة تتناسب مع شخصيتك ودورك في الفريق. كن مفيداً ومبنياً للفريق.`
+رد بطريقة تتناسب مع شخصيتك ودورك في الفريق. كن مفيداً ومبنياً للفريق.`,
       },
       {
         role: 'user' as const,
-        content: prompt
-      }
+        content: prompt,
+      },
     ];
 
     const response = await this.apiClient.sendChatMessage(messages);
@@ -433,18 +443,22 @@ ${context}
     return {
       message: response.success ? response.message : 'أواجه صعوبة في الرد الآن',
       type: this.determineMessageType(response.message, personality),
-      confidence: this.calculateConfidence(response.message, personality)
+      confidence: this.calculateConfidence(response.message, personality),
     };
   }
 
   /**
    * بناء سياق الشخصية
    */
-  private buildPersonalityContext(personality: AIPersonality, team: AITeam, discussion: TeamDiscussion): string {
+  private buildPersonalityContext(
+    personality: AIPersonality,
+    team: AITeam,
+    discussion: TeamDiscussion
+  ): string {
     let context = `الفريق: ${team.name}\n`;
     context += `الموضوع: ${discussion.topic}\n`;
-    context += `الأعضاء: ${team.members.map(m => m.name).join(', ')}\n`;
-    context += `القائد: ${team.members.find(m => m.id === team.leader)?.name}\n\n`;
+    context += `الأعضاء: ${team.members.map((m) => m.name).join(', ')}\n`;
+    context += `القائد: ${team.members.find((m) => m.id === team.leader)?.name}\n\n`;
 
     // إضافة رسائل سابقة من الفريق
     if (discussion.messages.length > 1) {
@@ -534,7 +548,7 @@ ${context}
   private displayDiscussionSummary(discussion: TeamDiscussion): void {
     console.log(chalk.green('\n📋 ملخص النقاش:\n'));
 
-    const teamMessages = discussion.messages.filter(m => m.personalityId !== 'user');
+    const teamMessages = discussion.messages.filter((m) => m.personalityId !== 'user');
     const totalConfidence = teamMessages.reduce((sum, m) => sum + m.confidence, 0);
     const averageConfidence = teamMessages.length > 0 ? totalConfidence / teamMessages.length : 0;
 
@@ -544,8 +558,14 @@ ${context}
 
     console.log(chalk.cyan('\n   الآراء:'));
     for (const message of teamMessages.slice(0, 3)) {
-      const confidenceBar = '█'.repeat(Math.floor(message.confidence * 10)) + '░'.repeat(10 - Math.floor(message.confidence * 10));
-      console.log(chalk.gray(`     ${message.personalityName}: ${confidenceBar} ${(message.confidence * 100).toFixed(0)}%`));
+      const confidenceBar =
+        '█'.repeat(Math.floor(message.confidence * 10)) +
+        '░'.repeat(10 - Math.floor(message.confidence * 10));
+      console.log(
+        chalk.gray(
+          `     ${message.personalityName}: ${confidenceBar} ${(message.confidence * 100).toFixed(0)}%`
+        )
+      );
       console.log(chalk.white(`       ${message.message.substring(0, 100)}...`));
     }
 
@@ -631,7 +651,7 @@ ${context}
       optimizer: 'تحسين الأداء والكفاءة',
       security: 'تأمين الكود وكشف الثغرات',
       documenter: 'كتابة التوثيق والشرح',
-      mentor: 'الإرشاد والتدريب'
+      mentor: 'الإرشاد والتدريب',
     };
     return descriptions[role] || 'مساهم في الفريق';
   }
@@ -640,7 +660,7 @@ ${context}
    * تأخير
    */
   private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   /**
@@ -669,12 +689,16 @@ ${context}
     teams.sort((a, b) => new Date(b.lastUsed).getTime() - new Date(a.lastUsed).getTime());
 
     for (const team of teams) {
-      const leaderName = team.members.find(m => m.id === team.leader)?.name || 'غير محدد';
+      const leaderName = team.members.find((m) => m.id === team.leader)?.name || 'غير محدد';
       const membersCount = team.members.length;
 
       console.log(chalk.cyan(`📋 ${team.name}`));
       console.log(chalk.white(`   ${team.description}`));
-      console.log(chalk.gray(`   القائد: ${leaderName} | الأعضاء: ${membersCount} | المشروع: ${team.projectType}`));
+      console.log(
+        chalk.gray(
+          `   القائد: ${leaderName} | الأعضاء: ${membersCount} | المشروع: ${team.projectType}`
+        )
+      );
       console.log(chalk.gray(`   آخر استخدام: ${new Date(team.lastUsed).toLocaleString('ar')}`));
       console.log('');
     }
@@ -718,7 +742,9 @@ ${context}
 
       console.log(chalk.cyan(`👤 ${personality.name}`));
       console.log(chalk.white(`   ${roleName}`));
-      console.log(chalk.gray(`   خبرة: ${expertise}${personality.expertise.length > 3 ? '...' : ''}`));
+      console.log(
+        chalk.gray(`   خبرة: ${expertise}${personality.expertise.length > 3 ? '...' : ''}`)
+      );
       console.log(chalk.gray(`   أسلوب: ${personality.communicationStyle} | ${status}`));
       console.log(chalk.white(`   ${personality.bio}`));
       console.log('');
@@ -727,6 +753,9 @@ ${context}
 }
 
 // مصنع لإنشاء instance
-export function createMultiPersonalityAITeam(apiClient: OqoolAPIClient, workingDir?: string): MultiPersonalityAITeam {
+export function createMultiPersonalityAITeam(
+  apiClient: OqoolAPIClient,
+  workingDir?: string
+): MultiPersonalityAITeam {
   return new MultiPersonalityAITeam(apiClient, workingDir);
 }

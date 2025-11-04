@@ -49,7 +49,10 @@ export class FullStackIntegratorAgent {
 
   private provider: AIProvider;
 
-  constructor(config: { deepseek?: string; claude?: string; openai?: string }, provider: AIProvider = 'auto') {
+  constructor(
+    config: { deepseek?: string; claude?: string; openai?: string },
+    provider: AIProvider = 'auto'
+  ) {
     const hasValidClaude = config.claude?.startsWith('sk-ant-');
 
     this.aiAdapter = new UnifiedAIAdapter({
@@ -78,7 +81,6 @@ export class FullStackIntegratorAgent {
     };
     features: string[];
   }): Promise<IntegrationResult> {
-
     // 1. Create API client
     const apiClient = await this.createAPIClient(specification);
 
@@ -111,7 +113,7 @@ export class FullStackIntegratorAgent {
       errorBoundary,
       loadingStates,
       typeDefinitions,
-      envVariables
+      envVariables,
     };
   }
 
@@ -138,12 +140,16 @@ Requirements:
 7. Request/Response logging (dev only)
 8. Type-safe (if TypeScript)
 
-${hasAuth ? `
+${
+  hasAuth
+    ? `
 Authentication flow:
 - Add Authorization header with token
 - Handle 401 (refresh token or redirect to login)
 - Store token in localStorage/cookies
-` : ''}
+`
+    : ''
+}
 
 Output format (JSON):
 \`\`\`json
@@ -170,7 +176,7 @@ Use modern best practices!
       return {
         baseUrl: spec.backend.baseUrl,
         code: '',
-        interceptors: []
+        interceptors: [],
       };
     }
   }
@@ -180,7 +186,7 @@ Use modern best practices!
   // ============================================
   private async generateHooks(spec: any): Promise<any[]> {
     const framework = spec.frontend.framework;
-    
+
     // Only generate hooks for React-based frameworks
     if (!['react', 'nextjs'].includes(framework.toLowerCase())) {
       return [];
@@ -240,12 +246,9 @@ Make them reusable and production-ready!
     const integrations: APIIntegration[] = [];
 
     // Generate integration for each endpoint
-    for (const endpoint of spec.backend.endpoints.slice(0, 10)) { // Limit to 10
-      const integration = await this.createSingleIntegration(
-        endpoint,
-        spec.frontend,
-        spec.backend
-      );
+    for (const endpoint of spec.backend.endpoints.slice(0, 10)) {
+      // Limit to 10
+      const integration = await this.createSingleIntegration(endpoint, spec.frontend, spec.backend);
       if (integration) {
         integrations.push(integration);
       }
@@ -494,10 +497,7 @@ Output format (TypeScript):
   // List environment variables
   // ============================================
   private listEnvVariables(spec: any): string[] {
-    const vars = [
-      `VITE_API_URL=${spec.backend.baseUrl}`,
-      'VITE_API_TIMEOUT=10000'
-    ];
+    const vars = [`VITE_API_URL=${spec.backend.baseUrl}`, 'VITE_API_TIMEOUT=10000'];
 
     if (spec.backend.authentication !== 'None') {
       vars.push('VITE_AUTH_STORAGE_KEY=auth_token');

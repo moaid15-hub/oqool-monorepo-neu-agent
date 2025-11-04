@@ -2,14 +2,7 @@ import { useRef } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import { useEditorStore } from '../../stores/editorStore';
 import { VscClose } from 'react-icons/vsc';
-import { 
-  SiTypescript, 
-  SiJavascript, 
-  SiCss3, 
-  SiJson, 
-  SiMarkdown,
-  SiHtml5
-} from 'react-icons/si';
+import { SiTypescript, SiJavascript, SiCss3, SiJson, SiMarkdown, SiHtml5 } from 'react-icons/si';
 import { VscFile } from 'react-icons/vsc';
 import './Editor.css';
 
@@ -31,7 +24,7 @@ export function Editor() {
     }
   };
 
-  const handleTabClick = (file: typeof files[0]) => {
+  const handleTabClick = (file: (typeof files)[0]) => {
     openFile(file);
   };
 
@@ -79,7 +72,7 @@ export function Editor() {
   }
 
   const getBreadcrumbs = () => {
-    if (!activeFile) return [];
+    if (!activeFile) {return [];}
     const parts = activeFile.path.split('/').filter(Boolean);
     return parts;
   };

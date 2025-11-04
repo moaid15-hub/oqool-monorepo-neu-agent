@@ -21,7 +21,7 @@ const getFileIcon = (fileName: string, isFolder: boolean, isOpen?: boolean): str
   }
 
   const extension = fileName.split('.').pop()?.toLowerCase();
-  
+
   switch (extension) {
     case 'tsx':
     case 'jsx':
@@ -96,7 +96,7 @@ const formatDate = (date?: Date): string => {
   const now = new Date();
   const diff = now.getTime() - date.getTime();
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  
+
   if (days === 0) return 'اليوم';
   if (days === 1) return 'أمس';
   if (days < 7) return `${days} أيام`;
@@ -106,71 +106,203 @@ const formatDate = (date?: Date): string => {
 const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
   // بيانات الملفات المحسنة مع معلومات إضافية
   const [files, setFiles] = useState<FileItem[]>([
-    { 
-      name: 'src', 
+    {
+      name: 'src',
       type: 'folder',
       path: 'src',
       children: [
-        { 
-          name: 'components', 
+        {
+          name: 'components',
           type: 'folder',
           path: 'src/components',
           children: [
-            { name: 'Editor.tsx', type: 'file', path: 'src/components/Editor.tsx', size: 8542, modified: new Date('2024-03-15') },
-            { name: 'FileTree.tsx', type: 'file', path: 'src/components/FileTree.tsx', size: 6234, modified: new Date('2024-03-14') },
-            { name: 'Terminal.tsx', type: 'file', path: 'src/components/Terminal.tsx', size: 4123, modified: new Date('2024-03-13') },
-            { name: 'Header.tsx', type: 'file', path: 'src/components/Header.tsx', size: 7890, modified: new Date('2024-03-16') },
-            { name: 'Sidebar.tsx', type: 'file', path: 'src/components/Sidebar.tsx', size: 3456, modified: new Date('2024-03-12') }
-          ]
+            {
+              name: 'Editor.tsx',
+              type: 'file',
+              path: 'src/components/Editor.tsx',
+              size: 8542,
+              modified: new Date('2024-03-15'),
+            },
+            {
+              name: 'FileTree.tsx',
+              type: 'file',
+              path: 'src/components/FileTree.tsx',
+              size: 6234,
+              modified: new Date('2024-03-14'),
+            },
+            {
+              name: 'Terminal.tsx',
+              type: 'file',
+              path: 'src/components/Terminal.tsx',
+              size: 4123,
+              modified: new Date('2024-03-13'),
+            },
+            {
+              name: 'Header.tsx',
+              type: 'file',
+              path: 'src/components/Header.tsx',
+              size: 7890,
+              modified: new Date('2024-03-16'),
+            },
+            {
+              name: 'Sidebar.tsx',
+              type: 'file',
+              path: 'src/components/Sidebar.tsx',
+              size: 3456,
+              modified: new Date('2024-03-12'),
+            },
+          ],
         },
-        { 
-          name: 'hooks', 
+        {
+          name: 'hooks',
           type: 'folder',
           path: 'src/hooks',
           children: [
-            { name: 'useNotifications.ts', type: 'file', path: 'src/hooks/useNotifications.ts', size: 2341, modified: new Date('2024-03-11') },
-            { name: 'useTheme.ts', type: 'file', path: 'src/hooks/useTheme.ts', size: 1876, modified: new Date('2024-03-10') }
-          ]
+            {
+              name: 'useNotifications.ts',
+              type: 'file',
+              path: 'src/hooks/useNotifications.ts',
+              size: 2341,
+              modified: new Date('2024-03-11'),
+            },
+            {
+              name: 'useTheme.ts',
+              type: 'file',
+              path: 'src/hooks/useTheme.ts',
+              size: 1876,
+              modified: new Date('2024-03-10'),
+            },
+          ],
         },
-        { 
-          name: 'styles', 
+        {
+          name: 'styles',
           type: 'folder',
           path: 'src/styles',
           children: [
-            { name: 'index.css', type: 'file', path: 'src/styles/index.css', size: 15234, modified: new Date('2024-03-16') },
-            { name: 'components.css', type: 'file', path: 'src/styles/components.css', size: 8901, modified: new Date('2024-03-15') },
-            { name: 'variables.css', type: 'file', path: 'src/styles/variables.css', size: 3421, modified: new Date('2024-03-14') }
-          ]
+            {
+              name: 'index.css',
+              type: 'file',
+              path: 'src/styles/index.css',
+              size: 15234,
+              modified: new Date('2024-03-16'),
+            },
+            {
+              name: 'components.css',
+              type: 'file',
+              path: 'src/styles/components.css',
+              size: 8901,
+              modified: new Date('2024-03-15'),
+            },
+            {
+              name: 'variables.css',
+              type: 'file',
+              path: 'src/styles/variables.css',
+              size: 3421,
+              modified: new Date('2024-03-14'),
+            },
+          ],
         },
-        { name: 'App.tsx', type: 'file', path: 'src/App.tsx', size: 1234, modified: new Date('2024-03-16') },
-        { name: 'main.tsx', type: 'file', path: 'src/main.tsx', size: 567, modified: new Date('2024-03-15') },
-        { name: 'utils.ts', type: 'file', path: 'src/utils.ts', size: 2890, modified: new Date('2024-03-13') },
-        { name: 'types.ts', type: 'file', path: 'src/types.ts', size: 1567, modified: new Date('2024-03-12') }
-      ]
+        {
+          name: 'App.tsx',
+          type: 'file',
+          path: 'src/App.tsx',
+          size: 1234,
+          modified: new Date('2024-03-16'),
+        },
+        {
+          name: 'main.tsx',
+          type: 'file',
+          path: 'src/main.tsx',
+          size: 567,
+          modified: new Date('2024-03-15'),
+        },
+        {
+          name: 'utils.ts',
+          type: 'file',
+          path: 'src/utils.ts',
+          size: 2890,
+          modified: new Date('2024-03-13'),
+        },
+        {
+          name: 'types.ts',
+          type: 'file',
+          path: 'src/types.ts',
+          size: 1567,
+          modified: new Date('2024-03-12'),
+        },
+      ],
     },
-    { 
-      name: 'public', 
+    {
+      name: 'public',
       type: 'folder',
       path: 'public',
       children: [
-        { name: 'index.html', type: 'file', path: 'public/index.html', size: 891, modified: new Date('2024-03-10') },
-        { name: 'favicon.ico', type: 'file', path: 'public/favicon.ico', size: 15086, modified: new Date('2024-03-09') },
-        { name: 'logo192.png', type: 'file', path: 'public/logo192.png', size: 5347, modified: new Date('2024-03-09') }
-      ]
+        {
+          name: 'index.html',
+          type: 'file',
+          path: 'public/index.html',
+          size: 891,
+          modified: new Date('2024-03-10'),
+        },
+        {
+          name: 'favicon.ico',
+          type: 'file',
+          path: 'public/favicon.ico',
+          size: 15086,
+          modified: new Date('2024-03-09'),
+        },
+        {
+          name: 'logo192.png',
+          type: 'file',
+          path: 'public/logo192.png',
+          size: 5347,
+          modified: new Date('2024-03-09'),
+        },
+      ],
     },
-    { 
-      name: 'docs', 
+    {
+      name: 'docs',
       type: 'folder',
       path: 'docs',
       children: [
-        { name: 'README.md', type: 'file', path: 'docs/README.md', size: 4567, modified: new Date('2024-03-11') },
-        { name: 'CHANGELOG.md', type: 'file', path: 'docs/CHANGELOG.md', size: 2345, modified: new Date('2024-03-10') }
-      ]
+        {
+          name: 'README.md',
+          type: 'file',
+          path: 'docs/README.md',
+          size: 4567,
+          modified: new Date('2024-03-11'),
+        },
+        {
+          name: 'CHANGELOG.md',
+          type: 'file',
+          path: 'docs/CHANGELOG.md',
+          size: 2345,
+          modified: new Date('2024-03-10'),
+        },
+      ],
     },
-    { name: 'package.json', type: 'file', path: 'package.json', size: 2134, modified: new Date('2024-03-16') },
-    { name: 'tsconfig.json', type: 'file', path: 'tsconfig.json', size: 678, modified: new Date('2024-03-15') },
-    { name: 'vite.config.ts', type: 'file', path: 'vite.config.ts', size: 445, modified: new Date('2024-03-14') },
-    { name: '.env', type: 'file', path: '.env', size: 123, modified: new Date('2024-03-13') }
+    {
+      name: 'package.json',
+      type: 'file',
+      path: 'package.json',
+      size: 2134,
+      modified: new Date('2024-03-16'),
+    },
+    {
+      name: 'tsconfig.json',
+      type: 'file',
+      path: 'tsconfig.json',
+      size: 678,
+      modified: new Date('2024-03-15'),
+    },
+    {
+      name: 'vite.config.ts',
+      type: 'file',
+      path: 'vite.config.ts',
+      size: 445,
+      modified: new Date('2024-03-14'),
+    },
+    { name: '.env', type: 'file', path: '.env', size: 123, modified: new Date('2024-03-13') },
   ]);
 
   const [openFolders, setOpenFolders] = useState<Set<string>>(new Set(['src']));
@@ -186,19 +318,19 @@ const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
     const filterItems = (items: FileItem[]): FileItem[] => {
       return items.reduce((acc: FileItem[], item) => {
         const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
-        
+
         if (item.type === 'folder' && item.children) {
           const filteredChildren = filterItems(item.children);
           if (filteredChildren.length > 0 || matchesSearch) {
             acc.push({
               ...item,
-              children: filteredChildren
+              children: filteredChildren,
             });
           }
         } else if (matchesSearch) {
           acc.push(item);
         }
-        
+
         return acc;
       }, []);
     };
@@ -231,8 +363,8 @@ const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
 
   const renderFileTree = (items: FileItem[], level = 0, parentPath = '') => {
     return items
-      .filter(item => showHidden || !item.name.startsWith('.'))
-      .map(item => {
+      .filter((item) => showHidden || !item.name.startsWith('.'))
+      .map((item) => {
         const itemPath = item.path || `${parentPath}/${item.name}`;
         const isSelected = selectedFile === itemPath;
         const isOpen = openFolders.has(itemPath);
@@ -240,7 +372,7 @@ const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
 
         return (
           <div key={itemPath} className="file-tree-node">
-            <div 
+            <div
               className={`file-item modern-file-item ${isSelected ? 'selected' : ''} ${item.type === 'folder' ? 'folder' : 'file'}`}
               style={{ paddingRight: `${level * 20 + 12}px` }}
               onClick={() => {
@@ -255,16 +387,14 @@ const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
               <div className="file-item-content">
                 <div className="file-item-left">
                   {hasChildren && (
-                    <span className={`folder-toggle ${isOpen ? 'open' : ''}`}>
-                      ▶️
-                    </span>
+                    <span className={`folder-toggle ${isOpen ? 'open' : ''}`}>▶️</span>
                   )}
                   <span className="file-icon">
                     {getFileIcon(item.name, item.type === 'folder', isOpen)}
                   </span>
                   <span className="file-name">{item.name}</span>
                 </div>
-                
+
                 <div className="file-item-right">
                   {item.type === 'file' && item.size && (
                     <span className="file-size">{formatFileSize(item.size)}</span>
@@ -277,7 +407,7 @@ const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
                 </div>
               </div>
             </div>
-            
+
             {item.type === 'folder' && isOpen && item.children && (
               <div className="folder-children">
                 {renderFileTree(item.children, level + 1, itemPath)}
@@ -298,14 +428,14 @@ const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
             المستكشف
           </h3>
           <div className="header-actions">
-            <button 
+            <button
               className="header-btn"
               onClick={() => setViewMode(viewMode === 'tree' ? 'list' : 'tree')}
               title={viewMode === 'tree' ? 'عرض قائمة' : 'عرض شجري'}
             >
               {viewMode === 'tree' ? '📋' : '🌳'}
             </button>
-            <button 
+            <button
               className="header-btn"
               onClick={() => setShowHidden(!showHidden)}
               title={showHidden ? 'إخفاء الملفات المخفية' : 'إظهار الملفات المخفية'}
@@ -333,11 +463,7 @@ const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
               className="search-input"
             />
             {searchQuery && (
-              <button 
-                className="clear-search"
-                onClick={() => setSearchQuery('')}
-                title="مسح البحث"
-              >
+              <button className="clear-search" onClick={() => setSearchQuery('')} title="مسح البحث">
                 ✕
               </button>
             )}
@@ -347,20 +473,16 @@ const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
         {/* إحصائيات */}
         <div className="tree-stats">
           <span className="stat-item">
-            📁 {files.filter(f => f.type === 'folder').length} مجلد
+            📁 {files.filter((f) => f.type === 'folder').length} مجلد
           </span>
-          <span className="stat-item">
-            📄 {files.filter(f => f.type === 'file').length} ملف
-          </span>
+          <span className="stat-item">📄 {files.filter((f) => f.type === 'file').length} ملف</span>
         </div>
       </div>
 
       {/* محتوى شجرة الملفات */}
       <div className="file-tree-content">
         {filteredFiles.length > 0 ? (
-          <div className="files-container">
-            {renderFileTree(filteredFiles)}
-          </div>
+          <div className="files-container">{renderFileTree(filteredFiles)}</div>
         ) : (
           <div className="empty-state">
             <div className="empty-icon">🔍</div>
@@ -368,10 +490,7 @@ const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
               {searchQuery ? 'لا توجد ملفات تطابق البحث' : 'لا توجد ملفات'}
             </div>
             {searchQuery && (
-              <button 
-                className="clear-search-btn"
-                onClick={() => setSearchQuery('')}
-              >
+              <button className="clear-search-btn" onClick={() => setSearchQuery('')}>
                 مسح البحث
               </button>
             )}
@@ -382,9 +501,7 @@ const FileTree: React.FC<FileTreeProps> = ({ onFileSelect }) => {
       {/* حالة التحديد */}
       {selectedFile && (
         <div className="selection-status">
-          <span className="selected-file">
-            📄 {selectedFile.split('/').pop()}
-          </span>
+          <span className="selected-file">📄 {selectedFile.split('/').pop()}</span>
         </div>
       )}
     </div>

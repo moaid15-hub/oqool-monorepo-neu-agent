@@ -1,0 +1,776 @@
+2025-11-01T09:37:10.687909Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/dist")}
+2025-11-01T09:37:10.687930Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T09:37:13.888063Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("dist")}
+2025-11-01T09:37:13.888074Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T09:38:57.088217Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Titlebar/Titlebar.tsx")}
+2025-11-01T09:38:57.088229Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:39:03.488435Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Titlebar/Titlebar.tsx")}
+2025-11-01T09:39:03.488452Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:39:11.354344Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Titlebar/Titlebar.tsx")}
+2025-11-01T09:39:11.354358Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:39:11.354456Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:39:20.188039Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/types/electron.d.ts")}
+2025-11-01T09:39:20.188053Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:39:20.288802Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/types/electron.d.ts")}
+2025-11-01T09:39:20.288815Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:39:20.288888Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:39:38.087824Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T09:39:38.087842Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:39:38.188581Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T09:39:38.188595Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:39:38.188680Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:39:48.387924Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/translations.ts")}
+2025-11-01T09:39:48.387939Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:39:48.488702Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/translations.ts")}
+2025-11-01T09:39:48.488737Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:39:48.489120Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:40:29.888555Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Terminal/TerminalPanel.tsx")}
+2025-11-01T09:40:29.888570Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:40:45.488013Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Titlebar/Titlebar.tsx"), AnchoredSystemPathBuf("packages/desktop/src/types/electron.d.ts")}
+2025-11-01T09:40:45.488023Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:40:45.605837Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:40:45.605973Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx"), AnchoredSystemPathBuf("packages/desktop/src/types/electron.d.ts")}
+2025-11-01T09:40:45.605984Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:40:45.606085Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:40:45.688332Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Terminal/TerminalPanel.tsx"), AnchoredSystemPathBuf("packages/desktop/src/translations.ts")}
+2025-11-01T09:40:45.688347Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:40:45.732523Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:40:45.787925Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Terminal/TerminalPanel.tsx")}
+2025-11-01T09:40:45.787939Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:40:45.788029Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:46:00.188208Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T09:46:00.188222Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:46:00.288225Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T09:46:00.288238Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:46:00.288312Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:46:16.887933Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T09:46:16.887955Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:46:24.487998Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T09:46:24.488025Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:46:24.588887Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T09:46:24.588908Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:46:24.589050Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:46:35.188533Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T09:46:35.188551Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:46:35.213814Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:52:46.288699Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/main.ts")}
+2025-11-01T09:52:46.288715Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:52:46.388310Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/main.ts")}
+2025-11-01T09:52:46.388325Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:52:46.388456Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:52:50.088390Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/main.ts")}
+2025-11-01T09:52:50.088419Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:52:50.138647Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:52:50.188235Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/main.ts")}
+2025-11-01T09:52:50.188268Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:52:50.188485Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:55:59.887933Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T09:55:59.887945Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:55:59.988798Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T09:55:59.988812Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:55:59.988896Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:56:12.487996Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T09:56:12.488022Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:56:12.643051Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T09:56:12.643318Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T09:56:12.643336Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T09:56:12.643496Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:02:00.288096Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:02:00.288111Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:02:00.388497Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:02:00.388512Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:02:00.388585Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:02:02.288105Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:02:02.288130Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:02:02.340629Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:02:02.388060Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:02:02.388076Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:02:02.388240Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:05:06.688173Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T10:05:06.688189Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:06:27.288360Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T10:06:27.288384Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:06:27.342049Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:06:27.388462Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T10:06:27.388487Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:06:27.388672Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:10:27.088710Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:10:27.088723Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:10:29.788274Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:10:29.788290Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:10:29.811906Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:10:42.588478Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:10:42.588490Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:11:04.288307Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:11:04.288326Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:11:07.288205Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:11:07.288226Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:11:07.288421Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:11:14.388155Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:11:14.388174Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:11:56.488545Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:11:56.488568Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:11:56.588333Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:11:56.588354Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:11:56.588513Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:11:59.288140Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:11:59.288167Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:11:59.310991Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:18:42.188098Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T10:18:42.188118Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:18:57.288395Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/dist")}
+2025-11-01T10:18:57.288420Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:18:57.302033Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:18:59.788631Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T10:18:59.788650Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:18:59.788806Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:19:32.288791Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js")}
+2025-11-01T10:19:32.288814Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:19:34.288871Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js")}
+2025-11-01T10:19:34.288903Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:19:34.340983Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:19:34.388521Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js")}
+2025-11-01T10:19:34.388550Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:19:34.388788Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:23:17.488371Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/files (6)/main_fixed.ts"), AnchoredSystemPathBuf("packages/desktop/files (6)/StatusBar_Fix.css"), AnchoredSystemPathBuf("packages/desktop/files (6)/COMPLETE_FIX_GUIDE.md"), AnchoredSystemPathBuf("packages/desktop/files (6)"), AnchoredSystemPathBuf("packages/desktop/files (6)/TopBar_Final.css")}
+2025-11-01T10:23:17.488428Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:25:20.988024Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/main.ts")}
+2025-11-01T10:25:20.988050Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:25:52.288198Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T10:25:52.288213Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:26:15.688724Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/StatusBar.css")}
+2025-11-01T10:26:15.688740Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:26:15.788564Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/StatusBar.css")}
+2025-11-01T10:26:15.788577Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:26:15.788655Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:26:31.187990Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/main.ts")}
+2025-11-01T10:26:31.188002Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:26:31.344976Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:26:31.345137Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css"), AnchoredSystemPathBuf("packages/desktop/src/components/Layout/StatusBar.css")}
+2025-11-01T10:26:31.345147Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:26:31.345268Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:39:12.288453Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T10:39:12.288465Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:39:16.588709Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T10:39:16.588734Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:39:22.588183Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css")}
+2025-11-01T10:39:22.588194Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:43:50.388462Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Titlebar/Titlebar.css")}
+2025-11-01T10:43:50.388475Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:43:58.788376Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.css")}
+2025-11-01T10:43:58.788390Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:44:05.387854Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.css")}
+2025-11-01T10:44:05.387867Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:44:10.588487Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/StatusBar.css")}
+2025-11-01T10:44:10.588502Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:44:17.288522Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.css")}
+2025-11-01T10:44:17.288550Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T10:53:34.888764Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/StatusBar.tsx")}
+2025-11-01T10:53:34.888779Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:53:37.588639Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/StatusBar.tsx")}
+2025-11-01T10:53:37.588663Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:53:37.617523Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:53:37.688205Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/StatusBar.tsx")}
+2025-11-01T10:53:37.688230Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:53:37.688314Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:53:55.587932Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:53:55.587953Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:54:31.088603Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:54:31.088618Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:54:31.088663Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:54:51.188596Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.tsx")}
+2025-11-01T10:54:51.188612Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:54:51.288523Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.tsx")}
+2025-11-01T10:54:51.288544Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:54:51.288616Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:55:00.088171Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.tsx")}
+2025-11-01T10:55:00.088187Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:55:08.988752Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/Editor.tsx")}
+2025-11-01T10:55:08.988766Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:55:17.288764Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:55:17.288781Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:55:18.088498Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.tsx"), AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:55:18.088515Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:55:18.110859Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:55:18.188080Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/Editor.tsx"), AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.tsx")}
+2025-11-01T10:55:18.188092Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:55:18.188135Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:56:13.287882Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:56:13.287895Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:56:29.388042Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:56:29.388072Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:56:29.488370Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:56:29.488389Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:56:29.488444Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:56:45.288133Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.tsx")}
+2025-11-01T10:56:45.288145Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:56:45.388218Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.tsx")}
+2025-11-01T10:56:45.388230Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:56:45.388264Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:56:47.988612Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:56:47.988634Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:56:48.018612Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:56:48.088719Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.tsx"), AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:56:48.088740Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:56:48.100156Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T10:58:02.288060Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.tsx")}
+2025-11-01T10:58:02.288078Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:58:45.188208Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/StatusBar.tsx")}
+2025-11-01T10:58:45.188223Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:58:57.088610Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:58:57.088621Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:59:17.888521Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:59:17.888537Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:59:37.088630Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/StatusBar.tsx")}
+2025-11-01T10:59:37.088644Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T10:59:52.988008Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css")}
+2025-11-01T10:59:52.988034Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T11:15:27.188742Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.css"), AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/StatusBar.tsx")}
+2025-11-01T11:15:27.188754Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T11:15:27.192979Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:15:27.288400Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/src/components/SplitLayout.tsx")}
+2025-11-01T11:15:27.288413Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T11:15:27.288451Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:25:20.588837Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.css.tmp.59625.1761996320553")}
+2025-11-01T11:25:20.588853Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:25:20.688481Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.css"), AnchoredSystemPathBuf("packages/desktop/src/App.css.tmp.59625.1761996320553")}
+2025-11-01T11:25:20.688496Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:25:20.688576Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:25:24.688260Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css"), AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css.tmp.59625.1761996324588")}
+2025-11-01T11:25:24.688273Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:30:24.787974Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings")}
+2025-11-01T11:30:24.787986Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:30:24.799826Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:30:49.288106Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx.tmp.59625.1761996649284")}
+2025-11-01T11:30:49.288123Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:30:49.388265Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx.tmp.59625.1761996649284"), AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx")}
+2025-11-01T11:30:49.388277Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:30:49.388363Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:31:11.988627Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.css.tmp.59625.1761996671936"), AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.css")}
+2025-11-01T11:31:11.988646Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:31:35.888310Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProvidersManager.tsx"), AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProvidersManager.tsx.tmp.59625.1761996695797")}
+2025-11-01T11:31:35.888323Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:31:57.188291Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProvidersManager.css.tmp.59625.1761996717162")}
+2025-11-01T11:31:57.188319Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:31:57.288070Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProvidersManager.css.tmp.59625.1761996717162"), AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProvidersManager.css")}
+2025-11-01T11:31:57.288084Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:31:57.288175Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:32:13.188796Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx"), AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx.tmp.59625.1761996733097")}
+2025-11-01T11:32:13.188811Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:32:19.588434Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx.tmp.59625.1761996739549")}
+2025-11-01T11:32:19.588472Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:32:19.688844Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx.tmp.59625.1761996739549"), AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx")}
+2025-11-01T11:32:19.688859Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:32:19.688979Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:32:28.587865Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx"), AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx.tmp.59625.1761996748507")}
+2025-11-01T11:32:28.587876Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:32:38.988838Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx.tmp.59625.1761996758950")}
+2025-11-01T11:32:38.988871Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:32:39.088471Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx"), AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.tsx.tmp.59625.1761996758950")}
+2025-11-01T11:32:39.088486Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:32:39.088609Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:32:46.888604Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css.tmp.59625.1761996766852")}
+2025-11-01T11:32:46.888625Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:32:46.988476Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css"), AnchoredSystemPathBuf("packages/desktop/src/components/Layout/TopBar.css.tmp.59625.1761996766852")}
+2025-11-01T11:32:46.988491Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:32:46.988616Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:33:03.887910Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1761996783866")}
+2025-11-01T11:33:03.887922Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:33:03.988312Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts"), AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1761996783866")}
+2025-11-01T11:33:03.988326Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:33:03.988415Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:33:11.788737Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1761996791713"), AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts")}
+2025-11-01T11:33:11.788749Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:33:18.487831Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts"), AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1761996798429")}
+2025-11-01T11:33:18.487845Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:33:26.888530Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1761996806810"), AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts")}
+2025-11-01T11:33:26.888545Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:33:40.087915Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/index.ts.tmp.59625.1761996820082")}
+2025-11-01T11:33:40.087928Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:33:40.188665Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/index.ts"), AnchoredSystemPathBuf("packages/desktop/src/components/Settings/index.ts.tmp.59625.1761996820082")}
+2025-11-01T11:33:40.188679Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:33:40.188763Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:41:17.788756Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1761997277716")}
+2025-11-01T11:41:17.788778Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:41:30.488410Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1761997290411")}
+2025-11-01T11:41:30.488436Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:41:38.888661Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1761997298805")}
+2025-11-01T11:41:38.888679Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:41:51.487894Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1761997311467")}
+2025-11-01T11:41:51.487913Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:41:51.588292Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1761997311467")}
+2025-11-01T11:41:51.588322Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:41:51.588532Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:47:25.387892Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1761997645361")}
+2025-11-01T11:47:25.387920Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:47:25.488377Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1761997645361"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T11:47:25.488390Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:47:25.488463Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:59:13.888025Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js.tmp.59625.1761998353876")}
+2025-11-01T11:59:13.888037Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:59:13.988587Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js.tmp.59625.1761998353876"), AnchoredSystemPathBuf("packages/desktop/index.js")}
+2025-11-01T11:59:13.988604Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:59:13.988738Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T11:59:44.587932Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js.tmp.59625.1761998384554")}
+2025-11-01T11:59:44.587949Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:59:44.688357Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js"), AnchoredSystemPathBuf("packages/desktop/index.js.tmp.59625.1761998384554")}
+2025-11-01T11:59:44.688369Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T11:59:44.688455Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:00:03.487877Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/vite.config.ts"), AnchoredSystemPathBuf("packages/desktop/vite.config.ts.tmp.59625.1761998403399")}
+2025-11-01T12:00:03.487889Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:31:02.788155Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js.tmp.59625.1762000262758")}
+2025-11-01T12:31:02.788177Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:31:02.888140Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js"), AnchoredSystemPathBuf("packages/desktop/index.js.tmp.59625.1762000262758")}
+2025-11-01T12:31:02.888155Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:31:02.888295Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:31:48.588066Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/dist")}
+2025-11-01T12:31:48.588084Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:31:48.588358Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:41:42.488424Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762000902445"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T12:41:42.488442Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:41:51.488279Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762000911483")}
+2025-11-01T12:41:51.488293Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:41:51.588745Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762000911483")}
+2025-11-01T12:41:51.588757Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:41:51.588896Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:42:01.588170Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762000921557")}
+2025-11-01T12:42:01.588206Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:42:01.688208Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762000921557")}
+2025-11-01T12:42:01.688231Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:42:01.688416Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:42:21.188234Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762000941131")}
+2025-11-01T12:42:21.188265Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:44:23.387963Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762001063292")}
+2025-11-01T12:44:23.387989Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:44:59.188712Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/preload.ts"), AnchoredSystemPathBuf("packages/desktop/electron/preload.ts.tmp.59625.1762001099119")}
+2025-11-01T12:44:59.188753Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:45:41.788043Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/dist")}
+2025-11-01T12:45:41.788058Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:45:41.832287Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:45:58.488391Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/package.json.tmp.59625.1762001158410")}
+2025-11-01T12:45:58.488417Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:45:58.627299Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/package.json"), AnchoredSystemPathBuf("packages/desktop/package.json.tmp.59625.1762001158410")}
+2025-11-01T12:45:58.627312Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:45:58.627392Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:47:18.888975Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js"), AnchoredSystemPathBuf("packages/desktop/index.js.tmp.59625.1762001238824")}
+2025-11-01T12:47:18.888995Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:47:26.288861Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/package.json.tmp.59625.1762001246208"), AnchoredSystemPathBuf("packages/desktop/package.json")}
+2025-11-01T12:47:26.288877Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:50:42.788129Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762001442739")}
+2025-11-01T12:50:42.788155Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:51:04.788490Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762001464754")}
+2025-11-01T12:51:04.788520Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:51:04.888101Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762001464754")}
+2025-11-01T12:51:04.888135Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:51:04.888315Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:51:24.888127Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762001484875")}
+2025-11-01T12:51:24.888152Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:51:24.988473Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762001484875")}
+2025-11-01T12:51:24.988489Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:51:24.988610Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:51:38.888878Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762001498815")}
+2025-11-01T12:51:38.888901Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:53:54.687699Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762001634674")}
+2025-11-01T12:53:54.687710Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:53:54.788558Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/App.tsx.tmp.59625.1762001634674")}
+2025-11-01T12:53:54.788572Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:53:54.788699Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:54:13.788034Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx"), AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx.tmp.59625.1762001653710")}
+2025-11-01T12:54:13.788054Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:54:33.588429Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx.tmp.59625.1762001673505"), AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx")}
+2025-11-01T12:54:33.588442Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:54:45.188181Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx.tmp.59625.1762001685157")}
+2025-11-01T12:54:45.188216Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:54:45.288192Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx.tmp.59625.1762001685157"), AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx")}
+2025-11-01T12:54:45.288207Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:54:45.288343Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T12:55:00.888009Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx.tmp.59625.1762001700854")}
+2025-11-01T12:55:00.888038Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:55:00.988687Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx.tmp.59625.1762001700854"), AnchoredSystemPathBuf("packages/desktop/src/components/Settings/APIProviderModal.tsx")}
+2025-11-01T12:55:00.988699Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T12:55:00.988779Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T15:58:09.575560Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/vite-env.d.ts")}
+2025-11-01T15:58:09.575580Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T15:58:23.186265Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/vite-env.d.ts")}
+2025-11-01T15:58:23.186290Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T15:58:23.186537Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T15:58:46.975525Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/vite-env.d.ts")}
+2025-11-01T15:58:46.975562Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T15:58:46.975731Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T15:59:05.675524Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/services/version-guardian.ts")}
+2025-11-01T15:59:05.675539Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T15:59:14.275824Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/workspace/workspace-manager.ts")}
+2025-11-01T15:59:14.275836Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T15:59:20.376297Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/ai/voice-interface.ts")}
+2025-11-01T15:59:20.376312Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T15:59:20.475882Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/ai/voice-interface.ts")}
+2025-11-01T15:59:20.475896Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T15:59:20.476014Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T15:59:25.976378Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/ai/collective-intelligence.ts")}
+2025-11-01T15:59:25.976395Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T15:59:26.075603Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/ai/collective-intelligence.ts")}
+2025-11-01T15:59:26.075619Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T15:59:26.075810Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T15:59:31.576125Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/ai/god-mode.ts")}
+2025-11-01T15:59:31.576141Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T15:59:37.375736Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/workspace/file-watcher.ts")}
+2025-11-01T15:59:37.375754Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:01:14.176506Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/test-integration.js")}
+2025-11-01T16:01:14.176541Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:01:15.881915Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/test-integration.js")}
+2025-11-01T16:01:15.881929Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:01:15.882021Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:01:15.976244Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/test-integration.js")}
+2025-11-01T16:01:15.976276Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:02:47.476227Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileTree/FileTree.tsx")}
+2025-11-01T16:02:47.476240Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:02:47.576333Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileTree/FileTree.tsx")}
+2025-11-01T16:02:47.576345Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:02:47.576460Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:02:54.776268Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileTree/FileTree.tsx")}
+2025-11-01T16:02:54.776280Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:02:54.877948Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileTree/FileTree.tsx")}
+2025-11-01T16:02:54.877961Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:02:54.878034Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:03:11.875798Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileTree/FileTree.tsx")}
+2025-11-01T16:03:11.875817Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:03:18.276275Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileTree/FileTree.tsx")}
+2025-11-01T16:03:18.276288Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:03:18.375872Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileTree/FileTree.tsx")}
+2025-11-01T16:03:18.375891Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:03:18.376003Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:03:46.776170Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/AITestComponent.tsx")}
+2025-11-01T16:03:46.776186Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:03:46.876003Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/AITestComponent.tsx")}
+2025-11-01T16:03:46.876030Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:04:01.576157Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileSystemTestComponent.tsx")}
+2025-11-01T16:04:01.576177Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:04:01.675893Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileSystemTestComponent.tsx")}
+2025-11-01T16:04:01.675911Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:04:01.676047Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:04:01.775951Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileSystemTestComponent.tsx")}
+2025-11-01T16:04:01.775988Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:04:20.076233Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T16:04:20.076259Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:05:07.876247Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T16:05:07.876262Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:17.976011Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T16:06:17.976026Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:18.076074Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T16:06:18.076093Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:18.076314Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:06:28.276168Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T16:06:28.276184Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:28.376386Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T16:06:28.376398Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:28.376506Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:06:28.475967Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T16:06:28.475988Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:28.510520Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:06:42.375497Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileSystemTestComponent.tsx"), AnchoredSystemPathBuf("packages/desktop/src/test-integration.js"), AnchoredSystemPathBuf("packages/desktop/src/components/AITestComponent.tsx")}
+2025-11-01T16:06:42.375514Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:58.175670Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/workspace/workspace-manager.ts"), AnchoredSystemPathBuf("packages/desktop/src/services/version-guardian.ts")}
+2025-11-01T16:06:58.175682Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:58.219099Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:06:58.276248Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/ai/voice-interface.ts"), AnchoredSystemPathBuf("packages/desktop/src/features/workspace/workspace-manager.ts")}
+2025-11-01T16:06:58.276260Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:58.286368Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:06:58.375712Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/ai/collective-intelligence.ts")}
+2025-11-01T16:06:58.375724Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:58.375813Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:06:58.475603Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/workspace/file-watcher.ts"), AnchoredSystemPathBuf("packages/desktop/src/features/ai/god-mode.ts")}
+2025-11-01T16:06:58.475627Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:58.515188Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:06:58.575808Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/features/workspace/file-watcher.ts")}
+2025-11-01T16:06:58.575820Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:58.580350Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:06:58.676106Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/FileTree/FileTree.tsx")}
+2025-11-01T16:06:58.676147Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:06:58.676409Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:07:54.175806Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js")}
+2025-11-01T16:07:54.175846Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:07:57.376283Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js")}
+2025-11-01T16:07:57.376306Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:07:57.406490Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T16:08:05.175796Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js")}
+2025-11-01T16:08:05.175811Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:08:34.075674Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/index.js")}
+2025-11-01T16:08:34.075703Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T16:08:34.099656Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T19:47:10.576272Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("package-lock.json")}
+2025-11-01T19:47:10.576284Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T19:47:20.775457Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("package-lock.json"), AnchoredSystemPathBuf("packages/desktop/package.json")}
+2025-11-01T19:47:20.775471Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }, WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T19:47:23.175671Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("package-lock.json")}
+2025-11-01T19:47:23.175685Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T19:48:03.276356Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Terminal/XTermTerminal.tsx")}
+2025-11-01T19:48:03.276383Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T19:48:03.375582Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Terminal/XTermTerminal.tsx")}
+2025-11-01T19:48:03.375596Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T19:48:03.547593Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/components/Terminal/XTermTerminal.tsx")}
+2025-11-01T19:48:03.547610Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T19:48:03.547749Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T19:48:16.476154Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T19:48:16.476166Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T19:48:16.582654Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T19:48:16.582668Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T19:48:16.582779Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T19:48:27.475889Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T19:48:27.475908Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T20:09:21.476292Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/run-local.sh")}
+2025-11-01T20:09:21.476306Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:10:15.876331Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/.oqool/snippets"), AnchoredSystemPathBuf("packages/cli/.oqool")}
+2025-11-01T20:10:15.876347Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:10:15.876411Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:23:07.276298Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents"), AnchoredSystemPathBuf("packages/shared/src/core")}
+2025-11-01T20:23:07.276314Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:23:22.975726Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/version-guardian.ts"), AnchoredSystemPathBuf("packages/shared/src/core/multi-personality-ai-team.ts"), AnchoredSystemPathBuf("packages/shared/src/core/collective-intelligence.ts"), AnchoredSystemPathBuf("packages/shared/src/core/god-mode.ts")}
+2025-11-01T20:23:22.975751Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:23:35.175811Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/tester-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/architect-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/coder-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/reviewer-agent.ts")}
+2025-11-01T20:23:35.175836Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:24:16.075995Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/package.json.tmp.59625.1762028656003"), AnchoredSystemPathBuf("packages/shared/package.json")}
+2025-11-01T20:24:16.076013Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:24:35.275908Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/index.ts.tmp.59625.1762028675189"), AnchoredSystemPathBuf("packages/shared/src/core/index.ts")}
+2025-11-01T20:24:35.275922Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:28:10.275883Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/index.ts.tmp.59625.1762028890271")}
+2025-11-01T20:28:10.275897Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:28:10.376013Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/index.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/index.ts.tmp.59625.1762028890271")}
+2025-11-01T20:28:10.376027Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:28:10.376049Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:29:31.775863Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/index.ts"), AnchoredSystemPathBuf("packages/shared/src/index.ts.tmp.59625.1762028971745")}
+2025-11-01T20:29:31.775875Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:29:48.476331Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/node_modules")}
+2025-11-01T20:29:48.476345Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:29:48.486973Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:29:48.576119Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("package-lock.json")}
+2025-11-01T20:29:48.576133Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T20:30:30.076181Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/tsconfig.json"), AnchoredSystemPathBuf("packages/shared/tsconfig.json.tmp.59625.1762029030025")}
+2025-11-01T20:30:30.076194Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:30:38.275905Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/dist")}
+2025-11-01T20:30:38.275918Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:30:38.352677Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:30:54.075690Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/api-client.ts"), AnchoredSystemPathBuf("packages/shared/src/core/self-learning-system.ts")}
+2025-11-01T20:30:54.075704Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:31:01.276226Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/index.ts.tmp.59625.1762029061200")}
+2025-11-01T20:31:01.276249Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:31:01.376031Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/index.ts"), AnchoredSystemPathBuf("packages/shared/src/core/index.ts.tmp.59625.1762029061200")}
+2025-11-01T20:31:01.376044Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:31:01.376063Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:31:19.275788Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/god-mode.ts"), AnchoredSystemPathBuf("packages/shared/src/core/seddDp88d")}
+2025-11-01T20:31:19.275828Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:34:11.976343Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/sedNIiC6Z"), AnchoredSystemPathBuf("packages/shared/src/agents/sedWD36tl"), AnchoredSystemPathBuf("packages/shared/src/agents/tester-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/reviewer-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/architect-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/coder-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/sed18cdO7"), AnchoredSystemPathBuf("packages/shared/src/agents/sedgMqMaC")}
+2025-11-01T20:34:11.976360Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:34:46.875876Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/local-oqool-client.ts"), AnchoredSystemPathBuf("packages/shared/src/core/auth.ts")}
+2025-11-01T20:34:46.875891Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:34:56.675514Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/index.ts.tmp.59625.1762029296628")}
+2025-11-01T20:34:56.675537Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:34:56.775781Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/index.ts"), AnchoredSystemPathBuf("packages/shared/src/core/index.ts.tmp.59625.1762029296628")}
+2025-11-01T20:34:56.775796Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:34:56.775826Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:35:05.076168Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/template-manager.ts"), AnchoredSystemPathBuf("packages/shared/src/core/agent-team.ts"), AnchoredSystemPathBuf("packages/shared/src/core/ai-response-documentation.ts"), AnchoredSystemPathBuf("packages/shared/src/core/branding.ts"), AnchoredSystemPathBuf("packages/shared/src/core/cloud-learning-sync.ts"), AnchoredSystemPathBuf("packages/shared/src/core/collective-intelligence.ts"), AnchoredSystemPathBuf("packages/shared/src/core/history-manager.ts"), AnchoredSystemPathBuf("packages/shared/src/core/ai-code-completion.ts"), AnchoredSystemPathBuf("packages/shared/src/core/cli-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/core/file-manager.ts"), AnchoredSystemPathBuf("packages/shared/src/core/api-testing.ts"), AnchoredSystemPathBuf("packages/shared/src/core/git-manager.ts"), AnchoredSystemPathBuf("packages/shared/src/core/learning-system.ts"), AnchoredSystemPathBuf("packages/shared/src/core/multi-personality-ai-team.ts"), AnchoredSystemPathBuf("packages/shared/src/core/incremental-analyzer.ts"), AnchoredSystemPathBuf("packages/shared/src/core/code-library.ts"), AnchoredSystemPathBuf("packages/shared/src/core/self-learning-system.ts"), AnchoredSystemPathBuf("packages/shared/src/core/test-runner.ts"), AnchoredSystemPathBuf("packages/shared/src/core/tools.ts"), AnchoredSystemPathBuf("packages/shared/src/core/ui.ts"), AnchoredSystemPathBuf("packages/shared/src/core/analytics.ts"), AnchoredSystemPathBuf("packages/shared/src/core/version-guardian.ts"), AnchoredSystemPathBuf("packages/shared/src/core/god-mode.ts"), AnchoredSystemPathBuf("packages/shared/src/core/agent-client.ts"), AnchoredSystemPathBuf("packages/shared/src/core/voice-first-interface.ts"), AnchoredSystemPathBuf("packages/shared/src/core/database-integration.ts"), AnchoredSystemPathBuf("packages/shared/src/core/auth.ts"), AnchoredSystemPathBuf("packages/shared/src/core/auto-tester.ts"), AnchoredSystemPathBuf("packages/shared/src/core/cli-new-commands.ts"), AnchoredSystemPathBuf("packages/shared/src/core/cache-manager.ts"), AnchoredSystemPathBuf("packages/shared/src/core/file-watcher.ts"), AnchoredSystemPathBuf("packages/shared/src/core/pr-manager.ts"), AnchoredSystemPathBuf("packages/shared/src/core/code-reviewer.ts"), AnchoredSystemPathBuf("packages/shared/src/core/tools-old.ts"), AnchoredSystemPathBuf("packages/shared/src/core/security-enhancements.ts"), AnchoredSystemPathBuf("packages/shared/src/core/enhanced-executor.ts"), AnchoredSystemPathBuf("packages/shared/src/core/cli.ts"), AnchoredSystemPathBuf("packages/shared/src/core/collaborative-features.ts"), AnchoredSystemPathBuf("packages/shared/src/core/git-helper.ts"), AnchoredSystemPathBuf("packages/shared/src/core/planner.ts"), AnchoredSystemPathBuf("packages/shared/src/core/plugin-system.ts"), AnchoredSystemPathBuf("packages/shared/src/core/parallel-processor.ts"), AnchoredSystemPathBuf("packages/shared/src/core/test-generator.ts"), AnchoredSystemPathBuf("packages/shared/src/core/code-dna-system.ts"), AnchoredSystemPathBuf("packages/shared/src/core/code-analyzer.ts"), AnchoredSystemPathBuf("packages/shared/src/core/code-executor.ts"), AnchoredSystemPathBuf("packages/shared/src/core/config-wizard.ts"), AnchoredSystemPathBuf("packages/shared/src/core/context-manager.ts"), AnchoredSystemPathBuf("packages/shared/src/core/presets.ts"), AnchoredSystemPathBuf("packages/shared/src/core/team-collaboration.ts"), AnchoredSystemPathBuf("packages/shared/src/core/api-client.ts"), AnchoredSystemPathBuf("packages/shared/src/core/docs-generator.ts"), AnchoredSystemPathBuf("packages/shared/src/core/performance-monitor.ts"), AnchoredSystemPathBuf("packages/shared/src/core/local-oqool-client.ts"), AnchoredSystemPathBuf("packages/shared/src/core/progress-tracker.ts"), AnchoredSystemPathBuf("packages/shared/src/core/index.ts")}
+2025-11-01T20:35:05.076199Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:35:22.475814Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/index.ts.tmp.59625.1762029322449")}
+2025-11-01T20:35:22.475835Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:35:22.576072Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/index.ts"), AnchoredSystemPathBuf("packages/shared/src/core/index.ts.tmp.59625.1762029322449")}
+2025-11-01T20:35:22.576089Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:35:22.576151Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:40:02.676030Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/god-mode.ts.tmp.59625.1762029602671")}
+2025-11-01T20:40:02.676041Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:40:04.062497Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/god-mode.ts"), AnchoredSystemPathBuf("packages/shared/src/core/god-mode.ts.tmp.59625.1762029602671")}
+2025-11-01T20:40:04.062514Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:40:04.062579Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:40:20.276084Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/index.ts.tmp.59625.1762029620192"), AnchoredSystemPathBuf("packages/shared/src/core/index.ts")}
+2025-11-01T20:40:20.276099Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:40:36.475639Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/index.ts.tmp.59625.1762029636458")}
+2025-11-01T20:40:36.475650Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:40:37.853504Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/index.ts.tmp.59625.1762029636458"), AnchoredSystemPathBuf("packages/shared/src/core/index.ts")}
+2025-11-01T20:40:37.853525Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T20:40:37.853602Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:50:59.375511Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/src/agents"), AnchoredSystemPathBuf("packages/cli/src/version-guardian.ts"), AnchoredSystemPathBuf("packages/cli/src/agents/coder-agent.ts"), AnchoredSystemPathBuf("packages/cli/src/agents/reviewer-agent.ts"), AnchoredSystemPathBuf("packages/cli/src/agents/tester-agent.ts"), AnchoredSystemPathBuf("packages/cli/src/god-mode.ts"), AnchoredSystemPathBuf("packages/cli/src/agents/architect-agent.ts"), AnchoredSystemPathBuf("packages/cli/src/collective-intelligence.ts"), AnchoredSystemPathBuf("packages/cli/src/multi-personality-ai-team.ts")}
+2025-11-01T20:50:59.375525Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:51:10.876341Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/src/sedk1c5wr"), AnchoredSystemPathBuf("packages/cli/src/cli.ts"), AnchoredSystemPathBuf("packages/cli/src/sedaIZuvV"), AnchoredSystemPathBuf("packages/cli/src/sedTAjB9Y"), AnchoredSystemPathBuf("packages/cli/src/sedaW0H2x")}
+2025-11-01T20:51:10.876358Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:51:19.876122Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/src/sedGjK6u8"), AnchoredSystemPathBuf("packages/cli/src/cli-new-commands.ts")}
+2025-11-01T20:51:19.876137Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:53:11.575752Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/src/index.ts"), AnchoredSystemPathBuf("packages/cli/src/index.ts.tmp.59625.1762030391534")}
+2025-11-01T20:53:11.575762Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:55:53.875842Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/src/self-learning-system.ts"), AnchoredSystemPathBuf("packages/cli/src/self-learning-system.ts.tmp.59625.1762030553806")}
+2025-11-01T20:55:53.875855Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:56:30.876081Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/tsconfig.json.tmp.59625.1762030590871")}
+2025-11-01T20:56:30.876095Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:56:30.976236Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/tsconfig.json"), AnchoredSystemPathBuf("packages/cli/tsconfig.json.tmp.59625.1762030590871")}
+2025-11-01T20:56:30.976249Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:56:30.976297Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:56:57.276519Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/src/index.ts.tmp.59625.1762030617199")}
+2025-11-01T20:56:57.276550Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:56:58.479980Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/src/index.ts"), AnchoredSystemPathBuf("packages/cli/src/index.ts.tmp.59625.1762030617199")}
+2025-11-01T20:56:58.479993Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T20:56:58.480036Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:57:40.875576Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/.turbo"), AnchoredSystemPathBuf("packages/shared/.turbo"), AnchoredSystemPathBuf("packages/cloud-editor/.turbo")}
+2025-11-01T20:57:40.875605Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }, WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }, WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T20:57:40.875685Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:57:40.880068Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T20:57:42.675539Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cloud-editor/frontend/dist")}
+2025-11-01T20:57:42.675556Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqoolai/cloud-editor"), path: AnchoredSystemPathBuf("packages/cloud-editor") }}))
+2025-11-01T20:57:42.684918Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T21:05:46.076080Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/base-ai-service.ts"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/base-ai-service.ts.tmp.59625.1762031145985")}
+2025-11-01T21:05:46.076093Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T21:06:01.076099Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/claude-service.ts.tmp.59625.1762031160979"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/claude-service.ts")}
+2025-11-01T21:06:01.076121Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T21:06:15.476212Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/openai-service.ts"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/openai-service.ts.tmp.59625.1762031175391")}
+2025-11-01T21:06:15.476227Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T21:06:28.976054Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/deepseek-service.ts.tmp.59625.1762031188969")}
+2025-11-01T21:06:28.976070Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T21:06:29.076302Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/deepseek-service.ts.tmp.59625.1762031188969"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/deepseek-service.ts")}
+2025-11-01T21:06:29.076317Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T21:06:29.076376Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T21:06:42.775811Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/grok-service.ts"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/grok-service.ts.tmp.59625.1762031202676")}
+2025-11-01T21:06:42.775824Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T21:07:10.075603Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts.tmp.59625.1762031229979"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts")}
+2025-11-01T21:07:10.075618Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T21:07:23.975710Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts.tmp.59625.1762031243962")}
+2025-11-01T21:07:23.975736Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T21:07:24.076353Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts.tmp.59625.1762031243962"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts")}
+2025-11-01T21:07:24.076369Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T21:07:24.076431Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T21:07:38.875484Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/package.json"), AnchoredSystemPathBuf("packages/shared/package.json.tmp.59625.1762031258796")}
+2025-11-01T21:07:38.875498Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T21:08:11.276254Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("package-lock.json")}
+2025-11-01T21:08:11.276271Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T21:09:03.376160Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1762031343339")}
+2025-11-01T21:09:03.376190Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T21:09:03.476283Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1762031343339"), AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts")}
+2025-11-01T21:09:03.476296Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T21:09:03.476409Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:04:03.376479Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("ai-gateway/services/deepseek-service.ts"), AnchoredSystemPathBuf("ai-gateway/README.md"), AnchoredSystemPathBuf("ai-gateway/services"), AnchoredSystemPathBuf("ai-gateway/services/claude-service.ts"), AnchoredSystemPathBuf("ai-gateway/services/openai-service.ts"), AnchoredSystemPathBuf("ai-gateway"), AnchoredSystemPathBuf("ai-gateway/index.ts"), AnchoredSystemPathBuf("ai-gateway/unified-ai-adapter.ts")}
+2025-11-01T23:04:03.376501Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T23:06:31.976193Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/openai-service.ts"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/claude-service.ts"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/deepseek-service.ts")}
+2025-11-01T23:06:31.976223Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:06:41.876407Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts")}
+2025-11-01T23:06:41.876421Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:06:42.976067Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/README.md")}
+2025-11-01T23:06:42.976080Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:06:55.376300Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/base-ai-service.ts"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/grok-service.ts")}
+2025-11-01T23:06:55.376313Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:06:55.475476Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts.tmp.59625.1762038415443")}
+2025-11-01T23:06:55.475499Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:06:55.587836Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts.tmp.59625.1762038415443"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts")}
+2025-11-01T23:06:55.587851Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:06:55.587924Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:07:20.575689Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts.tmp.59625.1762038440524")}
+2025-11-01T23:07:20.575718Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:07:22.017411Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts.tmp.59625.1762038440524")}
+2025-11-01T23:07:22.017428Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:07:22.017493Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:07:22.276177Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/deepseek-service.ts.tmp.59625.1762038442177"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/deepseek-service.ts")}
+2025-11-01T23:07:22.276188Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:09:38.876277Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts.tmp.59625.1762038578777"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts")}
+2025-11-01T23:09:38.876290Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:09:44.776169Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts.tmp.59625.1762038584694"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts")}
+2025-11-01T23:09:44.776180Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:09:51.276002Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts.tmp.59625.1762038591185")}
+2025-11-01T23:09:51.276017Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:10:44.675612Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1762038644630")}
+2025-11-01T23:10:44.675637Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:10:44.776196Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts"), AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1762038644630")}
+2025-11-01T23:10:44.776212Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:10:44.776352Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:11:12.775605Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1762038672716")}
+2025-11-01T23:11:12.775630Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:11:12.876005Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts"), AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1762038672716")}
+2025-11-01T23:11:12.876022Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:11:12.876245Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:11:25.975510Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts"), AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1762038685908")}
+2025-11-01T23:11:25.975529Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:11:40.976284Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1762038700931")}
+2025-11-01T23:11:40.976312Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:11:41.075621Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1762038700931"), AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts")}
+2025-11-01T23:11:41.075639Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:11:41.075767Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:11:53.875491Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts"), AnchoredSystemPathBuf("packages/desktop/electron/ipc/ai.ts.tmp.59625.1762038713818")}
+2025-11-01T23:11:53.875509Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:16:37.776398Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/architect-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/architect-agent.ts.tmp.59625.1762038997679")}
+2025-11-01T23:16:37.776412Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:16:46.276336Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/architect-agent.ts.tmp.59625.1762039006235")}
+2025-11-01T23:16:46.276359Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:16:46.375811Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/architect-agent.ts.tmp.59625.1762039006235"), AnchoredSystemPathBuf("packages/shared/src/agents/architect-agent.ts")}
+2025-11-01T23:16:46.375825Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:16:46.375881Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:17:09.775705Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/coder-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/coder-agent.ts.tmp.59625.1762039029723")}
+2025-11-01T23:17:09.775720Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:17:10.076032Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/coder-agent.ts.tmp.59625.1762039030051")}
+2025-11-01T23:17:10.076049Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:17:10.176166Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/coder-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/coder-agent.ts.tmp.59625.1762039030051")}
+2025-11-01T23:17:10.176180Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:17:10.176231Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:17:47.276298Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/reviewer-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/reviewer-agent.ts.tmp.59625.1762039067235")}
+2025-11-01T23:17:47.276323Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:17:47.676278Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/reviewer-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/reviewer-agent.ts.tmp.59625.1762039067595")}
+2025-11-01T23:17:47.676290Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:18:23.975502Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/tester-agent.ts"), AnchoredSystemPathBuf("packages/shared/src/agents/tester-agent.ts.tmp.59625.1762039103884")}
+2025-11-01T23:18:23.975518Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:18:24.275570Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/tester-agent.ts.tmp.59625.1762039104268")}
+2025-11-01T23:18:24.275584Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:18:24.376416Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/agents/tester-agent.ts.tmp.59625.1762039104268"), AnchoredSystemPathBuf("packages/shared/src/agents/tester-agent.ts")}
+2025-11-01T23:18:24.376449Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:18:24.376558Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:19:05.075723Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/god-mode.ts.tmp.59625.1762039144985"), AnchoredSystemPathBuf("packages/shared/src/core/god-mode.ts")}
+2025-11-01T23:19:05.075738Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:24:18.975596Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/.env.tmp.59625.1762039458911")}
+2025-11-01T23:24:18.975629Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:24:19.156285Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:24:19.156389Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/.env.tmp.59625.1762039458911")}
+2025-11-01T23:24:19.156395Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:24:19.156547Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:24:28.675764Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/.env.tmp.59625.1762039468645")}
+2025-11-01T23:24:28.675797Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T23:24:28.732425Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:24:28.775736Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/.env.tmp.59625.1762039468645")}
+2025-11-01T23:24:28.775751Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T23:24:28.775794Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:28:10.175837Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf(".env.example"), AnchoredSystemPathBuf(".env.example.tmp.59625.1762039690090")}
+2025-11-01T23:28:10.175853Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T23:29:05.075665Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("API_KEYS_SETUP.md"), AnchoredSystemPathBuf("API_KEYS_SETUP.md.tmp.59625.1762039745028")}
+2025-11-01T23:29:05.075677Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T23:29:37.075607Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("QUICK_START.md.tmp.59625.1762039777056")}
+2025-11-01T23:29:37.075619Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T23:29:37.175741Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("QUICK_START.md.tmp.59625.1762039777056"), AnchoredSystemPathBuf("QUICK_START.md")}
+2025-11-01T23:29:37.175754Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Root, path: AnchoredSystemPathBuf("") }}))
+2025-11-01T23:30:31.475745Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/.env.tmp.59625.1762039831420")}
+2025-11-01T23:30:31.475773Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:30:31.494456Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:30:31.676345Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/.env.tmp.59625.1762039831673")}
+2025-11-01T23:30:31.676358Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T23:30:31.758655Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:30:31.776097Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/.env.tmp.59625.1762039831673")}
+2025-11-01T23:30:31.776110Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T23:30:31.776163Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:35:44.475465Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts.tmp.59625.1762040144447")}
+2025-11-01T23:35:44.475487Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:35:44.576230Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/index.ts.tmp.59625.1762040144447")}
+2025-11-01T23:35:44.576242Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:35:44.576290Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:37:10.576246Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts"), AnchoredSystemPathBuf("packages/shared/src/ai-gateway/unified-ai-adapter.ts.tmp.59625.1762040230485")}
+2025-11-01T23:37:10.576261Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:41:33.375938Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/src/cli.ts.tmp.59625.1762040493361")}
+2025-11-01T23:41:33.375950Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T23:41:33.475403Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/src/cli.ts"), AnchoredSystemPathBuf("packages/cli/src/cli.ts.tmp.59625.1762040493361")}
+2025-11-01T23:41:33.475417Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T23:41:33.475460Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:42:09.176172Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/shared/src/core/god-mode.ts"), AnchoredSystemPathBuf("packages/shared/src/core/god-mode.ts.tmp.59625.1762040529113")}
+2025-11-01T23:42:09.176183Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/shared"), path: AnchoredSystemPathBuf("packages/shared") }}))
+2025-11-01T23:42:41.776054Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx")}
+2025-11-01T23:42:41.776083Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:42:42.853740Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:42:42.853937Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/src/App.tsx"), AnchoredSystemPathBuf("packages/desktop/src/components/Terminal/XTermTerminal.tsx")}
+2025-11-01T23:42:42.853950Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:42:42.854147Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:44:12.776322Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/cli/.env.tmp.59625.1762040652679")}
+2025-11-01T23:44:12.776333Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("@oqool/cli"), path: AnchoredSystemPathBuf("packages/cli") }}))
+2025-11-01T23:44:12.776372Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:44:19.976148Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/.env.tmp.59625.1762040659942")}
+2025-11-01T23:44:19.976182Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:44:20.048770Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun
+2025-11-01T23:44:20.076167Z  WARN turborepo_lib::package_changes_watcher: changed_files: {AnchoredSystemPathBuf("packages/desktop/.env.tmp.59625.1762040659942")}
+2025-11-01T23:44:20.076178Z  WARN turborepo_lib::package_changes_watcher: changed_packages: Ok(Some({WorkspacePackage { name: Other("oqool-desktop"), path: AnchoredSystemPathBuf("packages/desktop") }}))
+2025-11-01T23:44:20.076298Z  WARN turborepo_lib::package_changes_watcher: hashes are the same, no need to rerun

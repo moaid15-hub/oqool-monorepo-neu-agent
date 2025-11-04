@@ -108,7 +108,7 @@ export class AICodeCompletion {
         useContext = true,
         includeImports = true,
         includeComments = true,
-        style = 'detailed'
+        style = 'detailed',
       } = options;
 
       // جمع السياق من المشروع
@@ -128,45 +128,39 @@ export class AICodeCompletion {
       );
 
       // طلب الاقتراحات من AI
-      const response = await this.client.sendChatMessage([
-        { role: 'user', content: aiPrompt }
-      ]);
+      const response = await this.client.sendChatMessage([{ role: 'user', content: aiPrompt }]);
 
       if (!response.success) {
         return {
           success: false,
           suggestions: [],
-          error: response.error
+          error: response.error,
         };
       }
 
       // استخراج الاقتراحات
-      const suggestions = this.parseSuggestions(
-        response.message,
-        maxSuggestions
-      );
+      const suggestions = this.parseSuggestions(response.message, maxSuggestions);
 
       // حفظ في التاريخ
-      suggestions.forEach(s => {
+      suggestions.forEach((s) => {
         this.completionHistory.push({
           prompt,
           suggestion: s.code,
           accepted: false,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         });
       });
 
       return {
         success: true,
         suggestions,
-        context
+        context,
       };
-
     } catch (error: any) {
       return {
         success: false,
         suggestions: [],
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -174,9 +168,7 @@ export class AICodeCompletion {
   /**
    * إكمال سطر الكود في الموقع الحالي
    */
-  async inlineComplete(
-    options: InlineCompletionOptions
-  ): Promise<CompletionResult> {
+  async inlineComplete(options: InlineCompletionOptions): Promise<CompletionResult> {
     try {
       const { file, line, column, prefix, suffix } = options;
 
@@ -209,8 +201,8 @@ ${contextLines}
 بعد المؤشر: ${afterCursor}
 
 المعلومات الإضافية:
-- الدوال الموجودة: ${analysis.functions.map(f => f.name).join(', ')}
-- الكلاسات الموجودة: ${analysis.classes.map(c => c.name).join(', ')}
+- الدوال الموجودة: ${analysis.functions.map((f) => f.name).join(', ')}
+- الكلاسات الموجودة: ${analysis.classes.map((c) => c.name).join(', ')}
 
 أكمل الكود بذكاء مع مراعاة:
 1. السياق المحيط
@@ -222,14 +214,13 @@ ${contextLines}
       return this.completeCode(prompt, {
         language: this.detectLanguage(file) as any,
         maxSuggestions: 3,
-        useContext: false
+        useContext: false,
       });
-
     } catch (error: any) {
       return {
         success: false,
         suggestions: [],
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -263,7 +254,7 @@ ${functionName ? `اسم الدالة: ${functionName}` : ''}
     return this.completeCode(prompt, {
       ...options,
       maxSuggestions: 3,
-      includeComments: true
+      includeComments: true,
     });
   }
 
@@ -298,7 +289,7 @@ ${functionName ? `اسم الدالة: ${functionName}` : ''}
     return this.completeCode(prompt, {
       ...options,
       maxSuggestions: 1,
-      style: 'verbose'
+      style: 'verbose',
     });
   }
 
@@ -330,7 +321,7 @@ ${code}
     return this.completeCode(prompt, {
       language: language as any,
       maxSuggestions: 5,
-      style: 'verbose'
+      style: 'verbose',
     });
   }
 
@@ -365,16 +356,14 @@ ${code}
   /**
    * البحث عن snippet
    */
-  async searchSnippets(
-    query: string,
-    language: string = 'typescript'
-  ): Promise<SmartSnippet[]> {
+  async searchSnippets(query: string, language: string = 'typescript'): Promise<SmartSnippet[]> {
     const allSnippets = await this.getSmartSnippets('', language);
 
-    const results = allSnippets.filter(s =>
-      s.name.toLowerCase().includes(query.toLowerCase()) ||
-      s.description.toLowerCase().includes(query.toLowerCase()) ||
-      s.trigger.toLowerCase().includes(query.toLowerCase())
+    const results = allSnippets.filter(
+      (s) =>
+        s.name.toLowerCase().includes(query.toLowerCase()) ||
+        s.description.toLowerCase().includes(query.toLowerCase()) ||
+        s.trigger.toLowerCase().includes(query.toLowerCase())
     );
 
     return results.sort((a, b) => b.rating - a.rating);
@@ -383,12 +372,9 @@ ${code}
   /**
    * استخدام snippet
    */
-  async useSnippet(
-    snippetId: string,
-    variables: Record<string, string> = {}
-  ): Promise<string> {
+  async useSnippet(snippetId: string, variables: Record<string, string> = {}): Promise<string> {
     const allSnippets = Array.from(this.snippetsCache.values()).flat();
-    const snippet = allSnippets.find(s => s.id === snippetId);
+    const snippet = allSnippets.find((s) => s.id === snippetId);
 
     if (!snippet) {
       throw new Error(`Snippet not found: ${snippetId}`);
@@ -413,10 +399,7 @@ ${code}
   /**
    * التعرف على الأنماط في الكود
    */
-  async recognizePatterns(
-    code: string,
-    language: string = 'typescript'
-  ): Promise<CodePattern[]> {
+  async recognizePatterns(code: string, language: string = 'typescript'): Promise<CodePattern[]> {
     const cacheKey = `patterns-${language}`;
 
     if (this.patternsCache.has(cacheKey)) {
@@ -447,7 +430,7 @@ ${code}
     const result = await this.completeCode(prompt, {
       language: language as any,
       maxSuggestions: 10,
-      style: 'verbose'
+      style: 'verbose',
     });
 
     const patterns = this.parsePatterns(result.suggestions);
@@ -486,16 +469,12 @@ ${code}
 
       // تحليل بعض الملفات للسياق
       const analyses = await Promise.all(
-        files.slice(0, 3).map(f => this.analyzer.analyzeFile(f))
+        files.slice(0, 3).map((f) => this.analyzer.analyzeFile(f))
       );
 
-      const functionsContext = analyses
-        .flatMap(a => a.functions.map(f => f.name))
-        .join(', ');
+      const functionsContext = analyses.flatMap((a) => a.functions.map((f) => f.name)).join(', ');
 
-      const classesContext = analyses
-        .flatMap(a => a.classes.map(c => c.name))
-        .join(', ');
+      const classesContext = analyses.flatMap((a) => a.classes.map((c) => c.name)).join(', ');
 
       return `
 ${packageInfo}
@@ -503,7 +482,6 @@ ${packageInfo}
 الدوال الموجودة: ${functionsContext}
 الكلاسات الموجودة: ${classesContext}
 `;
-
     } catch (error) {
       return '';
     }
@@ -575,10 +553,7 @@ EXPLANATION: [شرح تفصيلي]
   /**
    * تحليل الاقتراحات من رد AI
    */
-  private parseSuggestions(
-    aiResponse: string,
-    maxSuggestions: number
-  ): CompletionSuggestion[] {
+  private parseSuggestions(aiResponse: string, maxSuggestions: number): CompletionSuggestion[] {
     const suggestions: CompletionSuggestion[] = [];
     const blocks = aiResponse.split('---');
 
@@ -595,7 +570,7 @@ EXPLANATION: [شرح تفصيلي]
           confidence: parseInt(confidenceMatch?.[1] || '70'),
           code: codeMatch[1].trim(),
           description: descMatch?.[1]?.trim() || 'Code suggestion',
-          explanation: explainMatch?.[1]?.trim()
+          explanation: explainMatch?.[1]?.trim(),
         });
       }
     }
@@ -608,12 +583,12 @@ EXPLANATION: [شرح تفصيلي]
    */
   private parsePatterns(suggestions: CompletionSuggestion[]): CodePattern[] {
     // تحليل بسيط - يمكن تحسينه
-    return suggestions.map(s => ({
+    return suggestions.map((s) => ({
       pattern: s.description,
       description: s.explanation || s.description,
       examples: [s.code],
       bestPractices: [],
-      antiPatterns: []
+      antiPatterns: [],
     }));
   }
 
@@ -642,7 +617,7 @@ EXPLANATION: [شرح تفصيلي]
         variables: ['functionName', 'params', 'returnType', 'body'],
         category: 'function',
         usageCount: 0,
-        rating: 4.5
+        rating: 4.5,
       },
       {
         name: 'Class with Constructor',
@@ -659,7 +634,7 @@ EXPLANATION: [شرح تفصيلي]
         variables: ['className', 'constructorParams', 'constructorBody', 'methods'],
         category: 'class',
         usageCount: 0,
-        rating: 4.7
+        rating: 4.7,
       },
       {
         name: 'API Endpoint Handler',
@@ -686,31 +661,27 @@ EXPLANATION: [شرح تفصيلي]
         variables: ['endpointName', 'validation', 'processLogic'],
         category: 'api',
         usageCount: 0,
-        rating: 4.8
-      }
+        rating: 4.8,
+      },
     ];
 
     // تصفية حسب الفئة
     let snippets = baseSnippets;
     if (category) {
-      snippets = snippets.filter(s => s.category === category);
+      snippets = snippets.filter((s) => s.category === category);
     }
 
     // إضافة IDs
     return snippets.map((s, i) => ({
       ...s,
-      id: `${language}-${s.category}-${i}`
+      id: `${language}-${s.category}-${i}`,
     }));
   }
 
   /**
    * الحصول على السياق المحيط
    */
-  private getContextLines(
-    lines: string[],
-    currentLine: number,
-    contextSize: number = 10
-  ): string {
+  private getContextLines(lines: string[], currentLine: number, contextSize: number = 10): string {
     const start = Math.max(0, currentLine - contextSize);
     const end = Math.min(lines.length, currentLine + contextSize);
 
@@ -736,7 +707,7 @@ EXPLANATION: [شرح تفصيلي]
       '.go': 'go',
       '.rs': 'rust',
       '.java': 'java',
-      '.php': 'php'
+      '.php': 'php',
     };
     return langMap[ext] || 'typescript';
   }
@@ -746,13 +717,13 @@ EXPLANATION: [شرح تفصيلي]
    */
   private getExtension(language: string): string {
     const extMap: Record<string, string> = {
-      'typescript': '.ts',
-      'javascript': '.js',
-      'python': '.py',
-      'go': '.go',
-      'rust': '.rs',
-      'java': '.java',
-      'php': '.php'
+      typescript: '.ts',
+      javascript: '.js',
+      python: '.py',
+      go: '.go',
+      rust: '.rs',
+      java: '.java',
+      php: '.php',
     };
     return extMap[language] || '.ts';
   }
@@ -798,17 +769,16 @@ EXPLANATION: [شرح تفصيلي]
    */
   getStatistics() {
     const totalCompletions = this.completionHistory.length;
-    const acceptedCompletions = this.completionHistory.filter(h => h.accepted).length;
-    const acceptanceRate = totalCompletions > 0
-      ? (acceptedCompletions / totalCompletions) * 100
-      : 0;
+    const acceptedCompletions = this.completionHistory.filter((h) => h.accepted).length;
+    const acceptanceRate =
+      totalCompletions > 0 ? (acceptedCompletions / totalCompletions) * 100 : 0;
 
     return {
       totalCompletions,
       acceptedCompletions,
       acceptanceRate: acceptanceRate.toFixed(1) + '%',
       totalSnippets: Array.from(this.snippetsCache.values()).flat().length,
-      mostUsedSnippets: this.getMostUsedSnippets(5)
+      mostUsedSnippets: this.getMostUsedSnippets(5),
     };
   }
 
@@ -817,22 +787,16 @@ EXPLANATION: [شرح تفصيلي]
    */
   private getMostUsedSnippets(limit: number = 5): SmartSnippet[] {
     const allSnippets = Array.from(this.snippetsCache.values()).flat();
-    return allSnippets
-      .sort((a, b) => b.usageCount - a.usageCount)
-      .slice(0, limit);
+    return allSnippets.sort((a, b) => b.usageCount - a.usageCount).slice(0, limit);
   }
 
   /**
    * تعليم النظام من الاستخدام
    */
-  async learnFromUsage(
-    prompt: string,
-    acceptedSuggestion: string,
-    rating: number
-  ): Promise<void> {
+  async learnFromUsage(prompt: string, acceptedSuggestion: string, rating: number): Promise<void> {
     // تحديث التاريخ
     const entry = this.completionHistory.find(
-      h => h.prompt === prompt && h.suggestion === acceptedSuggestion
+      (h) => h.prompt === prompt && h.suggestion === acceptedSuggestion
     );
 
     if (entry) {

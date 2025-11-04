@@ -62,13 +62,15 @@ export class GitManager {
   /**
    * تشغيل أمر git
    */
-  private async runGitCommand(args: string[]): Promise<{ stdout: string; stderr: string; exitCode: number }> {
+  private async runGitCommand(
+    args: string[]
+  ): Promise<{ stdout: string; stderr: string; exitCode: number }> {
     return new Promise((resolve) => {
       let stdout = '';
       let stderr = '';
 
       const gitProcess = spawn('git', args, {
-        cwd: this.workingDir
+        cwd: this.workingDir,
       });
 
       gitProcess.stdout.on('data', (data: Buffer) => {
@@ -83,7 +85,7 @@ export class GitManager {
         resolve({
           stdout: stdout.trim(),
           stderr: stderr.trim(),
-          exitCode: code || 0
+          exitCode: code || 0,
         });
       });
 
@@ -91,7 +93,7 @@ export class GitManager {
         resolve({
           stdout: '',
           stderr: err.message,
-          exitCode: 1
+          exitCode: 1,
         });
       });
     });
@@ -124,7 +126,7 @@ export class GitManager {
     return {
       current,
       isClean,
-      hasRemote
+      hasRemote,
     };
   }
 
@@ -136,8 +138,8 @@ export class GitManager {
     let branchName = prompt
       .toLowerCase()
       .replace(/[^\w\s-]/g, '') // حذف الرموز الخاصة
-      .replace(/\s+/g, '-')      // استبدال المسافات بـ -
-      .substring(0, 50);         // تحديد الطول
+      .replace(/\s+/g, '-') // استبدال المسافات بـ -
+      .substring(0, 50); // تحديد الطول
 
     // إضافة timestamp لتجنب التكرار
     const timestamp = Date.now().toString().substring(-6);
@@ -152,7 +154,7 @@ export class GitManager {
     if (!(await this.isGitRepo())) {
       return {
         success: false,
-        error: 'ليس git repository'
+        error: 'ليس git repository',
       };
     }
 
@@ -162,12 +164,12 @@ export class GitManager {
       return {
         success: true,
         message: `تم إنشاء branch: ${branchName}`,
-        branch: branchName
+        branch: branchName,
       };
     } else {
       return {
         success: false,
-        error: result.stderr || 'فشل إنشاء branch'
+        error: result.stderr || 'فشل إنشاء branch',
       };
     }
   }
@@ -182,12 +184,12 @@ export class GitManager {
       return {
         success: true,
         message: `تم التبديل إلى: ${branchName}`,
-        branch: branchName
+        branch: branchName,
       };
     } else {
       return {
         success: false,
-        error: result.stderr
+        error: result.stderr,
       };
     }
   }
@@ -199,7 +201,7 @@ export class GitManager {
     if (files.length === 0) {
       return {
         success: false,
-        error: 'لا توجد ملفات لإضافتها'
+        error: 'لا توجد ملفات لإضافتها',
       };
     }
 
@@ -208,12 +210,12 @@ export class GitManager {
     if (result.exitCode === 0) {
       return {
         success: true,
-        message: `تم إضافة ${files.length} ملف(ات)`
+        message: `تم إضافة ${files.length} ملف(ات)`,
       };
     } else {
       return {
         success: false,
-        error: result.stderr
+        error: result.stderr,
       };
     }
   }
@@ -232,12 +234,12 @@ export class GitManager {
       return {
         success: true,
         message: `تم عمل commit: ${commitHash}`,
-        commit: commitHash
+        commit: commitHash,
       };
     } else {
       return {
         success: false,
-        error: result.stderr
+        error: result.stderr,
       };
     }
   }
@@ -255,9 +257,11 @@ export class GitManager {
 
     // استخراج الإحصائيات
     const stats = statResult.stdout;
-    const filesChanged = (stats.match(/\d+ files? changed/)?.[0] || '0 files changed').split(' ')[0];
-    const additions = (stats.match(/(\d+) insertions?/)?.[1] || '0');
-    const deletions = (stats.match(/(\d+) deletions?/)?.[1] || '0');
+    const filesChanged = (stats.match(/\d+ files? changed/)?.[0] || '0 files changed').split(
+      ' '
+    )[0];
+    const additions = stats.match(/(\d+) insertions?/)?.[1] || '0';
+    const deletions = stats.match(/(\d+) deletions?/)?.[1] || '0';
 
     // الحصول على diff كامل
     const diffArgs = staged ? ['diff', '--staged'] : ['diff'];
@@ -267,7 +271,7 @@ export class GitManager {
       filesChanged: parseInt(filesChanged),
       additions: parseInt(additions),
       deletions: parseInt(deletions),
-      diff: diffResult.stdout
+      diff: diffResult.stdout,
     };
   }
 
@@ -320,7 +324,7 @@ export class GitManager {
       return [];
     }
 
-    return result.stdout.split('\n').filter(f => f.trim() !== '');
+    return result.stdout.split('\n').filter((f) => f.trim() !== '');
   }
 
   /**
@@ -333,7 +337,7 @@ export class GitManager {
       return [];
     }
 
-    return result.stdout.split('\n').filter(f => f.trim() !== '');
+    return result.stdout.split('\n').filter((f) => f.trim() !== '');
   }
 
   /**
@@ -345,14 +349,14 @@ export class GitManager {
     if (!branchInfo) {
       return {
         success: false,
-        error: 'فشل الحصول على معلومات الـ branch'
+        error: 'فشل الحصول على معلومات الـ branch',
       };
     }
 
     if (!branchInfo.hasRemote) {
       return {
         success: false,
-        error: 'لا يوجد remote مُعرف'
+        error: 'لا يوجد remote مُعرف',
       };
     }
 
@@ -367,12 +371,12 @@ export class GitManager {
       return {
         success: true,
         message: `تم push إلى origin/${targetBranch}`,
-        branch: targetBranch
+        branch: targetBranch,
       };
     } else {
       return {
         success: false,
-        error: result.stderr
+        error: result.stderr,
       };
     }
   }
@@ -388,7 +392,7 @@ export class GitManager {
     }
 
     // توليد رسالة من أسماء الملفات
-    const fileNames = files.map(f => path.basename(f)).slice(0, 3);
+    const fileNames = files.map((f) => path.basename(f)).slice(0, 3);
     const fileList = fileNames.join(', ');
     const moreFiles = files.length > 3 ? ` + ${files.length - 3} more` : '';
 
@@ -407,14 +411,14 @@ export class GitManager {
       autoCommit = true,
       autoPush = false,
       branchPrefix = 'feature',
-      commitMessage
+      commitMessage,
     } = options;
 
     // التحقق من git repo
     if (!(await this.isGitRepo())) {
       return {
         success: false,
-        error: 'ليس git repository'
+        error: 'ليس git repository',
       };
     }
 
@@ -474,13 +478,12 @@ export class GitManager {
       return {
         success: true,
         message: 'تم بنجاح',
-        branch: branchName
+        branch: branchName,
       };
-
     } catch (error: any) {
       return {
         success: false,
-        error: error.message
+        error: error.message,
       };
     }
   }

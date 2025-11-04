@@ -27,18 +27,11 @@ export class SyntaxFixer {
       // محاولة parse الكود
       parser.parse(code, {
         sourceType: 'module',
-        plugins: [
-          'typescript',
-          'jsx',
-          'decorators-legacy',
-          'classProperties',
-          'objectRestSpread'
-        ]
+        plugins: ['typescript', 'jsx', 'decorators-legacy', 'classProperties', 'objectRestSpread'],
       });
 
       // إذا نجح الـ parse، لا توجد أخطاء syntax
       return issues;
-
     } catch (error: any) {
       // إذا فشل، هناك خطأ syntax
       const line = error.loc?.line;
@@ -51,7 +44,7 @@ export class SyntaxFixer {
         message: this.cleanErrorMessage(error.message),
         line,
         column,
-        fix: undefined // سيتم الإصلاح بواسطة AI
+        fix: undefined, // سيتم الإصلاح بواسطة AI
       });
     }
 
@@ -89,7 +82,7 @@ export class SyntaxFixer {
     const lines = code.split('\n');
     lines.forEach((line, index) => {
       const trimmed = line.trim();
-      
+
       // تحقق من السطور التي يجب أن تنتهي بفاصلة منقوطة
       if (
         trimmed.length > 0 &&
@@ -115,7 +108,7 @@ export class SyntaxFixer {
             type: 'MissingSemicolon',
             message: 'فاصلة منقوطة مفقودة',
             line: index + 1,
-            fix: 'add_semicolon'
+            fix: 'add_semicolon',
           });
         }
       }
@@ -129,7 +122,7 @@ export class SyntaxFixer {
 
     for (let i = 0; i < code.length; i++) {
       const char = code[i];
-      
+
       if (opening.includes(char)) {
         stack.push(char);
       } else if (closing.includes(char)) {
@@ -142,7 +135,7 @@ export class SyntaxFixer {
             type: 'UnmatchedBracket',
             message: `قوس غير متطابق: ${char}`,
             line,
-            fix: 'match_bracket'
+            fix: 'match_bracket',
           });
         }
       }
@@ -160,7 +153,7 @@ export class SyntaxFixer {
           type: 'UnclosedString',
           message: 'نص غير مغلق',
           line,
-          fix: 'close_string'
+          fix: 'close_string',
         });
       }
     }
@@ -216,7 +209,7 @@ export class SyntaxFixer {
     const systemPrompt = `أنت خبير في إصلاح أخطاء JavaScript/TypeScript Syntax.
 
 الكود الحالي به الأخطاء التالية:
-${issues.map(i => `- السطر ${i.line}: ${i.message}`).join('\n')}
+${issues.map((i) => `- السطر ${i.line}: ${i.message}`).join('\n')}
 
 الكود:
 \`\`\`
@@ -234,7 +227,7 @@ ${code}
 
     const response = await client.sendChatMessage([
       { role: 'system', content: systemPrompt },
-      { role: 'user', content: 'قم بإصلاح الكود' }
+      { role: 'user', content: 'قم بإصلاح الكود' },
     ]);
 
     if (!response.success) {
@@ -269,13 +262,7 @@ ${code}
     try {
       parser.parse(code, {
         sourceType: 'module',
-        plugins: [
-          'typescript',
-          'jsx',
-          'decorators-legacy',
-          'classProperties',
-          'objectRestSpread'
-        ]
+        plugins: ['typescript', 'jsx', 'decorators-legacy', 'classProperties', 'objectRestSpread'],
       });
       return true;
     } catch {

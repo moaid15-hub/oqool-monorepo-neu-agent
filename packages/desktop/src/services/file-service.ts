@@ -58,9 +58,12 @@ export const fileService = {
     return result.exists;
   },
 
-  async watchDirectory(path: string, callback: (event: string, path: string) => void): Promise<void> {
+  async watchDirectory(
+    path: string,
+    callback: (event: string, path: string) => void
+  ): Promise<void> {
     await ipcRenderer.invoke('fs:watch', path);
-    
+
     // Listen for file change events
     ipcRenderer.on('fs:change', (_event, changeEvent, changePath) => {
       callback(changeEvent, changePath);

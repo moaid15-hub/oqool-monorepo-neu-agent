@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+**/dist/
+build/
+**/build/
+out/
+**/out/
+
+# Coverage
+coverage/
+**/coverage/
+
+# Cache
+.turbo/
+.cache/
+
+# Old/backup files
+lager/
+*.backup
+*.bak
+
+# Generated files
+*.d.ts
+*.js.map
+
+# Test snapshots
+**/__snapshots__/
+
+# Config files that don't need linting
+*.config.js
+*.config.mjs

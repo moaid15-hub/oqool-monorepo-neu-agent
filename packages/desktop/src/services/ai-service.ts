@@ -1,6 +1,14 @@
 const { ipcRenderer } = window.electron;
 
-export type AIPersonality = 'alex' | 'sarah' | 'mike' | 'guardian' | 'olivia' | 'tom' | 'emma' | 'max';
+export type AIPersonality =
+  | 'alex'
+  | 'sarah'
+  | 'mike'
+  | 'guardian'
+  | 'olivia'
+  | 'tom'
+  | 'emma'
+  | 'max';
 
 export interface AIMessage {
   role: 'user' | 'assistant';
@@ -23,59 +31,63 @@ export interface AIStreamOptions extends AICallOptions {
 export const aiService = {
   async call(options: AICallOptions): Promise<string> {
     const result = await ipcRenderer.invoke('ai:call', options);
-    
+
     if (!result.success) {
       throw new Error(result.error);
     }
-    
+
     return result.response;
   },
 
   async stream(options: AIStreamOptions): Promise<void> {
     const { onChunk, onComplete, onError, ...callOptions } = options;
-    
+
     // Setup stream listeners
     const handleChunk = (_event: any, chunk: string) => {
       onChunk(chunk);
     };
-    
+
     const handleComplete = () => {
       ipcRenderer.removeListener('ai:stream-chunk', handleChunk);
       ipcRenderer.removeListener('ai:stream-complete', handleComplete);
       ipcRenderer.removeListener('ai:stream-error', handleError);
       onComplete();
     };
-    
+
     const handleError = (_event: any, error: string) => {
       ipcRenderer.removeListener('ai:stream-chunk', handleChunk);
       ipcRenderer.removeListener('ai:stream-complete', handleComplete);
       ipcRenderer.removeListener('ai:stream-error', handleError);
       onError(new Error(error));
     };
-    
+
     ipcRenderer.on('ai:stream-chunk', handleChunk);
     ipcRenderer.on('ai:stream-complete', handleComplete);
     ipcRenderer.on('ai:stream-error', handleError);
-    
+
     // Start streaming
     const result = await ipcRenderer.invoke('ai:stream', callOptions);
-    
+
     if (!result.success) {
       handleError(null, result.error);
     }
   },
 
-  async getInlineSuggestion(code: string, cursorPosition: number, language: string): Promise<string> {
+  async getInlineSuggestion(
+    code: string,
+    cursorPosition: number,
+    language: string
+  ): Promise<string> {
     const result = await ipcRenderer.invoke('ai:inline-suggest', {
       code,
       cursorPosition,
       language,
     });
-    
+
     if (!result.success) {
       throw new Error(result.error);
     }
-    
+
     return result.suggestion;
   },
 

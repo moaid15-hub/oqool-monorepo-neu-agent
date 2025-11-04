@@ -34,11 +34,7 @@ export const Settings: React.FC<SettingsProps> = ({ onApiKeyChange, currentApiKe
 
   return (
     <>
-      <button 
-        className="settings-btn"
-        onClick={() => setIsOpen(true)}
-        title="الإعدادات"
-      >
+      <button className="settings-btn" onClick={() => setIsOpen(true)} title="الإعدادات">
         ⚙️
       </button>
 
@@ -71,7 +67,11 @@ export const Settings: React.FC<SettingsProps> = ({ onApiKeyChange, currentApiKe
                 </div>
                 <small>
                   يمكنك الحصول على مفتاح API من{' '}
-                  <a href="https://platform.deepseek.com/" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://platform.deepseek.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     موقع DeepSeek
                   </a>
                 </small>

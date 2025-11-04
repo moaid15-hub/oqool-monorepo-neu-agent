@@ -75,25 +75,25 @@ export function classNames(...classes: (string | undefined | null | false)[]): s
 }
 
 export function formatFileSize(bytes: number): string {
-  if (bytes === 0) return '0 Bytes';
+  if (bytes === 0) {return '0 Bytes';}
   const k = 1024;
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
 }
 
 export function getRelativePath(from: string, to: string): string {
   const fromParts = from.split('/');
   const toParts = to.split('/');
-  
+
   let i = 0;
   while (i < fromParts.length && i < toParts.length && fromParts[i] === toParts[i]) {
     i++;
   }
-  
+
   const upCount = fromParts.length - i - 1;
   const upPath = '../'.repeat(upCount);
   const downPath = toParts.slice(i).join('/');
-  
+
   return upPath + downPath;
 }

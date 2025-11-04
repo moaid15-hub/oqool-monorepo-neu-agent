@@ -23,19 +23,19 @@ async function createDemoProject() {
     scripts: {
       start: 'node src/index.js',
       test: 'jest',
-      build: 'tsc'
+      build: 'tsc',
     },
     dependencies: {
       express: '^4.18.0',
       cors: '^2.8.5',
-      dotenv: '^16.0.0'
+      dotenv: '^16.0.0',
     },
     devDependencies: {
       typescript: '^5.0.0',
       jest: '^29.0.0',
       eslint: '^8.0.0',
-      prettier: '^3.0.0'
-    }
+      prettier: '^3.0.0',
+    },
   };
 
   await fs.writeJson(path.join(demoDir, 'package.json'), packageJson, { spaces: 2 });
@@ -50,10 +50,10 @@ async function createDemoProject() {
       strict: true,
       esModuleInterop: true,
       skipLibCheck: true,
-      forceConsistentCasingInFileNames: true
+      forceConsistentCasingInFileNames: true,
     },
     include: ['src/**/*'],
-    exclude: ['node_modules', 'dist']
+    exclude: ['node_modules', 'dist'],
   };
 
   await fs.writeJson(path.join(demoDir, 'tsconfig.json'), tsconfig, { spaces: 2 });
@@ -261,7 +261,11 @@ oqool-code analyze src/index.js
   console.log(chalk.cyan(`   oqool-code docs search "express"`));
   console.log(chalk.cyan(`   oqool-code security scan src/index.js`));
   console.log(chalk.cyan(`   oqool-code session create "Demo" "عرض توضيحي"`));
-  console.log(chalk.cyan(`   oqool-code team-template create "Simple API" "قالب بسيط" backend --files src/index.js`));
+  console.log(
+    chalk.cyan(
+      `   oqool-code team-template create "Simple API" "قالب بسيط" backend --files src/index.js`
+    )
+  );
 }
 
 // تشغيل العرض التوضيحي

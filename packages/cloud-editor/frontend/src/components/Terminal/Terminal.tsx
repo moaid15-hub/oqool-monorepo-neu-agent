@@ -1,7 +1,5 @@
 import React from 'react';
 
-export default function Terminal(){
-  return (
-    <div className="terminal-region">Terminal</div>
-  );
+export default function Terminal() {
+  return <div className="terminal-region">Terminal</div>;
 }

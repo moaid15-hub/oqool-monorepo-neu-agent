@@ -27,7 +27,9 @@ export const MainLayout: React.FC = () => {
           <span className="workspace-name">Workspace</span>
         </div>
         <div className="titlebar-right">
-          <button className="titlebar-button" title="الإعدادات">⚙️</button>
+          <button className="titlebar-button" title="الإعدادات">
+            ⚙️
+          </button>
           <button
             className="titlebar-button"
             title="AI Panel"
@@ -41,37 +43,25 @@ export const MainLayout: React.FC = () => {
       {/* Main Content */}
       <div className="layout-content">
         {/* Left Sidebar - File Explorer */}
-        <div
-          className="left-sidebar"
-          style={{ width: `${leftSidebarWidth}px` }}
-        >
+        <div className="left-sidebar" style={{ width: `${leftSidebarWidth}px` }}>
           <FileExplorer />
         </div>
 
         {/* Center - Editor & Terminal */}
         <div className="center-area">
-          <div
-            className="editor-area"
-            style={{ height: `calc(100% - ${terminalHeight}px)` }}
-          >
+          <div className="editor-area" style={{ height: `calc(100% - ${terminalHeight}px)` }}>
             <EditorTabs />
             <Editor />
           </div>
 
-          <div
-            className="terminal-area"
-            style={{ height: `${terminalHeight}px` }}
-          >
+          <div className="terminal-area" style={{ height: `${terminalHeight}px` }}>
             <TerminalPanel />
           </div>
         </div>
 
         {/* Right Sidebar - AI Panel */}
         {showRightSidebar && (
-          <div
-            className="right-sidebar"
-            style={{ width: `${rightSidebarWidth}px` }}
-          >
+          <div className="right-sidebar" style={{ width: `${rightSidebarWidth}px` }}>
             <AIPanel />
           </div>
         )}

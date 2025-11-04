@@ -23,11 +23,7 @@ export const EditorTabs: React.FC = () => {
           <span className="tab-icon">{getFileIcon(file.path)}</span>
           <span className="tab-name">{getFileName(file.path)}</span>
           {file.isDirty && <span className="tab-dirty-indicator">●</span>}
-          <button
-            className="tab-close"
-            onClick={(e) => handleClose(e, file.path)}
-            title="إغلاق"
-          >
+          <button className="tab-close" onClick={(e) => handleClose(e, file.path)} title="إغلاق">
             ×
           </button>
         </div>
