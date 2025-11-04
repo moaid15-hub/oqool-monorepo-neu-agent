@@ -1,0 +1,77 @@
+# Gitleaks Configuration
+title = "Oqool Security Configuration"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "anthropic-api-key"
+description = "Anthropic API Key"
+regex = '''sk-ant-[a-zA-Z0-9]{95}'''
+tags = ["key", "anthropic"]
+
+[[rules]]
+id = "openai-api-key"
+description = "OpenAI API Key"
+regex = '''sk-[a-zA-Z0-9]{48}'''
+tags = ["key", "openai"]
+
+[[rules]]
+id = "deepseek-api-key"
+description = "DeepSeek API Key"
+regex = '''sk-[a-zA-Z0-9]{64}'''
+tags = ["key", "deepseek"]
+
+[[rules]]
+id = "sentry-dsn"
+description = "Sentry DSN"
+regex = '''https://[a-f0-9]{32}@[a-z0-9]+\.ingest\.sentry\.io/[0-9]+'''
+tags = ["dsn", "sentry"]
+
+[[rules]]
+id = "database-url"
+description = "Database Connection String"
+regex = '''(?i)(postgres|mysql|mongodb)://[^\s]+'''
+tags = ["database", "credentials"]
+
+[[rules]]
+id = "private-key"
+description = "Private Key"
+regex = '''-----BEGIN (RSA|EC|OPENSSH|PGP) PRIVATE KEY-----'''
+tags = ["key", "private"]
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["key", "aws"]
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(api[_-]?key|apikey|access[_-]?key)[\s]*[:=][\s]*['"][a-zA-Z0-9\-_]{20,}['"]'''
+tags = ["key", "api"]
+
+[allowlist]
+description = "Global allowlist"
+regexes = [
+    # Allow example/placeholder keys
+    '''sk-ant-xxxxx''',
+    '''sk-xxxxx''',
+    '''your-api-key-here''',
+    '''your_api_key''',
+    '''ANTHROPIC_API_KEY''',
+    '''OPENAI_API_KEY''',
+    '''DEEPSEEK_API_KEY''',
+]
+
+paths = [
+    '''.env.example''',
+    '''README.md''',
+    '''TOOLS_SETUP.md''',
+    '''.gitleaks.toml''',
+]
+
+commits = [
+    # Allow specific commits if needed
+]

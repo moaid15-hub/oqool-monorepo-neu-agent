@@ -21,3 +21,8 @@ export * from './ai/embeddings-service.js';
 export * from './parser/tree-sitter-parser.js';
 export * from './editor/monaco-ai-completion.js';
 export * from './vector/code-vector-db.js';
+
+// New: Professional Tools
+export * from './code-intelligence';
+export * from './ai';
+export * from './integrations';

@@ -64,7 +64,7 @@ module.exports = {
   setupFilesAfterEnv: [],
 
   // Ignore patterns
-  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/build/', '/lager/'],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/build/', '/lager/', '/tests/e2e/'],
   modulePathIgnorePatterns: ['/lager/', '/dist/', '/build/'],
 
   // Verbose output

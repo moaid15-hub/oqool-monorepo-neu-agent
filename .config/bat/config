@@ -1,0 +1,26 @@
+# Bat Configuration
+# ~/.config/bat/config أو .config/bat/config
+
+# Theme
+--theme="Monokai Extended"
+
+# Show line numbers
+--style="numbers,changes,header,grid"
+
+# Wrap text
+--wrap=auto
+
+# Pager
+--pager="less -RF"
+
+# Map extensions
+--map-syntax="*.conf:INI"
+--map-syntax=".env*:Dotenv"
+--map-syntax="*.yml:YAML"
+--map-syntax="*.yaml:YAML"
+
+# Italics
+--italic-text=always
+
+# Color scheme for different file types
+# Automatically handled by bat

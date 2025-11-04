@@ -1,0 +1,173 @@
+# LazyGit Configuration
+# تكوين LazyGit لتجربة أفضل
+
+gui:
+  # الثيم
+  theme:
+    lightTheme: false
+    activeBorderColor:
+      - green
+      - bold
+    inactiveBorderColor:
+      - white
+    selectedLineBgColor:
+      - blue
+    selectedRangeBgColor:
+      - blue
+
+  # عرض
+  showListFooter: true
+  showFileTree: true
+  showRandomTip: true
+  showCommandLog: true
+
+  # اللغة
+  language: 'ar' # أو 'en'
+
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+    useConfig: false
+
+  # Auto-fetch
+  autoFetch: true
+  autoRefresh: true
+
+  # الفروع
+  branchLogCmd: 'git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --'
+
+  # Commit message
+  commitPrefixes:
+    feat: 'feat: ميزة جديدة'
+    fix: 'fix: إصلاح خطأ'
+    docs: 'docs: توثيق'
+    style: 'style: تنسيق'
+    refactor: 'refactor: إعادة هيكلة'
+    test: 'test: اختبارات'
+    chore: 'chore: مهام عامة'
+
+update:
+  method: prompt # أو 'background', 'never'
+
+refresher:
+  refreshInterval: 10 # seconds
+  fetchInterval: 60 # seconds
+
+confirmOnQuit: false
+
+# Keybindings (اختصارات)
+keybinding:
+  universal:
+    quit: 'q'
+    quit-alt1: '<c-c>'
+    return: '<esc>'
+    quitWithoutChangingDirectory: 'Q'
+    togglePanel: '<tab>'
+    prevItem: '<up>'
+    nextItem: '<down>'
+    prevItem-alt: 'k'
+    nextItem-alt: 'j'
+    prevPage: ','
+    nextPage: '.'
+    scrollLeft: 'H'
+    scrollRight: 'L'
+    gotoTop: '<'
+    gotoBottom: '>'
+    toggleRangeSelect: 'v'
+    rangeSelectDown: '<s-down>'
+    rangeSelectUp: '<s-up>'
+    prevBlock: '<left>'
+    nextBlock: '<right>'
+    prevBlock-alt: 'h'
+    nextBlock-alt: 'l'
+    nextMatch: 'n'
+    prevMatch: 'N'
+    startSearch: '/'
+    optionMenu: 'x'
+    optionMenu-alt1: '?'
+    select: '<space>'
+    goInto: '<enter>'
+    confirm: '<enter>'
+    remove: 'd'
+    new: 'n'
+    edit: 'e'
+    openFile: 'o'
+    scrollUpMain: '<pgup>'
+    scrollDownMain: '<pgdown>'
+    scrollUpMain-alt1: 'K'
+    scrollDownMain-alt1: 'J'
+    scrollUpMain-alt2: '<c-u>'
+    scrollDownMain-alt2: '<c-d>'
+    executeCustomCommand: ':'
+    createRebaseOptionsMenu: 'm'
+    pushFiles: 'P'
+    pullFiles: 'p'
+    refresh: 'R'
+    createPatchOptionsMenu: '<c-p>'
+    nextTab: ']'
+    prevTab: '['
+    nextScreenMode: '+'
+    prevScreenMode: '_'
+    undo: 'z'
+    redo: '<c-z>'
+    filteringMenu: '<c-s>'
+    diffingMenu: 'W'
+    diffingMenu-alt: '<c-e>'
+    copyToClipboard: '<c-o>'
+    openRecentRepos: '<c-r>'
+    submitEditorText: '<enter>'
+    extrasMenu: '@'
+    toggleWhitespaceInDiffView: '<c-w>'
+    increaseContextInDiffView: '}'
+    decreaseContextInDiffView: '{'
+
+  files:
+    commitChanges: 'c'
+    commitChangesWithoutHook: 'w'
+    amendLastCommit: 'A'
+    commitChangesWithEditor: 'C'
+    findBaseCommitForFixup: '<c-f>'
+    confirmDiscard: 'x'
+    ignoreFile: 'i'
+    refreshFiles: 'r'
+    stashAllChanges: 's'
+    viewStashOptions: 'S'
+    toggleStagedAll: 'a'
+    viewResetOptions: 'D'
+    fetch: 'f'
+    toggleTreeView: '`'
+    openMergeTool: 'M'
+    openStatusFilter: '<c-b>'
+
+  branches:
+    createPullRequest: 'o'
+    viewPullRequestOptions: 'O'
+    copyPullRequestURL: '<c-y>'
+    checkoutBranchByName: 'c'
+    forceCheckoutBranch: 'F'
+    rebaseBranch: 'r'
+    renameBranch: 'R'
+    mergeIntoCurrentBranch: 'M'
+    viewGitFlowOptions: 'i'
+    fastForward: 'f'
+    pushTag: 'P'
+    setUpstream: 'u'
+    fetchRemote: 'f'
+
+customCommands:
+  - key: 'C'
+    command: 'git commit -m "{{.Form.Message}}\n\n🤖 Generated with LazyGit"'
+    context: 'files'
+    prompts:
+      - type: 'input'
+        title: 'Commit Message'
+        key: 'Message'
+
+  - key: '<c-a>'
+    command: 'git add -A && git commit -m "{{.Form.Message}}" && git push'
+    context: 'global'
+    prompts:
+      - type: 'input'
+        title: 'Quick commit message'
+        key: 'Message'

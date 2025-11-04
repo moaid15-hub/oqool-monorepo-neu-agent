@@ -1,0 +1,40 @@
+# Ripgrep Configuration
+# استخدام: export RIPGREP_CONFIG_PATH=~/.ripgreprc
+
+# Always use smart case
+--smart-case
+
+# Show line numbers
+--line-number
+
+# Follow symlinks
+--follow
+
+# Don't search in these directories
+--glob=!node_modules/
+--glob=!.git/
+--glob=!dist/
+--glob=!build/
+--glob=!coverage/
+--glob=!.next/
+--glob=!.turbo/
+
+# Don't search in these file types
+--glob=!*.min.js
+--glob=!*.map
+--glob=!package-lock.json
+--glob=!pnpm-lock.yaml
+
+# Use colors
+--colors=line:fg:yellow
+--colors=line:style:bold
+--colors=path:fg:green
+--colors=path:style:bold
+--colors=match:fg:red
+--colors=match:style:bold
+
+# Show context lines
+--context=2
+
+# Max columns
+--max-columns=150

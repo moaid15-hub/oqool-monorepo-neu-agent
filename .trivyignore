@@ -1,0 +1,9 @@
+# Trivy Ignore File
+# تجاهل مشاكل معينة
+
+# Ignore specific CVEs (examples)
+# CVE-2021-12345
+# CVE-2022-67890
+
+# Ignore development dependencies
+# (usually not deployed to production)

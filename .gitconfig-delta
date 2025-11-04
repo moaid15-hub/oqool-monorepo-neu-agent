@@ -1,0 +1,78 @@
+# Git Delta Configuration
+# أضف هذا إلى ~/.gitconfig أو استخدم: git config --global include.path ~/.gitconfig-delta
+
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+
+[delta]
+    # الثيم
+    features = decorations line-numbers navigate
+
+    # الألوان والأنماط
+    syntax-theme = Monokai Extended
+
+    # عرض side-by-side
+    side-by-side = true
+
+    # أرقام الأسطر
+    line-numbers = true
+    line-numbers-left-format = "{nm:>4}│"
+    line-numbers-right-format = "{np:>4}│"
+    line-numbers-left-style = blue
+    line-numbers-right-style = green
+
+    # الـ decorations
+    file-style = bold yellow ul
+    file-decoration-style = none
+    hunk-header-decoration-style = blue box
+    hunk-header-file-style = red
+    hunk-header-line-number-style = "#067a00"
+    hunk-header-style = file line-number syntax
+
+    # التنقل
+    navigate = true
+
+    # Whitespace
+    whitespace-error-style = 22 reverse
+
+    # الـ commit style
+    commit-decoration-style = bold yellow box ul
+    commit-style = raw
+
+    # الـ merge conflicts
+    merge-conflict-begin-symbol = ⌃
+    merge-conflict-end-symbol = ⌄
+    merge-conflict-ours-diff-header-style = yellow bold
+    merge-conflict-ours-diff-header-decoration-style = "#fabd2f" box
+    merge-conflict-theirs-diff-header-style = yellow bold
+    merge-conflict-theirs-diff-header-decoration-style = "#fabd2f" box
+
+    # Zero style
+    zero-style = dim syntax
+
+[delta "interactive"]
+    keep-plus-minus-markers = false
+
+[delta "decorations"]
+    commit-decoration-style = blue ol
+    commit-style = raw
+    file-style = omit
+    hunk-header-decoration-style = blue box
+    hunk-header-file-style = red
+    hunk-header-line-number-style = "#067a00"
+    hunk-header-style = file line-number syntax
+
+[delta "line-numbers"]
+    line-numbers-left-style = cyan
+    line-numbers-right-style = cyan
+    line-numbers-minus-style = 124
+    line-numbers-plus-style = 28
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default

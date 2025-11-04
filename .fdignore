@@ -1,0 +1,12 @@
+# fd ignore patterns
+node_modules/
+.git/
+dist/
+build/
+coverage/
+.next/
+.turbo/
+*.min.js
+*.map
+package-lock.json
+pnpm-lock.yaml
